@@ -12,9 +12,13 @@
     "@tinymce/tinymce-vue": "^4.0.7",
     "DOM": "0.0.3",
     "axios": "^0.24.0",
+<<<<<<< HEAD
     "d3": "^7.7.0",
     "d3-flextree": "^2.1.2",
     "d3-org-chart": "^2.6.0",
+=======
+    "d3": "^7.6.1",
+>>>>>>> 7c11200a5323f023e98cfb0ad6d14cd38c9fe46b
     "form-data": "^4.0.0",
     "install": "^0.13.0",
     "js-cookie": "^3.0.1",
