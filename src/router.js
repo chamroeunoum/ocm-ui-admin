@@ -18,6 +18,9 @@ import UserDetail from './components/user/detail.vue'
  import RegulatorListCrud from './components/regulator/list.vue'
 //  import RegulatorCreateCrud from './components/regulator/create.vue'
 //  import RegulatorUpdateCrud from './components/regulator/update.vue'
+
+import Orgchart from './components/regulator/orgchart.vue'
+
 /**
  * Client Components
  */
@@ -126,6 +129,11 @@ if( !isAdmin() ){
                 //     path: 'update' ,
                 //     component: RegulatorUpdateCrud
                 // }
+                {
+                    name: 'RegulatorOrgchart' ,
+                    path: 'orgchart' ,
+                    component: Orgchart
+                }
             ]
         }],
     }]

@@ -1,3 +1,4 @@
+import * as d3 from 'd3'
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 
@@ -46,6 +47,7 @@ app.use(VueAxios, axios)
 app.provide('axios', app.config.globalProperties.axios) 
 app.use(VueQrcodeReader)
 app.use(router)
+app.use(d3)
 app.use(Vant)
 app.use(VueToast)
 app.use(NaiveUI)
