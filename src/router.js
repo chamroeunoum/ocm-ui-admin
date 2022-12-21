@@ -16,6 +16,7 @@ import UserDetail from './components/user/detail.vue'
  */
  import RegulatorCrud from './components/regulator/index.vue'
  import RegulatorListCrud from './components/regulator/list.vue'
+ import RegulatorChildCrud from './components/regulator/child.vue'
 //  import RegulatorCreateCrud from './components/regulator/create.vue'
 //  import RegulatorUpdateCrud from './components/regulator/update.vue'
 
@@ -130,11 +131,17 @@ if( !isAdmin() ){
                 //     component: RegulatorUpdateCrud
                 // }
                 {
-                    name: 'RegulatorOrgchart' ,
-                    path: 'orgchart' ,
-                    component: Orgchart
-                }
+                    name: "RegulatorChild" ,
+                    path: 'child/:id' ,
+                    props: true,
+                    component: RegulatorChildCrud
+                },
             ]
+        },
+        {
+            name: 'RegulatorOrgchart' ,
+            path: '/orgchart' ,
+            component: Orgchart
         }],
     }]
 }else{

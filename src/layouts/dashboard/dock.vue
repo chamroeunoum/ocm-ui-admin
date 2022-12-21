@@ -70,7 +70,7 @@ import { Apps, SpeedometerOutline } from '@vicons/ionicons5'
 import { isAuth, authLogout , isAdmin , getUser } from './../../plugins/authentication'
 import { Receipt2 } from '@vicons/tabler'
 import { Receipt20Regular , Power20Regular, DocumentPdf24Regular} from '@vicons/fluent'
-import { UserMultiple } from '@vicons/carbon'
+import { UserMultiple , ParentChild } from '@vicons/carbon'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 import { useDialog , useMessage } from 'naive-ui'
@@ -85,7 +85,8 @@ export default {
     Receipt2 ,
     SpeedometerOutline ,
     Power20Regular ,
-    DocumentPdf24Regular
+    DocumentPdf24Regular ,
+    ParentChild
   } ,
   name: 'dock' ,
   props: [
@@ -140,6 +141,18 @@ export default {
           url: '/regulator' ,
           icon: 'DocumentPdf24Regular' ,
           name: 'លិខិតបទដ្ឋានគតិយុត្ត',
+          roles: [
+              1, // Admin
+              // 2, // Super
+              // 3, // Auditor
+              // 4, // Member
+              // 5 // Customer
+          ]
+      },
+      {
+          url: '/orgchart' ,
+          icon: 'ParentChild' ,
+          name: 'តារាងរចនាសម្ព័ន្ធ',
           roles: [
               1, // Admin
               // 2, // Super

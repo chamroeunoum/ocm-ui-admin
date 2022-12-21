@@ -35,6 +35,19 @@ const actions = {
       }).toString()
     )
   },
+  async childList ({ state, commit, rootState },params) {
+    return await crud.list(rootState.apiServer+"/"+state.model.name + "/child?" + new URLSearchParams({
+        // unit: params.unit ,
+        // date: params.date ,
+        // number: params.number ,
+        // type: params.type ,
+        search: params.search ,
+        perPage: params.perPage ,
+        page: params.page ,
+        parent_id : params.parent_id
+      }).toString()
+    )
+  },
   async matras ({ state, commit, rootState },params) {
     return await crud.list(rootState.apiServer+"/"+state.model.name +"/"+params.regulator_id + "/matras?" + new URLSearchParams(params).toString()
     )
@@ -91,6 +104,12 @@ const actions = {
   },
   async deactivate ({ state, commit, rootState },params) {
     return await crud.update(rootState.apiServer+"/"+state.model.name+'/'+params.id+'/deactivate',{})
+  },
+  async childDocument ({ state, commit, rootState },params) {
+    return await crud.update(rootState.apiServer+"/"+state.model.name+'/child',{
+      parent_id : params.parent_id ,
+      document_id : params.document_id
+    })
   },
 }
 

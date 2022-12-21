@@ -30,7 +30,7 @@ export default {
   setup(){
     const username = computed(() => {
       let user = getUser()
-      return user !== null ? user.lastname + ' ' + user.firstname : "" 
+      return user !== null ? user.name : "" 
     })
 
     const profilePicture = computed(() => {

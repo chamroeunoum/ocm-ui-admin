@@ -14,16 +14,7 @@
       <!-- Actions button of the crud -->
       <div class="flex-grow action-buttons flex-row-reverse flex">
         <!-- New Button -->
-        <div class="mt-1 ml-2">
-          <n-button type="success" @click="showCreateModal()" >
-            <template #icon>
-              <n-icon>
-                <Add20Regular />
-              </n-icon>
-            </template>
-            បន្ថែម
-          </n-button>
-        </div>
+        <div class="mt-1 ml-2"></div>
         <div class="w-2/5 relative" >
           <input type="text" @keypress.enter="filterRecords(false)" v-model="table.search" class="bg-gray-100 px-2 h-9 my-1 w-full rounded border border-gray-200 focus:border-blue-600 hover:border-blue-600 " placeholder="ស្វែងរក" />
           <Icon size="27" class="absolute right-1 top-2 text-gray-400 hover:text-blue-700 cursor-pointer" @click="filterRecords(false)" >
@@ -31,11 +22,11 @@
               <Search20Regular />
             </n-icon>
           </Icon>
-          <Icon size="27" class="absolute -left-10 top-2 text-gray-500 hover:text-blue-700 cursor-pointer" @click="filterPanel=!filterPanel">
+          <!-- <Icon size="27" class="absolute -left-10 top-2 text-gray-500 hover:text-blue-700 cursor-pointer" @click="filterPanel=!filterPanel">
             <n-icon>
               <Filter />
             </n-icon>
-          </Icon>
+          </Icon> -->
         </div>
         
       </div>
@@ -49,7 +40,7 @@
           <th class="vcb-table-header">លេខ</th>
           <th class="vcb-table-header w-32">ប្រភេទ</th>
           <th class="vcb-table-header w-24">ថ្ងៃខែឆ្នាំ</th>
-          <th class="vcb-table-header text-right w-28" >ប្រតិបត្តិការ</th>
+          <th class="vcb-table-header text-right w-20" >ប្រតិបត្តិការ</th>
         </tr>
         <tr v-for="(record, index) in table.records.matched" :key='index' class="vcb-table-row" >
           <td class="vcb-table-cell font-bold" >{{ index + 1 }}</td>
@@ -57,18 +48,12 @@
           <td  class="vcb-table-cell" >{{ record.fid }}</td>
           <td  class="vcb-table-cell" >{{ record.type.name }}</td>
           <td class="vcb-table-cell" >{{ record.document_year.slice(0,10) }}</td>
-          <td class="vcb-table-actions-panel text-right" >
-            <n-icon size="22" class="cursor-pointer text-blue-500" @click="showEditModal(record)" title="កែប្រែព័ត៌មាន" >
-              <Edit20Regular />
-            </n-icon>
-            <n-icon size="22" class="cursor-pointer text-red-500" @click="destroy(record)" title="លុបគណនីនេះចោល" >
-              <TrashOutline />
-            </n-icon>
-            <n-icon size="22" :class="'cursor-pointer ' + (record.active == 1 ? ' text-green-500 ' : ' text-gray-500 ') " @click="activateRegulator(record)" :title="record.active == 1 ? 'គណនីនេះកំពុងបើកតំណើរការ' : 'គណនីនេះកំពុងត្រូវបានបិទមិនអាចប្រើប្រាស់បាន' " >
-              <IosCheckmarkCircleOutline />
-            </n-icon>
-            <n-icon size="20" class="cursor-pointer mx-1" @click="$router.push('/regulator/child/'+record.id)" >
+          <td class="vcb-table-actions-panel text-center" >
+            <!-- <n-icon size="20" class="cursor-pointer mx-1 pt-2 " @click="$router.push('/regulator/child/'+record.id)" >
               <ParentChild />
+            </n-icon> -->
+            <n-icon size="22" :class="'cursor-pointer mx-auto pt-2' + ( record.parentDocument != undefined && record.parentDocument != null && record.parentDocument.parent_id == $route.params.id ? ' text-blue-500' : ' text-gray-500' ) " @click="childDocument(record.id)" title="កែប្រែព័ត៌មាន" >
+              <PedestrianChild />
             </n-icon>
           </td>
         </tr>
@@ -81,7 +66,7 @@
           </Icon><br/><br/>
           កំពុងអាន...
         </div>
-        <div class="absolute top-3 right-3 " @click="closeTableLoading" >
+        <div class="absolute top-3 right-3 " @click="$router.push('/regulator/child')" >
           <Icon size="40" class="text-red-600" >
            <CloseCircleOutline />
           </Icon>
@@ -111,30 +96,20 @@
         </Icon>
       </div>
     </div>
-    <!-- Form create account -->
-    <create-form v-bind:model="model" v-bind:show="createModal.show" :onClose="closeCreateModal"/>
-    <!-- Form update account -->
-    <update-form v-bind:model="model" v-bind:record="editRecord" v-bind:show="editModal.show" :onClose="closeEditModal"/>
-
   </div>
 </template>
 <script>
 import { reactive, computed, ref } from 'vue'
 import { useStore } from 'vuex'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 import QrcodeVue from 'qrcode.vue'
 import Vue3Barcode from 'vue3-barcode'
-import { Switcher, Filter, DataStructured , ParentChild} from '@vicons/carbon'
+import { Switcher, Filter, DataStructured , ParentChild, PedestrianChild} from '@vicons/carbon'
 import { Icon } from '@vicons/utils'
 import { IosCheckmarkCircleOutline, IosRefresh } from '@vicons/ionicons4'
 import { TrashOutline, CloseCircleOutline } from '@vicons/ionicons5'
 import { useDialog, useMessage, useNotification } from 'naive-ui'
 import { Edit20Regular, Key16Regular, Save20Regular, Add20Regular, Search20Regular , ContactCard28Regular, DocumentPdf24Regular } from '@vicons/fluent'
-/**
- * CRUD component form
- */
-import CreateForm from './create.vue'
-import UpdateForm from './update.vue'
 export default {
   name: "Regulator" ,
   components: {
@@ -146,14 +121,13 @@ export default {
     DataStructured,
     Icon,
     IosCheckmarkCircleOutline,
-    CreateForm,
     IosRefresh ,
     CloseCircleOutline ,
-    UpdateForm,
     Search20Regular ,
     Edit20Regular,
     Key16Regular,
     DocumentPdf24Regular ,
+    PedestrianChild,
     Save20Regular ,
     TrashOutline ,
     ContactCard28Regular ,
@@ -164,12 +138,14 @@ export default {
     const dialog = useDialog()
     const message = useMessage()
     const notify = useNotification()
+    const route = useRoute()
+    const router = useRouter()
     /**
      * Variables
      */    
     const model = reactive( {
       name: "regulator" ,
-      title: "លិខិតបទដ្ឋានគតិយុត្ត"
+      title: "លិខិតបទដ្ឋានគតិយុត្ត - កម្រិតកូន"
     })
     const table = reactive( {
       loading: false , 
@@ -233,15 +209,17 @@ export default {
      * Functions
      */
     function getRecords(){
+      console.log( route.params.id )
       /**
        * Clear time interval after calling
        */
       window.clearTimeout()
       table.loading = true
-      store.dispatch(model.name+'/list',{
+      store.dispatch(model.name+'/childList',{
         search: table.search ,
         perPage: table.pagination.perPage ,
-        page: table.pagination.page
+        page: table.pagination.page ,
+        parent_id: route.params.id
       }).then(res => {
         table.records.all = table.records.matched = res.data.records
         table.pagination = res.data.pagination
@@ -297,113 +275,31 @@ export default {
       return table.pagination.totalPages ? table.pagination.totalPages : 0
     })
 
-    function activateRegulator(record){
-      dialog.warning({
-        title: "បិទ ឬ បើក ឯកសារ" ,
-        content: "តើអ្នកចង់ " + ( record.active == 1 ? "បិទ" : "បើក" )+ " ឯកសារនេះមែនទេ ?" ,
-        positiveText: 'បាទ / ចាស',
-        negativeText: 'ទេ',
-        onPositiveClick: () => {
-          store.dispatch( model.name+(parseInt(record.active)==1?'/deactivate':'/activate'),{id:record.id}).then( res => {
-            if( res.data.ok ){
-              notify.success({
-                title: 'ស្ថានភាពឯកសារ' ,
-                description: 'ស្ថានភាពឯកសារបានកែប្រែជោគជ័យ។' ,
-                duration: 3000
-              })
-              getRecords()
-            }else{
-              notify.error({
-                title: 'ស្ថានភាពគណនី' ,
-                description: 'មានបញ្ហាក្នុងពេលកែប្រែស្ថានភាពឯកសារ។' ,
-                duration: 3000
-              })
-            }
-          }).catch( err => {
-            message.error( err )
-          })
-        },
-        onNegativeClick: () => {
-          
-        }
-      })
-    }
     /**
-     * Create modal handling
+     * Update the following function to add child to parent document
      */
-    var createModal = reactive({show:false})
-    function showCreateModal(){
-      createModal.show = true
-    }
-
-    function closeCreateModal(){
-      createModal.show = false
-      getRecords()
-    }
-
-    var editModal = reactive({show:false})
-    var editRecord = reactive({
-      id: 0 ,
-      number: "" ,
-      title: "" ,
-      objective: "" ,
-      type_id: null ,
-      year: null ,
-      pdfs: [] ,
-      publish: 0
-    })
-    function showEditModal(record){
-      editRecord.id = record.id
-      editRecord.number = record.fid
-      editRecord.title = record.title
-      editRecord.objective = record.objective
-      editRecord.type_id = record.document_type
-      editRecord.year = new Date( record.document_year ).getTime()
-      editRecord.publish = record.publish
-      // editRecord.pdfs = record.pdf
-      editModal.show = true
-    }
-    function closeEditModal(record){
-      editModal.show = false
-      getRecords()
-    }
-    function inputPassword(record){
-      changePasswordModal.account = record
-      changePasswordModal.form = {
-        id: record.id ,
-        password: record.password
-      }
-      changePasswordModal.show = true
-    }
-
-    function destroy(record){
-      dialog.warning({
-        title: "លុបឯកសារ" ,
-        content: "តើអ្នកចង់ លុប ឯកសារនេះមែនទេ ?" ,
-        positiveText: 'បាទ / ចាស',
-        negativeText: 'ទេ',
-        onPositiveClick: () => {
-          store.dispatch(model.name+'/delete',{id:record.id}).then( res => {
-            if( res.data.ok ){
-              notify.success({
-                title: 'លុបឯកសារ' ,
-                description: 'លុបបានរួចរាល់។' ,
-                duration: 3000
-              })
-              getRecords()
-            }else{
-              notify.success({
-                title: 'លុបឯកសារ' ,
-                description: 'មានបញ្ហាក្នុងពេលលុបឯកសារ។' ,
-                duration: 3000
-              })
-            }
-        }).catch( err => {
-          message.error( err )
-        })
-        },
-        onNegativeClick: () => {
+    function childDocument(childId){
+      console.log( "លេខឯកសារមេ ៖ " + route.params.id + " , លេខឯកសារកូន ៖ " + childId )
+      store.dispatch( 'regulator/childDocument',{
+        document_id : childId ,
+        parent_id : route.params.id
+      }).then( res => {
+        if( res.data.ok ){
+          notify.success({
+            title: 'ដាក់បញ្ចូលកូនឯកសារ' ,
+            description: res.data.message ,
+            duration: 3000
+          })
+          getRecords()
+        }else{
+          notify.error({
+            title: 'ដាក់បញ្ចូលកូនឯកសារ' ,
+            description: 'មានបញ្ហាបញ្ចូលឯកសារកូន' ,
+            duration: 3000
+          })
         }
+      }).catch( err => {
+        message.error( err )
       })
     }
 
@@ -468,23 +364,9 @@ export default {
        */
       closeTableLoading ,
       /**
-       * Creating
-       */
-      createModal ,
-      showCreateModal ,
-      closeCreateModal ,     
-      /**
-       * Editing
-       */
-      editModal ,
-      showEditModal ,
-      closeEditModal , 
-      editRecord ,
-      /**
        * Functions
        */
-      activateRegulator ,
-      destroy ,
+      childDocument ,
       applyTagMark
     }
   }
