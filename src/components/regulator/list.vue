@@ -9,7 +9,7 @@
             <DocumentPdf24Regular />
           </n-icon>
         </Icon>
-        <div class="leading-8 font-bold" v-html="model.title" ></div>
+        <div class="leading-8 font-muol" v-html="model.title" ></div>
       </div>
       <!-- Actions button of the crud -->
       <div class="flex-grow action-buttons flex-row-reverse flex">
@@ -67,9 +67,9 @@
             <n-icon size="22" :class="'cursor-pointer ' + (record.active == 1 ? ' text-green-500 ' : ' text-gray-500 ') " @click="activateRegulator(record)" :title="record.active == 1 ? 'គណនីនេះកំពុងបើកតំណើរការ' : 'គណនីនេះកំពុងត្រូវបានបិទមិនអាចប្រើប្រាស់បាន' " >
               <IosCheckmarkCircleOutline />
             </n-icon>
-            <n-icon size="20" class="cursor-pointer mx-1" @click="$router.push('/regulator/child/'+record.id)" >
+            <!-- <n-icon size="20" class="cursor-pointer mx-1" @click="$router.push('/regulator/child/'+record.id)" >
               <ParentChild />
-            </n-icon>
+            </n-icon> -->
           </td>
         </tr>
       </table>

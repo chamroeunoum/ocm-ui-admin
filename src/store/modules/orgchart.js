@@ -3,8 +3,8 @@ import crud from '../../api/crud'
 // initial state
 const state = () => ({
   model: {
-    name: "users" ,
-    title: "អ្នកប្រើប្រាស់" 
+    name: "orgchart" ,
+    title: "តារាងរចនាសម្ព័ន្ធ" 
   },
   records: [] ,
   record: null ,
@@ -25,38 +25,41 @@ const getters = {
 const actions = {
   async list ({ state, commit, rootState },params) {
     return await crud.list(rootState.apiServer+"/"+state.model.name + "?" + new URLSearchParams({
+        // unit: params.unit ,
+        // date: params.date ,
+        // number: params.number ,
+        // type: params.type ,
         search: params.search ,
         perPage: params.perPage ,
         page: params.page
       }).toString()
     )
   },
-  async read ({ state, commit, rootState },params) {
-    return await crud.read(rootState.apiServer+"/"+state.model.name+"/"+params.id+'/read')
+  async childList ({ state, commit, rootState },params) {
+    return await crud.list(rootState.apiServer+"/"+state.model.name + "/child?" + new URLSearchParams({
+        // unit: params.unit ,
+        // date: params.date ,
+        // number: params.number ,
+        // type: params.type ,
+        search: params.search ,
+        perPage: params.perPage ,
+        page: params.page ,
+        parent_id : params.parent_id
+      }).toString()
+    )
   },
   async create ({ state, commit, rootState },params) {
     return await crud.create(rootState.apiServer+"/"+state.model.name,params)
   },
   async update ({ state, commit, rootState },params) {
-    return await crud.update(rootState.apiServer+"/"+state.model.name+"/update",params)
-  },
-  async passwordChange ({ state, commit, rootState },params) {
-    return await crud.update(rootState.apiServer+"/"+state.model.name+"/password/change",params)
+    return await crud.update(rootState.apiServer+"/"+state.model.name,params)
   },
   async delete ({ state, commit, rootState },params) {
-    return await crud.delete(rootState.apiServer+"/"+state.model.name+"/"+params.id+"/delete")
+    return await crud.delete(rootState.apiServer+"/"+state.model.name,params)
   },
-  async checkUsername({ state, commit, rootState },params) {
-    return await crud.read(rootState.apiServer+"/"+state.model.name+"/username/exist?username="+params.username)
-  },
-  async checkPhone({ state, commit, rootState },params) {
-    return await crud.read(rootState.apiServer+"/"+state.model.name+"/phone/exist?phone="+params.phone)
-  },
-  async checkEmail({ state, commit, rootState },params) {
-    return await crud.read(rootState.apiServer+"/"+state.model.name+"/email/exist?email="+params.email)
-  },
-  async activate({state, commit, rootState}, params){
-    return await crud.update(rootState.apiServer+"/"+state.model.name+"/activate",params)
+  async upload({ state, commit, rootState },formData) {
+    // return await crud.upload(rootState.apiServer+"/"+state.model.name+"/"+params.id+"/upload",{pdfs: params.pdfs})
+    return await crud.upload(rootState.apiServer+"/"+state.model.name+"/upload",formData)
   }
 }
 

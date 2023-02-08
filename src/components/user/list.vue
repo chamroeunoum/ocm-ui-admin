@@ -4,10 +4,8 @@
     <div class="flex title-bar border-b border-gray-200">
       <!-- Title of crud -->
       <div class="flex w-64 h-10 py-1 title " >
-        <svg xmlns="http://www.w3.org/2000/svg" class="mt-2 w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" >
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
-        </svg>
-        <div class="leading-8 font-bold" v-html="model.title" ></div>
+        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512"><path d="M258.9 48C141.92 46.42 46.42 141.92 48 258.9c1.56 112.19 92.91 203.54 205.1 205.1c117 1.6 212.48-93.9 210.88-210.88C462.44 140.91 371.09 49.56 258.9 48zm126.42 327.25a4 4 0 0 1-6.14-.32a124.27 124.27 0 0 0-32.35-29.59C321.37 329 289.11 320 256 320s-65.37 9-90.83 25.34a124.24 124.24 0 0 0-32.35 29.58a4 4 0 0 1-6.14.32A175.32 175.32 0 0 1 80 259c-1.63-97.31 78.22-178.76 175.57-179S432 158.81 432 256a175.32 175.32 0 0 1-46.68 119.25z" fill="currentColor"></path><path d="M256 144c-19.72 0-37.55 7.39-50.22 20.82s-19 32-17.57 51.93C191.11 256 221.52 288 256 288s64.83-32 67.79-71.24c1.48-19.74-4.8-38.14-17.68-51.82C293.39 151.44 275.59 144 256 144z" fill="currentColor"></path></svg>
+        <div class="font-muol ml-2 leading-9" v-html="model.title" ></div>
       </div>
       <!-- Actions button of the crud -->
       <div class="flex-grow action-buttons flex-row-reverse flex">
@@ -44,12 +42,12 @@
           <th class="vcb-table-header">ឈ្មោះក្នុងប្រព័ន្ធ</th>
           <th class="vcb-table-header">លេខទូរស័ព្ទ</th>
           <th class="vcb-table-header">អ៊ីមែល</th>
-          <th class="vcb-table-header text-right">ស្ថានភាពគណនី</th>
+          <th class="vcb-table-header text-right">បិទ/បើក គណនី</th>
           <th class="vcb-table-header text-right w-40" >ប្រតិបត្តិការ</th>
         </tr>
         <tr v-for="(record, index) in table.records.matched" :key='index' class="vcb-table-row" >
           <td class="vcb-table-cell font-bold" >{{ index + 1 }}</td>
-          <td class="vcb-table-cell" >{{ record.firstname + ' ' + record.lastname }}</td>
+          <td class="vcb-table-cell" >{{ record.lastname + " " + record.firstname }}</td>
           <td  class="vcb-table-cell" >{{ record.username }}</td>
           <td  class="vcb-table-cell" >{{ record.phone }}</td>
           <td class="vcb-table-cell" >{{ record.email }}</td>
@@ -369,8 +367,8 @@ export default {
       console.log( record )
       editRecord.id = record.id
       editRecord.username = record.username
-      editRecord.firstname = record.person.firstname
-      editRecord.lastname = record.person.lastname
+      editRecord.firstname = record.firstname
+      editRecord.lastname = record.lastname
       editRecord.phone = record.phone
       editRecord.email = record.email
       editRecord.person = record.person

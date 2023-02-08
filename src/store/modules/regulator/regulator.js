@@ -106,9 +106,33 @@ const actions = {
     return await crud.update(rootState.apiServer+"/"+state.model.name+'/'+params.id+'/deactivate',{})
   },
   async childDocument ({ state, commit, rootState },params) {
-    return await crud.update(rootState.apiServer+"/"+state.model.name+'/child',{
+    return await crud.create(rootState.apiServer+"/orgchart",{
       parent_id : params.parent_id ,
-      document_id : params.document_id
+      document_id : params.document_id ,
+      name: params.name ,
+      document_parent_id : params.document_parent_id ,
+      desc: params.desc ,
+      image: params.image
+    })
+  },
+  async getChildDocument ({ state, commit, rootState },params) {
+    return await crud.read(rootState.apiServer+"/orgchart")
+  },
+  async updateDocument ({ state, commit, rootState },params) {
+    return await crud.update(rootState.apiServer+"/orgchart",{
+      id : params.id ,
+      parent_id : params.parent_id ,
+      document_id : params.document_id ,
+      name: params.name ,
+      document_parent_id : params.document_parent_id ,
+      desc: params.desc ,
+      image: params.image
+    })
+  },
+  async updateDocument ({ state, commit, rootState },params) {
+    return await crud.update(rootState.apiServer+"/orgchart/linkdocument",{
+      id : params.id ,
+      document_id : params.document_id 
     })
   },
 }
