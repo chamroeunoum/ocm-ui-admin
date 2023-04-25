@@ -136,15 +136,16 @@ export default {
         console.log( err )
         loading.value = false
         if( err.response !== null ){
-          let message = err.response.status + ": " + err.response.statusText + ". " 
+          let message = err.response.status + ": " + err.response.statusText + "."
           if( err.response.data !== null ){
             for(var key in err.response.data.errors ){
               message += err.response.data.errors[key]
             }  
           }
           notification.error({
-            content: 'បញ្ហា' ,
-            meta: message
+            title: "ចូលប្រើប្រាស់" ,
+            meta: message ,
+            content: err.response.data.message
           })
         }else{
           console.log( err.response )

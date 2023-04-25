@@ -185,7 +185,7 @@ export default {
           ];
         
         // allowed max size in MB
-        let allowed_size_mb = 5;
+        let allowed_size_mb = 25;
 
         // Validate file type
         if(allowed_mime_types.indexOf(file.type) == -1) {
@@ -208,31 +208,31 @@ export default {
         }
 
 
-        // let reader = new FileReader();
-        // reader.onerror = function(e) {
-        //   console.log('On error');
-        // };
-        // reader.onprogress = function(e) {
-        //   console.log('On progress');
-        // };
-        // reader.onabort = function(e) {
-        //   console.log('On abort');
-        // };
-        // reader.onloadstart = function(e) {
-        //   console.log( "On load start" )
-        // };
-        // reader.onload = function(e) {
-        //   // Ensure that the progress bar displays 100% at the end.
-        //   console.log( 'On load' )
-        //   /**
-        //    * Read binary string from 'e.target.result' and convert to base64
-        //    */
-        //   props.record.pdfs.push( btoa( e.target.result ) );
-        //   // formData.append('files', btoa( e.target.result ) )
-        // }
-        // // // // Read in the image file as base64 type
-        // // // reader.readAsDataURL(file);
-        // reader.readAsBinaryString(file);
+        let reader = new FileReader();
+        reader.onerror = function(e) {
+          console.log('On error');
+        };
+        reader.onprogress = function(e) {
+          console.log('On progress');
+        };
+        reader.onabort = function(e) {
+          console.log('On abort');
+        };
+        reader.onloadstart = function(e) {
+          console.log( "On load start" )
+        };
+        reader.onload = function(e) {
+          // Ensure that the progress bar displays 100% at the end.
+          console.log( 'On load' )
+          /**
+           * Read binary string from 'e.target.result' and convert to base64
+           */
+          props.record.pdfs.push( btoa( e.target.result ) );
+          // formData.append('files', btoa( e.target.result ) )
+        }
+        // // // Read in the image file as base64 type
+        // // reader.readAsDataURL(file);
+        reader.readAsBinaryString(file);
 
         // // Read in the image file as base64 type
         // props.record.pdfs.push( window.URL.createObjectURL( file ) )
@@ -334,7 +334,8 @@ export default {
         objective: props.record.objective ,
         active: 1 ,
         year: year.getFullYear().toString().padStart(4, '0') + "-" + (year.getMonth() + 1).toString().padStart(2, '0') + "-" + year.getDate().toString().padStart(2, '0') ,
-        type_id: props.record.type_id 
+        type_id: props.record.type_id ,
+        
       }).then( res => {
         switch( res.status ){
           case 200 : 

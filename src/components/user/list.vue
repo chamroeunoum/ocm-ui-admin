@@ -42,7 +42,6 @@
           <th class="vcb-table-header">ឈ្មោះក្នុងប្រព័ន្ធ</th>
           <th class="vcb-table-header">លេខទូរស័ព្ទ</th>
           <th class="vcb-table-header">អ៊ីមែល</th>
-          <th class="vcb-table-header text-right">បិទ/បើក គណនី</th>
           <th class="vcb-table-header text-right w-40" >ប្រតិបត្តិការ</th>
         </tr>
         <tr v-for="(record, index) in table.records.matched" :key='index' class="vcb-table-row" >
@@ -51,23 +50,21 @@
           <td  class="vcb-table-cell" >{{ record.username }}</td>
           <td  class="vcb-table-cell" >{{ record.phone }}</td>
           <td class="vcb-table-cell" >{{ record.email }}</td>
-          <td  class="vcb-table-cell text-right w-24" >
-            <n-icon size="30" :class="'cursor-pointer ' + ( parseInt( record.active ) == 1 ? ' text-green-500 ' : ' text-gray-500 ') " @click="activateAccount(record)" :title="record.active == 1 ? 'គណនីនេះកំពុងបើកតំណើរការ' : 'គណនីនេះកំពុងត្រូវបានបិទមិនអាចប្រើប្រាស់បាន' " >
-              <IosCheckmarkCircleOutline />
-            </n-icon>
-          </td>
           <td class="vcb-table-actions-panel text-right w-40" >
-            <n-icon size="30" class="cursor-pointer text-blue-500" @click="$router.push('/'+model.name+'/'+record.id+'/detail')" title="ព័ត៌មានលម្អិតរបស់ម្ចាស់គណនី" >
+            <n-icon size="22" class="cursor-pointer text-blue-500" @click="$router.push('/'+model.name+'/'+record.id+'/detail')" title="ព័ត៌មានលម្អិតរបស់ម្ចាស់គណនី" >
               <ContactCard28Regular />
             </n-icon>
-            <n-icon size="30" class="cursor-pointer text-blue-500" @click="showEditModal(record)" title="កែប្រែព័ត៌មាន" >
+            <n-icon size="22" class="cursor-pointer text-blue-500" @click="showEditModal(record)" title="កែប្រែព័ត៌មាន" >
               <Edit20Regular />
             </n-icon>
-            <n-icon size="30" class="cursor-pointer text-yellow-500" @click="inputPassword(record)" title="ប្ដូរពាក្យសម្ងាត់សម្រាប់គណនីនេះ" >
+            <n-icon size="22" class="cursor-pointer text-yellow-500" @click="inputPassword(record)" title="ប្ដូរពាក្យសម្ងាត់សម្រាប់គណនីនេះ" >
               <Key16Regular />
             </n-icon>
-            <n-icon size="30" class="cursor-pointer text-red-500" @click="deleteAccount(record)" title="លុបគណនីនេះចោល" >
+            <n-icon size="22" class="cursor-pointer text-red-500" @click="deleteAccount(record)" title="លុបគណនីនេះចោល" >
               <TrashOutline />
+            </n-icon>
+            <n-icon size="22" :class="'cursor-pointer ' + ( parseInt( record.active ) == 1 ? ' text-green-500 ' : ' text-gray-500 ') " @click="activateAccount(record)" :title="record.active == 1 ? 'គណនីនេះកំពុងបើកតំណើរការ' : 'គណនីនេះកំពុងត្រូវបានបិទមិនអាចប្រើប្រាស់បាន' " >
+              <IosCheckmarkCircleOutline />
             </n-icon>
           </td>
         </tr>

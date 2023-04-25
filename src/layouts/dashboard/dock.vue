@@ -149,18 +149,18 @@ export default {
               // 5 // Customer
           ]
       },
-      {
-          url: '/orgchart' ,
-          icon: 'ParentChild' ,
-          name: 'តារាងរចនាសម្ព័ន្ធ',
-          roles: [
-              1, // Admin
-              // 2, // Super
-              // 3, // Auditor
-              // 4, // Member
-              // 5 // Customer
-          ]
-      },
+      // {
+      //     url: '/orgchart' ,
+      //     icon: 'ParentChild' ,
+      //     name: 'តារាងរចនាសម្ព័ន្ធ',
+      //     roles: [
+      //         1, // Admin
+      //         // 2, // Super
+      //         // 3, // Auditor
+      //         // 4, // Member
+      //         // 5 // Customer
+      //     ]
+      // },
       // {
       //     url: '/client' ,
       //     icon: 'UserMultiple' ,
@@ -246,6 +246,7 @@ export default {
               d.loading = false
               router.push('/login')
             }).catch( err => {
+              authLogout()
               console.log( err )
             })
           }else{

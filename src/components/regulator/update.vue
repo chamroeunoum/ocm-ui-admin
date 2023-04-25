@@ -37,7 +37,7 @@
                   <n-form-item label="កាលបរិច្ឆែក" path="year" class="w-4/5 mr-8" >
                     <n-date-picker v-model:value="record.year" placeholder="កាលបរិច្ឆែក" type="date" clearable class="w-full" />
                   </n-form-item>
-                  <n-form-item label="ប្រភេទ" path="email" class="w-4/5 mr-8" >
+                  <n-form-item label="ប្រភេទឯគសារ" path="type" class="w-4/5 mr-8" >
                     <n-select
                       v-model:value="record.type_id"
                       filterable
@@ -45,10 +45,18 @@
                       :options="documentTypes"
                     />
                   </n-form-item>
-                  <n-form-item label="ប្រភេទ" path="email" class="w-4/5 mr-8" >
-                    <n-switch v-model:value="active" />
-                    <div class="" v-html=" active == 1 ? 'បើកការប្រើប្រាស់' : 'បិទការប្រើប្រាស់' " ></div>
-                  </n-form-item>
+                  <!-- <n-form-item label="បិទ ឬ បើកឯកសារ" path="active" class="w-4/5 mr-8" >
+                    <n-radio
+                      :checked="parseInt(record.active) === 1"
+                      name="documentStatus"
+                      @change="handleDocumentStatus(1)"
+                    >បើកការប្រើប្រាស់</n-radio>
+                    <n-radio
+                      :checked="parseInt(record.active) === 0"
+                      name="documentStatus"
+                      @change="handleDocumentStatus(0)"
+                    >បិទការប្រើប្រាស់</n-radio>
+                  </n-form-item> -->
                   <n-form-item label="ឯកសារយោង" path="pdfs" class="w-4/5 mr-8" >
                     <input type="file" placeholder="ឯកសារយោង" @change="fileChange" class="hidden " id="referenceDocument" />
                     <div class="border rounded border-gray-200 w-full text-sm text-center cursor-pointer hover:border-green-500" @click="clickUpload" >
@@ -193,7 +201,7 @@ export default {
           ];
         
         // allowed max size in MB
-        let allowed_size_mb = 5;
+        let allowed_size_mb = 25;
 
         // Validate file type
         if(allowed_mime_types.indexOf(file.type) == -1) {
@@ -341,7 +349,8 @@ export default {
         title: props.record.title ,
         objective: props.record.objective ,
         year: year.getFullYear().toString().padStart(4, '0') + "-" + (year.getMonth() + 1).toString().padStart(2, '0') + "-" + year.getDate().toString().padStart(2, '0') ,
-        type_id: props.record.type_id 
+        type_id: props.record.type_id ,
+        active: parseInt( props.record.active ) > 0 ? 1 : 0
       }).then( res => {
         switch( res.status ){
           case 200 : 
@@ -445,8 +454,14 @@ export default {
         })
       }
     }
+    function handleDocumentStatus(val){
+      props.record.active = parseInt( val )
+    }
 
     return {
+      /**
+       * Computed
+       */
       /**
        * Variables
        */
@@ -461,6 +476,7 @@ export default {
       checkUsername ,
       checkPhone ,
       checkEmail ,
+      handleDocumentStatus ,
       /**
        * File upload
        */

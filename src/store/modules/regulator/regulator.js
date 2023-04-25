@@ -135,6 +135,9 @@ const actions = {
       document_id : params.document_id 
     })
   },
+  async pdf ({ state, commit, rootState },params) {
+    return await crud.read(rootState.apiServer+"/"+state.model.name+"/pdf?id="+params.id)
+  },
 }
 
 // mutations

@@ -35,7 +35,7 @@ const actions = {
     return await crud.read(rootState.apiServer+"/"+state.model.name+"/"+params.id+'/read')
   },
   async create ({ state, commit, rootState },params) {
-    return await crud.create(rootState.apiServer+"/"+state.model.name,params)
+    return await crud.create(rootState.apiServer+"/"+state.model.name+"/create",params)
   },
   async update ({ state, commit, rootState },params) {
     return await crud.update(rootState.apiServer+"/"+state.model.name+"/update",params)

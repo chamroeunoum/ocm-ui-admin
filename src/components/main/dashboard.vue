@@ -1,13 +1,13 @@
 <template >
     <div class="w-full h-12 leading-10 font-muol text-lg border-b border-gray-200" >សង្ខេបព័ត៌មាន</div>
     <div class="flex flex-wrap justify-center p-8">
-        <div @click="$router.push('/orgchart')" class="bg-gray-200 rounded border border-gray-100 hover:border-gray-200 hover:bg-gray-100 duration-300 p-8 m-8 cursor-pointer min-w-200">
+        <!-- <div @click="$router.push('/orgchart')" class="bg-gray-200 rounded border border-gray-100 hover:border-gray-200 hover:bg-gray-100 duration-300 p-8 m-8 cursor-pointer min-w-200">
             <Icon size="60" class=" m-auto mb-4 h-12" >
                 <ParentChild />
             </Icon>
             <div class="m-auto mb-2 ">តារាងរចនាសម្ព័ន្ធ</div>
             <div class="m-auto mb-2 font-bold text-lg text-blue-600 " ></div>
-        </div>
+        </div> -->
         <div @click="$router.push('/regulator')" class="bg-gray-200 rounded border border-gray-100 hover:border-gray-200 hover:bg-gray-100 duration-300 p-8 m-8 cursor-pointer min-w-200">
             <Icon size="60" class="text-red-700 m-auto mb-4 h-12" >
                 <DocumentPdf24Regular />
