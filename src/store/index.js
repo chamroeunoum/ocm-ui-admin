@@ -1,6 +1,7 @@
 import { createStore, createLogger } from 'vuex'
 import auth from './modules/authentication'
 import user from './modules/user'
+import folder from './modules/folder'
 import regulator from './modules/regulator/regulator'
 import orgchart from './modules/orgchart'
 import regulatorType from './modules/regulator/type'
@@ -17,6 +18,7 @@ export default createStore({
     // product ,
     auth,
     user,
+    folder ,
     orgchart,
     /**
      * Regulator Section

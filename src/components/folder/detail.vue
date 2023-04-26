@@ -29,7 +29,7 @@
     <div class="vcb-table-panel relative m-8 p-8">
       <div class="pk-account-info w-full">
         <div class="flex-none w-60 h-60 border rounded-full m-auto">
-          <img :src="profilePicture!==false?profilePicture:'/src/assets/logo.png'" class="w-full rounded-full bg-white p-2" :alt="name" :title="name" />
+          <img :src="profilePicture!==false?profilePicture:'/src/assets/ocmlogo.png'" class="w-full rounded-full bg-white p-2" :alt="name" :title="name" />
         </div>
       </div>
       <div class="pk-account-panel m-auto w-3/5 p-8 text-left text-md" >

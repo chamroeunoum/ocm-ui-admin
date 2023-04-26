@@ -4,9 +4,7 @@
       <div class="w-28 mx-auto my-4">
         <img src="./../../assets/logo.png" alt="SASTRA Logo" class="w-full" >
       </div>
-      <div class="w-full mx-auto mt-4 mb-8 text-lg ">
-        កម្រងឯកសារច្បាប់ខ្មែរ
-      </div>
+      <div class="w-full mx-auto mt-4 mb-8 text-lg ">ការគ្រប់គ្រងបណ្ដំឯកសារ</div>
       <div class="w-full mx-auto my-4 text-left text-md">ចូលប្រព័ន្ធ</div>
       <n-space vertical>
         <n-input round 
@@ -91,6 +89,7 @@ export default {
       if( credentials.email == "" || credentials.email == null ){
         notification.warning({
           title: "ព័ត៌មានមិនគ្រប់គ្រាន់" ,
+          duration: 3000 ,
           content: "សូមបញ្ចូលអ៊ីមែលរបស់អ្នក រួចព្យាយាមម្ដងទៀត បាទ។"
         })
         return false
@@ -98,6 +97,7 @@ export default {
       if( credentials.password == "" || credentials.password == null ){
         notification.warning({
           title: "ព័ត៌មានមិនគ្រប់គ្រាន់" ,
+          duration: 3000 ,
           content: "សូមបញ្ចូលពាក្យសម្ងាត់របស់អ្នក រួចព្យាយាមម្ដងទៀត បាទ។"
         })
         return false
@@ -145,6 +145,7 @@ export default {
           notification.error({
             title: "ចូលប្រើប្រាស់" ,
             meta: message ,
+            duration: 3000 ,
             content: err.response.data.message
           })
         }else{

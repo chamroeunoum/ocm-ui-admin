@@ -8,11 +8,18 @@
             <div class="m-auto mb-2 ">តារាងរចនាសម្ព័ន្ធ</div>
             <div class="m-auto mb-2 font-bold text-lg text-blue-600 " ></div>
         </div> -->
+        <div @click="$router.push('/folder')" class="bg-gray-200 rounded border border-gray-100 hover:border-gray-200 hover:bg-gray-100 duration-300 p-8 m-8 cursor-pointer min-w-200">
+            <Icon size="60" class=" m-auto mb-4 h-12" >
+                <FolderOpenOutlined />
+            </Icon>
+            <div class="m-auto mb-2 ">ឯកសារ</div>
+            <div class="m-auto mb-2 font-bold text-lg text-blue-600 " v-html="totalRegulators" ></div>
+        </div>
         <div @click="$router.push('/regulator')" class="bg-gray-200 rounded border border-gray-100 hover:border-gray-200 hover:bg-gray-100 duration-300 p-8 m-8 cursor-pointer min-w-200">
             <Icon size="60" class="text-red-700 m-auto mb-4 h-12" >
                 <DocumentPdf24Regular />
             </Icon>
-            <div class="m-auto mb-2 ">ឯកសារគតិយុត្ត</div>
+            <div class="m-auto mb-2 ">ឯកសារ</div>
             <div class="m-auto mb-2 font-bold text-lg text-blue-600 " v-html="totalRegulators" ></div>
         </div>
         <div @click="$router.push('/user')" class="bg-gray-200 rounded border border-gray-100 hover:border-gray-200 hover:bg-gray-100 duration-300 p-8 m-8 cursor-pointer min-w-200">
@@ -30,15 +37,21 @@ import { useDialog, useMessage, useNotification } from 'naive-ui'
 import { DocumentPdf24Regular } from '@vicons/fluent'
 import { PersonCircleOutline } from '@vicons/ionicons5'
 import { ParentChild } from '@vicons/carbon'
+import { FolderOpenOutlined } from  "@vicons/material"
 import { ref , reactive, computed } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
+import { authLogout } from './../../plugins/authentication'
 
 
 export default {
     name: 'Dashboard',
     components: {
         Icon ,
+        /**
+         * Material
+         */
+         FolderOpenOutlined ,
         /**
          * fluent
          */
@@ -53,8 +66,6 @@ export default {
         const dialog = useDialog()
         const message = useMessage()
         const notify = useNotification()
-
-        
 
         /**
          * Account
@@ -104,13 +115,20 @@ export default {
                     regulatorResponse.value = null
                 }
             }).catch( err => {
-                console.log( err )
-                notify.error({
-                    title: "អានឯកសារគតិយុត្ត" ,
-                    content: "មានបញ្ហាពេលអានឯកសារគតិយុត្ត។" ,
-                    duration: 3000 ,
-                    background: true
-                })
+                switch( err.response.status ) {
+                    case 401 :
+                        authLogout()
+                        router.push('/login')
+                        break;
+                    default: 
+                        notify.error({
+                            title: "អានឯកសារគតិយុត្ត" ,
+                            content: "មានបញ្ហាពេលអានឯកសារគតិយុត្ត។" ,
+                            duration: 3000 ,
+                            background: true
+                        })
+                        break;
+                }
             })
         }
         /**

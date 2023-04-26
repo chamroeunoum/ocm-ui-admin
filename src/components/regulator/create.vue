@@ -52,7 +52,7 @@
                         <n-icon size="40" class="text-red-600" >
                           <DocumentPdf24Regular />
                         </n-icon>
-                        <br/>សូមបញ្ចូលឯកសារយោងសម្រាប់ លិខិតបទដ្ឋានគតិយុត្តនេះ។
+                        <br/>សូមបញ្ចូលឯកសារយោង។
                       </div>
                       <div class="list-files-upload w-full p-4" >
                         <div class="selectedFiles w-full m-2" v-for="(pdf,index) in record.pdfs" :key="index" v-html="'ឯកសារយោងមានឈ្មោះ៖ ' + pdf.name + ' , ទំហំ៖ ' + (pdf.size/1024/1024).toFixed(2) + ' មេកាបៃ (MB)' " ></div>

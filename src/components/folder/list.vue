@@ -39,19 +39,13 @@
         <tr class="vcb-table-headers" >
           <th class="vcb-table-header" >ល.រ</th>
           <th class="vcb-table-header">ឈ្មោះ</th>
-          <th class="vcb-table-header">ឈ្មោះក្នុងប្រព័ន្ធ</th>
-          <th class="vcb-table-header">លេខទូរស័ព្ទ</th>
-          <th class="vcb-table-header">អ៊ីមែល</th>
-          <th class="vcb-table-header">តួនាទី</th>
+          <th class="vcb-table-header">អ្នកបង្កើត</th>
           <th class="vcb-table-header text-right w-40" >ប្រតិបត្តិការ</th>
         </tr>
         <tr v-for="(record, index) in table.records.matched" :key='index' class="vcb-table-row" >
           <td class="vcb-table-cell font-bold" >{{ index + 1 }}</td>
-          <td class="vcb-table-cell" >{{ record.lastname + " " + record.firstname }}</td>
-          <td  class="vcb-table-cell" >{{ record.username }}</td>
-          <td  class="vcb-table-cell" >{{ record.phone }}</td>
-          <td class="vcb-table-cell" >{{ record.email }}</td>
-          <td class="vcb-table-cell" >{{ record.roles == undefined ? "គ្មាន" : record.roles[0].name  }}</td>
+          <td class="vcb-table-cell" >{{ record.name }}</td>
+          <td  class="vcb-table-cell" >{{ authorName( record ) }}</td>
           <td class="vcb-table-actions-panel text-right w-40" >
             <n-icon size="22" class="cursor-pointer text-blue-500" @click="$router.push('/'+model.name+'/'+record.id+'/detail')" title="ព័ត៌មានលម្អិតរបស់ម្ចាស់គណនី" >
               <ContactCard28Regular />
@@ -59,13 +53,10 @@
             <n-icon size="22" class="cursor-pointer text-blue-500" @click="showEditModal(record)" title="កែប្រែព័ត៌មាន" >
               <Edit20Regular />
             </n-icon>
-            <n-icon size="22" class="cursor-pointer text-yellow-500" @click="inputPassword(record)" title="ប្ដូរពាក្យសម្ងាត់សម្រាប់គណនីនេះ" >
-              <Key16Regular />
-            </n-icon>
-            <n-icon size="22" class="cursor-pointer text-red-500" @click="deleteAccount(record)" title="លុបគណនីនេះចោល" >
+            <n-icon size="22" class="cursor-pointer text-red-500" @click="deleteFolder(record)" title="លុបគណនីនេះចោល" >
               <TrashOutline />
             </n-icon>
-            <n-icon size="22" :class="'cursor-pointer ' + ( parseInt( record.active ) == 1 ? ' text-green-500 ' : ' text-gray-500 ') " @click="activateAccount(record)" :title="record.active == 1 ? 'គណនីនេះកំពុងបើកតំណើរការ' : 'គណនីនេះកំពុងត្រូវបានបិទមិនអាចប្រើប្រាស់បាន' " >
+            <n-icon size="22" :class="'cursor-pointer ' + ( parseInt( record.active ) == 1 ? ' text-green-500 ' : ' text-gray-500 ') " @click="activateFolder(record)" :title="record.active == 1 ? 'គណនីនេះកំពុងបើកតំណើរការ' : 'គណនីនេះកំពុងត្រូវបានបិទមិនអាចប្រើប្រាស់បាន' " >
               <IosCheckmarkCircleOutline />
             </n-icon>
           </td>
@@ -99,46 +90,6 @@
       <!-- Go to -->
       <!-- Total per page -->
     </div>
-    <!-- Form change password -->
-    <div class="vcb-pop-edit font-ktr">
-      <n-modal v-model:show="changePasswordModal.show" transform-origin="center">
-        <n-card class="w-1/2 font-pvh text-xl" title="ប្ដូរពាក្យសម្ងាត់" :bordered="false" size="small">
-          <template #header-extra>
-            <n-button type="success" @click="changePassword(changePasswordModal.form)" >
-              <template #icon>
-                <n-icon>
-                  <Save20Regular />
-                </n-icon>
-              </template>
-              រក្សារទុក
-            </n-button>
-          </template>
-          <!-- Form change password -->
-          <div class="crud-create-form w-full border-t">
-            <div class=" mx-auto p-4 flex-wrap">
-              <div class="crud-form-panel w-full flex flex-wrap ">
-                <n-form 
-                  class="w-full text-left font-btb text-lg flex flex-wrap" 
-                  :label-width="80"
-                  :model="changePasswordModal.form"
-                  :rules="changePasswordModal.rules"
-                  size="large"
-                  ref="formRef"
-                >
-                  <n-form-item label="ពាក្យសម្ងាត់ថ្មី" path="password" class="w-2/5 mr-8" >
-                    <n-input type="password" show-password-on="mousedown" v-model:value="changePasswordModal.form.password" placeholder="ពាក្យសម្ងាត់ថ្មី" />
-                  </n-form-item>
-                </n-form>
-                <div class="w-1/2 h-8"></div>  
-              </div>
-            </div>
-          </div>
-          <!-- End form change password -->
-          <template #footer></template>
-        </n-card>
-      </n-modal>
-    </div>
-    <!-- End of change password -->
     <!-- Form create account -->
     <create-form v-bind:model="model" v-bind:show="createModal.show" :onClose="closeCreateModal"/>
     <!-- Form update account -->
@@ -163,7 +114,7 @@ import { Edit20Regular, Key16Regular, Save20Regular, Add20Regular, Search20Regul
 import CreateForm from './create.vue'
 import UpdateForm from './update.vue'
 export default {
-  name: "User" ,
+  name: "Folder" ,
   components: {
     QrcodeVue ,
     Vue3Barcode,
@@ -191,8 +142,8 @@ export default {
      * Variables
      */    
     var model = reactive( {
-      name: "user" ,
-      title: "គណនី"
+      name: "folder" ,
+      title: "ថតឯកសារ"
     })
     var table = reactive( {
       loading: false ,
@@ -203,20 +154,10 @@ export default {
       },
       columns: {
         searchable: {
-          username: '' ,
-          firstname: '' ,
-          lastname: '' ,
-          email: '' ,
-          phone: '' ,
-          active: ''
+          name: ''
         },
         format: {
-          username: '' ,
-          firstname: '' ,
-          lastname: '' ,
-          email: '' ,
-          phone: '' ,
-          active: ''
+          name: ''
         }
       } ,
       pagination: {
@@ -224,21 +165,6 @@ export default {
         page: 1 ,
         totalPages: 0 ,
         totalRecords: 0
-      }
-    })
-
-    var changePasswordModal = reactive({
-      show: false ,
-      account: null ,
-      form: {
-        password: ''
-      },
-      rules: {
-        password: {
-          required: true,
-          message: 'សូមបញ្ចូលពាក្យសម្ងាត់ថ្មី',
-          trigger: [ 'blur']
-        },
       }
     })
 
@@ -306,10 +232,10 @@ export default {
       getRecords()
     }
 
-    function activateAccount(record){
+    function activateFolder(record){
       dialog.warning({
-        title: "បិទ ឬ បើក គណនី" ,
-        content: "តើអ្នកចង់ " + ( record.active == 1 ? "បិទ" : "បើក" )+ " គណនីនេះមែនទេ ?" ,
+        title: "បិទ ឬ បើក ថតឯកសារ" ,
+        content: "តើអ្នកចង់ " + ( record.active == 1 ? "បិទ" : "បើក" ) + " មែនទេ ?" ,
         positiveText: 'បាទ / ចាស',
         negativeText: 'ទេ',
         onPositiveClick: () => {
@@ -319,15 +245,15 @@ export default {
           }).then( res => {
             if( res.data.ok ){
               notify.success({
-                title: 'ស្ថានភាពគណនី' ,
-                description: 'ស្ថានភាពគណនីបានកែប្រែជោគជ័យ។' ,
+                title: 'ថតឯកសារ' ,
+                description: ( record.active == 0 ?  "បើក" : "បិទ" ) + 'ប្រើប្រាស់ឯកសាររួចរាល់។' ,
                 duration: 3000
               })
               getRecords()
             }else{
               notify.error({
-                title: 'ស្ថានភាពគណនី' ,
-                description: 'មានបញ្ហាក្នុងពេលកែប្រែស្ថានភាពគណនី។' ,
+                title: 'ថតឯកសារ' ,
+                description: 'បិទការប្រ់ប្រាស់ឯកសារបានជោគជ័យ។' ,
                 duration: 3000
               })
             }
@@ -356,76 +282,23 @@ export default {
     var editModal = reactive({show:false})
     var editRecord = reactive({
       id: 0 ,
-      username: "" ,
-      firstname: "" ,
-      lastname: "" ,
-      phone: "" ,
-      email: ""
+      name: ""
     })
     function showEditModal(record){
       console.log( record )
       editRecord.id = record.id
-      editRecord.username = record.username
-      editRecord.firstname = record.firstname
-      editRecord.lastname = record.lastname
-      editRecord.phone = record.phone
-      editRecord.email = record.email
-      editRecord.person = record.person
+      editRecord.name = record.name
       editModal.show = true
     }
     function closeEditModal(record){
       editModal.show = false
       getRecords()
     }
-    function inputPassword(record){
-      changePasswordModal.account = record
-      changePasswordModal.form = {
-        id: record.id ,
-        password: record.password
-      }
-      changePasswordModal.show = true
-    }
-    function changePassword(form){
-      if( form.password != "" && form.password != undefined && form.password != null ){
-        store.dispatch( model.name+'/passwordChange',{
-            id: form.id ,
-            password: form.password 
-          }).then( res => {
-            if( res.data.ok ){
-              notify.success({
-                title: 'ប្ដូរពាក្យសំងាត់' ,
-                description: 'បានកែប្រែពាក្យសំងាត់បានជោគជ័យ។' ,
-                duration: 3000
-              })
-              changePasswordModal.show = false
-              changePasswordModal.form = {
-                id : 0 ,
-                password: ''
-              }
-              getRecords()
-            }else{
-              notify.error({
-                title: 'ប្ដូរពាក្យសំងាត់' ,
-                description: 'មានបញ្ហាក្នុងពេលកែប្រែពាក្យសំងាត់។' ,
-                duration: 3000
-              })
-            }
-          }).catch( err => {
-            message.error( err )
-          })
-      }else{
-        notify.warning({
-          title: 'ប្ដូរពាក្យសំងាត់' ,
-          description: 'សូមបញ្ចូលពាក្យសំងាត់របស់អ្នក។' ,
-          duration: 3000
-        })
-      }
-    }
 
-    function deleteAccount(record){
+    function deleteFolder(record){
       dialog.warning({
-        title: "លុបគណនី" ,
-        content: "តើអ្នកចង់ លុប គណនីនេះមែនទេ ?" ,
+        title: "លុប" ,
+        content: "តើអ្នកចង់ លុប មែនទេ ?" ,
         positiveText: 'បាទ / ចាស',
         negativeText: 'ទេ',
         onPositiveClick: () => {
@@ -453,6 +326,9 @@ export default {
       })
     }
 
+    function authorName( record ){
+      return record != undefined ? record.user.lastname + ' ' + record.user.firstname : 'មិនមានឈ្មោះ' ;
+    }
     /**
      * Initial the data
      */
@@ -465,7 +341,6 @@ export default {
        */
       model ,
       table ,
-      changePasswordModal ,
       /**
        * Table
        */
@@ -497,10 +372,9 @@ export default {
       /**
        * Functions
        */
-      activateAccount ,
-      inputPassword ,
-      changePassword ,
-      deleteAccount
+      activateFolder ,
+      deleteFolder ,
+      authorName
     }
   }
 }

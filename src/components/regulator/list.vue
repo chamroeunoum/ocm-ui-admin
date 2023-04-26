@@ -49,6 +49,7 @@
           <th class="vcb-table-header">លេខ</th>
           <th class="vcb-table-header w-32">ប្រភេទ</th>
           <th class="vcb-table-header w-24">ថ្ងៃខែឆ្នាំ</th>
+          <th class="vcb-table-header w-40">អ្នកបង្កើត</th>
           <th class="vcb-table-header text-right w-40" >ប្រតិបត្តិការ</th>
         </tr>
         <tr v-for="(record, index) in table.records.matched" :key='index' class="vcb-table-row" >
@@ -57,6 +58,7 @@
           <td  class="vcb-table-cell" >{{ record.fid }}</td>
           <td  class="vcb-table-cell" >{{ record.type.name }}</td>
           <td class="vcb-table-cell" >{{ record.document_year.slice(0,10) }}</td>
+          <td  class="vcb-table-cell" >{{ record.createdBy.lastname + ' ' + record.createdBy.firstname }}</td>
           <td class="vcb-table-actions-panel text-right" >
             <n-icon size="22" class="cursor-pointer text-blue-500" @click="showEditModal(record)" title="កែប្រែព័ត៌មាន" >
               <Edit20Regular />
@@ -185,7 +187,7 @@ export default {
      */    
     const model = reactive( {
       name: "regulator" ,
-      title: "លិខិតបទដ្ឋានគតិយុត្ត"
+      title: "ឯកសារ"
     })
     const table = reactive( {
       loading: false , 

@@ -65,7 +65,7 @@
 <script>
 import { reactive, ref , computed } from 'vue'
 import { IosSearch } from '@vicons/ionicons4'
-import { SupervisedUserCircleOutlined , SupervisedUserCircleSharp } from "@vicons/material"
+import { SupervisedUserCircleOutlined ,FolderOpenOutlined , SupervisedUserCircleSharp } from "@vicons/material"
 import { Apps, SpeedometerOutline } from '@vicons/ionicons5'
 import { isAuth, authLogout , isAdmin , getUser } from './../../plugins/authentication'
 import { Receipt2 } from '@vicons/tabler'
@@ -79,6 +79,7 @@ export default {
     IosSearch,
     SupervisedUserCircleOutlined ,
     SupervisedUserCircleSharp ,
+    FolderOpenOutlined ,
     Apps ,
     UserMultiple ,
     Receipt20Regular ,
@@ -129,6 +130,18 @@ export default {
           url: '/user' ,
           icon: 'SupervisedUserCircleOutlined' ,
           name: 'គណនី',
+          roles: [
+              1, // Admin
+              // 2, // Super
+              // 3, // Auditor
+              // 4, // Member
+              // 5 // Customer
+          ]
+      },
+      {
+          url: '/folder' ,
+          icon: 'FolderOpenOutlined' ,
+          name: 'ថតឯកសារ',
           roles: [
               1, // Admin
               // 2, // Super

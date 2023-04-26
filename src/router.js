@@ -11,6 +11,16 @@ import UserListCrud from './components/user/list.vue'
 import UserCreateCrud from './components/user/create.vue'
 import UserUpdateCrud from './components/user/update.vue'
 import UserDetail from './components/user/detail.vue'
+
+/**
+ * Folder Components
+ */
+import FolderCrud from './components/folder/index.vue'
+import FolderListCrud from './components/folder/list.vue'
+import FolderCreateCrud from './components/folder/create.vue'
+import FolderUpdateCrud from './components/folder/update.vue'
+import FolderDetail from './components/folder/detail.vue'
+
 /**
  * Regulator Components
  */
@@ -107,6 +117,39 @@ if( !isAdmin() ){
                     name: "UserUpdate" ,
                     path: 'update' ,
                     component: UserUpdateCrud
+                }
+            ]
+        },
+        // Folder
+        {
+            name: 'Folder' ,
+            path: '/folder',
+            component: FolderCrud ,
+            meta: { 
+                transition: 'slide-right' ,
+                requiresAuth: true,
+                is_admin : true
+            },
+            children: [
+                {
+                    name: "FolderList" ,
+                    path: '' ,
+                    component: FolderListCrud
+                },
+                {
+                    name: "FolderDetail" ,
+                    path: ':id/detail' ,
+                    component: FolderDetail
+                },
+                {
+                    name: "FolderCreate" ,
+                    path: 'create' ,
+                    component: FolderCreateCrud
+                },
+                {
+                    name: "FolderUpdate" ,
+                    path: 'update' ,
+                    component: FolderUpdateCrud
                 }
             ]
         },
