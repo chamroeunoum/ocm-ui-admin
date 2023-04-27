@@ -141,7 +141,7 @@ export default {
       {
           url: '/folder' ,
           icon: 'FolderOpenOutlined' ,
-          name: 'ថតឯកសារ',
+          name: 'ថត',
           roles: [
               1, // Admin
               // 2, // Super
@@ -153,7 +153,7 @@ export default {
       {
           url: '/regulator' ,
           icon: 'DocumentPdf24Regular' ,
-          name: 'លិខិតបទដ្ឋានគតិយុត្ត',
+          name: 'ឯកសារ',
           roles: [
               1, // Admin
               // 2, // Super
