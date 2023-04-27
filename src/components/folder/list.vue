@@ -47,14 +47,14 @@
           <td class="vcb-table-cell" >{{ record.name }}</td>
           <td  class="vcb-table-cell" >{{ authorName( record ) }}</td>
           <td class="vcb-table-actions-panel text-right w-40" >
-            <n-icon size="22" class="cursor-pointer text-blue-500" @click="$router.push('/'+model.name+'/'+record.id+'/detail')" title="ព័ត៌មានលម្អិតរបស់ម្ចាស់គណនី" >
+            <!-- <n-icon size="22" class="cursor-pointer text-blue-500" @click="$router.push('/'+model.name+'/'+record.id+'/detail')" title="ព័ត៌មានលម្អិតរបស់ម្ចាស់គណនី" >
               <ContactCard28Regular />
+            </n-icon> -->
+            <n-icon size="22" class="cursor-pointer text-red-500" @click="deleteFolder(record)" title="លុបគណនីនេះចោល" >
+              <TrashOutline />
             </n-icon>
             <n-icon size="22" class="cursor-pointer text-blue-500" @click="showEditModal(record)" title="កែប្រែព័ត៌មាន" >
               <Edit20Regular />
-            </n-icon>
-            <n-icon size="22" class="cursor-pointer text-red-500" @click="deleteFolder(record)" title="លុបគណនីនេះចោល" >
-              <TrashOutline />
             </n-icon>
             <n-icon size="22" :class="'cursor-pointer ' + ( parseInt( record.active ) == 1 ? ' text-green-500 ' : ' text-gray-500 ') " @click="activateFolder(record)" :title="record.active == 1 ? 'គណនីនេះកំពុងបើកតំណើរការ' : 'គណនីនេះកំពុងត្រូវបានបិទមិនអាចប្រើប្រាស់បាន' " >
               <IosCheckmarkCircleOutline />
@@ -387,6 +387,7 @@ export default {
   }
   .vcb-table {
     @apply w-full ;
+    height: fit-content ;
   }
   .vcb-table tr.vcb-table-row {
     @apply border-b border-gray-100 text-left ;

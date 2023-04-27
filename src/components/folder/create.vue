@@ -118,7 +118,8 @@ export default {
         notify.warning({
           'title' : 'ពិនិត្យព័ត៌មាន' ,
           'description' : 'សូមបំពេញ ឈ្មោះ' ,
-          duration : 3000
+          duration : 3000 ,
+          placement: 'bottom-right',
         })
         return false
       }
@@ -126,7 +127,8 @@ export default {
         notify.warning({
           'title' : 'ពិនិត្យព័ត៌មាន' ,
           'description' : 'ទម្រង់នៃព័ត៌មានមិនទាន់បានកំណត់។' ,
-          duration : 3000
+          duration : 3000 ,
+          placement: 'bottom-right',
         })
         return false
       }
@@ -136,10 +138,11 @@ export default {
       }).then( res => {
         switch( res.status ){
           case 200 : 
-          notify.warning({
+          notify.success({
             'title' : 'រក្សារទុកព័ត៌មាន' ,
             'description' : res.data.message ,
-            duration : 3000
+            duration : 3000 ,
+            placement: 'bottom-right',
           })
           clearRecord()
           props.onClose()
@@ -150,7 +153,8 @@ export default {
         notify.error({
           'title' : 'រក្សារទុកព័ត៌មាន' ,
           'description' : 'មានបញ្ហាក្នុងពេលរក្សារទុកព័ត៌មាន។' ,
-          duration : 3000
+          duration : 3000 ,
+          placement: 'bottom-right',
         })
       })
     }
