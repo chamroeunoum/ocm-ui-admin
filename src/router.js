@@ -22,6 +22,15 @@ import FolderUpdateCrud from './components/folder/update.vue'
 import FolderDetail from './components/folder/detail.vue'
 
 /**
+ * Folder Components
+ */
+import RoleCrud from './components/role/index.vue'
+import RoleListCrud from './components/role/list.vue'
+import RoleCreateCrud from './components/role/create.vue'
+import RoleUpdateCrud from './components/role/update.vue'
+import RoleDetail from './components/role/detail.vue'
+
+/**
  * Regulator Components
  */
  import RegulatorCrud from './components/regulator/index.vue'
@@ -150,6 +159,39 @@ if( !isAdmin() ){
                     name: "FolderUpdate" ,
                     path: 'update' ,
                     component: FolderUpdateCrud
+                }
+            ]
+        },
+        // Role
+        {
+            name: 'Role' ,
+            path: '/role',
+            component: RoleCrud ,
+            meta: { 
+                transition: 'slide-right' ,
+                requiresAuth: true,
+                is_admin : true
+            },
+            children: [
+                {
+                    name: "RoleList" ,
+                    path: '' ,
+                    component: RoleListCrud
+                },
+                {
+                    name: "RoleDetail" ,
+                    path: ':id/detail' ,
+                    component: RoleDetail
+                },
+                {
+                    name: "RoleCreate" ,
+                    path: 'create' ,
+                    component: RoleCreateCrud
+                },
+                {
+                    name: "RoleUpdate" ,
+                    path: 'update' ,
+                    component: RoleUpdateCrud
                 }
             ]
         },

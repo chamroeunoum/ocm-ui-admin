@@ -48,6 +48,7 @@
           <th class="vcb-table-header">កម្មវត្ថុ</th>
           <th class="vcb-table-header">លេខ</th>
           <th class="vcb-table-header w-32">ប្រភេទ</th>
+          <th class="vcb-table-header w-40">ការប្រើប្រាស់</th>
           <th class="vcb-table-header w-24">ថ្ងៃខែឆ្នាំ</th>
           <th class="vcb-table-header w-40">អ្នកបង្កើត</th>
           <th class="vcb-table-header text-right w-40" >ប្រតិបត្តិការ</th>
@@ -57,19 +58,26 @@
           <td class="vcb-table-cell" v-html="applyTagMark(record.objective)" ></td>
           <td  class="vcb-table-cell" >{{ record.fid }}</td>
           <td  class="vcb-table-cell" >{{ record.type.name }}</td>
+          <td  class="vcb-table-cell" >{{ regulatorAccessibilities[ record.accessibility ] }}</td>
           <td class="vcb-table-cell" >{{ record.document_year.slice(0,10) }}</td>
           <td  class="vcb-table-cell" >{{ record.createdBy.lastname + ' ' + record.createdBy.firstname }}</td>
           <td class="vcb-table-actions-panel text-right" >
-            <n-icon size="22" class="cursor-pointer text-blue-500" @click="showEditModal(record)" title="កែប្រែព័ត៌មាន" >
+            <n-icon size="22" class="cursor-pointer text-blue-500 mx-1" @click="showShareRegulatorModal(record)" title="ប្រតិបត្តិការផ្សេងៗ" >
+              <AppsList20Regular />
+            </n-icon>
+            <n-icon size="22" class="cursor-pointer text-blue-500 mx-1" @click="showEditModal(record)" title="កែប្រែព័ត៌មាន" >
               <Edit20Regular />
             </n-icon>
-            <n-icon size="22" class="cursor-pointer text-red-500" @click="destroy(record)" title="លុបគណនីនេះចោល" >
+            <n-icon size="22" class="cursor-pointer text-red-500 mx-1" @click="destroy(record)" title="លុបគណនីនេះចោល" >
               <TrashOutline />
             </n-icon>
-            <n-icon size="22" :class="'cursor-pointer ' + (record.active == 1 ? ' text-green-500 ' : ' text-gray-500 ') " @click="activateRegulator(record)" :title="record.active == 1 ? 'គណនីនេះកំពុងបើកតំណើរការ' : 'គណនីនេះកំពុងត្រូវបានបិទមិនអាចប្រើប្រាស់បាន' " >
+            <n-icon size="22" :class="'cursor-pointer mx-1 ' + (record.active == 1 ? ' text-green-500 ' : ' text-gray-500 ') " @click="activateRegulator(record)" :title="record.active == 1 ? 'ឯកសារនេះកំពុងបើកតំណើរការ' : 'ឯកសារនេះកំពុងត្រូវបានបិទមិនអាចប្រើប្រាស់បាន' " >
               <IosCheckmarkCircleOutline />
             </n-icon>
-            <div v-if="record.pdf" class="cursor-pointer " @click="pdfPreview(record)" title="មើលឯកសារ" alt="មើលឯកសារ" >
+            <n-icon size="22" class="cursor-pointer mx-1  text-green-500" @click="showAccessibilityModal(record)" title="ឯកសារកំពុងបើកជាសាធារណ" >
+              <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 32 32"><path d="M22 14a8 8 0 1 0 8 8a8.01 8.01 0 0 0-8-8zm5.91 7h-1.954a12.03 12.03 0 0 0-1.218-4.332A6.01 6.01 0 0 1 27.91 21zm-7.854 0A10.014 10.014 0 0 1 22 16.015A10.012 10.012 0 0 1 23.945 21zm3.89 2A10.01 10.01 0 0 1 22 27.985A10.012 10.012 0 0 1 20.055 23zm-4.684-6.332A12.027 12.027 0 0 0 18.044 21H16.09a6.01 6.01 0 0 1 3.172-4.332zM16.09 23h1.953a12.027 12.027 0 0 0 1.218 4.332A6.01 6.01 0 0 1 16.09 23zm8.648 4.332A12.024 12.024 0 0 0 25.956 23h1.954a6.009 6.009 0 0 1-3.172 4.332z" fill="currentColor"></path><path d="M6 14h6v2H6z" fill="currentColor"></path><path d="M6 6h12v2H6z" fill="currentColor"></path><path d="M6 10h12v2H6z" fill="currentColor"></path><path d="M6 24h6v2H6z" fill="currentColor"></path><path d="M12 30H4a2.002 2.002 0 0 1-2-2V4a2.002 2.002 0 0 1 2-2h16a2.002 2.002 0 0 1 2 2v8h-2V4H4v24h8z" fill="currentColor"></path></svg>
+            </n-icon>
+            <div v-if="record.pdf" class="cursor-pointer mx-1 " @click="pdfPreview(record)" title="មើលឯកសារ" alt="មើលឯកសារ" >
               <n-icon size="20" class="cursor-pointer text-red-500" >
                 <DocumentPdf24Regular />
               </n-icon>
@@ -123,6 +131,10 @@
     <create-form v-bind:model="model" v-bind:show="createModal.show" :onClose="closeCreateModal"/>
     <!-- Form update account -->
     <update-form v-bind:model="model" v-bind:record="editRecord" v-bind:show="editModal.show" :onClose="closeEditModal"/>
+    <!-- Form Action Menu -->
+    <add-remove-reader-form v-bind:model="model" v-bind:record="regulatorRecord" v-bind:show="regulatorModal.show" :onClose="closeShareRegulatorModal"/>
+    <!-- Form Accessibility -->
+    <accessibility-form v-bind:model="model" v-bind:record="accessibilityRecord" v-bind:show="accessibilityModal.show" :onClose="closeAccessibilityModal"/>
     <!-- PDF Dialog -->
     <div v-if="pdf.viewer" class="table-loading fixed flex h-screen left-0 top-0 right-0 bottom-0 bg-white z-40">
       <vue-pdf-embed :source="pdf.url" class="w-full h-screen overflow-y-scroll" />
@@ -146,12 +158,14 @@ import { Icon } from '@vicons/utils'
 import { IosCheckmarkCircleOutline, IosRefresh } from '@vicons/ionicons4'
 import { TrashOutline, CloseCircleOutline } from '@vicons/ionicons5'
 import { useDialog, useMessage, useNotification } from 'naive-ui'
-import { Edit20Regular, Key16Regular, Save20Regular, Add20Regular, Search20Regular , ContactCard28Regular, DocumentPdf24Regular } from '@vicons/fluent'
+import { Edit20Regular, Key16Regular, Save20Regular, Add20Regular, Search20Regular , ContactCard28Regular, DocumentPdf24Regular, AppsList20Regular } from '@vicons/fluent'
 /**
  * CRUD component form
  */
 import CreateForm from './create.vue'
 import UpdateForm from './update.vue'
+import AddRemoveReaderForm from './actions/addremovereader.vue'
+import AccessibilityForm from './actions/accessibility.vue'
 export default {
   name: "Regulator" ,
   components: {
@@ -175,7 +189,10 @@ export default {
     TrashOutline ,
     ContactCard28Regular ,
     Filter ,
-    VuePdfEmbed
+    VuePdfEmbed ,
+    AppsList20Regular ,
+    AddRemoveReaderForm  ,
+    AccessibilityForm
   },
   setup(){
     var store = useStore()
@@ -189,6 +206,15 @@ export default {
       name: "regulator" ,
       title: "ឯកសារ"
     })
+
+    const regulatorAccessibilities = ref([
+      "បិទទាំងស្រុង" , // 0 
+      "ខ្លួនឯង និង អ្នកដែលចែករំលែកទៅ" , // 1 
+      "ទូទាំងប្រព័ន្ធ" , // 2 
+      "" , // 3 
+      "ជាសកល" , // 4 
+    ])
+
     const table = reactive( {
       loading: false , 
       search: '' ,
@@ -346,6 +372,40 @@ export default {
         }
       })
     }
+    function globalRegulator(record){
+      dialog.warning({
+        title: "បិទ ឬ បើក ឯកសារ" ,
+        content: "តើអ្នកចង់ " + ( record.global_use == 1 ? "បិទ" : "បើក" )+ " ឯកសារនេះជាសាធារណមែនទេ ?" ,
+        positiveText: 'បាទ / ចាស',
+        negativeText: 'ទេ',
+        onPositiveClick: () => {
+          store.dispatch( model.name+'/globalUse',{
+            id:record.id ,
+            global_use : parseInt(record.global_use) > 0 ? 0 : 1
+          }).then( res => {
+            if( res.data.ok ){
+              notify.success({
+                title: 'ស្ថានភាពឯកសារ' ,
+                description: 'ស្ថានភាពឯកសារបានកែប្រែជោគជ័យ។' ,
+                duration: 3000
+              })
+              getRecords()
+            }else{
+              notify.error({
+                title: 'ស្ថានភាពគណនី' ,
+                description: 'មានបញ្ហាក្នុងពេលកែប្រែស្ថានភាពឯកសារ។' ,
+                duration: 3000
+              })
+            }
+          }).catch( err => {
+            message.error( err )
+          })
+        },
+        onNegativeClick: () => {
+          
+        }
+      })
+    }
     /**
      * Create modal handling
      */
@@ -387,6 +447,76 @@ export default {
       editModal.show = false
       getRecords()
     }
+
+    /**
+     * Action Modal
+     */
+    var regulatorModal = reactive({show:false})
+    var regulatorRecord = reactive({
+      id: 0 ,
+      number: "" ,
+      title: "" ,
+      objective: "" ,
+      type_id: null ,
+      year: null ,
+      pdfs: [] ,
+      publish: 0 ,
+      active: 0 ,
+      accessibility: 0
+    })
+
+    function showShareRegulatorModal(record){
+      regulatorRecord.id = record.id
+      regulatorRecord.number = record.fid
+      regulatorRecord.title = record.title
+      regulatorRecord.objective = record.objective
+      regulatorRecord.type_id = record.document_type
+      regulatorRecord.year = new Date( record.document_year ).getTime()
+      regulatorRecord.publish = record.publish
+      regulatorRecord.active = record.active
+      regulatorRecord.accessibility = record.accessibility
+      // actionRecord.pdfs = record.pdf
+      regulatorModal.show = true
+    }
+    function closeShareRegulatorModal(record){
+      regulatorModal.show = false
+      getRecords()
+    }
+
+    /**
+     * Accessibility Modal
+     */
+    var accessibilityModal = reactive({show:false})
+    var accessibilityRecord = reactive({
+      id: 0 ,
+      number: "" ,
+      title: "" ,
+      objective: "" ,
+      type_id: null ,
+      year: null ,
+      pdfs: [] ,
+      publish: 0 ,
+      active: 0 ,
+      accessibility : 0
+    })
+    function showAccessibilityModal(record){
+      accessibilityRecord.id = record.id
+      accessibilityRecord.number = record.fid
+      accessibilityRecord.title = record.title
+      accessibilityRecord.objective = record.objective
+      accessibilityRecord.type_id = record.document_type
+      accessibilityRecord.year = new Date( record.document_year ).getTime()
+      accessibilityRecord.publish = record.publish
+      accessibilityRecord.active = record.active
+      accessibilityRecord.accessibility = record.accessibility
+      // actionRecord.pdfs = record.pdf
+      accessibilityModal.show = true
+    }
+    function closeAccessibilityModal(record){
+      accessibilityModal.show = false
+      getRecords()
+    }
+
     function inputPassword(record){
       changePasswordModal.account = record
       changePasswordModal.form = {
@@ -508,6 +638,7 @@ export default {
       table ,
       filterPanel ,
       pdf,
+      regulatorAccessibilities ,
       /**
        * Table
        */
@@ -538,9 +669,24 @@ export default {
       closeEditModal , 
       editRecord ,
       /**
+       * Actions
+       */
+      regulatorModal ,
+      showShareRegulatorModal ,
+      closeShareRegulatorModal , 
+      regulatorRecord ,
+      /**
+       * Accessibility
+       */
+      accessibilityModal ,
+      showAccessibilityModal ,
+      closeAccessibilityModal ,
+      accessibilityRecord ,
+      /**
        * Functions
        */
       activateRegulator ,
+      globalRegulator ,
       destroy ,
       applyTagMark ,
       pdfPreview ,

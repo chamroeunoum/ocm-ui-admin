@@ -105,6 +105,9 @@ const actions = {
   async deactivate ({ state, commit, rootState },params) {
     return await crud.update(rootState.apiServer+"/"+state.model.name+'/'+params.id+'/deactivate',{})
   },
+  async updateAccessibility ({ state, commit, rootState },params) {
+    return await crud.update(rootState.apiServer+"/"+state.model.name+'/'+params.id+'/accessibility',{mode: params.mode})
+  },
   async childDocument ({ state, commit, rootState },params) {
     return await crud.create(rootState.apiServer+"/orgchart",{
       parent_id : params.parent_id ,
@@ -129,14 +132,26 @@ const actions = {
       image: params.image
     })
   },
-  async updateDocument ({ state, commit, rootState },params) {
-    return await crud.update(rootState.apiServer+"/orgchart/linkdocument",{
-      id : params.id ,
+  // async updateDocument ({ state, commit, rootState },params) {
+  //   return await crud.update(rootState.apiServer+"/orgchart/linkdocument",{
+  //     id : params.id ,
+  //     document_id : params.document_id 
+  //   })
+  // },
+  async pdf ({ state, commit, rootState },params) {
+    return await crud.read(rootState.apiServer+"/"+state.model.name+"/pdf?id="+params.id)
+  },
+  async addReader ({ state, commit, rootState },params) {
+    return await crud.update(rootState.apiServer+"/"+state.model.name+"/addreader",{
+      user_id : params.user_id ,
       document_id : params.document_id 
     })
   },
-  async pdf ({ state, commit, rootState },params) {
-    return await crud.read(rootState.apiServer+"/"+state.model.name+"/pdf?id="+params.id)
+  async removeReader ({ state, commit, rootState },params) {
+    return await crud.update(rootState.apiServer+"/"+state.model.name+"/removereader",{
+      user_id : params.user_id ,
+      document_id : params.document_id 
+    })
   },
 }
 

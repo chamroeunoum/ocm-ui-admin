@@ -8,12 +8,19 @@
             <div class="m-auto mb-2 ">តារាងរចនាសម្ព័ន្ធ</div>
             <div class="m-auto mb-2 font-bold text-lg text-blue-600 " ></div>
         </div> -->
+        <div @click="$router.push('/role')" class="bg-gray-200 rounded border border-gray-100 hover:border-gray-200 hover:bg-gray-100 duration-300 p-8 m-8 cursor-pointer min-w-200">
+            <Icon size="60" class=" m-auto mb-4 h-12" >
+                <SupervisedUserCircleRound />
+            </Icon>
+            <div class="m-auto mb-2 ">តួនាទី</div>
+            <div class="m-auto mb-2 font-bold text-lg text-blue-600 " v-html="totalRoles" ></div>
+        </div>
         <div @click="$router.push('/folder')" class="bg-gray-200 rounded border border-gray-100 hover:border-gray-200 hover:bg-gray-100 duration-300 p-8 m-8 cursor-pointer min-w-200">
             <Icon size="60" class=" m-auto mb-4 h-12" >
                 <FolderOpenOutlined />
             </Icon>
-            <div class="m-auto mb-2 ">ឯកសារ</div>
-            <div class="m-auto mb-2 font-bold text-lg text-blue-600 " v-html="totalRegulators" ></div>
+            <div class="m-auto mb-2 ">ថត</div>
+            <div class="m-auto mb-2 font-bold text-lg text-blue-600 " v-html="totalFolders" ></div>
         </div>
         <div @click="$router.push('/regulator')" class="bg-gray-200 rounded border border-gray-100 hover:border-gray-200 hover:bg-gray-100 duration-300 p-8 m-8 cursor-pointer min-w-200">
             <Icon size="60" class="text-red-700 m-auto mb-4 h-12" >
@@ -37,7 +44,7 @@ import { useDialog, useMessage, useNotification } from 'naive-ui'
 import { DocumentPdf24Regular } from '@vicons/fluent'
 import { PersonCircleOutline } from '@vicons/ionicons5'
 import { ParentChild } from '@vicons/carbon'
-import { FolderOpenOutlined } from  "@vicons/material"
+import { FolderOpenOutlined , SupervisedUserCircleRound } from  "@vicons/material"
 import { ref , reactive, computed } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
@@ -52,6 +59,7 @@ export default {
          * Material
          */
          FolderOpenOutlined ,
+         SupervisedUserCircleRound ,
         /**
          * fluent
          */
@@ -131,15 +139,92 @@ export default {
                 }
             })
         }
+
+        /**
+         * Folder
+         */
+        const folderResponse = ref(null)
+        const totalFolders = computed(() => {
+            return folderResponse.value !== null ? folderResponse.value.pagination.totalRecords : 0 
+        })
+        function getFolders(){
+            store.dispatch('folder/list',{
+                search: '' ,
+                perPage: 10 ,
+                page: 1
+            }).then( res => {
+                if( res.data.ok ){
+                    folderResponse.value = res.data
+                }else{
+                    folderResponse.value = null
+                }
+            }).catch( err => {
+                switch( err.response.status ) {
+                    case 401 :
+                        authLogout()
+                        router.push('/login')
+                        break;
+                    default: 
+                        notify.error({
+                            title: "អានឯកសារគតិយុត្ត" ,
+                            content: "មានបញ្ហាពេលអានឯកសារគតិយុត្ត។" ,
+                            duration: 3000 ,
+                            background: true
+                        })
+                        break;
+                }
+            })
+        }
+
+        /**
+         * Role
+         */
+        const roleResponse = ref(null)
+        const totalRoles = computed(() => {
+            return roleResponse.value !== null ? roleResponse.value.pagination.totalRecords : 0 
+        })
+        function getRoles(){
+            store.dispatch('role/list',{
+                search: '' ,
+                perPage: 10 ,
+                page: 1
+            }).then( res => {
+                if( res.data.ok ){
+                    roleResponse.value = res.data
+                }else{
+                    roleResponse.value = null
+                }
+            }).catch( err => {
+                switch( err.response.status ) {
+                    case 401 :
+                        authLogout()
+                        router.push('/login')
+                        break;
+                    default: 
+                        notify.error({
+                            title: "អានឯកសារគតិយុត្ត" ,
+                            content: "មានបញ្ហាពេលអានឯកសារគតិយុត្ត។" ,
+                            duration: 3000 ,
+                            background: true
+                        })
+                        break;
+                }
+            })
+        }
+
         /**
          * Initial
          */
         getRegulators()
         getAccounts()
+        getFolders()
+        getRoles()
 
         return {
             totalRegulators ,
-            totalAccounts
+            totalAccounts ,
+            totalFolders ,
+            totalRoles
         }
     }
 }
