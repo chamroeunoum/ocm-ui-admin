@@ -6,9 +6,7 @@
       </router-link>
     </div>
     <div class="flex-grow h-12 text-lg leading-10 text-left pl-4 pt-1 font-muol ">ការគ្រប់គ្រងបណ្ដុំឯកសារ</div>
-    <div class="flex-none w-32 h-10 py-1 mr-2 leading-10 text-right">
-      <div class="w-32 ">{{ username }}</div>
-    </div>
+    <div class="flex-none w-96 h-10 py-1 mr-2 leading-10 text-right">{{ username }}</div>
     <div class="flex-none w-12 h-12 cursor-pointer ">
       <div class="w-12 h-12 rounded-full overflow-hidden " @click="$router.push('/profile')" >
         <svg v-if="profilePicture==null" xmlns="http://www.w3.org/2000/svg" class="w-12 h-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
