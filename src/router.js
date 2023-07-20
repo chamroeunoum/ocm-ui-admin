@@ -1,7 +1,7 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
-import { isAdmin, isAuth } from './plugins/authentication'
+import { isBackend , isAuth } from './plugins/authentication'
 import LoginComponent from './layouts/login/index.vue'
-import DashboardComponent from './layouts/dashboard/index.vue'
+import DashboardComponent from './components/main/index.vue'
 import DashboardWidget from './components/main/dashboard.vue'
 /**
  * User Components
@@ -12,6 +12,9 @@ import UserCreateCrud from './components/user/create.vue'
 import UserUpdateCrud from './components/user/update.vue'
 import UserDetail from './components/user/detail.vue'
 
+import ProfileIndex from './components/user/profile/index.vue'
+import ProfileInformation from './components/user/profile/profile.vue'
+
 /**
  * Folder Components
  */
@@ -20,6 +23,7 @@ import FolderListCrud from './components/folder/list.vue'
 import FolderCreateCrud from './components/folder/create.vue'
 import FolderUpdateCrud from './components/folder/update.vue'
 import FolderDetail from './components/folder/detail.vue'
+import FolderRegulatorComponent from './components/folder/regulator.vue'
 
 /**
  * Folder Components
@@ -41,61 +45,74 @@ import RoleDetail from './components/role/detail.vue'
 
 import Orgchart from './components/regulator/orgchart.vue'
 
-/**
- * Client Components
- */
-import ClientCrud from './components/client/index.vue'
-/**
- * Staff Components
- */
-import StaffCrud from './components/staff/index.vue'
+
 /**
  * Error
  */
 import Page404 from './components/errors/404.vue'
 let routes = [] 
-if( !isAdmin() ){
-    routes = [{ 
-        path: '', 
-        redirect: to => {
-            return '/login'
-        }
-    },
-    { 
-        path: '/', 
-        redirect: to => {
-            return '/login'
-        }
-    },
-    {
-        name: 'Login',
-        path: '/login',
-        component: LoginComponent ,
-        meta: {
-            transition: 'slide-left'
-        }
-    },
-    /**
-     * Dashboard
-     */
-    {
-        name: "Dashboard" ,
-        path: '/dashboard',
-        component: DashboardComponent,
-        meta: {
-            transition: 'slide-left' ,
-            requiresAuth: true,
-            is_admin : true
-        },
-        children: [{
-            name: 'DashboardWidgets' ,
-            path: '',
-            component: DashboardWidget ,
-            meta : {
-                transition: 'slide-left' ,
-                requiresAuth: true ,
-                is_admin : true
+if( isBackend() ){
+    routes = [
+        {
+            name: 'LoginRedirect',
+            path: '/login',
+            redirect: to => {
+                return ''
             }
+        },
+        {
+            name: 'DashboardRedirect',
+            path: '/dashboard',
+            redirect: to => {
+                return ''
+            }
+        },
+        /**
+         * Dashboard
+         */
+        {
+            name: "DashboardPage" ,
+            path: '',
+            component: DashboardComponent,
+            meta: {
+                transition: 'slide-left' ,
+                requiresAuth: true,
+                is_admin : true
+            },
+            children: [
+                {
+                    name: 'DashboardWidgets' ,
+                    path: '',
+                    component: DashboardWidget ,
+                    meta : {
+                        transition: 'slide-left' ,
+                        requiresAuth: true ,
+                        is_admin : true
+                    }
+                }
+            ]
+        },
+        {
+            name: "UserProfile" ,
+            path: '/profile' ,
+            component: ProfileIndex ,
+            meta: { 
+                transition: 'slide-right' ,
+                requiresAuth: true,
+                is_admin : true
+            },
+            children:[
+              {
+                name: "ProfileInformation" ,
+                path: '' ,
+                component: ProfileInformation ,
+                meta: { 
+                    transition: 'slide-right' ,
+                    requiresAuth: true,
+                    is_admin : true
+                },
+              }  
+            ]
         },
         {
             name: 'User' ,
@@ -159,7 +176,12 @@ if( !isAdmin() ){
                     name: "FolderUpdate" ,
                     path: 'update' ,
                     component: FolderUpdateCrud
-                }
+                },
+                {
+                    name: "FolderRegulators" ,
+                    path: ':id/regulators' ,
+                    component: FolderRegulatorComponent
+                },
             ]
         },
         // Role
@@ -170,7 +192,7 @@ if( !isAdmin() ){
             meta: { 
                 transition: 'slide-right' ,
                 requiresAuth: true,
-                is_admin : true
+                is_admin : true 
             },
             children: [
                 {
@@ -223,56 +245,40 @@ if( !isAdmin() ){
                 },
             ]
         },
-        {
-            name: 'RegulatorOrgchart' ,
-            path: '/orgchart' ,
-            component: Orgchart
-        }],
-    }]
+        // {
+        //     name: 'RegulatorOrgchart' ,
+        //     path: '/orgchart' ,
+        //     component: Orgchart ,
+        //     meta: { 
+        //         transition: 'slide-right' ,
+        //         requiresAuth: true,
+        //         is_admin : true
+        //     }
+        // }
+    ]
 }else{
-    routes = [{ 
-        path: '', 
-        redirect: to => {
-            return '/login'
-        }
-    },
-    { 
-        path: '/', 
-        redirect: to => {
-            return '/login'
-        }
-    },
-    {
-        name: 'Login',
-        path: '/login',
-        component: LoginComponent ,
-        meta: {
-            transition: 'slide-left'
-        }
-    },
-    /**
-     * Dashboard
-     */
-    {
-        name: "Dashboard" ,
-        path: '/dashboard',
-        component: DashboardComponent,
-        meta: {
-            transition: 'slide-left' ,
-            requiresAuth: true,
-            is_admin : true
-        },
-        children: [{
-            name: 'DashboardWidgets' ,
-            path: '',
-            component: DashboardWidget ,
-            meta : {
-                transition: 'slide-left' ,
-                requiresAuth: true ,
-                is_admin : true
+    routes = [
+        {
+            path: '', 
+            redirect: to => {
+                return '/login'
             }
-        }]
-    }]
+        },
+        { 
+            path: '/', 
+            redirect: to => {
+                return '/login'
+            }
+        },
+        {
+            name: 'Login',
+            path: '/login',
+            component: LoginComponent ,
+            meta: {
+                transition: 'slide-left'
+            }
+        }
+    ]
 }
 
 const router = createRouter({
@@ -282,38 +288,22 @@ const router = createRouter({
 
 // Meta Handling
 router.beforeEach((to, from, next) => {
-    if (to.path !== '/login' && !isAuth() ){
-        if( to.path.includes('/readpackage') ) next()
-        else{
-            next({ path: '/login' })
+    next()
+})
+router.beforeResolve(async to => {
+    if (to.meta.requiresCamera) {
+        try {
+        await askForCameraPermission()
+        } catch (error) {
+        if (error instanceof NotAllowedError) {
+            // ... handle the error and then cancel the navigation
+            return false
+        } else {
+            // unexpected error, cancel the navigation and pass the error to the global handler
+            throw error
+        }
         }
     }
-    else if (to.path == '/login' && isAuth() ) {
-        next({ path: '/dashboard' })
-        // if( isAdmin() ){
-        //     next({ path: '/dashboard' })
-        // }else{
-        //     next({ path: '/receive' })
-        // }
-    }
-    else {
-        next()
-    }
 })
-// .beforeResolve(async to => {
-//     if (to.meta.requiresCamera) {
-//         try {
-//         await askForCameraPermission()
-//         } catch (error) {
-//         if (error instanceof NotAllowedError) {
-//             // ... handle the error and then cancel the navigation
-//             return false
-//         } else {
-//             // unexpected error, cancel the navigation and pass the error to the global handler
-//             throw error
-//         }
-//         }
-//     }
-// })
 
 export default router

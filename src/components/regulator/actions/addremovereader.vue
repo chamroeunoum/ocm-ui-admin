@@ -29,7 +29,7 @@
                 <img :src="user.avatar_url != '' && user.avatar_url != null ? user.avatar_url : '/src/assets/logo.png' " class="w-full mx-auto" />
               </div> 
               <div class="font-bold absolute left-2 top-2 " >{{ index + 1 }}</div>
-              <div v-if="user.regulators!=undefined" class="absolute right-2 top-2 " >
+              <div v-if="isShared(user)" class="absolute right-2 top-2 " >
                 <svg class="text-green-500 w-8" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24"><path d="M9 16.17L5.53 12.7a.996.996 0 1 0-1.41 1.41l4.18 4.18c.39.39 1.02.39 1.41 0L20.29 7.71a.996.996 0 1 0-1.41-1.41L9 16.17z" fill="currentColor"></path></svg>
               </div>
               <div class="my-1 w-1/2" >
@@ -330,6 +330,13 @@ export default {
       })
     }
 
+    function isShared(user){
+      if( user.regulators != undefined && Array.isArray( user.regulators ) && user.regulators.length ){
+        return user.regulators.find( r => r.id == props.record.id ) != undefined ? true : false
+      }
+      return false 
+    }
+
     function initial(){
       /**
        * Clear listing conditions before load the users at initial state
@@ -366,6 +373,7 @@ export default {
       showTableLoading ,
       addReader ,
       removeReader ,
+      isShared ,
       /**
        * Initial function
        */

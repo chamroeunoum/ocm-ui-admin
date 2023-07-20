@@ -45,7 +45,45 @@ const actions = {
   },
   async activate({state, commit, rootState}, params){
     return await crud.update(rootState.apiServer+"/"+state.model.name+"/activate",params)
-  }
+  },
+  async regulators ({ state, commit, rootState },params) {
+    return await crud.read(rootState.apiServer+"/"+state.model.name+"/regulators"+ "?" + new URLSearchParams({
+      folder_id: params.id ,
+      search: params.search ,
+      perPage: params.perPage ,
+      page: params.page
+    }).toString(),
+    null,
+    true
+  )},
+  async addRegulator ({ state, commit, rootState },params) {
+    return await crud.update(rootState.apiServer+"/"+state.model.name+"/regulators/add",params)
+  },
+  async removeRegulator ({ state, commit, rootState },params) {
+    return await crud.update(rootState.apiServer+"/"+state.model.name+"/regulators/remove",params)
+  },
+  async ofUser ({ state, commit, rootState },params) {
+    return await crud.read(rootState.apiServer+"/"+state.model.name+"/user"+ "?" + new URLSearchParams({
+      search: params.search ,
+      perPage: params.perPage ,
+      page: params.page
+    }).toString(),
+    null,
+    true
+  )},
+  async listDocumentWithValidation ({ state, commit, rootState },params) {
+    return await crud.read(rootState.apiServer+"/"+state.model.name+"/list/document/validation"+ "?" + new URLSearchParams({
+      search: params.search ,
+      perPage: params.perPage ,
+      page: params.page ,
+      document_id : params.document_id
+    }).toString(),
+    null,
+    true
+  )},
+  async updateAccessibility ({ state, commit, rootState },params) {
+    return await crud.update(rootState.apiServer+"/"+state.model.name+'/'+params.id+'/accessibility',{mode: params.mode})
+  },
 }
 
 // mutations

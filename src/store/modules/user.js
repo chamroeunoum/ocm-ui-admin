@@ -40,6 +40,9 @@ const actions = {
   async update ({ state, commit, rootState },params) {
     return await crud.update(rootState.apiServer+"/"+state.model.name+"/update",params)
   },
+  async updateAuth ({ state, commit, rootState },params) {
+    return await crud.update(rootState.apiServer+"/"+state.model.name+"/authenticated",params)
+  },
   async passwordChange ({ state, commit, rootState },params) {
     return await crud.update(rootState.apiServer+"/"+state.model.name+"/password/change",params)
   },
@@ -57,7 +60,10 @@ const actions = {
   },
   async activate({state, commit, rootState}, params){
     return await crud.update(rootState.apiServer+"/"+state.model.name+"/activate",params)
-  }
+  },
+  async upload({ state, commit, rootState },formData) {    
+    return await crud.upload(rootState.apiServer+"/"+state.model.name+"/upload",formData)
+  },
 }
 
 // mutations

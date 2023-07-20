@@ -8,10 +8,7 @@
   <n-message-provider>
   <n-notification-provider placement="bottom-right" >
     <router-view v-slot="{ Component, route }">
-      <!-- Use any custom transition and fallback to `fade` -->
-      <transition :name="route.meta.transition || 'fade'">
-        <component :is="Component" />
-      </transition>
+      <component :is="Component" />
     </router-view>
   </n-notification-provider>
   </n-message-provider>
@@ -23,7 +20,7 @@ export default {
   }
 }
 </script>
-<style>
+<style scoped>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

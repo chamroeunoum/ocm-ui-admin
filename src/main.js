@@ -1,4 +1,3 @@
-import * as d3 from 'd3'
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 
@@ -7,13 +6,7 @@ import VueAxios from 'vue-axios'
 
 import VueQrcodeReader from "vue3-qrcode-reader";
 
-import Vant from 'vant';
-import 'vant/lib/index.css';
-
 import NaiveUI from 'naive-ui'
-
-import VueToast from 'vue-toast-notification';
-import 'vue-toast-notification/dist/theme-sugar.css';
 
 import App from './App.vue'
 
@@ -47,9 +40,6 @@ app.use(VueAxios, axios)
 app.provide('axios', app.config.globalProperties.axios) 
 app.use(VueQrcodeReader)
 app.use(router)
-app.use(d3)
-app.use(Vant)
-app.use(VueToast)
 app.use(NaiveUI)
 app.use(HtmlToPaper)
 app.mount('#app')

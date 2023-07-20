@@ -1,5 +1,6 @@
 export const authLogout = () => {
   try {
+
     localStorage.removeItem('token')
     localStorage.removeItem('user')
   } catch (error) {
@@ -65,9 +66,30 @@ export const getUser = () => {
 export const setUser = (user) => {
   localStorage.setItem('user',JSON.stringify(user));
 }
+export const isBackend = () => {
+  let admin = getUser()
+  if( isAuth() && admin !== null && admin.roles.find(r=>r.id==1 || r.id==2 || r.id==3) != undefined ){
+    return true 
+  }
+  return false
+}
 export const isAdmin = () => {
   let admin = getUser()
-  if( isAuth() && admin !== null && admin.role == 1 ){
+  if( isAuth() && admin !== null && admin.roles.find(r=>r.id==1) != undefined ){
+    return true 
+  }
+  return false
+}
+export const isSuper = () => {
+  let admin = getUser()
+  if( isAuth() && admin !== null && admin.roles.find(r=>r.id==2) != undefined ){
+    return true 
+  }
+  return false
+}
+export const isMember = () => {
+  let admin = getUser()
+  if( isAuth() && admin !== null && admin.roles.find(r=>r.id==3) != undefined ){
     return true 
   }
   return false

@@ -1,10 +1,10 @@
 <template>
   <div class="flex justify-center">
-    <div class="w-full mx-8 sm:w-1/2 md:w-96 lg:w-96 xl:96 p-8 mt-24 border rounded">
+    <div class="w-full mx-8 sm:w-1/2 md:w-96 lg:w-96 xl:96 p-8 mt-24 ">
       <div class="w-28 mx-auto my-4">
         <img src="./../../assets/logo.png" alt="SASTRA Logo" class="w-full" >
       </div>
-      <div class="w-full mx-auto mt-4 mb-8 text-lg ">ការគ្រប់គ្រងបណ្ដំឯកសារ</div>
+      <div class="w-full mx-auto mt-4 mb-12 text-lg ">ការគ្រប់គ្រងបណ្ដំឯកសារ</div>
       <div class="w-full mx-auto my-4 text-left text-md">ចូលប្រព័ន្ធ</div>
       <n-space vertical>
         <n-input round 
@@ -33,7 +33,7 @@
           </template>
         </n-input>
       </n-space>
-      <div class="w-full mt-4">
+      <div class="w-full mt-12">
         <n-button :loading="loading" @click="funcLogin" type="success" class="w-48"  >
           ចូល
           <template #icon>
@@ -43,7 +43,7 @@
           </template>
         </n-button>
       </div>
-      <div class="mt-16">
+      <div class="fixed bottom-0 left-0 right-0">
         <FooterComponent />
       </div>
     </div>
@@ -89,7 +89,7 @@ export default {
       if( credentials.email == "" || credentials.email == null ){
         notification.warning({
           title: "ព័ត៌មានមិនគ្រប់គ្រាន់" ,
-          duration: 3000 ,
+          duration: 1000 ,
           content: "សូមបញ្ចូលអ៊ីមែលរបស់អ្នក រួចព្យាយាមម្ដងទៀត បាទ។"
         })
         return false
@@ -97,7 +97,7 @@ export default {
       if( credentials.password == "" || credentials.password == null ){
         notification.warning({
           title: "ព័ត៌មានមិនគ្រប់គ្រាន់" ,
-          duration: 3000 ,
+          duration: 1000 ,
           content: "សូមបញ្ចូលពាក្យសម្ងាត់របស់អ្នក រួចព្យាយាមម្ដងទៀត បាទ។"
         })
         return false
@@ -119,17 +119,18 @@ export default {
           notification.success({
             title: "ចូលប្រព័ន្ធ " ,
             content: "សួស្ដី, " + res.data.record.lastname + ' ' + res.data.record.firstname ,
-            duration: 3000,
+            duration: 1000,
             closable: false
           })
-          router.push('/dashboard')
-          // if( res.data.user.role == 1 ){
-          //   this.$router.push('/dashboard')
-          // }else{
-          //   this.$router.push('/receive')
-          // }
+          console.log( res.data )
+          window.location.reload()
         }else{
-          notification.warning(res.data.message)
+          notification.warning({
+            title: "ចូលប្រព័ន្ធ " ,
+            content: res.data.message ,
+            duration: 1000,
+            closable: false
+          })
         }
         loading.value = false
       }).catch( err => {

@@ -18,6 +18,8 @@
             <div class=" mx-auto p-4 flex-wrap">
               <div class="crud-form-panel w-full flex flex-wrap ">
                 <n-form 
+                  :id="model.name"
+                  :name="model.name"
                   class="w-full text-left font-btb text-lg flex flex-wrap" 
                   :label-width="80"
                   :model="record"

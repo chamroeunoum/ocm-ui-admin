@@ -1,42 +1,46 @@
 <template >
-    <div class="w-full h-12 leading-10 font-muol text-lg border-b border-gray-200" >សង្ខេបព័ត៌មាន</div>
-    <div class="flex flex-wrap justify-center p-8">
-        <!-- <div @click="$router.push('/orgchart')" class="bg-gray-200 rounded border border-gray-100 hover:border-gray-200 hover:bg-gray-100 duration-300 p-8 m-8 cursor-pointer min-w-200">
-            <Icon size="60" class=" m-auto mb-4 h-12" >
-                <ParentChild />
-            </Icon>
-            <div class="m-auto mb-2 ">តារាងរចនាសម្ព័ន្ធ</div>
-            <div class="m-auto mb-2 font-bold text-lg text-blue-600 " ></div>
-        </div> -->
-        <div @click="$router.push('/role')" class="bg-gray-200 rounded border border-gray-100 hover:border-gray-200 hover:bg-gray-100 duration-300 p-8 m-8 cursor-pointer min-w-200">
-            <Icon size="60" class=" m-auto mb-4 h-12" >
-                <SupervisedUserCircleRound />
-            </Icon>
-            <div class="m-auto mb-2 ">តួនាទី</div>
-            <div class="m-auto mb-2 font-bold text-lg text-blue-600 " v-html="totalRoles" ></div>
+    <!-- <Transition name="fade" > -->
+        <div v-if="toggleDashboardWidgets" >
+            <div class="w-full h-12 leading-10 font-muol text-lg border-b border-gray-200" >សង្ខេបព័ត៌មាន</div>
+            <div class="flex flex-wrap justify-center p-8">
+                <!-- <div @click="$router.push('/orgchart')" class="bg-gray-200 rounded border border-gray-100 hover:border-gray-200 hover:bg-gray-100 duration-300 p-8 m-8 cursor-pointer min-w-200">
+                    <Icon size="60" class=" m-auto mb-4 h-12" >
+                        <ParentChild />
+                    </Icon>
+                    <div class="m-auto mb-2 ">តារាងរចនាសម្ព័ន្ធ</div>
+                    <div class="m-auto mb-2 font-bold text-lg text-blue-600 " ></div>
+                </div> -->
+                <div @click="$router.push('/regulator')" class="bg-gray-200 rounded border border-gray-100 hover:border-gray-200 hover:bg-gray-100 duration-300 p-8 m-8 cursor-pointer min-w-200">
+                    <Icon size="60" class="text-red-700 m-auto mb-4 h-12" >
+                        <DocumentPdf24Regular />
+                    </Icon>
+                    <div class="m-auto mb-2 ">ឯកសារ</div>
+                    <div class="m-auto mb-2 font-bold text-lg text-blue-600 " v-html="totalRegulators" ></div>
+                </div>
+                <div @click="$router.push('/folder')" class="bg-gray-200 rounded border border-gray-100 hover:border-gray-200 hover:bg-gray-100 duration-300 p-8 m-8 cursor-pointer min-w-200">
+                    <Icon size="60" class=" m-auto mb-4 h-12" >
+                        <FolderOpenOutlined />
+                    </Icon>
+                    <div class="m-auto mb-2 ">ថត</div>
+                    <div class="m-auto mb-2 font-bold text-lg text-blue-600 " v-html="totalFolders" ></div>
+                </div>
+                <div v-if="isBackendManagement()" @click="$router.push('/user')" class="bg-gray-200 rounded border border-gray-100 hover:border-gray-200 hover:bg-gray-100 duration-300 p-8 m-8 cursor-pointer min-w-200">
+                    <Icon size="60" class=" m-auto mb-4 h-12" >
+                        <PersonCircleOutline />
+                    </Icon>
+                    <div class="m-auto mb-2 ">គណនី</div>
+                    <div class="m-auto mb-2 font-bold text-lg text-blue-600 " v-html="totalAccounts" ></div>
+                </div>
+                <div v-if="isBackendManagement()" @click="$router.push('/role')" class="bg-gray-200 rounded border border-gray-100 hover:border-gray-200 hover:bg-gray-100 duration-300 p-8 m-8 cursor-pointer min-w-200">
+                    <Icon size="60" class=" m-auto mb-4 h-12" >
+                        <SupervisedUserCircleRound />
+                    </Icon>
+                    <div class="m-auto mb-2 ">តួនាទី</div>
+                    <div class="m-auto mb-2 font-bold text-lg text-blue-600 " v-html="totalRoles" ></div>
+                </div>
+            </div>
         </div>
-        <div @click="$router.push('/folder')" class="bg-gray-200 rounded border border-gray-100 hover:border-gray-200 hover:bg-gray-100 duration-300 p-8 m-8 cursor-pointer min-w-200">
-            <Icon size="60" class=" m-auto mb-4 h-12" >
-                <FolderOpenOutlined />
-            </Icon>
-            <div class="m-auto mb-2 ">ថត</div>
-            <div class="m-auto mb-2 font-bold text-lg text-blue-600 " v-html="totalFolders" ></div>
-        </div>
-        <div @click="$router.push('/regulator')" class="bg-gray-200 rounded border border-gray-100 hover:border-gray-200 hover:bg-gray-100 duration-300 p-8 m-8 cursor-pointer min-w-200">
-            <Icon size="60" class="text-red-700 m-auto mb-4 h-12" >
-                <DocumentPdf24Regular />
-            </Icon>
-            <div class="m-auto mb-2 ">ឯកសារ</div>
-            <div class="m-auto mb-2 font-bold text-lg text-blue-600 " v-html="totalRegulators" ></div>
-        </div>
-        <div @click="$router.push('/user')" class="bg-gray-200 rounded border border-gray-100 hover:border-gray-200 hover:bg-gray-100 duration-300 p-8 m-8 cursor-pointer min-w-200">
-            <Icon size="60" class=" m-auto mb-4 h-12" >
-                <PersonCircleOutline />
-            </Icon>
-            <div class="m-auto mb-2 ">គណនី</div>
-            <div class="m-auto mb-2 font-bold text-lg text-blue-600 " v-html="totalAccounts" ></div>
-        </div>
-    </div>
+    <!-- </Transition> -->
 </template>
 <script >
 import { Icon } from '@vicons/utils'
@@ -45,10 +49,10 @@ import { DocumentPdf24Regular } from '@vicons/fluent'
 import { PersonCircleOutline } from '@vicons/ionicons5'
 import { ParentChild } from '@vicons/carbon'
 import { FolderOpenOutlined , SupervisedUserCircleRound } from  "@vicons/material"
-import { ref , reactive, computed } from 'vue'
+import { ref , reactive, computed, onMounted } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
-import { authLogout } from './../../plugins/authentication'
+import { authLogout, isAdmin , isSuper } from './../../plugins/authentication'
 
 
 export default {
@@ -211,6 +215,14 @@ export default {
                 }
             })
         }
+        const toggleDashboardWidgets = ref(false)
+        onMounted( () => {
+            toggleDashboardWidgets.value = true
+        })
+
+        function isBackendManagement(){
+            return isAdmin() || isSuper()
+        }
 
         /**
          * Initial
@@ -224,11 +236,22 @@ export default {
             totalRegulators ,
             totalAccounts ,
             totalFolders ,
-            totalRoles
+            totalRoles ,
+            toggleDashboardWidgets ,
+            isBackendManagement
         }
     }
 }
 </script>
 <style scoped>
-    
+/* we will explain what these classes do next! */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.2s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
 </style>

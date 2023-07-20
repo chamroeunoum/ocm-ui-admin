@@ -20,7 +20,7 @@
             បន្ថែម
           </n-button>
         </div>
-        <div class="w-2/5 relative" >
+        <div v-if="Array.isArray( table.records.matched ) && table.records.matched.length > 0 " class="w-2/5 relative" >
           <input type="text" @keypress.enter="filterRecords(false)" v-model="table.search" class="bg-gray-100 px-2 h-9 my-1 w-full rounded border border-gray-200 focus:border-blue-600 hover:border-blue-600 " placeholder="ស្វែងរក" />
           <Icon size="27" class="absolute right-1 top-2 text-gray-400 hover:text-blue-700 cursor-pointer" @click="filterRecords(false)" >
             <n-icon>
@@ -35,31 +35,33 @@
     </div>
     <!-- Table of crud -->
     <div class="vcb-table-panel relative">
-      <table class="vcb-table" >
-        <tr class="vcb-table-headers" >
-          <th class="vcb-table-header" >ល.រ</th>
-          <th class="vcb-table-header">ឈ្មោះ</th>
-          <th class="vcb-table-header text-right w-40" >ប្រតិបត្តិការ</th>
-        </tr>
-        <tr v-for="(record, index) in table.records.matched" :key='index' class="vcb-table-row" >
-          <td class="vcb-table-cell font-bold" >{{ index + 1 }}</td>
-          <td class="vcb-table-cell" >{{ record.name }}</td>
-          <td class="vcb-table-actions-panel text-right w-40" >
-            <!-- <n-icon size="22" class="cursor-pointer text-blue-500" @click="$router.push('/'+model.name+'/'+record.id+'/detail')" title="ព័ត៌មានលម្អិតរបស់ម្ចាស់គណនី" >
-              <ContactCard28Regular />
-            </n-icon> -->
-            <n-icon size="22" class="cursor-pointer text-red-500" @click="deleteFolder(record)" title="លុបគណនីនេះចោល" >
-              <TrashOutline />
-            </n-icon>
-            <n-icon size="22" class="cursor-pointer text-blue-500" @click="showEditModal(record)" title="កែប្រែព័ត៌មាន" >
-              <Edit20Regular />
-            </n-icon>
-            <!-- <n-icon size="22" :class="'cursor-pointer ' + ( parseInt( record.active ) == 1 ? ' text-green-500 ' : ' text-gray-500 ') " @click="activateFolder(record)" :title="record.active == 1 ? 'គណនីនេះកំពុងបើកតំណើរការ' : 'គណនីនេះកំពុងត្រូវបានបិទមិនអាចប្រើប្រាស់បាន' " >
-              <IosCheckmarkCircleOutline />
-            </n-icon> -->
-          </td>
-        </tr>
-      </table>
+      <Transition name="fade" >
+        <table v-if="Array.isArray( table.records.matched ) && table.records.matched.length > 0 " class="vcb-table" >
+          <tr class="vcb-table-headers" >
+            <th class="vcb-table-header w-20" >ល.រ</th>
+            <th class="vcb-table-header">ឈ្មោះ</th>
+            <th class="vcb-table-header text-right w-40" >ប្រតិបត្តិការ</th>
+          </tr>
+          <tr v-for="(record, index) in table.records.matched" :key='index' class="vcb-table-row" >
+            <td class="vcb-table-cell font-bold" >{{ index + 1 }}</td>
+            <td class="vcb-table-cell" >{{ record.name }}</td>
+            <td class="vcb-table-actions-panel text-right w-40" >
+              <!-- <n-icon size="22" class="cursor-pointer text-blue-500" @click="$router.push('/'+model.name+'/'+record.id+'/detail')" title="ព័ត៌មានលម្អិតរបស់ម្ចាស់គណនី" >
+                <ContactCard28Regular />
+              </n-icon> -->
+              <n-icon size="22" class="cursor-pointer text-red-500" @click="deleteFolder(record)" title="លុបគណនីនេះចោល" >
+                <TrashOutline />
+              </n-icon>
+              <n-icon size="22" class="cursor-pointer text-blue-500" @click="showEditModal(record)" title="កែប្រែព័ត៌មាន" >
+                <Edit20Regular />
+              </n-icon>
+              <!-- <n-icon size="22" :class="'cursor-pointer ' + ( parseInt( record.active ) == 1 ? ' text-green-500 ' : ' text-gray-500 ') " @click="activateFolder(record)" :title="record.active == 1 ? 'គណនីនេះកំពុងបើកតំណើរការ' : 'គណនីនេះកំពុងត្រូវបានបិទមិនអាចប្រើប្រាស់បាន' " >
+                <IosCheckmarkCircleOutline />
+              </n-icon> -->
+            </td>
+          </tr>
+        </table>
+      </Transition>
       <!-- Loading -->
       <div v-if="table.loading" class="table-loading absolute left-0 top-0 right-0 bottom-0 bg-white bg-opacity-75 ">
         <div class="spinner mt-24">
@@ -410,5 +412,15 @@ export default {
   }
   .vcb-pagination-page {
     @apply  rounded-full border border-gray-200 mx-1 leading-7 w-8 h-8 font-bold cursor-pointer hover:text-blue-500 hover:border-blue-500 duration-300;
+  }
+  
+  .fade-enter-active,
+  .fade-leave-active {
+    transition: opacity 0.5s ease;
+  }
+
+  .fade-enter-from,
+  .fade-leave-to {
+    opacity: 0;
   }
 </style>

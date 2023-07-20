@@ -11,31 +11,29 @@
     <Topmenu />
   </div>
 </template>
-
-<script>
-import Topmenu from './../../components/menu/topmenu.vue'
-import Dock from './dock.vue'
+<script >
+import Topmenu from './../../menu/topmenu.vue'
+import Dock from './../../widgets/dock.vue'
 export default {
     components: { 
       Topmenu ,
       Dock
     },
     setup() {
-      return {
-      };
+      return {}
     },
-    name: "DashboardPage", 
+    name: "RolePage", 
     data() {
         return {};
     },
     computed: {},
     mounted() {
     },
-    methods: {},
+    methods: {}
 }
 </script>
 <style scoped>
-/* we will explain what these classes do next! */
+
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 0.2s ease;
