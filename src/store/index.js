@@ -14,7 +14,8 @@ const debug = process.env.NODE_ENV !== 'production'
 export default createStore({
   state: {
     // apiServer: 'http://127.0.0.1:8000/api/admin' ,
-    apiServer: 'http://edocservice.sctthaicambodia.com/api/admin'
+    // apiServer: 'http://edocservice.sctthaicambodia.com/api/admin'
+    apiServer: 'https://ns2.ocm.gov.kh/api/admin' ,
   },
   modules: {
     // product ,
