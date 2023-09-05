@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full h-min-screen ">
+  <div class="w-full relative">
     <div class="flex title-bar border-b border-gray-200">
       <!-- Title of crud -->
       <div class="flex w-64 h-10 py-1 title " >
@@ -28,9 +28,9 @@
 
       <button @click='chart.setExpanded("1",false).render()' class="simptip-position-bottom border border-gray-300 py-2 px-4 rounded m-2 " >Collapse 1</button>
 
-      <button @click='chart.addNode({id:"5",pid:"1",name:"ក្រសួងថ្មី",imageUrl:"https://scontent.fpnh11-1.fna.fbcdn.net/v/t39.30808-1/272989966_243037994668044_1336394919081446684_n.jpg?stp=dst-jpg_p200x200&_nc_cat=101&ccb=1-7&_nc_sid=c6021c&_nc_ohc=YFBkZNzaqLkAX-WexVW&_nc_ht=scontent.fpnh11-1.fna&oh=00_AfBWCY8Gms9RVLWbKvQlJsdtlOZvVFjs32HHnQlFRixw3g&oe=639809C4"})' class="simptip-position-bottom border border-gray-300 py-2 px-4 rounded m-2 " >Add node as roots' child</button>
+      <button @click='chart.addNode({id:"5",parentId:"1",name:"ក្រសួងថ្មី",image:"https://scontent.fpnh11-1.fna.fbcdn.net/v/t39.30808-1/272989966_243037994668044_1336394919081446684_n.jpg?stp=dst-jpg_p200x200&_nc_cat=101&ccb=1-7&_nc_sid=c6021c&_nc_ohc=YFBkZNzaqLkAX-WexVW&_nc_ht=scontent.fpnh11-1.fna&oh=00_AfBWCY8Gms9RVLWbKvQlJsdtlOZvVFjs32HHnQlFRixw3g&oe=639809C4"})' class="simptip-position-bottom border border-gray-300 py-2 px-4 rounded m-2 " >Add node as roots' child</button>
       
-      <button @click='chart.addNode({id:"6",pid:"1",name:"ក្រសួងថ្មី ១",_centered:true})' class="simptip-position-bottom border border-gray-300 py-2 px-4 rounded m-2 " >Insert node at 5-th to 1</button>
+      <button @click='chart.addNode({id:"6",parentId:"1",name:"ក្រសួងថ្មី ១",_centered:true})' class="simptip-position-bottom border border-gray-300 py-2 px-4 rounded m-2 " >Insert node at 5-th to 1</button>
 
       <button @click='chart.removeNode("2")' class="simptip-position-bottom border border-gray-300 py-2 px-4 rounded m-2 " >Remove 2</button>
 
@@ -69,7 +69,7 @@
         src="https://bumbeishvili.github.io/d3-tooltip/forkme.png" alt="Fork me on GitHub">
     </a> -->
     <!-- Chart -->
-    <div class="chart-container " style=" padding-top:10px;  height:1200px ;"> </div>
+    <div class="chart-container border " > </div>
     <!-- Naive Drawer for child creation -->
     <n-drawer v-model:show="drawerHelper" :width="480" :resizable="true" placement="right" >
       <n-drawer-content closable>
@@ -81,19 +81,19 @@
         <div class="my-4 " >ឈ្មោះ</div>
         <n-input v-model:value="selectedNode.name" />
         <div class="my-4 " >ព័ត៌មានអំពីអង្គភាព</div>
-        <n-input type="textarea" v-model:value="selectedNode.desc" placeholder="ព័ត៌មានអំពីអង្គភាព" />
+        <n-input type="textarea" v-model:value="selectedNode.desp" placeholder="ព័ត៌មានអំពីអង្គភាព" />
         <n-button class="mt-4"  @click="update()" >កែប្រែព័ត៌មាន</n-button>
-        <div class="border-b border-gray-200 my-8  "></div>
+        <!-- <div class="border-b border-gray-200 my-8  "></div>
         <div class="border-b border-gray-200 my-4 " >ឯកសារគតិយុត្តរបស់អង្គភាព (ជាមេ)</div>
         <div class="my-4 " >សូមជ្រើសរើសឯកសារគតិយុត្ត</div>
         <n-input v-model:value="selectedNode.name" />
-        <n-button class="mt-4"  @click="linkRegulator()" >ភ្ជាប់ឯកសារ</n-button>
+        <n-button class="mt-4"  @click="linkRegulator()" >ភ្ជាប់ឯកសារ</n-button> -->
         <div class="border-b border-gray-200 my-8  "></div>
         <!-- Input of the name of the node -->
         <div class="border-b border-gray-200 my-4 " >បញ្ចូលអង្គភាពក្រោម</div>
-        <n-input placeholder="សូមបញ្ចូលឈ្មោះ" v-model:value="nodeVal.name" />
+        <n-input placeholder="សូមបញ្ចូលឈ្មោះ" v-model:value="childNode.name" />
         <div class="my-4 " >ព័ត៌មានអំពីអង្គភាព</div>
-        <n-input type="textarea" v-model:value="nodeVal.desc" placeholder="ព័ត៌មានអំពីអង្គភាព" />
+        <n-input type="textarea" v-model:value="childNode.desp" placeholder="ព័ត៌មានអំពីអង្គភាព" />
         <n-button class="mt-4" @click="addChild()" >បន្ថែមកូន</n-button>
         <!-- Input of the image of the node -->
         <div class="w-full my-4" > 
@@ -126,7 +126,10 @@ export default {
   name: "RegulatorOrgchart" ,
   components: {  },
   setup(){  
-
+    const childNode = reactive({
+      name : '' ,
+      desp : ''
+    })
     /**
      * Variables
      */    
@@ -136,7 +139,8 @@ export default {
     })
 
     return {
-      model
+      model ,
+      childNode
     }
   },
   data() {
@@ -146,14 +150,14 @@ export default {
       chart : null ,
       selectedNode: {
         id: 0 ,
-        pid: "" ,
+        parentId: "" ,
         name: "" ,
         image: "https://picsum.photos/200/300" ,
         desc: ""
       } ,
       nodeVal: {
         id: 0 ,
-        pid: "" ,
+        parentId: "" ,
         name: "" ,
         image: "https://picsum.photos/200/300" ,
         desc: ""
@@ -171,12 +175,12 @@ export default {
       /**
        * Get CSV
        */
-      this.$store.dispatch('regulator/getChildDocument').then( res => {
-        console.log( res.data.records[0] )
-        console.log( res.data.columns )
+      this.$store.dispatch('organizations/list').then( res => {
+        // console.log( res.data.records[0] )
+        // console.log( res.data.columns )
         // return false 
         d3.csv('/src/misc/government.csv').then(dataFlattened => {
-          console.log( dataFlattened)
+          // console.log( dataFlattened)
           dataFlattened = res.data.records
           dataFlattened.columns = res.data.columns
           this.chart = new OrgChart()
@@ -187,7 +191,7 @@ export default {
           //   res.data.columns
           // ]
           )
-          .svgHeight(window.innerHeight)
+          .svgHeight(window.innerHeight - 150)
           .initialZoom(1)
           .nodeWidth((d3Node) => {
             let i = 0;
@@ -254,14 +258,14 @@ export default {
             // this.selectedNode = {
             //   id: node.data.id ,
             //   name: node.data.name ,
-            //   imageUrl: node.data.imageUrl ,
+            //   image: node.data.image ,
             //   pid: node.data.pid
             // }
             /**
              * Show drawer for adding
              */
             // this.nodeVal.pid = this.selectedNode.id 
-            this.nodeVal.tpid = this.selectedNode.id 
+            this.nodeVal.parentId = this.selectedNode.id 
             this.drawerHelper = true 
           })
           .compactMarginBetween(d => 35)
@@ -289,9 +293,9 @@ export default {
                         <!-- Menu icon -->
                         <!-- <div style="color:#08011E;position:absolute;right:20px;top:17px;font-size:10px;"><i class="fas fa-ellipsis-h"></i></div> -->
                         <!-- Name of the shape -->
-                        <div style="font-size:15px;color:#08011E;margin-left:20px;margin-top:32px"> ${d.data.name} </div>
+                        <div style="font-size:12px;color:#08011E;margin-left:20px;margin-top:32px"> ${d.data.name} </div>
                         <!-- Position of the shape -->
-                        <!-- <div style="color:#716E7B;margin-left:20px;margin-top:3px;font-size:10px;"> ${d.data.positionName} </div> -->
+                        <div style="color:#716E7B;margin-left:20px;margin-top:3px;font-size:10px;"> ${d.data.desp} </div>
                       </div>
                       `;
           }).render()
@@ -354,7 +358,7 @@ export default {
       //         ${state.layout == 'left' && state.compact && d.flexCompactDim && (d.flexCompactDim[0] || d.flexCompactDim[0] == 1) ? ` <div style="border:1px solid black;opacity:0.5;margin-top:${-(d.flexCompactDim[0]/2-d.height)/2+ state.compactMarginPair(d) / 4}px;margin-left:${0}px;width:${d.flexCompactDim[1]}px;height:${d.flexCompactDim[0]}px;z-index:-1;position:absolute;background-color:red"></div>` : ''}
       //         ${state.layout == 'right' && state.compact && d.flexCompactDim && (d.flexCompactDim[0] || d.flexCompactDim[0] == 1) ? ` <div style="border:1px solid black;opacity:0.5; margin-top:${-(d.flexCompactDim[0]/2-d.height)/2+ state.compactMarginPair(d) / 4}px;margin-left:${d.width-d.flexCompactDim[1]}px;width:${d.flexCompactDim[1]}px;height:${d.flexCompactDim[0]}px;z-index:-1;position:absolute;background-color:red"></div>` : ''}
               
-      //         <img src="${d.data.imageUrl}"  style="border-radius:100px;width:60px;height:60px;" />
+      //         <img src="${d.data.image}"  style="border-radius:100px;width:60px;height:60px;" />
       //         ID: ${d.data.id} <br>
       //         Children Direct:${d.data._directSubordinates}<br>
       //         Children Total:${d.data._totalSubordinates}
@@ -373,7 +377,7 @@ export default {
       //       // this.selectedNode = {
       //       //   id: node.data.id ,
       //       //   name: node.data.name ,
-      //       //   imageUrl: node.data.imageUrl ,
+      //       //   image: node.data.image ,
       //       //   pid: node.data.pid
       //       // }
       //       /**
@@ -403,7 +407,7 @@ export default {
       //         return `<div style="font-family: 'Inter', sans-serif;background-color:${color}; position:absolute;margin-top:-1px; margin-left:-1px;width:${d.width}px;height:${d.height}px;border-radius:10px;border: 1px solid #E4E2E9">
       //                   <div style="background-color:${color};position:absolute;margin-top:-25px;margin-left:${15}px;border-radius:100px;width:50px;height:50px;" ></div>
       //                   <!-- Picture -->
-      //                   <img src=" ${d.data.imageUrl}" style="position:absolute;margin-top:-20px;margin-left:${20}px;border-radius:100px;width:40px;height:40px;" />  
+      //                   <img src=" ${d.data.image}" style="position:absolute;margin-top:-20px;margin-left:${20}px;border-radius:100px;width:40px;height:40px;" />  
       //                   <!-- Menu icon -->
       //                   <!-- <div style="color:#08011E;position:absolute;right:20px;top:17px;font-size:10px;"><i class="fas fa-ellipsis-h"></i></div> -->
       //                   <!-- Name of the shape -->
@@ -426,7 +430,6 @@ export default {
                   pdf.addImage(img, 'JPEG', 5, 5, 595 / 3, img.height / img.width * 595 / 3);
                   pdf.save('chart.pdf');
               }
-
           })
       })
     },
@@ -442,33 +445,39 @@ export default {
       return false;
     }, 
     addChild(){
-      this.$store.dispatch( 'regulator/childDocument',{
-        name: this.nodeVal.name ,
-        document_id : 0 , // Id of the document that this record describe
-        tpid : this.nodeVal.tpid > 0 ? this.nodeVal.tpid : 0 , // id of the document that is the top level of this document (document_id)
-        pid : this.nodeVal.pid > 0 ? this.nodeVal.pid : 0 , // Id of the parent record
-        desc: this.nodeVal.desc ,
-        image: this.nodeVal.image
+      this.$store.dispatch( 'organizations/addchild',{
+        name: this.childNode.name ,
+        // document_id : 0 , // Id of the document that this record describe
+        pid : this.nodeVal.parentId > 0 ? this.nodeVal.parentId : 0 , // Id of the parent record
+        desp: this.childNode.desp ,
+        image: '' // this.nodeVal.image
       }).then( res => {
         if( res.data.ok ){
 
           this.chart.addNode({
             id: res.data.record.id,
-            pid: res.data.record.pid ,
-            tpid: res.data.record.tpid ,
+            parentId: res.data.record.pid ,
             name: res.data.record.name,
-            image: "https://picsum.photos/200/300" // res.data.record.image
+            image: res.data.record.image != "" ? res.data.record.image : '/src/assets/logo.svg' ,
+            desp: res.data.record.desp ,
+            _centered: true
           })
-
-          this.chart.setCentered(res.data.record.id).render()
-          this.drawerHelper = false 
+          // this.chart.setCentered(res.data.record.id).render()
+        
           this.nodeVal = {
             id: 0 ,
-            pid: 0 ,
-            tpid: 0 ,
+            parentId: 0 ,
             name: "" ,
-            image: ""
+            image: "" ,
+            desp: ''
           }
+          this.childNode = reactive({
+            id: 0 ,
+            parentId: 0 ,
+            name: "" ,
+            image: "" ,
+            desp: ''
+          })
 
           // notify.success({
           //   title: 'រក្សារទុកព័ត៌មាន' ,
@@ -487,31 +496,30 @@ export default {
       }).catch( err => {
         console.log( err )
       })
+      this.drawerHelper = false 
     },
     update(){
-      this.$store.dispatch('regulator/updateDocument',{
+      this.$store.dispatch('organizations/update',{
         id: this.selectedNode.id ,
         name: this.selectedNode.name ,
-        document_id : 0 , // Id of the document that this record describe
-        tpid : this.selectedNode.tpid > 0 ? this.selectedNode.tpid : 0 , // id of the document that is the top level of this document (document_id)
-        pid : this.selectedNode.pid > 0 ? this.selectedNode.pid : 0 , // Id of the parent record
-        desc: this.selectedNode.desc ,
+        // document_id : 0 , // Id of the document that this record describe
+        pid : this.selectedNode.parentId > 0 ? this.selectedNode.parentId : 0 , // Id of the parent record
+        desp: this.selectedNode.desp ,
         image: this.selectedNode.image
       }).then( res => {
         console.log( res.data )
+        this.chart.setCentered(res.data.record.id).render()
         this.selectedNode = {
           id: 0 ,
           name: "" ,
-          pid : 0 ,
-          tpid: 0 ,
-          desc: "" ,
+          parentId : 0 ,
+          desp: "" ,
           image: ""
         }
-        this.drawerHelper = false
-        this.drawingOrgchart()
       }).catch( err => {
         console.log( err )
       });
+      this.drawerHelper = false
     },
     linkRegulator(){
       this.$store.dispatch('regulator/linkDocument',{

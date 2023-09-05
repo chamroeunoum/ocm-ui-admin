@@ -28,8 +28,9 @@
     <!-- Table of crud -->
     <div class="vcb-table-panel relative m-8 p-8">
       <div class="pk-account-info w-full">
-        <div class="flex-none w-60 h-60 border rounded-full m-auto">
-          <img :src="profilePicture!==false?profilePicture:'/src/assets/logo.png'" class="w-full rounded-full bg-white p-2" :alt="name" :title="name" />
+        <div class="flex-none w-60 h-60 rounded-full m-auto">
+          <!-- <img :src="profilePicture!==false?profilePicture:'/src/assets/logo.png'" class="w-full rounded-full bg-white p-2" :alt="name" :title="name" /> -->
+          <div class="profileImage border rounded-full border-gray-200 p-2 w-60 h-60 flex-none mx-auto overflow-hidden bg-center bg-no-repeat bg-cover" :style=" 'background-image: url(' + (profilePicture!=false?profilePicture:'/src/assets/logo.svg') +');' " ></div>
         </div>
       </div>
       <div class="pk-account-panel m-auto w-3/5 p-8 text-left text-md" >

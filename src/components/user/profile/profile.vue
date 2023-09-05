@@ -27,9 +27,7 @@
         </div>
         <!-- End Menu -->    
         <div class="profileInformation p-8 sm:w-2/3 md:w-3/5 lg:w-2/5 w-4/5 mx-auto border my-8 relative">
-          <div class="profileImage border rounded-full border-gray-200 p-2 w-40 h-40 flex-none mx-auto overflow-hidden" >
-            <img :src="localProfile" alt="Profile picture" class="w-40 h-40" >
-          </div>
+          <div class="profileImage border rounded-full border-gray-200 p-2 w-40 h-40 flex-none mx-auto overflow-hidden bg-center bg-no-repeat bg-cover" :style=" 'background-image: url(' + localProfile +');' " ></div>
           <div class="uploader absolute right-0 top-0 w-24flex" >
             <input type="file" placeholder="ឯកសារយោង" @change="fileChange" class="hidden " id="referenceDocument" />
             <div class="cursor-pointer hover:border-green-500 flex flex-wrap"  >

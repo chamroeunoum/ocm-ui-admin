@@ -1,13 +1,13 @@
 <template>
   <div class="flex flex-wrap content-center" >
         <!-- Start transaction of the apps -->
-        <transition  name="fade" mode="out-in">
+        <Tansition  name="slide-fade" >
             <!-- Apps -->
             <div v-if="toggleApps" class="fixed top-0 bottom-0 left-0 right-0 z-40 flex flex-wrap content-start w-full px-4 py-24 bg-gray-800 sm:px-4 md:px-4 lg:p-24 xl:p-24 bg-opacity-95">
                 <!-- Search -->
-                <div class='absolute top-0 left-0 right-0 flex flex-wrap content-center w-2/5 py-4 m-auto md:w-2/5 xl:w-1/5 lg:w-1/5' >
+                <!-- <div class='absolute top-0 left-0 right-0 flex flex-wrap content-center w-2/5 py-4 m-auto md:w-2/5 xl:w-1/5 lg:w-1/5' >
                     <Input suffix="ios-search" placeholder="ស្វែងរក ..." clearable @on-clear="matchedApps=apps" v-model="search.value" @on-keyup="search.value.trim()!==''?matchedApps=apps.filter( app => app.name.toLowerCase().indexOf( search.value.toLowerCase() ) != -1 ):matchedApps=apps"  />
-                </div>
+                </div> -->
                 <!-- End search -->
                 <!-- Apps -->
                 <div class="flex flex-wrap content-center apps">
@@ -20,7 +20,7 @@
                 </div>
                 <!-- End apps -->
             </div>
-        </transition>
+        </Tansition>
         <!-- End transaction of the apps -->
         <!-- Apps launcher -->
         <div class='fixed bottom-0 left-0 right-0 z-50 flex flex-wrap justify-center w-full py-4' >
@@ -161,18 +161,18 @@ export default {
     mounted() {
         this.matchedApps = this.apps
         this.search.value= ""
-        // this.user = localStorage.getItem( 'user' ) ? JSON.parse( localStorage.getItem( 'user' ) ) : null
-        // if( this.user !== null && this.user.roles !== null && this.user.roles.length > 0 ){
-        //     this.matchedApps = []
-        //     for(var i in this.apps ){
-        //         for(var j in this.apps[i].roles ){
-        //             let app = this.user.roles.find( role => role == this.apps[i].roles[j] )
-        //             app !== undefined ? this.matchedApps.push( this.apps[i] ) : false
-        //         }
-        //     }
-        // }else{
-        //     console.log( "ព័ត៌មានសម្រាប់ការចូលប្រើប្រាស់ មិនគ្រប់គ្រាន់។ សូមចូលប្រើម្ដងទៀត ។ សូមអរគុណ !" )
-        // }
+        this.user = localStorage.getItem( 'user' ) ? JSON.parse( localStorage.getItem( 'user' ) ) : null
+        if( this.user !== null && this.user.roles !== null && this.user.roles.length > 0 ){
+            this.matchedApps = []
+            for(var i in this.apps ){
+                for(var j in this.apps[i].roles ){
+                    let app = this.user.roles.find( role => role == this.apps[i].roles[j] )
+                    app !== undefined ? this.matchedApps.push( this.apps[i] ) : false
+                }
+            }
+        }else{
+            console.log( "ព័ត៌មានសម្រាប់ការចូលប្រើប្រាស់ មិនគ្រប់គ្រាន់។ សូមចូលប្រើម្ដងទៀត ។ សូមអរគុណ !" )
+        }
         console.log( this.matchedApps)
     },
     methods: {

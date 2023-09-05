@@ -4,12 +4,8 @@
     <div class="flex title-bar border-b border-gray-200">
       <!-- Title of crud -->
       <div class="flex w-64 h-10 py-1 title " >
-        <Icon size="27" class="text-red-600 mr-2" >
-          <n-icon>
-            <DocumentPdf24Regular />
-          </n-icon>
-        </Icon>
-        <div class="leading-8 font-muol" v-html="model.title" ></div>
+        <svg class="text-gray-700 mr-2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 20 20"><g fill="none"><path d="M9 2.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5H10v1a5 5 0 0 1 5 5v1h1a2 2 0 0 1 2 2v4a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-4a2 2 0 0 1 2-2h1v-1a5.002 5.002 0 0 1 4-4.9V2.5zm7 9.5h-1.5a.5.5 0 0 1-.5-.5V10a4 4 0 0 0-8 0v1.5a.5.5 0 0 1-.5.5H4a1 1 0 0 0-1 1v4h5v-2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2h5v-4a1 1 0 0 0-1-1zM6 13.5a.5.5 0 0 0-1 0v2a.5.5 0 0 0 1 0v-2zm9 0a.5.5 0 0 0-1 0v2a.5.5 0 0 0 1 0v-2zM8.5 9a.5.5 0 0 0-.5.5v2a.5.5 0 0 0 1 0v-2a.5.5 0 0 0-.5-.5zm3.5.5a.5.5 0 0 0-1 0v2a.5.5 0 0 0 1 0v-2zM9 17h2v-2H9v2z" fill="currentColor"></path></g></svg>
+        <div class="leading-8 font-muol mt-1" v-html="model.title" ></div>
       </div>
       <!-- Actions button of the crud -->
       <div class="flex-grow action-buttons flex-row-reverse flex">
@@ -137,9 +133,9 @@
     <!-- Form update account -->
     <update-form v-bind:model="model" v-bind:record="editRecord" v-bind:show="editModal.show" :onClose="closeEditModal"/>
     <!-- Form Action Menu -->
-    <add-remove-reader-form v-bind:model="model" v-bind:record="regulatorRecord" v-bind:show="regulatorModal.show" :onClose="closeShareRegulatorModal"/>
+    <!-- <add-remove-reader-form v-bind:model="model" v-bind:record="regulatorRecord" v-bind:show="regulatorModal.show" :onClose="closeShareRegulatorModal"/> -->
     <!-- Form Accessibility -->
-    <accessibility-form v-bind:model="model" v-bind:record="accessibilityRecord" v-bind:show="accessibilityModal.show" :onClose="closeAccessibilityModal"/>
+    <!-- <accessibility-form v-bind:model="model" v-bind:record="accessibilityRecord" v-bind:show="accessibilityModal.show" :onClose="closeAccessibilityModal"/> -->
     <!-- Folder modal selection -->
     <n-modal v-model:show="showFolderModal" @on-after-leave="showFolderModal.value=false" >
       <n-card
@@ -207,10 +203,10 @@ import { Edit20Regular, Key16Regular, Save20Regular, Add20Regular, Search20Regul
  */
 import CreateForm from './create.vue'
 import UpdateForm from './update.vue'
-import AddRemoveReaderForm from './actions/addremovereader.vue'
-import AccessibilityForm from './actions/accessibility.vue'
+// import AddRemoveReaderForm from './actions/addremovereader.vue'
+// import AccessibilityForm from './actions/accessibility.vue'
 export default {
-  name: "Regulator" ,
+  name: "Organization" ,
   components: {
     ParentChild, 
     QrcodeVue ,
@@ -234,8 +230,11 @@ export default {
     Filter ,
     VuePdfEmbed ,
     AppsList20Regular ,
-    AddRemoveReaderForm  ,
-    AccessibilityForm
+    /**
+     * Form
+     */
+    // AddRemoveReaderForm  ,
+    // AccessibilityForm
   },
   setup(){
     var store = useStore()
@@ -249,8 +248,8 @@ export default {
      * Variables
      */    
     const model = reactive( {
-      name: "regulator" ,
-      title: "ឯកសារ"
+      name: "organization" ,
+      title: "អង្គភាព"
     })
 
     const regulatorAccessibilities = ref([

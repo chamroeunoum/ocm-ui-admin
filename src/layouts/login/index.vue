@@ -1,10 +1,15 @@
 <template>
   <div class="flex justify-center">
     <div class="w-full mx-8 sm:w-1/2 md:w-96 lg:w-96 xl:96 p-8 mt-24 ">
-      <div class="w-28 mx-auto my-4">
-        <img src="./../../assets/logo.png" alt="SASTRA Logo" class="w-full" >
-      </div>
-      <div class="w-full mx-auto mt-4 mb-12 text-lg ">ការគ្រប់គ្រងបណ្ដំឯកសារ</div>
+      <div class="w-40 mx-auto my-4">
+          <img src="./../../assets/logo.svg" class="w-full" >
+        </div>
+        <div class="text-center my-2" >
+          <div class="my-2 text-xs font-muol">{{ store.state.organization.name }}</div>
+          <div class="my-2 text-xs font-muol">នាយកដ្ឋានឯកសារអេឡិចត្រូនិចនិងព័ត៌មានវិទ្យា</div>
+          <div class="my-2 text-4xl font-tactieng" >3</div>
+        </div>
+        <div class="w-full mx-auto my-2 text-xs font-muol">{{ store.state.system.name }}</div>
       <div class="w-full mx-auto my-4 text-left text-md">ចូលប្រព័ន្ធ</div>
       <n-space vertical>
         <n-input round 
@@ -53,6 +58,9 @@
 import './../../plugins/authentication'
 import FooterComponent from './../../components/footer/copy-right.vue'
 import { Key20Regular } from "@vicons/fluent";
+import { setMaxUploadFilesize } from './../../plugins/file'
+import { getRoutes } from './../../plugins/route'
+import { getUser } from './../../plugins/authentication'
 import { AlternateEmailOutlined } from '@vicons/material'
 import { Login } from '@vicons/carbon'
 import { ref, reactive } from 'vue'
@@ -74,6 +82,11 @@ export default {
     const message = useMessage()
     const router = useRouter()
     const notification = useNotification()
+
+    if( getUser() !== undefined && getUser() !== null ){
+      router.push('/dashboard')  
+    }
+
     /**
      * Data
      */
@@ -116,14 +129,22 @@ export default {
             token: res.data.token ,
           })
           
-          notification.success({
-            title: "ចូលប្រព័ន្ធ " ,
-            content: "សួស្ដី, " + res.data.record.lastname + ' ' + res.data.record.firstname ,
-            duration: 1000,
-            closable: false
-          })
+          setMaxUploadFilesize( parseFloat( res.data.upload_max_filesize.replace( 'M' , '' ) ) )
+
+          let routes = router.getRoutes()
+          for(let i in routes ){
+            router.hasRoute( routes[i].name ) ? router.removeRoute( routes[i].name ) : false
+          }
+          routes = getRoutes()
+          for(let i in routes ){
+            router.addRoute( routes[i] )
+          }
+
+          message.success("សូមស្វាគមន៍ !")
+          
           console.log( res.data )
-          window.location.reload()
+          router.push('/dashboard')
+          // window.location.reload()
         }else{
           notification.warning({
             title: "ចូលប្រព័ន្ធ " ,
@@ -172,6 +193,7 @@ export default {
        */
       Key20Regular ,
       AlternateEmailOutlined ,
+      store
     }
   },
   mounted(){

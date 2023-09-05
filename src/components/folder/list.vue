@@ -48,7 +48,8 @@
             <td class="vcb-table-cell font-bold w-20" >{{ index + 1 }}</td>
             <td class="vcb-table-cell" >{{ record.name }}</td>
             <td  class="vcb-table-cell w-40" >
-              <router-link :to="'/folder/'+record.id+'/regulators'" >{{ record.regulators !== undefined ? record.regulators.length : 0 }}</router-link>
+              <router-link v-if="record.regulators !== undefined && record.regulators.length > 0" :to="'/folder/'+record.id+'/regulators'" >{{ record.regulators.length }}</router-link>
+              <div v-if="record.regulators == undefined || record.regulators.length <= 0" >0</div>
             </td>
             <td  class="vcb-table-cell w-40" >{{ authorName( record ) }}</td>
             <td class="vcb-table-actions-panel text-right w-40" >
@@ -439,46 +440,3 @@ export default {
 }
 
 </script>
-
-<style scoped>
-  .vcb-table-panel {
-    @apply absolute right-4 left-4 mt-4 mb-16 top-12 bottom-0 overflow-auto;
-  }
-  .vcb-table {
-    @apply w-full ;
-    height: fit-content ;
-  }
-  .vcb-table tr.vcb-table-row {
-    @apply border-b border-gray-100 text-left ;
-  }
-  .vcb-table tr.vcb-table-row td {
-    @apply p-2;
-  }
-  .vcb-table-actions-panel {
-    @apply flex flex-row-reverse ;
-  }
-  .vcb-table-actions-panel .vcb-action-button {
-    @apply  rounded-full border border-gray-200 w-8 h-8 mx-2 text-center cursor-pointer hover:border-blue-500 hover:text-blue-500  duration-300;
-  }
-  .vcb-table-headers {
-    @apply border-b border-gray-200;
-  }
-  .vcb-table-headers .vcb-table-header {
-    @apply px-2 py-4 text-left ;
-  }
-  .vcb-table-pagination {
-    @apply flex flex-row absolute bg-white right-0 bottom-0 border border-l p-3 ;
-  }
-  .vcb-pagination-page {
-    @apply  rounded-full border border-gray-200 mx-1 leading-7 w-8 h-8 font-bold cursor-pointer hover:text-blue-500 hover:border-blue-500 duration-300;
-  }
-  .fade-enter-active,
-  .fade-leave-active {
-    transition: opacity 0.5s ease;
-  }
-
-  .fade-enter-from,
-  .fade-leave-to {
-    opacity: 0;
-  }
-</style>
