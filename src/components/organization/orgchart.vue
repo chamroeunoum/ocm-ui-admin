@@ -175,14 +175,23 @@ export default {
       /**
        * Get CSV
        */
-      this.$store.dispatch('organizations/list').then( res => {
+      this.$store.dispatch('organizations/list',{
+        search: '' ,
+        perPage: 1000 , 
+        page: 1 ,
+        id: 164
+      }).then( res => {
         // console.log( res.data.records[0] )
         // console.log( res.data.columns )
         // return false 
-        d3.csv('/src/misc/government.csv').then(dataFlattened => {
+        // d3
+        // .csv( d3.csv.parse('id,name,imageUrl,parentId,desc') )
+        // // .json( res.data.records )
+        // .then(dataFlattened => {
           // console.log( dataFlattened)
+          let dataFlattened 
           dataFlattened = res.data.records
-          dataFlattened.columns = res.data.columns
+          dataFlattened.columns = 'id,name,imageUrl,parentId,desc'
           this.chart = new OrgChart()
           .container('.chart-container')
           .data(dataFlattened
@@ -287,19 +296,23 @@ export default {
               const colors = ['#278B8D', '#404040', '#0C5C73', '#33C6CB'];
               const color = "#FFFFFF"
               return `<div style="font-family: 'Inter', sans-serif;background-color:${color}; position:absolute;margin-top:-1px; margin-left:-1px;width:${d.width}px;height:${d.height}px;border-radius:10px;border: 1px solid #E4E2E9">
-                        <div style="background-color:${color};position:absolute;margin-top:-25px;margin-left:${15}px;border-radius:100px;width:50px;height:50px;" ></div>
-                        <!-- Picture -->
-                        <img src=" ${d.data.image==null ? '/src/assets/logo.svg' : d.data.image }" style="position:absolute;margin-top:-20px;margin-left:${20}px;border-radius:100px;width:40px;height:40px;" />  
-                        <!-- Menu icon -->
+                        <div class="border border-gray-200" style="background-color:${color};position:absolute;margin-top:-25px;margin-left:${15}px;border-radius:100px;width:50px;height:50px;" >
+                        <!-- Picture -->` +
+                        (
+                          d.data.image==null
+                          ? `<svg class='w-8 h-8 m-2' xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 20 20"><g fill="none"><path d="M9 2.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5H10v1a5 5 0 0 1 5 5v1h1a2 2 0 0 1 2 2v4a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-4a2 2 0 0 1 2-2h1v-1a5.002 5.002 0 0 1 4-4.9V2.5zm7 9.5h-1.5a.5.5 0 0 1-.5-.5V10a4 4 0 0 0-8 0v1.5a.5.5 0 0 1-.5.5H4a1 1 0 0 0-1 1v4h5v-2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2h5v-4a1 1 0 0 0-1-1zM6 13.5a.5.5 0 0 0-1 0v2a.5.5 0 0 0 1 0v-2zm9 0a.5.5 0 0 0-1 0v2a.5.5 0 0 0 1 0v-2zM8.5 9a.5.5 0 0 0-.5.5v2a.5.5 0 0 0 1 0v-2a.5.5 0 0 0-.5-.5zm3.5.5a.5.5 0 0 0-1 0v2a.5.5 0 0 0 1 0v-2zM9 17h2v-2H9v2z" fill="currentColor"></path></g></svg>`
+                          : `<img src="/src/assets/logo.svg" class="w-12 h-12" />`
+                        )
+                        + `</div><!-- Menu icon -->
                         <!-- <div style="color:#08011E;position:absolute;right:20px;top:17px;font-size:10px;"><i class="fas fa-ellipsis-h"></i></div> -->
                         <!-- Name of the shape -->
-                        <div style="font-size:12px;color:#08011E;margin-left:20px;margin-top:32px"> ${d.data.name} </div>
+                        <div style="font-size:12px;color:#08011E;margin: 32px 10px 5px 10px ;white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: center; "> ${d.data.name} </div>
                         <!-- Position of the shape -->
-                        <div style="color:#716E7B;margin-left:20px;margin-top:3px;font-size:10px;"> ${d.data.desp} </div>
+                        <div style="color:#716E7B;margin: 3px 10px 5px 10px;font-size:10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;  text-align: center; "> ${d.data.desp} </div>
                       </div>
                       `;
           }).render()
-        }) // Finish building chart
+        // }) // Finish building chart
       }).catch( err => { console.log( err ) } );
 
       // d3.csv('https://raw.githubusercontent.com/bumbeishvili/sample-data/main/org.csv')

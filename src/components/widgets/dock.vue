@@ -23,10 +23,18 @@
             <!-- End search -->
             <!-- Apps -->
             <div class="flex justify-center w-full apps">
-                <div v-for="(app, index) in matchedApps" :key="index" class="w-48 h-48 text-center p-8">
-                    <div @click="toggleAppFunc();$router.push(app.url)" class='w-full dashboard-widget-link cursor-pointer ' >
-                      <div class="text-gray-100 w-30 mx-auto my-4 " v-html="app.svg" ></div>
-                      <div class="font-pvh p-2 m-auto text-sm text-center text-gray-100" v-html="app.name" ></div>
+                <div v-for="(app, index) in matchedApps" :key="index" class="w-28 h-28 text-center p-2 m-4">
+                    <div @click="toggleAppFunc(app.url);$router.push(app.url)" class='w-full dashboard-widget-link cursor-pointer ' >
+                      <div class="text-gray-100 w-16 mx-auto my-2 " v-html="app.svg" ></div>
+                      <div class="font-pvh p-2 m-auto text-xs text-center text-gray-100" v-html="app.name" ></div>
+                    </div>
+                </div>
+                <div class="w-28 h-28 text-center p-2 m-4">
+                    <div @click="logout()" class='w-full dashboard-widget-link cursor-pointer ' >
+                      <div class="text-gray-100 w-16 mx-auto my-2 " >
+                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 20 20"><g fill="none"><path d="M10.5 2.5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0v-6zM13.743 4a.5.5 0 1 0-.499.867a6.5 6.5 0 1 1-6.494.004a.5.5 0 1 0-.5-.866A7.5 7.5 0 1 0 13.743 4z" fill="currentColor"></path></g></svg>
+                      </div>
+                      <div class="font-pvh p-2 m-auto text-xs text-center text-gray-100" >ចាកចេញ</div>
                     </div>
                 </div>
 
@@ -35,15 +43,15 @@
             <!-- Apps launcher -->
             <div class='fixed -bottom-14 h-14 left-0 right-0 z-50 flex flex-wrap justify-center w-full py-4' >
               <!-- Apps icon -->
-              <div v-if="!showLuncher" @click="close()" class="w-14 h-14 p-2 -mt-20 mx-2 text-center text-red-600 bg-white rounded-full shadow-md border border-gray-300 cursor-pointer " >
-                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 32 32"><path d="M16 2C8.2 2 2 8.2 2 16s6.2 14 14 14s14-6.2 14-14S23.8 2 16 2zm0 26C9.4 28 4 22.6 4 16S9.4 4 16 4s12 5.4 12 12s-5.4 12-12 12z" fill="currentColor"></path><path d="M21.4 23L16 17.6L10.6 23L9 21.4l5.4-5.4L9 10.6L10.6 9l5.4 5.4L21.4 9l1.6 1.6l-5.4 5.4l5.4 5.4z" fill="currentColor"></path></svg>
+              <div v-if="!showLuncher" @click="close()" class="w-10 h-10 p-1 -mt-20 mx-auto text-center bg-white rounded-full shadow-md border border-gray-300 cursor-pointer " >
+                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 32 32"><path d="M24 9.4L22.6 8L16 14.6L9.4 8L8 9.4l6.6 6.6L8 22.6L9.4 24l6.6-6.6l6.6 6.6l1.4-1.4l-6.6-6.6L24 9.4z" fill="currentColor"></path></svg>
               </div>
-              <div v-if="showLuncher" @click="toggleAppFunc()" class="w-14 h-14 p-2 -mt-20 mx-2 ml-8 text-center bg-white rounded-full shadow-md border border-gray-300 cursor-pointer " >
+              <!-- <div v-if="!showLuncher" @click="toggleAppFunc()" class="w-14 h-14 p-2 -mt-20 mx-2 ml-8 text-center bg-white rounded-full shadow-md border border-gray-300 cursor-pointer " >
                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512"><rect x="64" y="64" width="80" height="80" rx="40" ry="40" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"></rect><rect x="216" y="64" width="80" height="80" rx="40" ry="40" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"></rect><rect x="368" y="64" width="80" height="80" rx="40" ry="40" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"></rect><rect x="64" y="216" width="80" height="80" rx="40" ry="40" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"></rect><rect x="216" y="216" width="80" height="80" rx="40" ry="40" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"></rect><rect x="368" y="216" width="80" height="80" rx="40" ry="40" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"></rect><rect x="64" y="368" width="80" height="80" rx="40" ry="40" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"></rect><rect x="216" y="368" width="80" height="80" rx="40" ry="40" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"></rect><rect x="368" y="368" width="80" height="80" rx="40" ry="40" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"></rect></svg>
-              </div>
-              <div v-if="!showLuncher" @click="logout()" class="w-14 h-14 p-2 -mt-20 mx-2 ml-8 text-center text-red-600 bg-white rounded-full shadow-md border border-gray-300 cursor-pointer " >
+              </div> -->
+              <!-- <div v-if="!showLuncher" @click="logout()" class="w-14 h-14 p-2 -mt-20 mx-2 ml-8 text-center text-red-600 bg-white rounded-full shadow-md border border-gray-300 cursor-pointer " >
                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 20 20"><g fill="none"><path d="M10.5 2.5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0v-6zM13.743 4a.5.5 0 1 0-.499.867a6.5 6.5 0 1 1-6.494.004a.5.5 0 1 0-.5-.866A7.5 7.5 0 1 0 13.743 4z" fill="currentColor"></path></g></svg>
-              </div>
+              </div> -->
             </div>
         </div>
     </Transition>
@@ -61,7 +69,7 @@ import { Receipt2 } from '@vicons/tabler'
 import { Receipt20Regular , Power20Regular, DocumentPdf24Regular} from '@vicons/fluent'
 import { UserMultiple , ParentChild , UserAvatar} from '@vicons/carbon'
 import { useStore } from 'vuex'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 import { useDialog , useMessage } from 'naive-ui'
 export default {  
   components: {
@@ -88,7 +96,8 @@ export default {
       type: Function
     } ,
   },
-  setup(){
+  setup(props){
+    
     let search = ref(null)
     let apps = ref([
       {
@@ -135,17 +144,17 @@ export default {
             3, // Backend member
           ]
       },
-      {
-          url: '/role' ,
-          icon: 'SupervisedUserCircleRound' ,
-          svg: '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10s10-4.48 10-10S17.52 2 12 2zm3.61 6.34c1.07 0 1.93.86 1.93 1.93s-.86 1.93-1.93 1.93s-1.93-.86-1.93-1.93c-.01-1.07.86-1.93 1.93-1.93zm-6-1.58c1.3 0 2.36 1.06 2.36 2.36s-1.06 2.36-2.36 2.36s-2.36-1.06-2.36-2.36c0-1.31 1.05-2.36 2.36-2.36zm0 9.13v3.75c-2.4-.75-4.3-2.6-5.14-4.96c1.05-1.12 3.67-1.69 5.14-1.69c.53 0 1.2.08 1.9.22c-1.64.87-1.9 2.02-1.9 2.68zM12 20c-.27 0-.53-.01-.79-.04v-4.07c0-1.42 2.94-2.13 4.4-2.13c1.07 0 2.92.39 3.84 1.15C18.28 17.88 15.39 20 12 20z" fill="currentColor"></path></svg>' ,
-          name: 'តួនាទី',
-          roles: [
-            1, // Super
-            2, // Administrator
-            // 3, // Backend member
-          ]
-      },
+      // {
+      //     url: '/role' ,
+      //     icon: 'SupervisedUserCircleRound' ,
+      //     svg: '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10s10-4.48 10-10S17.52 2 12 2zm3.61 6.34c1.07 0 1.93.86 1.93 1.93s-.86 1.93-1.93 1.93s-1.93-.86-1.93-1.93c-.01-1.07.86-1.93 1.93-1.93zm-6-1.58c1.3 0 2.36 1.06 2.36 2.36s-1.06 2.36-2.36 2.36s-2.36-1.06-2.36-2.36c0-1.31 1.05-2.36 2.36-2.36zm0 9.13v3.75c-2.4-.75-4.3-2.6-5.14-4.96c1.05-1.12 3.67-1.69 5.14-1.69c.53 0 1.2.08 1.9.22c-1.64.87-1.9 2.02-1.9 2.68zM12 20c-.27 0-.53-.01-.79-.04v-4.07c0-1.42 2.94-2.13 4.4-2.13c1.07 0 2.92.39 3.84 1.15C18.28 17.88 15.39 20 12 20z" fill="currentColor"></path></svg>' ,
+      //     name: 'តួនាទី',
+      //     roles: [
+      //       1, // Super
+      //       2, // Administrator
+      //       // 3, // Backend member
+      //     ]
+      // },
       {
           url: '/regulator' ,
           icon: 'DocumentPdf24Regular' ,
@@ -208,8 +217,9 @@ export default {
       )
     }
     
-    function toggleAppFunc(){
-        toggleApps = !toggleApps
+    function toggleAppFunc(url){
+      if( url == route.path ) props.close()
+      toggleApps = !toggleApps
     }
     function logoutConfirmation(){
         console.log( "confirm before logout" )
@@ -219,6 +229,8 @@ export default {
     const message = useMessage();
     const store = useStore();
     const router = useRouter()
+    const route = useRoute()
+
     async function logout(){
       const d = dialog.warning({
         title: 'ចាកចេញ',
@@ -235,14 +247,13 @@ export default {
              */
             d.loading = true
             store.dispatch('auth/logout').then( res => {
-              authLogout()
               message.success("អ្នកបានចាកចេញដោយជោគជ័យ។")
               d.loading = false
-              window.location.href = '/'
             }).catch( err => {
-              authLogout()
               console.log( err )
             })
+            authLogout()
+            window.location.href = '/'
           }else{
             window.location.href = '/login'
           }

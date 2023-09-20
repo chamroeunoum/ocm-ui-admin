@@ -43,16 +43,20 @@
             <th class="vcb-table-header">អ៊ីមែល</th>
             <th class="vcb-table-header">ឈ្មោះក្នុងប្រព័ន្ធ</th>
             <th class="vcb-table-header">លេខទូរស័ព្ទ</th>
-            <th class="vcb-table-header">តួនាទី</th>
+            <th class="vcb-table-header">អង្គភាព</th>
             <th class="vcb-table-header text-right w-40" >ប្រតិបត្តិការ</th>
           </tr>
           <tr v-for="(record, index) in table.records.matched" :key='index' class="vcb-table-row" >
             <td class="vcb-table-cell font-bold w-12" >{{ index + 1 }}</td>
-            <td class="vcb-table-cell" >{{ record.lastname + " " + record.firstname }}</td>
+            <td class="vcb-table-cell" >
+              {{ record.lastname + " " + record.firstname }}<br/>
+              {{ Array.isArray( record.organizations ) && record.organizations.length > 0 ? record.organizations.map( o => o.name ).join( ' , ' ) : '' }}
+              {{ Array.isArray( record.positions ) && record.positions.length > 0 ? ' - ' + record.positions.map( o => o.name ).join( ' , ' ) : '' }}
+            </td>
             <td class="vcb-table-cell" >{{ record.email }}</td>
             <td  class="vcb-table-cell w-40" >{{ record.username }}</td>
             <td  class="vcb-table-cell w-40" >{{ record.phone }}</td>
-            <td class="vcb-table-cell w-40" >{{ record.roles == undefined ? "គ្មាន" : record.roles[0].name  }}</td>
+            <td class="vcb-table-cell w-40" >{{ Array.isArray( record.roles ) && record.roles.length > 0 ? record.roles[0].name : "គ្មាន"  }}</td>
             <td class="vcb-table-actions-panel text-right w-40" >
               <n-icon size="22" class="cursor-pointer text-blue-500" @click="$router.push('/'+model.name+'/'+record.id+'/detail')" title="ព័ត៌មានលម្អិតរបស់ម្ចាស់គណនី" >
                 <ContactCard28Regular />
@@ -362,10 +366,11 @@ export default {
       firstname: "" ,
       lastname: "" ,
       phone: "" ,
-      email: ""
+      email: "" ,
+      organizations: [] ,
+      positions: []
     })
     function showEditModal(record){
-      console.log( record )
       editRecord.id = record.id
       editRecord.username = record.username
       editRecord.firstname = record.firstname
@@ -373,6 +378,8 @@ export default {
       editRecord.phone = record.phone
       editRecord.email = record.email
       editRecord.person = record.person
+      editRecord.organizations = record.organizations
+      editRecord.positions = record.positions
       editModal.show = true
     }
     function closeEditModal(record){
@@ -454,11 +461,52 @@ export default {
         }
       })
     }
+    
+    /**
+     * Load positions
+     */
+     function getPositions(){
+      store.dispatch('position/list',{
+        page: 1 ,
+        perPage: 1000 ,
+        search: ''
+      }).then(res=>{
+        store.commit('position/setRecords',res.data.records)
+      }).catch(err =>{
+        notify.error({
+          title: 'អានតំណែង' ,
+          description: 'មានបញ្ហាពេលអានតំណែង។'
+        })
+        console.log( err )
+      })
+    }
+
+    /**
+     * Load positions
+     */
+     function getOrganizations(){
+      store.dispatch('organizations/list',{
+        page: 1 ,
+        perPage: 1000 ,
+        search: '' ,
+        id: 164
+      }).then(res=>{
+        store.commit('organizations/setRecords',res.data.records)
+      }).catch(err =>{
+        notify.error({
+          title: 'អានអង្គភាព' ,
+          description: 'មានបញ្ហាពេលអានអានអង្គភាព។'
+        })
+        console.log( err )
+      })
+    }
 
     /**
      * Initial the data
      */
     getRecords()
+    getPositions()
+    getOrganizations()
 
 
     return {

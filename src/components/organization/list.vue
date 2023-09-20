@@ -56,7 +56,7 @@
             <td  class="vcb-table-cell w-40" >{{ record.fid }}</td>
             <!-- <td  class="vcb-table-cell w-40" >{{ record.type.name }}</td> -->
             <td  class="vcb-table-cell w-40" >{{ regulatorAccessibilities[ record.accessibility ] }}</td>
-            <td class="vcb-table-cell w-40" >{{ record.document_year.slice(0,10) }}</td>
+            <td class="vcb-table-cell w-40" >{{ record.year.slice(0,10) }}</td>
             <!-- <td  class="vcb-table-cell w-40" >{{ record.createdBy.lastname + ' ' + record.createdBy.firstname }}</td> -->
             <td class="vcb-table-actions-panel text-right" >
               <n-icon size="22" class="cursor-pointer text-blue-500 mx-1" @click="showShareRegulatorModal(record)" title="ប្រតិបត្តិការផ្សេងៗ" >
@@ -482,7 +482,7 @@ export default {
       editRecord.title = record.title
       editRecord.objective = record.objective
       editRecord.type_id = record.document_type
-      editRecord.year = new Date( record.document_year ).getTime()
+      editRecord.year = new Date( record.year ).getTime()
       editRecord.publish = record.publish
       editRecord.active = record.active
       // editRecord.pdfs = record.pdf
@@ -516,7 +516,7 @@ export default {
       regulatorRecord.title = record.title
       regulatorRecord.objective = record.objective
       regulatorRecord.type_id = record.document_type
-      regulatorRecord.year = new Date( record.document_year ).getTime()
+      regulatorRecord.year = new Date( record.year ).getTime()
       regulatorRecord.publish = record.publish
       regulatorRecord.active = record.active
       regulatorRecord.accessibility = record.accessibility
@@ -550,7 +550,7 @@ export default {
       accessibilityRecord.title = record.title
       accessibilityRecord.objective = record.objective
       accessibilityRecord.type_id = record.document_type
-      accessibilityRecord.year = new Date( record.document_year ).getTime()
+      accessibilityRecord.year = new Date( record.year ).getTime()
       accessibilityRecord.publish = record.publish
       accessibilityRecord.active = record.active
       accessibilityRecord.accessibility = record.accessibility

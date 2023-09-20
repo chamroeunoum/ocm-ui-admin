@@ -51,18 +51,21 @@
       <table class="vcb-table" >
         <tr class="vcb-table-headers" >
           <th class="vcb-table-header" >ល.រ</th>
-          <th class="vcb-table-header">កម្មវត្ថុ</th>
           <th class="vcb-table-header">លេខ</th>
-          <th class="vcb-table-header w-32">ប្រភេទ</th>
+          <th class="vcb-table-header">កម្មវត្ថុ</th>
           <th class="vcb-table-header w-24">ថ្ងៃខែឆ្នាំ</th>
           <th class="vcb-table-header text-right w-28" >ប្រតិបត្តិការ</th>
         </tr>
         <tr v-for="(record, index) in table.records.matched" :key='index' class="vcb-table-row" >
           <td class="vcb-table-cell font-bold" >{{ index + 1 }}</td>
-          <td class="vcb-table-cell" v-html="record.objective" ></td>
           <td  class="vcb-table-cell" >{{ record.fid }}</td>
-          <td  class="vcb-table-cell" >{{ record.type.name }}</td>
-          <td class="vcb-table-cell" >{{ record.document_year.slice(0,10) }}</td>
+          <td class="vcb-table-cell leading-8 flex flex-wrap" >
+            <div class="w-full pb-1 mb-1" >{{ applyTagMark(record.objective) }}</div>
+            <div class="mr-2 text-center " >{{ ( record.types != null && record.types.length ? record.types.map( r => r.name ).join(' , ') : '' ) }}</div>
+            <div class="mr-2 text-center " >{{ ( record.organizations != null && record.organizations.length ? ' - ' + record.organizations.map( r => r.name ).join(' , ') : '' ) }}</div>
+            <div class="mr-2 text-center " >{{ ( record.signatures != null && record.signatures.length ? ' - ' + record.signatures.map( r => r.name ).join(' , ') : '' ) }}</div>
+          </td>
+          <td class="vcb-table-cell" >{{ record.year.slice(0,10) }}</td>
           <td class="vcb-table-actions-panel text-right" >
             <!-- <n-icon size="22" class="cursor-pointer text-blue-500" @click="showEditModal(record)" title="កែប្រែព័ត៌មាន" >
               <Edit20Regular />
@@ -420,6 +423,19 @@ export default {
         message.warning("មានបញ្ហាចែករំលែកពេលចម្លង អសយដ្ឋានឯកសារ ចូលក្នុង Clipboart ។")
       }
     }
+    /**
+     * Mark the matched text with in search box
+     */
+     function applyTagMark(str){
+      // Split the string by whitespace
+      if( table.search.trim() != "" ){
+        var arrStrSearch = table.search.split(/(\s+)/).filter( e => e.trim().length > 0).map( e => e.replaceAll(" ","") )
+        for( var i in arrStrSearch ){
+          if( str.includes( arrStrSearch[i] ) ) str = str.replaceAll( arrStrSearch[i] , '<mark>' + arrStrSearch[i] + '</mark>' ) 
+        }
+      }
+      return str
+    }
   
     /**
      * Initial the data
@@ -457,7 +473,8 @@ export default {
       removeDocumentFromFolder ,
       viewPdf ,
       closePdf ,
-      copyShareLink
+      copyShareLink ,
+      applyTagMark
     }
   }
 }

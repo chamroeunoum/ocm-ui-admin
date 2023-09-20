@@ -27,11 +27,11 @@ import FolderRegulatorComponent from './../components/folder/regulator.vue'
 /**
  * Folder Components
  */
-import RoleCrud from './../components/role/index.vue'
-import RoleListCrud from './../components/role/list.vue'
-import RoleCreateCrud from './../components/role/create.vue'
-import RoleUpdateCrud from './../components/role/update.vue'
-import RoleDetail from './../components/role/detail.vue'
+// import RoleCrud from './../components/role/index.vue'
+// import RoleListCrud from './../components/role/list.vue'
+// import RoleCreateCrud from './../components/role/create.vue'
+// import RoleUpdateCrud from './../components/role/update.vue'
+// import RoleDetail from './../components/role/detail.vue'
 
 /**
  * Regulator Components
@@ -200,38 +200,38 @@ export const getRoutes = () => {
                 ]
             },
             // Role
-            {
-                name: 'Role' ,
-                path: '/role',
-                component: RoleCrud ,
-                meta: { 
-                    transition: 'slide-right' ,
-                    requiresAuth: true,
-                    is_admin : true 
-                },
-                children: [
-                    {
-                        name: "RoleList" ,
-                        path: '' ,
-                        component: RoleListCrud
-                    },
-                    {
-                        name: "RoleDetail" ,
-                        path: ':id/detail' ,
-                        component: RoleDetail
-                    },
-                    {
-                        name: "RoleCreate" ,
-                        path: 'create' ,
-                        component: RoleCreateCrud
-                    },
-                    {
-                        name: "RoleUpdate" ,
-                        path: 'update' ,
-                        component: RoleUpdateCrud
-                    }
-                ]
-            },
+            // {
+            //     name: 'Role' ,
+            //     path: '/role',
+            //     component: RoleCrud ,
+            //     meta: { 
+            //         transition: 'slide-right' ,
+            //         requiresAuth: true,
+            //         is_admin : true 
+            //     },
+            //     children: [
+            //         {
+            //             name: "RoleList" ,
+            //             path: '' ,
+            //             component: RoleListCrud
+            //         },
+            //         {
+            //             name: "RoleDetail" ,
+            //             path: ':id/detail' ,
+            //             component: RoleDetail
+            //         },
+            //         {
+            //             name: "RoleCreate" ,
+            //             path: 'create' ,
+            //             component: RoleCreateCrud
+            //         },
+            //         {
+            //             name: "RoleUpdate" ,
+            //             path: 'update' ,
+            //             component: RoleUpdateCrud
+            //         }
+            //     ]
+            // },
             {
                 name: 'Regulator' ,
                 path: '/regulator',

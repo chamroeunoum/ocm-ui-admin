@@ -25,6 +25,14 @@
                   size="large"
                   ref="formRef"
                 >
+                  <n-form-item label="ប្រភេទ" path="type" class="w-4/5 mr-8" >
+                    <n-select
+                      v-model:value="selectedTypes"
+                      filterable
+                      placeholder="សូមជ្រើសរើសប្រភេទឯកសារ"
+                      :options="types"
+                    />
+                  </n-form-item>
                   <n-form-item label="លេខ" path="number" class="w-4/5 mr-8" >
                     <n-input v-model:value="record.number" placeholder="លេខ" />
                   </n-form-item>
@@ -35,16 +43,48 @@
                     <n-input type="textarea" v-model:value="record.objective" placeholder="កម្មវត្ថុ" />
                   </n-form-item>
                   <n-form-item label="កាលបរិច្ឆែក" path="year" class="w-4/5 mr-8" >
-                    <n-date-picker v-model:value="record.year" placeholder="កាលបរិច្ឆែក" type="date" clearable class="w-full" />
+                    <!-- <n-date-picker v-model:value="record.year" placeholder="កាលបរិច្ឆែក" type="date" clearable class="w-full" /> -->
+                    <n-input-number v-model:value="regulatorDate.year" :step="1" :min="1" clearable ><template #prefix>ឆ្នាំ</template></n-input-number>
+                    <n-input-number v-model:value="regulatorDate.month" :step="1" :min="1" :max="12" clearable ><template #prefix>ខែ</template></n-input-number>
+                    <n-input-number v-model:value="regulatorDate.day" :step="1" :min="1" :max="31" clearable ><template #prefix>ថ្ងៃ</template></n-input-number>
                   </n-form-item>
-                  <n-form-item label="ប្រភេទ" path="email" class="w-4/5 mr-8" >
+                  
+                  <n-form-item label="ហត្ថលេខា" path="email" class="w-4/5 mr-8" >
                     <n-select
-                      v-model:value="record.type_id"
+                      v-model:value="selectedSignatures"
                       filterable
-                      placeholder="សូមជ្រើសរើសប្រភេទឯកសារ"
-                      :options="documentTypes"
+                      placeholder="សូមជ្រើសរើសហត្ថលេខា"
+                      :options="signatures"
+                      multiple
                     />
                   </n-form-item>
+                  <n-form-item label="ក្រសួងស្ថាប័ន" path="organization" class="w-4/5 mr-8" >
+                    <n-select
+                      v-model:value="selectedOrganizations"
+                      filterable
+                      placeholder="សូមជ្រើសរើសក្រសួងស្ថាប័ន"
+                      :options="organizations"
+                      multiple
+                    />
+                  </n-form-item>
+                  <n-form-item label="ក្រសួងស្ថាប័នសមី" path="ownOrganization" class="w-4/5 mr-8" >
+                    <n-select
+                      v-model:value="selectedOwnOrganizations"
+                      filterable
+                      placeholder="សូមជ្រើសរើសក្រសួងស្ថាប័នសាមី"
+                      :options="ownOrganizations"
+                      multiple
+                    />
+                  </n-form-item>
+                  <!-- <n-form-item label="ក្រសួងស្ថាប័នពាក់ព័ន្ធ" path="relatedOrganization" class="w-4/5 mr-8" >
+                    <n-select
+                      v-model:value="selectedRelatedOrganizations"
+                      filterable
+                      placeholder="សូមជ្រើសរើសក្រសួងស្ថាប័នពាក់ព័ន្ធ"
+                      :options="relatedOrganizations"
+                      multiple
+                    />
+                  </n-form-item> -->
                   <n-form-item label="ឯកសារយោង" path="pdfs" class="w-4/5 mr-8" >
                     <input type="file" placeholder="ឯកសារយោង" @change="fileChange" class="hidden " id="referenceDocument" />
                     <div class="border rounded border-gray-200 w-full text-sm text-center cursor-pointer hover:border-green-500" @click="clickUpload" >
@@ -77,6 +117,7 @@ import { useStore } from 'vuex'
 import { useMessage, useNotification } from 'naive-ui'
 import { Save20Regular } from '@vicons/fluent'
 import { DocumentPdf24Regular } from '@vicons/fluent'
+import dateFormat from "dateformat";
 
 export default {
   components: {
@@ -106,8 +147,12 @@ export default {
           objective: '' ,
           active: 1 ,
           year: null ,
-          type_id: null ,
-          pdfs: []
+          pdfs: [] ,
+          types: [] ,
+          signatures: [] ,
+          orgainzations: [] ,
+          ownOrgainzations: [] ,
+          relatedOrgainzations: [] ,
         })
       },
       // validator: (val) => {
@@ -133,6 +178,18 @@ export default {
     const message = useMessage()
     const notify = useNotification()
     const btnSavingLoadingRef = ref(false)
+
+    const selectedTypes = ref([])
+    const selectedOrganizations = ref([])
+    const selectedOwnOrganizations = ref([])
+    const selectedRelatedOrganizations = ref([])
+    const selectedSignatures = ref([])
+
+    const regulatorDate = reactive({
+      year: parseInt( dateFormat( new Date() , 'yyyy') ),
+      month: parseInt( dateFormat( new Date() , 'mm') ),
+      day: parseInt( dateFormat( new Date() , 'dd') )
+    })
     /**
      * Variables
      */    
@@ -154,10 +211,38 @@ export default {
         }
     }
     
-    const documentTypes = computed(()=>{
+    const types = computed(()=>{
       return store.getters['regulatorType/getRecords'].map( 
         type => (
-          { label: type.name , value : type.id }
+          { label: type.id + ". " + type.name , value : type.id }
+        )
+      )
+    })
+    const organizations = computed(()=>{
+      return store.getters['regulatorOrganization/getRecords'].map( 
+        organization => (
+          { label: organization.id + ". " + organization.name , value : organization.id }
+        )
+      )
+    })
+    const ownOrganizations = computed(()=>{
+      return store.getters['regulatorOrganization/getRecords'].map( 
+        organization => (
+          { label: organization.id + ". " + organization.name , value : organization.id }
+        )
+      )
+    })
+    const relatedOrganizations = computed(()=>{
+      return store.getters['regulatorOrganization/getRecords'].map( 
+        organization => (
+          { label: organization.id + ". " + organization.name , value : organization.id }
+        )
+      )
+    })
+    const signatures = computed(()=>{
+      return store.getters['regulatorSignature/getRecords'].map( 
+        signature => (
+          { label: signature.id + ". " + signature.name , value : signature.id }
         )
       )
     })
@@ -292,15 +377,15 @@ export default {
         })
         return false
       }
-      if( props.record.type_id <= 0 ){
-        notify.warning({
-          'title' : 'ពិនិត្យព័ត៌មាន' ,
-          'description' : 'សូមជ្រើសរើស ប្រភេទឯកសារ' ,
-          duration : 3000
-        })
-        return false
-      }
-      if( props.record.year == null ){
+      // if( props.record.year == null ){
+      //   notify.warning({
+      //     'title' : 'ពិនិត្យព័ត៌មាន' ,
+      //     'description' : 'សូមជ្រើសរើស ថ្ងៃចុះឯកសារ' ,
+      //     duration : 3000
+      //   })
+      //   return false
+      // }
+      if( regulatorDate.year <= 0 || regulatorDate.month <= 0 ||  regulatorDate.day <= 0 ){
         notify.warning({
           'title' : 'ពិនិត្យព័ត៌មាន' ,
           'description' : 'សូមជ្រើសរើស ថ្ងៃចុះឯកសារ' ,
@@ -320,7 +405,7 @@ export default {
       /**
        * Saving information of the regulator
        */
-      let year = new Date(props.record.year) 
+      // let year = new Date(props.record.year) 
       notify.info({
         title: 'រក្សារទុកព័ត៌មាន' ,
         description: 'កំពុងរក្សារទុកព័ត៌មាន។' ,
@@ -333,9 +418,13 @@ export default {
         title: props.record.title ,
         objective: props.record.objective ,
         active: 1 ,
-        year: year.getFullYear().toString().padStart(4, '0') + "-" + (year.getMonth() + 1).toString().padStart(2, '0') + "-" + year.getDate().toString().padStart(2, '0') ,
-        type_id: props.record.type_id ,
-        
+        // year: year.getFullYear().toString().padStart(4, '0') + "-" + (year.getMonth() + 1).toString().padStart(2, '0') + "-" + year.getDate().toString().padStart(2, '0') ,
+        year: regulatorDate.year.toString().padStart(4,0) + "-" + regulatorDate.month.toString().padStart(2,0) + "-" + regulatorDate.day.toString().padStart(2,0)  ,
+        types: selectedTypes.value ,
+        organizations: selectedOrganizations.value ,
+        ownOrganizations: selectedOwnOrganizations.value ,
+        relatedOrganizations: selectedRelatedOrganizations.value ,
+        signatures: selectedSignatures.value ,
       }).then( res => {
         switch( res.status ){
           case 200 : 
@@ -366,26 +455,6 @@ export default {
       })
     }
     
-    function checkUsername(){
-      if( props.record.username != "" ){
-        store.dispatch('user/checkUsername',{username: props.record.username}).then( res => {
-          if( res.data.ok ){
-            notify.info({
-              title: 'ពិនិត្យឈ្មោះអ្នកប្រើប្រាស់' ,
-              description : "ឈ្មោះអ្នកប្រើប្រាស់ មានរួចហើយ។" ,
-              duration : 3000
-            })
-          }
-        }).catch( err => {
-          console.log( err )
-          notify.error({
-            'title' : 'ពិនិត្យឈ្មោះអ្នកប្រើប្រាស់' ,
-            'description' : 'មានបញ្ហាក្នុងពេលពិនិត្យឈ្មោះអ្នកប្រើប្រាស់។' ,
-            duration : 3000
-          })
-        })
-      }
-    }
     function checkPhone(){
       if( props.record.phone != "" ){
         store.dispatch('user/checkPhone',{phone: props.record.phone}).then( res => {
@@ -406,47 +475,34 @@ export default {
         })
       }
     }
-    function checkEmail(){
-      if( props.record.email != "" ){
-        store.dispatch('user/checkEmail',{email: props.record.email}).then( res => {
-          if( res.data.ok ){
-            notify.info({
-              title: 'ពិនិត្យអ៊ីមែល' ,
-              description : "ពិនិត្យអ៊ីមែល មានរួចហើយ។" ,
-              duration : 3000
-            })
-          }
-        }).catch( err => {
-          console.log( err )
-          notify.error({
-            'title' : 'រក្សារទុកព័ត៌មាន' ,
-            'description' : 'មានបញ្ហាក្នុងពេលពិនិត្យអ៊ីមែល។' ,
-            duration : 3000
-          })
-        })
-      }
-    }
 
     return {
       /**
        * Variables
        */
       rules ,
-      documentTypes ,
       btnSavingLoadingRef ,
+      types ,
+      signatures ,
+      organizations ,
+      ownOrganizations ,
+      relatedOrganizations ,
+      selectedTypes ,
+      selectedOrganizations ,
+      selectedOwnOrganizations ,
+      selectedRelatedOrganizations ,
+      selectedSignatures ,
       /**
        * Functions
        */
       create ,
-      checkUsername ,
-      checkPhone ,
-      checkEmail ,
       /**
        * File upload
        */
       fileChange , 
       clickUpload ,
-      uploadFiles
+      uploadFiles ,
+      regulatorDate
     }
   }
 }

@@ -1,5 +1,5 @@
 <template>
-  <div class="relative w-full min-h-screen bg-gray-50 bg-center bg-cover bg-background" >
+  <div class="relative w-full" >
     <div class="absolute p-4 top-16 right-0 bottom-0 left-0 ">
       <router-view v-slot="{ Component , route}">
         <component :is="Component" />

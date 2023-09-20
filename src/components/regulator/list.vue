@@ -44,23 +44,33 @@
     <div class="vcb-table-panel relative flex">
       <Transition name="fade" >
         <table v-if="Array.isArray( table.records.matched ) && table.records.matched.length > 0 " class="vcb-table" >
+          <tr>
+            <th colspan="6" >
+              <div class="vcb-table-header text-left border-b py-4">លទ្ធផលនែការស្វែងរកគឺ ៖ <span class="text-lg text-blue-500">{{ table.pagination.totalRecords }}</span></div>
+            </th>
+          </tr>
           <tr class="vcb-table-headers" >
             <th class="vcb-table-header" >ល.រ</th>
+            <th class="vcb-table-header">ប្រភេទ / លេខ</th>
             <th class="vcb-table-header">កម្មវត្ថុ</th>
-            <th class="vcb-table-header">លេខ</th>
-            <!-- <th class="vcb-table-header w-32">ប្រភេទ</th> -->
-            <th class="vcb-table-header w-40">ការប្រើប្រាស់</th>
+            <th class="vcb-table-header w-32">ការប្រើប្រាស់</th>
             <th class="vcb-table-header w-24">ថ្ងៃខែឆ្នាំ</th>
             <!-- <th class="vcb-table-header w-40">អ្នកបង្កើត</th> -->
             <th class="vcb-table-header text-right w-40" >ប្រតិបត្តិការ</th>
           </tr>
           <tr v-for="(record, index) in table.records.matched" :key='index' class="vcb-table-row" >
-            <td class="vcb-table-cell font-bold w-20" >{{ index + 1 }}</td>
-            <td class="vcb-table-cell" v-html="applyTagMark(record.objective)" ></td>
-            <td  class="vcb-table-cell w-40" >{{ record.fid }}</td>
-            <!-- <td  class="vcb-table-cell w-40" >{{ record.type.name }}</td> -->
+            <td class="vcb-table-cell font-bold w-12" >{{ ( table.pagination.perPage * ( table.pagination.page - 1 ) ) + index + 1 }}</td>
+            <td  class="vcb-table-cell w-32" >{{ ( Array.isArray( record.types ) && record.types.length > 0 ? prefixOfTypes[ record.types[0].id ] + ' / ' : '' ) + record.fid }}</td>
+            <td class="vcb-table-cell leading-8 flex flex-wrap regulator" >
+              <div class="w-full pb-1 mb-1" v-html="applyTagMark(record.objective)" ></div>
+              <!-- <div v-if="record.types != null && record.types.length" class="mr-2 text-left regulator-additional" >{{ ( record.types != null && record.types.length ? ' - ' + record.types.map( r => r.name ).join(' , ') : '' ) }}</div>
+              <div v-if="record.signatures != null && record.signatures.length" class="mr-2 text-left w-full regulator-additional" >{{ ( record.signatures != null && record.signatures.length ? ' - ' + record.signatures.map( r => r.name ).join(' , ') : '' ) }}</div>
+              <div v-if="record.organizations != null && record.organizations.length" class="mr-2 text-left w-full regulator-additional" >{{ ( record.organizations != null && record.organizations.length ? ' - ' + record.organizations.map( r => r.name ).join(' , ') : '' ) }}</div>
+              <div v-if="record.ownOrganizations != null && record.ownOrganizations.length" class="mr-2 text-left w-full regulator-additional" >{{ ( record.ownOrganizations != null && record.ownOrganizations.length ? ' - ' + record.ownOrganizations.map( r => r.name ).join(' , ') : '' ) }}</div>
+              <div v-if="record.relatedOrganizations != null && record.relatedOrganizations.length" class="mr-2 text-left w-full regulator-additional" >{{ ( record.relatedOrganizations != null && record.relatedOrganizations.length ? ' - ' + record.relatedOrganizations.map( r => r.name ).join(' , ') : '' ) }}</div> -->
+            </td>
             <td  class="vcb-table-cell w-40" >{{ regulatorAccessibilities[ record.accessibility ] }}</td>
-            <td class="vcb-table-cell w-40" >{{ record.document_year.slice(0,10) }}</td>
+            <td class="vcb-table-cell w-24" >{{ record.year.slice(0,10) }}</td>
             <!-- <td  class="vcb-table-cell w-40" >{{ record.createdBy.lastname + ' ' + record.createdBy.firstname }}</td> -->
             <td class="vcb-table-actions-panel text-right" >
               <n-icon size="22" class="cursor-pointer text-blue-500 mx-1" @click="showShareRegulatorModal(record)" title="ប្រតិបត្តិការផ្សេងៗ" >
@@ -94,7 +104,7 @@
         </table>
       </Transition>
       <!-- Loading -->
-      <div v-if="table.loading" class="table-loading absolute left-0 top-0 right-0 bottom-0 bg-white bg-opacity-75 ">
+      <div v-if="table.loading" class="table-loading fixed left-0 top-0 right-0 bottom-0 bg-white bg-opacity-75 ">
         <div class="spinner mt-24">
           <Icon size="40" class="animate-spin  text-blue-500" >
            <IosRefresh />
@@ -159,10 +169,10 @@
           <div class="flex-grow">
             {{ (index +1 ) + '. ' + folder.name }}
           </div>
-          <Icon v-if="!folder.exists" size="20" class="text-gray-600 flex-none" @click="addDocumentToFolder(folder)"  >
+          <Icon v-if="!folder.exists" size="20" class="text-gray-600 flex-none" @click="addRegulatorToFolder(folder)"  >
             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 20 20"><g fill="none"><path d="M13.854 7.854a.5.5 0 0 0-.708-.708L8.5 11.793l-1.646-1.647a.5.5 0 0 0-.708.708l2 2a.5.5 0 0 0 .708 0l5-5zM5.682 3A2.682 2.682 0 0 0 3 5.682v8.636C3 15.8 4.2 17 5.682 17h8.636C15.8 17 17 15.8 17 14.318V5.682C17 4.2 15.8 3 14.318 3H5.682zM4 5.682C4 4.753 4.753 4 5.682 4h8.636C15.247 4 16 4.753 16 5.682v8.636c0 .929-.753 1.682-1.682 1.682H5.682A1.682 1.682 0 0 1 4 14.318V5.682z" fill="currentColor"></path></g></svg>
           </Icon>
-          <Icon v-if="folder.exists" size="20" class="text-green-600 flex-none" @click="removeDocumentFromFolder(folder)"  >
+          <Icon v-if="folder.exists" size="20" class="text-green-600 flex-none" @click="removeRegulatorFromFolder(folder)"  >
             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 20 20"><g fill="none"><path d="M13.854 7.854a.5.5 0 0 0-.708-.708L8.5 11.793l-1.646-1.647a.5.5 0 0 0-.708.708l2 2a.5.5 0 0 0 .708 0l5-5zM5.682 3A2.682 2.682 0 0 0 3 5.682v8.636C3 15.8 4.2 17 5.682 17h8.636C15.8 17 17 15.8 17 14.318V5.682C17 4.2 15.8 3 14.318 3H5.682zM4 5.682C4 4.753 4.753 4 5.682 4h8.636C15.247 4 16 4.753 16 5.682v8.636c0 .929-.753 1.682-1.682 1.682H5.682A1.682 1.682 0 0 1 4 14.318V5.682z" fill="currentColor"></path></g></svg>
           </Icon>
         </div>  
@@ -244,7 +254,7 @@ export default {
     const notify = useNotification()
     const showFolderModal = ref(false)
     const listFolders = ref([])
-    const selectedDocumentId = ref(0)
+    const selectedRegulatorId = ref(0)
     /**
      * Variables
      */    
@@ -255,7 +265,7 @@ export default {
 
     const regulatorAccessibilities = ref([
       "បិទទាំងស្រុង" , // 0 
-      "ខ្លួនឯង និង អ្នកដែលចែករំលែកទៅ" , // 1 
+      "អ្នកដែលចែករំលែកទៅ" , // 1 
       "ទូទាំងប្រព័ន្ធ" , // 2 
       "" , // 3 
       "ជាសកល" , // 4 
@@ -475,17 +485,28 @@ export default {
       year: null ,
       pdfs: [] ,
       publish: 0 ,
-      active: 0 
+      active: 0 ,
+      signatures: [] ,
+      types: [] ,
+      organizations: [] ,
+      ownOrganizations: [] ,
+      relatedOrganizations: [] ,
     })
     function showEditModal(record){
       editRecord.id = record.id
       editRecord.number = record.fid
       editRecord.title = record.title
       editRecord.objective = record.objective
-      editRecord.type_id = record.document_type
-      editRecord.year = new Date( record.document_year ).getTime()
+      editRecord.type_id = record.type
+      // editRecord.year = new Date( record.year ).getTime()
+      editRecord.year = record.year
       editRecord.publish = record.publish
       editRecord.active = record.active
+      editRecord.types = record.types
+      editRecord.signatures = record.signatures
+      editRecord.organizations = record.organizations
+      editRecord.ownOrganizations = record.ownOrganizations
+      editRecord.relatedOrganizations = record.relatedOrganizations
       // editRecord.pdfs = record.pdf
       editModal.show = true
     }
@@ -508,7 +529,12 @@ export default {
       pdfs: [] ,
       publish: 0 ,
       active: 0 ,
-      accessibility: 0
+      accessibility: 0 ,
+      types: [] ,
+      orgainzations: [] ,
+      ownOrgainzations: [] ,
+      relatedOrgainzations: [] ,
+      signatures: []
     })
 
     function showShareRegulatorModal(record){
@@ -516,11 +542,16 @@ export default {
       regulatorRecord.number = record.fid
       regulatorRecord.title = record.title
       regulatorRecord.objective = record.objective
-      regulatorRecord.type_id = record.document_type
-      regulatorRecord.year = new Date( record.document_year ).getTime()
+      regulatorRecord.type_id = record.type
+      regulatorRecord.year = new Date( record.year ).getTime()
       regulatorRecord.publish = record.publish
       regulatorRecord.active = record.active
       regulatorRecord.accessibility = record.accessibility
+      regulatorRecord.types = record.types
+      regulatorRecord.organizations = record.organizations
+      regulatorRecord.ownOrganizations = record.ownOrganizations
+      regulatorRecord.relatedOrganizations = record.relatedOrganizations
+      regulatorRecord.signatures = record.signatures
       // actionRecord.pdfs = record.pdf
       regulatorModal.show = true
     }
@@ -550,8 +581,8 @@ export default {
       accessibilityRecord.number = record.fid
       accessibilityRecord.title = record.title
       accessibilityRecord.objective = record.objective
-      accessibilityRecord.type_id = record.document_type
-      accessibilityRecord.year = new Date( record.document_year ).getTime()
+      accessibilityRecord.type_id = record.type
+      accessibilityRecord.year = new Date( record.year ).getTime()
       accessibilityRecord.publish = record.publish
       accessibilityRecord.active = record.active
       accessibilityRecord.accessibility = record.accessibility
@@ -613,6 +644,34 @@ export default {
         notify.error({
           title: 'អានប្រភេទឯកសារ' ,
           description: 'មានបញ្ហាក្នុងពេលអានប្រភេទឯកសារ។'
+        })
+        console.log( err )
+      })
+    }
+    /**
+     * Load pivot data of this model
+     */
+     function getDocumentOrganizations(){
+      store.dispatch('regulatorOrganization/compact').then(res=>{
+        store.commit('regulatorOrganization/setRecords',res.data.records)
+      }).catch(err =>{
+        notify.error({
+          title: 'អានអង្គភាពនៃឯកសាររួចរាល់' ,
+          description: 'មានបញ្ហាក្នុងពេលអានអង្គភាពរបស់ឯកសារ។'
+        })
+        console.log( err )
+      })
+    }
+    /**
+     * Load pivot data of this model
+     */
+     function getDocumentSignatures(){
+      store.dispatch('regulatorSignature/compact').then(res=>{
+        store.commit('regulatorSignature/setRecords',res.data.records)
+      }).catch(err =>{
+        notify.error({
+          title: 'អានហត្ថលេខានៃឯកសាររួចរាល់' ,
+          description: 'មានបញ្ហាក្នុងពេលអានហត្ថលេខារបស់ឯកសារ។'
         })
         console.log( err )
       })
@@ -687,11 +746,11 @@ export default {
     }
 
     function getFolders(){
-      store.dispatch('folder/listDocumentWithValidation',{
+      store.dispatch('folder/listRegulatorWithValidation',{
         search: '' ,
         page: 1 ,
         perPage: 50 ,
-        document_id : selectedDocumentId.value
+        document_id : selectedRegulatorId.value
       }).then( res => {
         listFolders.value = res.data.records
       }).catch( err => {
@@ -704,20 +763,20 @@ export default {
       /**
        * Mark the selected document
        */
-      selectedDocumentId.value = document.id
+      selectedRegulatorId.value = document.id
       getFolders()
     }
 
     function closeFolderModalPopup(){
       showFolderModal.value = false
       listFolders.value = []
-      selectedDocumentId.value = 0
+      selectedRegulatorId.value = 0
     }
 
-    function addDocumentToFolder(folder){
+    function addRegulatorToFolder(folder){
       store.dispatch('folder/addRegulator',{
         id: folder.id ,
-        document_id : selectedDocumentId.value
+        document_id : selectedRegulatorId.value
       }).then( res => {
         notify.success({
           title: "ដាក់ឯកសារចូលថត" ,
@@ -735,10 +794,10 @@ export default {
       })
     }
 
-    function removeDocumentFromFolder(folder){
+    function removeRegulatorFromFolder(folder){
       store.dispatch('folder/removeRegulator',{
         id: folder.id ,
-        document_id : selectedDocumentId.value
+        document_id : selectedRegulatorId.value
       }).then( res => {
         notify.success({
           title: "ដកឯកសារចេញពីថត" ,
@@ -756,11 +815,29 @@ export default {
       })
     }
 
+    const prefixOfTypes = ref([
+      'មិនមាន' ,
+      'នស/រកម' ,
+      'នស/រកត' ,
+      'អនក្រ/បក' ,
+      'ស.ជ.ណ' ,
+      'សសរ' ,
+      'សរ,សរណន' ,
+      'ប្រ.ក' ,
+      'គនបជ' ,
+      'ផយស' ,
+      'បប' ,
+      'ផសក្រ' ,
+      'អនក្រ.តត' ,
+      'នស/រកត'
+    ])
     /**
      * Initial the data
      */
     getRecords()
     getDocumentTypes()
+    getDocumentOrganizations()
+    getDocumentSignatures()
 
 
     return {
@@ -831,13 +908,13 @@ export default {
        getFolders ,
       showFolderModalPopup ,
       closeFolderModalPopup ,
-      addDocumentToFolder ,
-      removeDocumentFromFolder ,
+      addRegulatorToFolder ,
+      removeRegulatorFromFolder ,
       showFolderModal ,
-      listFolders
+      listFolders ,
+      prefixOfTypes
     }
   }
 }
 
 </script>
-

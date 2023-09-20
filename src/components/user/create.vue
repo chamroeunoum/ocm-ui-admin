@@ -1,7 +1,7 @@
 <template>
   <!-- Form edit account -->
     <div class="vcb-pop-create font-ktr">
-      <n-modal v-model:show="show" :on-after-leave="onClose" transform-origin="center">
+      <n-modal v-model:show="show" :on-after-leave="onClose" :on-after-enter="initial" transform-origin="center">
         <n-card class="w-1/2 font-pvh text-xl" :title="'បន្ថែម ' + model.title" :bordered="false" size="small">
           <template #header-extra>
             <n-button type="success" @click="create()" >
@@ -45,6 +45,24 @@
                   <n-form-item label="ពាក្យសម្ងាត់" path="password" class="w-4/5 mr-8" >
                     <n-input type="password" show-password-on="mousedown" v-model:value="record.password" placeholder="ពាក្យសម្ងាត់" />
                   </n-form-item>
+                  <n-form-item label="អង្គភាព" path="organization" class="w-4/5 mr-8" >
+                    <n-select
+                      v-model:value="selectedOrganizations"
+                      filterable
+                      placeholder="សូមជ្រើសរើសអង្គភាព"
+                      :options="organizations"
+                      multiple
+                    />
+                  </n-form-item>
+                  <n-form-item label="តួនាទី" path="position" class="w-4/5 mr-8" >
+                    <n-select
+                      v-model:value="selectedPositions"
+                      filterable
+                      placeholder="សូមជ្រើសរើសតួនាទី"
+                      :options="positions"
+                      multiple
+                    />
+                  </n-form-item>
                 </n-form>
                 <div class="w-1/2 h-8"></div>  
               </div>
@@ -58,7 +76,7 @@
     <!-- End of edit account -->
 </template>
 <script>
-import { reactive } from 'vue'
+import { reactive , computed , onMounted , ref } from 'vue'
 import { useStore } from 'vuex'
 import { useMessage, useNotification } from 'naive-ui'
 import { Save20Regular } from '@vicons/fluent'
@@ -91,7 +109,9 @@ export default {
           email: '' ,
           phone: '',
           active: 1 ,
-          password: ''
+          password: '' ,
+          organizations: [] ,
+          positions: []
         })
       },
       // validator: (val) => {
@@ -116,6 +136,15 @@ export default {
     const store = useStore()
     const message = useMessage()
     const notify = useNotification()
+    const selectedOrganizations = ref([])
+    const selectedPositions = ref([])
+
+    const organizations = computed( () => 
+      store.getters['organizations/getRecords'].map( o => ( { label: o.name , value : o.id } ) )
+    )
+    const positions = computed( () => 
+      store.getters['position/getRecords'].map( o => ( { label: o.name , value : o.id } ) )
+    ) 
     /**
      * Variables
      */    
@@ -153,7 +182,9 @@ export default {
         phone: '' ,
         email: '' ,
         password: '' ,
-        active: 1
+        active: 1 ,
+        organizations: [] ,
+        positions: []
       }
     }
 
@@ -190,7 +221,9 @@ export default {
         phone: props.record.phone ,
         email: props.record.email ,
         password: props.record.password ,
-        active: props.record.active == 1 ? 1 : 0
+        active: props.record.active == 1 ? 1 : 0 ,
+        organizations: selectedOrganizations.value ,
+        positions: selectedPositions.value
       }).then( res => {
         switch( res.status ){
           case 200 : 
@@ -274,18 +307,27 @@ export default {
       }
     }
 
+    function initial(){
+      selectedOrganizations.value = [463]
+    }
+
     return {
       /**
        * Variables
        */
       rules ,
+      organizations ,
+      positions ,
+      selectedOrganizations ,
+      selectedPositions ,
       /**
        * Functions
        */
       create ,
       checkUsername ,
       checkPhone ,
-      checkEmail
+      checkEmail ,
+      initial
     }
   }
 }

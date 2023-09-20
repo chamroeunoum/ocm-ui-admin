@@ -3,8 +3,8 @@ import crud from '../../api/crud'
 // initial state
 const state = () => ({
   model: {
-    name: "folders" ,
-    title: "ថតឯកសារ" 
+    name: "positions" ,
+    title: "មុខតំណែង" 
   },
   records: [] ,
   record: null ,
@@ -24,18 +24,28 @@ const getters = {
 // actions
 const actions = {
   async list ({ state, commit, rootState },params) {
-    return await crud.list(rootState.apiServer+"/"+state.model.name + "?" + new URLSearchParams({
+    return await crud.list(rootState.apiServer+"/"+state.model.name 
+    + "?" + new URLSearchParams({
         search: params.search ,
         perPage: params.perPage ,
-        page: params.page
+        page: params.page ,
+        id: params.id 
       }).toString()
     )
+  },
+  async compact ({ state, commit, rootState },params) {
+    return await crud.list(rootState.apiServer+"/"+state.model.name + "/compact" + ( params !== undefined ? "?" + new URLSearchParams({
+      search: params.search ,
+    }).toString(): ""))
   },
   async read ({ state, commit, rootState },params) {
     return await crud.read(rootState.apiServer+"/"+state.model.name+"/"+params.id+'/read')
   },
   async create ({ state, commit, rootState },params) {
     return await crud.create(rootState.apiServer+"/"+state.model.name+"/create",params)
+  },
+  async addchild ({ state, commit, rootState },params) {
+    return await crud.create(rootState.apiServer+"/"+state.model.name+"/addchild",params)
   },
   async update ({ state, commit, rootState },params) {
     return await crud.update(rootState.apiServer+"/"+state.model.name+"/update",params)
@@ -56,34 +66,16 @@ const actions = {
     null,
     true
   )},
-  async addRegulator ({ state, commit, rootState },params) {
-    return await crud.update(rootState.apiServer+"/"+state.model.name+"/regulators/add",params)
-  },
-  async removeRegulator ({ state, commit, rootState },params) {
-    return await crud.update(rootState.apiServer+"/"+state.model.name+"/regulators/remove",params)
-  },
-  async ofUser ({ state, commit, rootState },params) {
-    return await crud.read(rootState.apiServer+"/"+state.model.name+"/user"+ "?" + new URLSearchParams({
+  async users ({ state, commit, rootState },params) {
+    return await crud.read(rootState.apiServer+"/"+state.model.name+"/staffs"+ "?" + new URLSearchParams({
+      folder_id: params.id ,
       search: params.search ,
       perPage: params.perPage ,
       page: params.page
     }).toString(),
     null,
     true
-  )},
-  async listRegulatorWithValidation ({ state, commit, rootState },params) {
-    return await crud.read(rootState.apiServer+"/"+state.model.name+"/list/regulator/validation"+ "?" + new URLSearchParams({
-      search: params.search ,
-      perPage: params.perPage ,
-      page: params.page ,
-      document_id : params.document_id
-    }).toString(),
-    null,
-    true
-  )},
-  async updateAccessibility ({ state, commit, rootState },params) {
-    return await crud.update(rootState.apiServer+"/"+state.model.name+'/'+params.id+'/accessibility',{mode: params.mode})
-  },
+  )}
 }
 
 // mutations

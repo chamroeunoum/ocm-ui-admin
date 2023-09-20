@@ -25,12 +25,18 @@ const getters = {
 const actions = {
   async list ({ state, commit, rootState },params) {
     return await crud.list(rootState.apiServer+"/"+state.model.name 
-    // + "?" + new URLSearchParams({
-    //     search: params.search ,
-    //     perPage: params.perPage ,
-    //     page: params.page
-    //   }).toString()
+    + "?" + new URLSearchParams({
+        search: params.search ,
+        perPage: params.perPage ,
+        page: params.page ,
+        id: params.id
+      }).toString()
     )
+  },
+  async compact ({ state, commit, rootState },params) {
+    return await crud.list(rootState.apiServer+"/"+state.model.name + "/compact" + ( params !== undefined ? "?" + new URLSearchParams({
+      search: params.search ,
+    }).toString(): ""))
   },
   async read ({ state, commit, rootState },params) {
     return await crud.read(rootState.apiServer+"/"+state.model.name+"/"+params.id+'/read')
@@ -69,9 +75,9 @@ const actions = {
     }).toString(),
     null,
     true
-  )}
+  )},
+  
 }
-
 // mutations
 const mutations = {
   // increment (state) {

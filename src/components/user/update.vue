@@ -1,7 +1,7 @@
 <template>
   <!-- Form edit account -->
     <div class="vcb-pop-create font-ktr">
-      <n-modal v-model:show="show" :on-after-leave="onClose" transform-origin="center">
+      <n-modal v-model:show="show" :on-after-leave="clearRecord" :on-after-enter="initial" transform-origin="center">
         <n-card class="w-1/2 font-pvh text-xl" :title="'កែប្រែ ' + model.title" :bordered="false" size="small">
           <template #header-extra>
             <n-button type="success" @click="update()" >
@@ -40,6 +40,24 @@
                   <n-form-item label="អ៊ីមែល" path="email" class="w-4/5 mr-8" >
                     <n-input v-model:value="record.email" placeholder="អ៊ីមែល" />
                   </n-form-item>
+                  <n-form-item label="អង្គភាព" path="organization" class="w-4/5 mr-8" >
+                    <n-select
+                      v-model:value="selectedOrganizations"
+                      filterable
+                      placeholder="សូមជ្រើសរើសអង្គភាព"
+                      :options="organizations"
+                      multiple
+                    />
+                  </n-form-item>
+                  <n-form-item label="តួនាទី" path="position" class="w-4/5 mr-8" >
+                    <n-select
+                      v-model:value="selectedPositions"
+                      filterable
+                      placeholder="សូមជ្រើសរើសតួនាទី"
+                      :options="positions"
+                      multiple
+                    />
+                  </n-form-item>
                 </n-form>
                 <div class="w-1/2 h-8"></div>  
               </div>
@@ -53,7 +71,7 @@
     <!-- End of edit account -->
 </template>
 <script>
-import { reactive } from 'vue'
+import { reactive , ref , computed } from 'vue'
 import { useStore } from 'vuex'
 import { useMessage, useNotification } from 'naive-ui'
 import { Save20Regular } from '@vicons/fluent'
@@ -85,7 +103,9 @@ export default {
           lastname: '' ,
           email: '' ,
           phone: '' ,
-          person: null
+          person: null ,
+          orgainzations: [] ,
+          positions: []
         })
       },
       // validator: (val) => {
@@ -111,6 +131,18 @@ export default {
     var store = useStore()
     const message = useMessage()
     const notify = useNotification()
+
+    const selectedOrganizations = ref([])
+    const selectedPositions = ref([])
+
+    const organizations = computed( () => 
+      store.getters['organizations/getRecords'].map( o => ( { label: o.name , value : o.id } ) )
+    )
+    const positions = computed( () => 
+      store.getters['position/getRecords'].map( o => ( { label: o.name , value : o.id } ) )
+    ) 
+    
+
     /**
      * Variables
      */    
@@ -136,7 +168,12 @@ export default {
       props.record.lastname = ""
       props.record.phone = ""
       props.record.email = ""
-      props.record.person = null
+      props.record.person = null ,
+      props.record.organizations = [] 
+      props.record.positions = []
+      selectedPositions.value = []
+      selectedOrganizations.value = []
+      props.onClose()
     }
 
     function update(){
@@ -156,13 +193,16 @@ export default {
         })
         return false
       }
+      
       store.dispatch( props.model.name+'/update',{
         id: props.record.id ,
         username: props.record.username ,
         firstname: props.record.firstname ,
         lastname: props.record.lastname ,
         phone: props.record.phone ,
-        email: props.record.email
+        email: props.record.email ,
+        organizations: selectedOrganizations.value ,
+        positions: selectedPositions.value ,
       }).then( res => {
         if( res.data.ok ){
           notify.success({
@@ -171,7 +211,6 @@ export default {
             duration: 2000
           })
           clearRecord()
-          props.onClose()
         }else{
           notify.error({
             title: 'រក្សារទុកព័ត៌មាន' ,
@@ -184,16 +223,26 @@ export default {
       })
     }
   
+    function initial(){
+      // selectedOrganizations.value = [463]
+      selectedOrganizations.value = Array.isArray( props.record.organizations ) ? props.record.organizations.map( o => o.id ) : []
+    }
 
     return {
       /**
        * Variables
        */
       rules ,
+      selectedOrganizations ,
+      organizations ,
+      selectedPositions ,
+      positions ,
       /**
        * Functions
        */
-      update 
+      update  ,
+      initial ,
+      clearRecord
     }
   }
 }

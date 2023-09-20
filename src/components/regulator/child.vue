@@ -47,7 +47,7 @@
           <td class="vcb-table-cell" v-html="applyTagMark(record.objective)" ></td>
           <td  class="vcb-table-cell" >{{ record.fid }}</td>
           <td  class="vcb-table-cell" >{{ record.type.name }}</td>
-          <td class="vcb-table-cell" >{{ record.document_year.slice(0,10) }}</td>
+          <td class="vcb-table-cell" >{{ record.year.slice(0,10) }}</td>
           <td class="vcb-table-actions-panel text-center" >
             <!-- <n-icon size="20" class="cursor-pointer mx-1 pt-2 " @click="$router.push('/regulator/child/'+record.id)" >
               <ParentChild />

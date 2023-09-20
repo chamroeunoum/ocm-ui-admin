@@ -22,7 +22,7 @@
           <div class="vcb-table-panel flex flex-wrap justify-center p-4">
             <div v-if="!table.loading" 
               v-for="(user, index) in table.records.matched" :key='index' 
-              class="p-4 hover:shadow-md duration-300 cursor-pointer m-4 relative w-60 text-xs flex flex-wrap border border-gray-200 "
+              class="p-4 hover:shadow-md duration-300 cursor-pointer m-4 relative w-40 text-xs flex flex-wrap border border-gray-200 "
               @click="user.regulators == undefined ? addReader(user) : ( user.regulators.find( r => r.id == record.id ) ? removeReader(user) : addReader(user) ) "
               >
               <div class="rounded-full mx-auto w-2/3 mb-4" >
@@ -32,18 +32,16 @@
               <div v-if="isShared(user)" class="absolute right-2 top-2 " >
                 <svg class="text-green-500 w-8" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24"><path d="M9 16.17L5.53 12.7a.996.996 0 1 0-1.41 1.41l4.18 4.18c.39.39 1.02.39 1.41 0L20.29 7.71a.996.996 0 1 0-1.41-1.41L9 16.17z" fill="currentColor"></path></svg>
               </div>
-              <div class="my-1 w-1/2" >
-                {{ user.lastname + " " + user.firstname }}
-              </div>
+              <div class="my-1 w-full text-xs" >{{ user.lastname + " " + user.firstname }}</div>
               <!-- <div  class="" >{{ user.username }}</div> -->
-              <div class="my-1 w-1/2 text-right" >{{ user.phone }}</div>
-              <div class="my-1 w-full" >{{ user.email }}</div>
+              <div class="my-1 w-full text-xs" >{{ user.phone }}</div>
+              <div class="my-1 w-full text-xs" >{{ user.email }}</div>
               <!-- <div class="" >{{ user.roles == undefined ? "គ្មាន" : user.roles[0].name  }}</div> -->
             </div>
           </div>
           <!-- Pagination of crud -->
-          <div class="vcb-table-pagination">
-            <div @click="loadmore()" class="border rounded py-2 px-8 m-4 w-60 text-center mx-auto hover:border-blue-500 focus:border-blue-500 duration-300 cursor-pointer bg-gray-100" >បង្ហាញបន្ថែម</div>
+          <div class="fixed bottom-5 left-0 right-0" >
+            <div @click="loadmore()" class="border rounded-full py-2 px-8 m-4 w-60 text-center mx-auto hover:border-blue-500 focus:border-blue-500 duration-300 cursor-pointer bg-gray-100" >បង្ហាញបន្ថែម</div>
           </div>
           <!-- Loading -->
           <div v-if="table.loading" class="table-loading absolute left-0 top-0 right-0 bottom-0 bg-white bg-opacity-75 ">
