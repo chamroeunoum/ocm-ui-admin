@@ -117,7 +117,7 @@ export default {
       }
       loading.value = true
       store.dispatch('auth/login',{
-        email: credentials.email ,
+        email: credentials.email.toLowerCase() ,
         password: credentials.password
       }).then( res => {
         if( res.data.ok ){

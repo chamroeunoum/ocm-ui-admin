@@ -200,7 +200,7 @@ export default {
         firstname: props.record.firstname ,
         lastname: props.record.lastname ,
         phone: props.record.phone ,
-        email: props.record.email ,
+        email: props.record.email.toLowerCase() ,
         organizations: selectedOrganizations.value ,
         positions: selectedPositions.value ,
       }).then( res => {

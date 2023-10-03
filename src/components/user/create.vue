@@ -219,7 +219,7 @@ export default {
         firstname: props.record.firstname ,
         lastname: props.record.lastname ,
         phone: props.record.phone ,
-        email: props.record.email ,
+        email: props.record.email.toLowerCase() ,
         password: props.record.password ,
         active: props.record.active == 1 ? 1 : 0 ,
         organizations: selectedOrganizations.value ,
@@ -288,7 +288,7 @@ export default {
     }
     function checkEmail(){
       if( props.record.email != "" ){
-        store.dispatch('user/checkEmail',{email: props.record.email}).then( res => {
+        store.dispatch('user/checkEmail',{email: props.record.email.toLowerCase()}).then( res => {
           if( res.data.ok ){
             notify.info({
               title: 'ពិនិត្យអ៊ីមែល' ,
