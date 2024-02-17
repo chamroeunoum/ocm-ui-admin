@@ -70,7 +70,7 @@
   font-family: moul;
   src: url("assets/fonts/Moul/Moul-Regular.ttf");
 }
-.font-muol {
+.font-moul {
   font-family: moul;
 }
 @font-face {
@@ -98,11 +98,21 @@
   font-family: tacteng;
   src: url("assets/fonts/Tactieng/TACTENG.TTF");
 }
+
 .font-tactieng {
   font-family: tacteng;
 }
+
 body * {
-  font-family: Arial, Helvetica, sans-serif, kantumruy-light;
+  font-family: Arial, Helvetica, sans-serif, kantumruy;
+  font-size: 0.9rem;
+  /* Disabled user from select anything */
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 #app {
@@ -111,7 +121,7 @@ body * {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  font-size: 0.8rem;
+  font-size: 0.9rem;
 }
 
 /**
@@ -143,11 +153,11 @@ Transition
   durations and timing functions.
 */
 .slide-fade-enter-active {
-  transition: all 0.3s ease-out;
+  transition: all 0.1s ease-out;
 }
 
 .slide-fade-leave-active {
-  transition: all 0.8s cubic-bezier(1, 0.5, 0.8, 1);
+  transition: all 0.1s cubic-bezier(1, 0.5, 0.8, 1);
 }
 
 .slide-fade-enter-from,

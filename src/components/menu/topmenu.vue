@@ -1,11 +1,11 @@
 <template>
   <div class="font-pvh fixed bg-gray-100 top-0 left-0 right-0 flex h-16 p-2 mb-4 border-b border-gray-300" >
-    <div class="flex-none w-14 h-14">
+    <div class="flex-none w-9 ml-2">
       <router-link to="/dashboard">
         <img src="./../../assets/logo.svg" class="w-full bg-gray-100"/>
       </router-link>
     </div>
-    <div class="flex-grow h-12 text-lg leading-10 text-left pl-4 pt-1 font-muol ">{{ store.state.system.name }}</div>
+    <div class="flex-grow h-12 text-lg leading-10 text-left pl-4 pt-1 font-moul ">{{ store.state.system.name }}</div>
     <div class="flex-none w-96 h-10 py-1 mr-2 leading-10 text-right">{{ username }}</div>
     <div class="flex-none w-12 h-12 cursor-pointer ">
       <div class="w-12 h-12 rounded-full overflow-hidden " @click="toggleDock" >

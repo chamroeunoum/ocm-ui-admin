@@ -225,7 +225,8 @@ export default {
   
     function initial(){
       // selectedOrganizations.value = [463]
-      selectedOrganizations.value = Array.isArray( props.record.organizations ) ? props.record.organizations.map( o => o.id ) : []
+      selectedOrganizations.value = Array.isArray( props.record.person.organizations ) ? props.record.person.organizations.map( o => o.id ) : []
+      selectedPositions.value = Array.isArray( props.record.person.positions ) ? props.record.person.positions.map( o => o.id ) : []
     }
 
     return {

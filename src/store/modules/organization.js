@@ -41,6 +41,9 @@ const actions = {
   async read ({ state, commit, rootState },params) {
     return await crud.read(rootState.apiServer+"/"+state.model.name+"/"+params.id+'/read')
   },
+  async people ({ state, commit, rootState },params) {
+    return await crud.read(rootState.apiServer+"/"+state.model.name+"/"+params.id+'/people')
+  },
   async create ({ state, commit, rootState },params) {
     return await crud.create(rootState.apiServer+"/"+state.model.name+"/create",params)
   },
@@ -55,6 +58,12 @@ const actions = {
   },
   async activate({state, commit, rootState}, params){
     return await crud.update(rootState.apiServer+"/"+state.model.name+"/activate",params)
+  },
+  async setLeader ({ state, commit, rootState },params) {
+    return await crud.update(rootState.apiServer+"/"+state.model.name+"/setleader",params)
+  },
+  async addPeople ({ state, commit, rootState },params) {
+    return await crud.update(rootState.apiServer+"/"+state.model.name+"/addstaff",params)
   },
   async regulators ({ state, commit, rootState },params) {
     return await crud.read(rootState.apiServer+"/"+state.model.name+"/regulators"+ "?" + new URLSearchParams({

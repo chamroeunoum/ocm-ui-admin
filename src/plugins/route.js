@@ -11,6 +11,15 @@ import UserCreateCrud from './../components/user/create.vue'
 import UserUpdateCrud from './../components/user/update.vue'
 import UserDetail from './../components/user/detail.vue'
 
+/**
+ * Prople Components
+ */
+import PeopleCrud from './../components/people/index.vue'
+import PeopleListCrud from './../components/people/list.vue'
+import PeopleCreateCrud from './../components/people/create.vue'
+import PeopleUpdateCrud from './../components/people/update.vue'
+import PeopleDetail from './../components/people/detail.vue'
+
 import ProfileIndex from './../components/user/profile/index.vue'
 import ProfileInformation from './../components/user/profile/profile.vue'
 
@@ -48,6 +57,14 @@ import FolderRegulatorComponent from './../components/folder/regulator.vue'
 import OrganizationCrud from './../components/organization/index.vue'
 import OrganizationListCrud from './../components/organization/list.vue'
 import OrganizationOrgchart from './../components/organization/orgchart.vue'
+
+
+/**
+ * Attendant Components
+ */
+import AttendantCrud from './../components/attendant/index.vue'
+import AttendantListCrud from './../components/attendant/list.vue'
+import AttendantMonthlyCrud from './../components/attendant/monthly.vue'
 
 
 import Orgchart from './../components/regulator/orgchart.vue'
@@ -158,6 +175,60 @@ export const getRoutes = () => {
                         name: "UserUpdate" ,
                         path: 'update' ,
                         component: UserUpdateCrud
+                    }
+                ]
+            },
+            {
+                name: 'People' ,
+                path: '/people',
+                component: PeopleCrud ,
+                meta: { 
+                    transition: 'slide-right' ,
+                    requiresAuth: true,
+                    is_admin : true
+                },
+                children: [
+                    {
+                        name: "PeopleList" ,
+                        path: '' ,
+                        component: PeopleListCrud
+                    },
+                    {
+                        name: "PeopleDetail" ,
+                        path: ':id/detail' ,
+                        component: PeopleDetail
+                    },
+                    {
+                        name: "PeopleCreate" ,
+                        path: 'create' ,
+                        component: PeopleCreateCrud
+                    },
+                    {
+                        name: "PeopleUpdate" ,
+                        path: 'update' ,
+                        component: PeopleUpdateCrud
+                    }
+                ]
+            },
+            {
+                name: 'Attendant' ,
+                path: '/attendant',
+                component: AttendantCrud ,
+                meta: { 
+                    transition: 'slide-right' ,
+                    requiresAuth: true,
+                    is_admin : true
+                },
+                children: [
+                    {
+                        name: "AttendantList" ,
+                        path: '' ,
+                        component: AttendantListCrud
+                    },
+                    {
+                        name: 'AttendantMonthly' ,
+                        path: ':date/month/:userId/user' ,
+                        component: AttendantMonthlyCrud
                     }
                 ]
             },

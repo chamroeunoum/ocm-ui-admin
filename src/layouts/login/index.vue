@@ -1,16 +1,18 @@
 <template>
   <div class="flex justify-center">
-    <div class="w-full mx-8 sm:w-1/2 md:w-96 lg:w-96 xl:96 p-8 mt-24 ">
-      <div class="w-40 mx-auto my-4">
-          <img src="./../../assets/logo.svg" class="w-full" >
-        </div>
-        <div class="text-center my-2" >
-          <div class="my-2 text-xs font-muol hidden">{{ store.state.organization.name }}</div>
-          <div class="my-2 text-xs font-muol hidden">នាយកដ្ឋានឯកសារអេឡិចត្រូនិចនិងព័ត៌មានវិទ្យា</div>
-          <div class="my-2 text-4xl font-tactieng" >3</div>
-        </div>
-        <div class="w-full mx-auto my-2 text-xs font-muol">{{ store.state.system.name }}</div>
-      <div class="w-full mx-auto my-4 text-left text-md">ចូលប្រព័ន្ធ</div>
+    <div class="w-full mx-8 sm:w-1/2 md:w-96 lg:w-96 xl:96 p-8 ">
+      <div class="w-20 mx-auto mt-6">
+        <img src="./../../assets/logo.svg" class="w-full" >
+      </div>
+      <div class="text-center" >
+        <div class="my-2 font-moul text-yellow-500">ទីស្ដីការគណៈរដ្ឋមន្ត្រី</div>
+        <div class="my-2 text-4xl font-tactieng" >3</div>
+        <div class="my-2 font-moul hidden">{{ store.state.company.name }}</div>
+        <div class="my-2 font-moul hidden">នាយកដ្ឋានឯកសារអេឡិចត្រូនិចនិងព័ត៌មានវិទ្យា</div>
+      </div>
+      <div class="w-full mx-auto my-2 leading-6 text-center font-moul ">{{ store.state.system.name }}</div>
+      <!-- <div class="w-full mx-auto my-2 text-xs font-moul">{{ store.state.system.name }}</div> -->
+      <div class="w-full mx-auto mt-8 mb-4 text-left text-md">ចូលប្រព័ន្ធ</div>
       <n-space vertical>
         <n-input round 
           placeholder="អ៊ីមែល"
@@ -52,11 +54,13 @@
         <FooterComponent />
       </div>
     </div>
+    <Frame4Corner />
   </div>
 </template>
 <script>
 import './../../plugins/authentication'
 import FooterComponent from './../../components/footer/copy-right.vue'
+import Frame4Corner from './../../components/widgets/frame/corner4.vue'
 import { Key20Regular } from "@vicons/fluent";
 import { setMaxUploadFilesize } from './../../plugins/file'
 import { getRoutes } from './../../plugins/route'
@@ -72,7 +76,8 @@ export default {
   name: 'LoginTemplate' ,
   components: {
     Login ,
-    FooterComponent
+    FooterComponent ,
+    Frame4Corner
   },
   setup(){
     /**

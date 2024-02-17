@@ -60,7 +60,7 @@
           <td class="vcb-table-cell font-bold" >{{ index + 1 }}</td>
           <td  class="vcb-table-cell" >{{ record.fid }}</td>
           <td class="vcb-table-cell leading-8 flex flex-wrap" >
-            <div class="w-full pb-1 mb-1" >{{ applyTagMark(record.objective) }}</div>
+            <div class="w-full pb-1 mb-1" v-html="applyTagMark(record.objective)" ></div>
             <div class="mr-2 text-center " >{{ ( record.types != null && record.types.length ? record.types.map( r => r.name ).join(' , ') : '' ) }}</div>
             <div class="mr-2 text-center " >{{ ( record.organizations != null && record.organizations.length ? ' - ' + record.organizations.map( r => r.name ).join(' , ') : '' ) }}</div>
             <div class="mr-2 text-center " >{{ ( record.signatures != null && record.signatures.length ? ' - ' + record.signatures.map( r => r.name ).join(' , ') : '' ) }}</div>
