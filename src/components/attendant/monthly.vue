@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class=" mb-24" >
   <!-- Top action panel of crud -->
     <div class="flex title-bar border-b border-gray-200">
       <!-- Title of crud -->
@@ -31,6 +31,11 @@
         <div class="mt-1 mr-2">
           <n-date-picker v-model:value="attendantDate" type="month" @update:value="filterRecords(false)"/>
         </div>
+        <div class="mt-1 mr-2">
+          <n-button type="default" @click="$router.push('/attendant')" >
+            បញ្ជីវត្តមាន
+          </n-button>
+        </div>
       </div>
       <!-- Filter panel of crud -->
       <div class="filters-bar"></div>
@@ -41,7 +46,7 @@
         <div v-if="Array.isArray( table.records.matched ) && table.records.matched.length > 0 " class="w-full flex flex-wrap justify-between " >
           <div class="w-full flex flex-wrap m-4 py-16 shadow-sm border border-gray-300" >
             <div class="report-title font-moul text-center w-full mt-4 text-xl" >របាយការណ៍វត្តមានប្រចាំខែ</div>
-            <div class="report-title font-tactieng text-center w-full h-10 leading-10 my-4" style="font-size: 5rem; " >6</div>
+            <div class="report-title font-tacteing text-center w-full h-10 leading-10 my-4" style="font-size: 5rem; " >6</div>
             <div v-if="user!=null" class="report-title font-moul text-left w-1/2 pl-2" >មន្ត្រីឈ្មោះ ៖ &ensp;&ensp;{{ user.lastname }}&ensp;{{ user.firstname }}</div>
             <div v-if="attendantDate!=null" class="report-title font-moul text-right w-1/2 pr-2" >កាលបរិច្ឆែទ ៖ &ensp;&ensp;{{ dateFormat( new Date( attendantDate ) , 'mm - yyyy' ) }}</div>
             <div class="attendant-list w-full my-8 mt-12" >
@@ -73,7 +78,7 @@
                   </table>
                 </div>
                 <div class=" w-60 p-4 font-bold text-xl " >{{ attendant.calculateTime.total.workedTime }}</div>
-                <div :class="'w-60 p-4 font-bold  text-xl ' + ( attendant.calculateTime.total.lateOrEarly > 0 ? ' text-green-600 ' : ' text-red-600 ' )" >{{ attendant.calculateTime.total.lateOrEarly }}</div>
+                <div :class="'w-60 p-4 font-bold  text-xl ' + ( ( attendant.calculateTime.total.workedTime - attendant.calculateTime.total.duration ) > 0 ? ' text-green-600 ' : ' text-red-600 ' )" >{{ attendant.calculateTime.total.workedTime - attendant.calculateTime.total.duration }}</div>
               </div>
             </div>
           </div>

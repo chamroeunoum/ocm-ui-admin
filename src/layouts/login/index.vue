@@ -2,11 +2,11 @@
   <div class="flex justify-center">
     <div class="w-full mx-8 sm:w-1/2 md:w-96 lg:w-96 xl:96 p-8 ">
       <div class="w-20 mx-auto mt-6">
-        <img src="./../../assets/logo.svg" class="w-full" >
+        <img :src="ocmLogoUrl" class="w-full" >
       </div>
       <div class="text-center" >
         <div class="my-2 font-moul text-yellow-500">ទីស្ដីការគណៈរដ្ឋមន្ត្រី</div>
-        <div class="my-2 text-4xl font-tactieng" >3</div>
+        <div class="my-2 text-4xl font-tacteing" >3</div>
         <div class="my-2 font-moul hidden">{{ store.state.company.name }}</div>
         <div class="my-2 font-moul hidden">នាយកដ្ឋានឯកសារអេឡិចត្រូនិចនិងព័ត៌មានវិទ្យា</div>
       </div>
@@ -59,7 +59,7 @@
 </template>
 <script>
 import './../../plugins/authentication'
-import FooterComponent from './../../components/footer/copy-right.vue'
+import FooterComponent from './../../components/footer/copyright.vue'
 import Frame4Corner from './../../components/widgets/frame/corner4.vue'
 import { Key20Regular } from "@vicons/fluent";
 import { setMaxUploadFilesize } from './../../plugins/file'
@@ -71,6 +71,7 @@ import { ref, reactive } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 import { useNotification, useMessage } from 'naive-ui'
+import ocmLogoUrl from './../../assets/logo.svg'
 
 export default {
   name: 'LoginTemplate' ,
@@ -198,7 +199,8 @@ export default {
        */
       Key20Regular ,
       AlternateEmailOutlined ,
-      store
+      store ,
+      ocmLogoUrl
     }
   },
   mounted(){

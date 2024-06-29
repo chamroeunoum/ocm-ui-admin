@@ -33,6 +33,16 @@ const actions = {
       }).toString()
     )
   },
+  async listByParent ({ state, commit, rootState },params) {
+    return await crud.list(rootState.apiServer+"/"+state.model.name + "/listbyparent" 
+    + "?" + new URLSearchParams({
+        search: params.search ,
+        perPage: params.perPage ,
+        page: params.page ,
+        id: params.id
+      }).toString()
+    )
+  },
   async compact ({ state, commit, rootState },params) {
     return await crud.list(rootState.apiServer+"/"+state.model.name + "/compact" + ( params !== undefined ? "?" + new URLSearchParams({
       search: params.search ,
@@ -58,6 +68,9 @@ const actions = {
   },
   async activate({state, commit, rootState}, params){
     return await crud.update(rootState.apiServer+"/"+state.model.name+"/activate",params)
+  },
+  async deactivate({state, commit, rootState}, params){
+    return await crud.update(rootState.apiServer+"/"+state.model.name+"/deactivate",params)
   },
   async setLeader ({ state, commit, rootState },params) {
     return await crud.update(rootState.apiServer+"/"+state.model.name+"/setleader",params)

@@ -36,42 +36,66 @@
       <div class="filters-bar"></div>
     </div>
     <!-- Table of crud -->
-    <div class="mt-4 relative">
+    <div class="mt-4 mb-24 relative">
       <Transition name="fade" >
-        <div v-if="Array.isArray( table.records.matched ) && table.records.matched.length > 0 " class="w-full flex flex-wrap justify-between " >
-          <div v-for="(record, index) in table.records.matched" :key='index' class="w-1/4 p-1"  >
-            <div class="p-4 w-full flex relative cursor-pointer hover:shadow border border-gray-200" @click="$router.push('/attendant/'+record.date+'/month/'+record.user.id+'/user')" >
-              <!-- Photo -->
-              <div class="w-4/12" >
+        <div v-if="Array.isArray( table.records.matched ) && table.records.matched.length > 0 " class="w-full flex flex-wrap justify-between" >
+          <!-- <div v-for="(record, index) in table.records.matched" :key='index' class="w-1/4 p-1"  >
+            <div class="p-2 w-full leading-5 flex relative cursor-pointer hover:shadow border border-gray-200" @click="$router.push('/attendant/'+record.date+'/month/'+record.user.id+'/user')" >
+              <div class="w-4/12 mr-2" >
                 <img v-if="record.user.avatar_url==null||record.user.avatar_url==undefined||record.user.avatar_url==''" src="./../../assets/logo.svg" class="w-24 h-24 mx-auto rounded-full" />
                 <img v-if="record.user.avatar_url!=null&&record.user.avatar_url!=undefined&&record.user.avatar_url!=''" :src="record.user.avatar_url" class="w-24 h-24 mx-auto rounded-full" />
-                <div class="p-4 font-moul w-full" >{{ record.user.lastname }}&ensp;{{ record.user.firstname }}</div>
+                <div class="py-4 px-2 leading-5  text-xs text-center font-moul w-full" >{{ record.user.lastname }}&ensp;{{ record.user.firstname }}</div>
               </div>
-              <div class="w-8/12 text-md" >
+              <div class="w-8/12 text-md " >
                 <table class="w-full" >
                   <tr >
-                    <td class=" py-1 text-left " colspan="1" >កាលបរិច្ឆែទ ៖ </td>
-                    <td class=" py-1 text-right font-bold" colspan="3"  >{{ record.date }}</td>
+                    <td class=" py-1 pb-2 text-left  text-xs" colspan="1" >កាលបរិច្ឆែទ ៖ </td>
+                    <td class=" py-1 pb-2 text-right font-bold  text-xs" colspan="3"  >{{ record.date }}</td>
                   </tr>
                   <tr class="bg-gray-100" >
-                    <td class="font-moul py-1 text-left  font-moul">វេន</td>
-                    <td class="font-moul py-1 text-left  font-moul">ចូល</td>
-                    <td class="font-moul py-1 text-left  font-moul">ចេញ</td>
-                    <td class="font-moul py-1 text-right  font-moul">សរុប</td>
+                    <td class="font-moul py-1 text-left  text-xs">វេន</td>
+                    <td class="font-moul py-1 text-left  text-xs">ចូល</td>
+                    <td class="font-moul py-1 text-left  text-xs">ចេញ</td>
+                    <td class="font-moul py-1 text-right  text-xs">សរុប</td>
                   </tr>
-                  <tr v-for="(ct , ctIndex) in record.calculateTime.checktimes" :key="ctIndex">
-                    <td class=" py-1 text-left " >{{ ct.timeslot.start +'-'+ct.timeslot.end }}</td>
-                    <td class=" py-1 text-left " >{{ ct.checkin }}</td>
-                    <td class=" py-1 text-left " >{{ ct.checkout }}</td>
-                    <td class=" py-1 text-right font-bold" >{{ ct.workedTime }}</td>
+                  <tr class="" v-for="(ct , ctIndex) in record.calculateTime.checktimes" :key="ctIndex">
+                    <td class=" py-1 text-left  text-xs" >{{ ct.timeslot.start +'-'+ct.timeslot.end }}</td>
+                    <td class=" py-1 text-left  text-xs" >{{ ct.checkin }}</td>
+                    <td class=" py-1 text-left  text-xs" >{{ ct.checkout }}</td>
+                    <td class=" py-1 text-right font-bold text-xs" >{{ ct.workedTime }}</td>
+                  </tr>
+                  <tr class="" >
+                    <td class=" py-1 text-left  text-xs pt-2" colspan="2" >រយះពេលបំពេញការងារ</td>
+                    <td class=" py-1 text-right font-bold text-xs pt-2" colspan="2"  >{{ record.calculateTime.total.workedTime }}</td>
                   </tr>
                   <tr >
-                    <td class=" py-1 text-left " colspan="2" >រយះពេលបំពេញការងារ</td>
-                    <td class=" py-1 text-right font-bold" colspan="2"  >{{ record.calculateTime.total.workedTime }}</td>
+                    <td class=" py-1 text-left  text-xs" colspan="2" >រយះពេលដែល{{ ( record.calculateTime.total.lateOrEarly > 0 ? 'លើស' : 'ខ្វះ' ) }}</td>
+                    <td :class="'pb-2 text-right font-bold text-md' + ( ( record.calculateTime.total.workedTime - record.calculateTime.total.duration ) > 0 ? ' text-green-600 ' : ' text-red-600 ' )" colspan="2"  >{{  record.calculateTime.total.workedTime - record.calculateTime.total.duration  }}</td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+          </div> -->
+          <div v-for="(record, index) in table.records.matched" :key='index' class="w-1/4 p-1"  >
+            <div class="flex flex-wrap p-2 w-full leading-5 relative cursor-pointer hover:shadow border border-gray-200" @click="$router.push('/attendant/'+record.date+'/month/'+record.user.id+'/user')" >
+              <div class="w-full" >
+                <img v-if="record.user.avatar_url==null||record.user.avatar_url==undefined||record.user.avatar_url==''" src="./../../assets/logo.svg" class="w-24 h-24 mx-auto rounded-full" />
+                <img v-if="record.user.avatar_url!=null&&record.user.avatar_url!=undefined&&record.user.avatar_url!=''" :src="record.user.avatar_url" class="w-24 h-24 mx-auto rounded-full" />
+                <div class="py-4 px-2 leading-5  text-xs text-center font-moul w-full" >{{ record.user.lastname }}&ensp;{{ record.user.firstname }}</div>
+              </div>
+              <div class="w-full" >
+                <table class="w-full" >
+                  <tr >
+                    <td class=" py-1 pb-2 text-left  text-xs" colspan="1" >កាលបរិច្ឆែទ ៖ </td>
+                    <td class=" py-1 pb-2 text-right font-bold  text-xs" colspan="3"  >{{ record.date }}</td>
+                  </tr>
+                  <tr class="" >
+                    <td class=" py-1 text-left  text-xs pt-2" colspan="2" >រយះពេលបានបំពេញការងារ</td>
+                    <td class=" py-1 text-right font-bold text-xs pt-2 text-blue-500" colspan="2"  >{{ record.calculateTime.total.workedTime }}</td>
                   </tr>
                   <tr >
-                    <td class=" py-1 text-left " colspan="2" >រយះពេលដែល{{ ( record.calculateTime.total.lateOrEarly > 0 ? 'លើស' : 'ខ្វះ' ) }}</td>
-                    <td :class="'pb-2 text-right text-xl font-bold' + ( record.calculateTime.total.lateOrEarly > 0 ? ' text-green-600 ' : ' text-red-600 ' )" colspan="2"  >{{ record.calculateTime.total.lateOrEarly }}</td>
+                    <td class=" py-1 text-left  text-xs " colspan="2" >រយះពេលដែល{{ ( record.calculateTime.total.lateOrEarly > 0 ? 'លើស' : 'ខ្វះ' ) }}</td>
+                    <td :class="'pb-2 text-right font-bold text-md' + ( ( record.calculateTime.total.workedTime - record.calculateTime.total.duration ) > 0 ? ' text-green-600 ' : ' text-red-600 ' )" colspan="2"  >{{  record.calculateTime.total.workedTime - record.calculateTime.total.duration  }}</td>
                   </tr>
                 </table>
               </div>
@@ -96,19 +120,35 @@
       </Transition>
     </div>
     <!-- Pagination of crud -->
-    <div class="vcb-table-pagination">
-      <!-- First -->
-      <!-- Previous -->
-      <div class="vcb-pagination-page" v-html='"<"' @click="previous()" ></div>
-      <!-- Pages (7) -->
-      <div v-for="(page, index) in table.pagination.buttons" :key="index" class="vcb-pagination-page pages h-8 mx-2 font-bold" @click="table.pagination.page == page ? false : goTo(page) " >
-        <div :class="'page w-8 h-8 text-center align-middle leading-8 cursor-pointer' + (table.pagination.page == page ? ' text-blue-500' : '' ) ">{{ page }}</div>
+    <div class="fixed left-0 right-0 bottom-1 flex flex-wrap" >
+      <!-- This pagination is for the media side with from Medium up -->
+      <div class="vcb-table-pagination bg-blue-300 mx-auto">
+        <!-- Information -->
+        <div class="vcb-table-pagination-info" >{{ table.pagination.totalRecords > 0 ? table.pagination.totalRecords + " នាក់" : "" }}</div>
+          <div class="vcb-table-pagination-info" >{{ table.pagination.totalPages > 0 ? " ចែកជា " + table.pagination.totalPages + " ទំព័រ" : "" }}</div>
+        <!-- First -->
+        <!-- Pages (7) -->
+        <div v-for="(page, index) in table.pagination.buttons" :key="index" :class=" (table.pagination.page == page ? ' vcb-pagination-page-active ' : ' vcb-pagination-page ' )" @click="table.pagination.page == page ? false : goTo(page) " >{{ page }}</div>
+        <!-- Previous -->          
+        <div v-if="table.pagination.page > 1 " class="vcb-pagination-page " v-html='"<"' @click="previous()" ></div>
+        <n-tooltip v-if="table.pagination.page <= 1 "  trigger="hover">
+          <template #trigger>
+            <div class="vcb-pagination-page border-gray-200 text-gray-200 " v-html='"<"' ></div>
+          </template>
+          អ្នកកំពុងស្ថិតនៅទំព័រដើមបង្អស់ហើយ។
+        </n-tooltip>
+        <!-- Next -->
+        <div v-if="table.pagination.page < table.pagination.totalPages " class="vcb-pagination-page " v-html='">"' @click="next()" ></div>
+        <n-tooltip v-if="table.pagination.page >= table.pagination.totalPages " trigger="hover">
+          <template #trigger>
+            <div class="vcb-pagination-page border-gray-200 text-gray-200 " v-html='">"' ></div>
+          </template>
+          អ្នកកំពុងស្ថិតនៅទំព័រចុងក្រោយហើយ។
+        </n-tooltip>
+        <!-- Last -->
+        <!-- Go to -->
+        <!-- Total per page -->
       </div>
-      <!-- Next -->
-      <div class="vcb-pagination-page" v-html='">"' @click="next()" ></div>
-      <!-- Last -->
-      <!-- Go to -->
-      <!-- Total per page -->
     </div>
   </div>
 </template>
@@ -410,10 +450,15 @@ export default {
     function getDayOfWeek(number){
       return daysOfWeek.find( day => day.number == number )
     }
+
+    function callFengshui(){
+      store.dispatch('attendant/requestFengshui')
+    }
     /**
      * Initial the data
      */
     getRecords()
+    // callFengshui()
 
 
     return {

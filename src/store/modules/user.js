@@ -27,12 +27,17 @@ const actions = {
     return await crud.list(rootState.apiServer+"/"+state.model.name + "?" + new URLSearchParams({
         search: params.search ,
         perPage: params.perPage ,
-        page: params.page
+        page: params.page ,
+        positions: params.positions ,
+        organizations: params.organizations
       }).toString()
     )
   },
   async read ({ state, commit, rootState },params) {
     return await crud.read(rootState.apiServer+"/"+state.model.name+"/"+params.id+'/read')
+  },
+  async checkIdentification ({ state, commit, rootState },params) {
+    return await crud.read(rootState.apiServer+"/"+state.model.name+"/checkidentification/"+params.term+'/'+params.type)
   },
   async create ({ state, commit, rootState },params) {
     return await crud.create(rootState.apiServer+"/"+state.model.name+"/create",params)

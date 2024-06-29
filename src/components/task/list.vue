@@ -4,7 +4,7 @@
     <div class="flex title-bar border-b border-gray-200">
       <!-- Title of crud -->
       <div class="flex w-64 h-10 py-1 title " >
-        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512"><path d="M258.9 48C141.92 46.42 46.42 141.92 48 258.9c1.56 112.19 92.91 203.54 205.1 205.1c117 1.6 212.48-93.9 210.88-210.88C462.44 140.91 371.09 49.56 258.9 48zm126.42 327.25a4 4 0 0 1-6.14-.32a124.27 124.27 0 0 0-32.35-29.59C321.37 329 289.11 320 256 320s-65.37 9-90.83 25.34a124.24 124.24 0 0 0-32.35 29.58a4 4 0 0 1-6.14.32A175.32 175.32 0 0 1 80 259c-1.63-97.31 78.22-178.76 175.57-179S432 158.81 432 256a175.32 175.32 0 0 1-46.68 119.25z" fill="currentColor"></path><path d="M256 144c-19.72 0-37.55 7.39-50.22 20.82s-19 32-17.57 51.93C191.11 256 221.52 288 256 288s64.83-32 67.79-71.24c1.48-19.74-4.8-38.14-17.68-51.82C293.39 151.44 275.59 144 256 144z" fill="currentColor"></path></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 20 20"><g fill="none"><path d="M4 4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v9.883l-1 1.01V4a1 1 0 0 0-1-1H6a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h4.085c.071.2.185.389.344.55l.441.45H6a2 2 0 0 1-2-2V4zm4 1.5a1 1 0 1 1-2 0a1 1 0 0 1 2 0zM9.5 5a.5.5 0 0 0 0 1h4a.5.5 0 0 0 0-1h-4zm0 4a.5.5 0 0 0 0 1h4a.5.5 0 0 0 0-1h-4zM9 13.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5zm-2-3a1 1 0 1 0 0-2a1 1 0 0 0 0 2zm0 4a1 1 0 1 0 0-2a1 1 0 0 0 0 2zm10.855.352a.5.5 0 0 0-.71-.704l-3.643 3.68l-1.645-1.678a.5.5 0 1 0-.714.7l1.929 1.968a.6.6 0 0 0 .855.002l3.928-3.968z" fill="currentColor"></path></g></svg>
         <div class="font-moul ml-2 leading-9" v-html="model.title" ></div>
       </div>
       <!-- Actions button of the crud -->
@@ -13,20 +13,14 @@
         <div class="mt-1 ml-2">
           <n-button type="success" @click="showCreateModal()" >
             <template #icon>
-              <n-icon>
-                <Add20Regular />
-              </n-icon>
+              <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 20 20"><g fill="none"><path d="M10 2.5a.5.5 0 0 0-1 0V9H2.5a.5.5 0 0 0 0 1H9v6.5a.5.5 0 0 0 1 0V10h6.5a.5.5 0 0 0 0-1H10V2.5z" fill="currentColor"></path></g></svg>
             </template>
             បន្ថែម
           </n-button>
         </div>
-        <div v-if="Array.isArray( table.records.matched ) && table.records.matched.length > 0 " class="w-2/5 relative" >
+        <div class="w-2/5 relative" >
           <input type="text" @keypress.enter="filterRecords(false)" v-model="table.search" class="bg-gray-100 px-2 h-9 my-1 w-full rounded border border-gray-200 focus:border-blue-600 hover:border-blue-600 " placeholder="ស្វែងរក" />
-          <Icon size="27" class="absolute right-1 top-2 text-gray-400 hover:text-blue-700 cursor-pointer" @click="filterRecords(false)" >
-            <n-icon>
-              <Search20Regular />
-            </n-icon>
-          </Icon>
+          <svg class="absolute w-7 right-1 top-2 text-gray-400 hover:text-blue-700 cursor-pointer" @click="filterRecords(false)" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 20 20"><g fill="none"><path d="M8.5 3a5.5 5.5 0 0 1 4.227 9.02l4.127 4.126a.5.5 0 0 1-.638.765l-.07-.057l-4.126-4.127A5.5 5.5 0 1 1 8.5 3zm0 1a4.5 4.5 0 1 0 0 9a4.5 4.5 0 0 0 0-9z" fill="currentColor"></path></g></svg>
         </div>
         
       </div>
@@ -36,46 +30,11 @@
     <!-- Table of crud -->
     <div class="vcb-table-panel relative">
       <Transition name="fade" >
-        <table v-if="Array.isArray( table.records.matched ) && table.records.matched.length > 0 " class="vcb-table" >
-          <tr class="vcb-table-headers" >
-            <th class="vcb-table-header" >ល.រ</th>
-            <th class="vcb-table-header">ឈ្មោះ</th>
-            <th class="vcb-table-header">អ៊ីមែល</th>
-            <th class="vcb-table-header">ឈ្មោះក្នុងប្រព័ន្ធ</th>
-            <th class="vcb-table-header">លេខទូរស័ព្ទ</th>
-            <th class="vcb-table-header">ប្រភេទគណនី</th>
-            <th class="vcb-table-header text-right w-40" >ប្រតិបត្តិការ</th>
-          </tr>
-          <tr v-for="(record, index) in table.records.matched" :key='index' class="vcb-table-row" >
-            <td class="vcb-table-cell font-bold w-12" >{{ index + 1 }}</td>
-            <td class="vcb-table-cell" >
-              {{ record.lastname + " " + record.firstname }}<br/>
-              {{ Array.isArray( record.organizations ) && record.organizations.length > 0 ? record.organizations.map( o => o.name ).join( ' , ' ) : '' }}
-              {{ Array.isArray( record.positions ) && record.positions.length > 0 ? ' - ' + record.positions.map( o => o.name ).join( ' , ' ) : '' }}
-            </td>
-            <td class="vcb-table-cell" >{{ record.email }}</td>
-            <td  class="vcb-table-cell w-40" >{{ record.username }}</td>
-            <td  class="vcb-table-cell w-40" >{{ record.phone }}</td>
-            <td class="vcb-table-cell w-40" >{{ Array.isArray( record.roles ) && record.roles.length > 0 ? record.roles[0].name : "គ្មាន"  }}</td>
-            <td class="vcb-table-actions-panel text-right w-40" >
-              <n-icon size="22" class="cursor-pointer text-blue-500" @click="$router.push('/'+model.name+'/'+record.id+'/detail')" title="ព័ត៌មានលម្អិតរបស់ម្ចាស់គណនី" >
-                <ContactCard28Regular />
-              </n-icon>
-              <n-icon size="22" class="cursor-pointer text-blue-500" @click="showEditModal(record)" title="កែប្រែព័ត៌មាន" >
-                <Edit20Regular />
-              </n-icon>
-              <n-icon size="22" class="cursor-pointer text-yellow-500" @click="inputPassword(record)" title="ប្ដូរពាក្យសម្ងាត់សម្រាប់គណនីនេះ" >
-                <Key16Regular />
-              </n-icon>
-              <n-icon size="22" class="cursor-pointer text-red-500" @click="deleteAccount(record)" title="លុបគណនីនេះចោល" >
-                <TrashOutline />
-              </n-icon>
-              <n-icon size="22" :class="'cursor-pointer ' + ( parseInt( record.active ) == 1 ? ' text-green-500 ' : ' text-gray-500 ') " @click="activateAccount(record)" :title="record.active == 1 ? 'គណនីនេះកំពុងបើកតំណើរការ' : 'គណនីនេះកំពុងត្រូវបានបិទមិនអាចប្រើប្រាស់បាន' " >
-                <IosCheckmarkCircleOutline />
-              </n-icon>
-            </td>
-          </tr>
-        </table>
+        <div v-if="Array.isArray( table.records.matched ) && table.records.matched.length > 0 " class="flex flex-wrap" >
+          <div v-for="(record, index) in table.records.matched" :key='index' class="task w-1/4 p-2 " >
+            <task-element v-bind:record="record" v-bind:model="model" :callback="taskElementCallback" ></task-element>
+          </div>
+        </div>
       </Transition>
       <!-- Loading -->
       <Transition name="slide-fade" >
@@ -93,100 +52,58 @@
       </Transition>
     </div>
     <!-- Pagination of crud -->
-    <div class="vcb-table-pagination">
-      <!-- First -->
-      <!-- Previous -->
-      <div class="vcb-pagination-page" v-html='"<"' @click="previous()" ></div>
-      <!-- Pages (7) -->
-      <div v-for='item in table.pagination.totalPages' :key='item' class="vcb-pagination-page" @click="goTo(item)" >{{ item }}</div>
-      <!-- Next -->
-      <div class="vcb-pagination-page" v-html='">"' @click="next()" ></div>
-      <!-- Last -->
-      <!-- Go to -->
-      <!-- Total per page -->
-    </div>
-    <!-- Form change password -->
-    <div class="vcb-pop-edit font-ktr">
-      <n-modal v-model:show="changePasswordModal.show" transform-origin="center">
-        <n-card class="w-1/2 font-pvh text-xl" title="ប្ដូរពាក្យសម្ងាត់" :bordered="false" size="small">
-          <template #header-extra>
-            <n-button type="success" @click="changePassword(changePasswordModal.form)" >
-              <template #icon>
-                <n-icon>
-                  <Save20Regular />
-                </n-icon>
-              </template>
-              រក្សារទុក
-            </n-button>
+    <div class="fixed left-0 right-0 bottom-1 flex flex-wrap" >
+      <!-- This pagination is for the media side with from Medium up -->
+      <div class="vcb-table-pagination bg-blue-300 mx-auto">
+        <!-- Information -->
+        <div class="vcb-table-pagination-info" >{{ table.pagination.totalRecords > 0 ? table.pagination.totalRecords + ' ការងារ' : "" }}</div>
+          <div v-if="table.pagination.totalPages>1" class="vcb-table-pagination-info" >{{ table.pagination.totalPages > 0 ? " ចែកជា " + table.pagination.totalPages + " ទំព័រ" : "" }}</div>
+        <!-- First -->
+        <!-- Pages (7) -->
+        <div v-for="(page, index) in table.pagination.buttons" :key="index" :class=" (table.pagination.page == page ? ' vcb-pagination-page-active ' : ' vcb-pagination-page ' )" @click="table.pagination.page == page ? false : goTo(page) " >{{ page }}</div>
+        <!-- Previous -->          
+        <n-tooltip v-if="table.pagination.page > 1 "  trigger="hover">
+          <template #trigger>
+            <div class="vcb-pagination-page border-gray-200 text-gray-200 " v-html='"<"' ></div>
           </template>
-          <!-- Form change password -->
-          <div class="crud-create-form w-full border-t">
-            <div class=" mx-auto p-4 flex-wrap">
-              <div class="crud-form-panel w-full flex flex-wrap ">
-                <n-form 
-                  class="w-full text-left font-btb text-lg flex flex-wrap" 
-                  :label-width="80"
-                  :model="changePasswordModal.form"
-                  :rules="changePasswordModal.rules"
-                  size="large"
-                  ref="formRef"
-                >
-                  <n-form-item label="ពាក្យសម្ងាត់ថ្មី" path="password" class="w-2/5 mr-8" >
-                    <n-input type="password" show-password-on="mousedown" v-model:value="changePasswordModal.form.password" placeholder="ពាក្យសម្ងាត់ថ្មី" />
-                  </n-form-item>
-                </n-form>
-                <div class="w-1/2 h-8"></div>  
-              </div>
-            </div>
-          </div>
-          <!-- End form change password -->
-          <template #footer></template>
-        </n-card>
-      </n-modal>
+          ទៅទំព័រដើមបង្អស់ហើយ។
+        </n-tooltip>
+        <!-- Next -->
+        <n-tooltip v-if="table.pagination.totalPages > 1 && table.pagination.page >= table.pagination.totalPages " trigger="hover">
+          <template #trigger>
+            <div class="vcb-pagination-page border-gray-200 text-gray-200 " v-html='">"' ></div>
+          </template>
+          ទៅទំព័រចុងក្រោយហើយ។
+        </n-tooltip>
+        <!-- Last -->
+        <!-- Go to -->
+        <!-- Total per page -->
+      </div>
     </div>
-    <!-- End of change password -->
     <!-- Form create account -->
     <create-form v-bind:model="model" v-bind:show="createModal.show" :onClose="closeCreateModal"/>
-    <!-- Form update account -->
-    <update-form v-bind:model="model" v-bind:record="editRecord" v-bind:show="editModal.show" :onClose="closeEditModal"/>
   </div>
 </template>
 <script>
-import { reactive } from 'vue'
+import { reactive , ref , computed } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 import QrcodeVue from 'qrcode.vue'
 import Vue3Barcode from 'vue3-barcode'
-import { Switcher } from '@vicons/carbon'
-import { Icon } from '@vicons/utils'
-import { IosCheckmarkCircleOutline, IosRefresh } from '@vicons/ionicons4'
-import { TrashOutline, CloseCircleOutline } from '@vicons/ionicons5'
 import { useDialog, useMessage, useNotification } from 'naive-ui'
-import { Edit20Regular, Key16Regular, Save20Regular, Add20Regular, Search20Regular , ContactCard28Regular } from '@vicons/fluent'
 /**
  * CRUD component form
  */
 import CreateForm from './create.vue'
-import UpdateForm from './update.vue'
+import TaskElement from './elements/task.vue'
+
 export default {
   name: "User" ,
   components: {
     QrcodeVue ,
     Vue3Barcode,
-    Switcher,
-    Add20Regular ,
-    Icon,
-    IosCheckmarkCircleOutline,
     CreateForm,
-    IosRefresh ,
-    CloseCircleOutline ,
-    UpdateForm,
-    Search20Regular ,
-    Edit20Regular,
-    Key16Regular,
-    Save20Regular ,
-    TrashOutline ,
-    ContactCard28Regular
+    TaskElement
   },
   setup(){
     var store = useStore()
@@ -200,6 +117,7 @@ export default {
       name: "task" ,
       title: "ការងារ"
     })
+
     var table = reactive( {
       loading: false ,
       search: '' ,
@@ -209,19 +127,18 @@ export default {
       },
       columns: {
         searchable: {
-          username: '' ,
-          firstname: '' ,
-          lastname: '' ,
-          email: '' ,
-          phone: '' ,
-          active: ''
+          objective: '' ,
+          start: '' ,
+          end: '' ,
+          amount: ''
         },
         format: {
-          username: '' ,
-          firstname: '' ,
-          lastname: '' ,
-          email: '' ,
-          phone: '' ,
+          id: 0 ,
+          objective: '' ,
+          start: '' ,
+          end: '' ,
+          amount: '' ,
+          amount_type: '' ,
           active: ''
         }
       } ,
@@ -232,22 +149,6 @@ export default {
         totalRecords: 0
       }
     })
-
-    var changePasswordModal = reactive({
-      show: false ,
-      account: null ,
-      form: {
-        password: ''
-      },
-      rules: {
-        password: {
-          required: true,
-          message: 'សូមបញ្ចូលពាក្យសម្ងាត់ថ្មី',
-          trigger: [ 'blur']
-        },
-      }
-    })
-
     function filterRecords(helper=true){
       if( helper ){
         table.records.matched = []
@@ -359,154 +260,17 @@ export default {
       getRecords()
     }
 
-    var editModal = reactive({show:false})
-    var editRecord = reactive({
-      id: 0 ,
-      username: "" ,
-      firstname: "" ,
-      lastname: "" ,
-      phone: "" ,
-      email: "" ,
-      organizations: [] ,
-      positions: []
-    })
-    function showEditModal(record){
-      editRecord.id = record.id
-      editRecord.username = record.username
-      editRecord.firstname = record.firstname
-      editRecord.lastname = record.lastname
-      editRecord.phone = record.phone
-      editRecord.email = record.email
-      editRecord.person = record.person
-      editRecord.organizations = record.organizations
-      editRecord.positions = record.positions
-      editModal.show = true
-    }
-    function closeEditModal(record){
-      editModal.show = false
+    /**
+     * Callback function of the Task Element
+     */
+    function taskElementCallback(){
       getRecords()
-    }
-    function inputPassword(record){
-      changePasswordModal.account = record
-      changePasswordModal.form = {
-        id: record.id ,
-        password: record.password
-      }
-      changePasswordModal.show = true
-    }
-    function changePassword(form){
-      if( form.password != "" && form.password != undefined && form.password != null ){
-        store.dispatch( model.name+'/passwordChange',{
-            id: form.id ,
-            password: form.password 
-          }).then( res => {
-            if( res.data.ok ){
-              notify.success({
-                title: 'ប្ដូរពាក្យសំងាត់' ,
-                description: 'បានកែប្រែពាក្យសំងាត់បានជោគជ័យ។' ,
-                duration: 3000
-              })
-              changePasswordModal.show = false
-              changePasswordModal.form = {
-                id : 0 ,
-                password: ''
-              }
-              getRecords()
-            }else{
-              notify.error({
-                title: 'ប្ដូរពាក្យសំងាត់' ,
-                description: 'មានបញ្ហាក្នុងពេលកែប្រែពាក្យសំងាត់។' ,
-                duration: 3000
-              })
-            }
-          }).catch( err => {
-            message.error( err )
-          })
-      }else{
-        notify.warning({
-          title: 'ប្ដូរពាក្យសំងាត់' ,
-          description: 'សូមបញ្ចូលពាក្យសំងាត់របស់អ្នក។' ,
-          duration: 3000
-        })
-      }
-    }
-
-    function deleteAccount(record){
-      dialog.warning({
-        title: "លុបគណនី" ,
-        content: "តើអ្នកចង់ លុប គណនីនេះមែនទេ ?" ,
-        positiveText: 'បាទ / ចាស',
-        negativeText: 'ទេ',
-        onPositiveClick: () => {
-          store.dispatch(model.name+'/delete',{id:record.id}).then( res => {
-            if( res.data.ok ){
-              notify.success({
-                title: 'លុបទិន្នន័យ' ,
-                description: 'លុបបានរួចរាល់។' ,
-                duration: 3000
-              })
-              getRecords()
-            }else{
-              notify.success({
-                title: 'លុបទិន្នន័យ' ,
-                description: 'មានបញ្ហាក្នុងពេលលុបទិន្នន័យ។' ,
-                duration: 3000
-              })
-            }
-        }).catch( err => {
-          message.error( err )
-        })
-        },
-        onNegativeClick: () => {
-        }
-      })
-    }
-    
-    /**
-     * Load positions
-     */
-     function getPositions(){
-      store.dispatch('position/list',{
-        page: 1 ,
-        perPage: 1000 ,
-        search: ''
-      }).then(res=>{
-        store.commit('position/setRecords',res.data.records)
-      }).catch(err =>{
-        notify.error({
-          title: 'អានតំណែង' ,
-          description: 'មានបញ្ហាពេលអានតំណែង។'
-        })
-        console.log( err )
-      })
-    }
-
-    /**
-     * Load positions
-     */
-     function getOrganizations(){
-      store.dispatch('organizations/list',{
-        page: 1 ,
-        perPage: 1000 ,
-        search: '' ,
-        id: 164
-      }).then(res=>{
-        store.commit('organizations/setRecords',res.data.records)
-      }).catch(err =>{
-        notify.error({
-          title: 'អានអង្គភាព' ,
-          description: 'មានបញ្ហាពេលអានអានអង្គភាព។'
-        })
-        console.log( err )
-      })
     }
 
     /**
      * Initial the data
      */
     getRecords()
-    getPositions()
-    getOrganizations()
 
 
     return {
@@ -515,7 +279,6 @@ export default {
        */
       model ,
       table ,
-      changePasswordModal ,
       /**
        * Table
        */
@@ -538,19 +301,10 @@ export default {
       showCreateModal ,
       closeCreateModal ,     
       /**
-       * Editing
-       */
-      editModal ,
-      showEditModal ,
-      closeEditModal , 
-      editRecord ,
-      /**
        * Functions
        */
       activateAccount ,
-      inputPassword ,
-      changePassword ,
-      deleteAccount
+      taskElementCallback
     }
   }
 }

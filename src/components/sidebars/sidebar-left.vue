@@ -91,7 +91,7 @@
 
 <script>
 import { ref } from 'vue'
-import Footer from './../../components/footer/copy-right.vue'
+import Footer from './../../components/footer/copyright.vue'
 import { Notify } from 'vant'
 import { isAuth, authLogout } from './../../plugins/authentication'
 import { useStore } from 'vuex'

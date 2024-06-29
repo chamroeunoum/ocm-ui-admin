@@ -2,23 +2,36 @@ import { isBackend , isAuth } from './authentication'
 import LoginComponent from './../layouts/login/index.vue'
 import DashboardComponent from './../components/main/index.vue'
 import DashboardWidget from './../components/main/dashboard.vue'
+
+/**
+ * Card Officer
+ */
+import DetailCardComponent from './../layouts/staff/card.vue'
+/**
+ * Check in and out
+ */
+import QrCheckinAndCheckoutComponent from './../layouts/checkinout/check.vue'
+import QrCheckinAndCheckoutCameraComponent from './../layouts/checkinout/qrcheck.vue'
+
 /**
  * User Components
  */
 import UserCrud from './../components/user/index.vue'
-import UserListCrud from './../components/user/list.vue'
-import UserCreateCrud from './../components/user/create.vue'
-import UserUpdateCrud from './../components/user/update.vue'
-import UserDetail from './../components/user/detail.vue'
+import UserTableCrud from './../components/user/listing/table.vue'
+import UserThumbnailCrud from './../components/user/listing/thumbnail.vue'
+import UserCreateCrud from './../components/user/widgets/create.vue'
+import UserUpdateCrud from './../components/user/widgets/update.vue'
 
 /**
  * Prople Components
  */
 import PeopleCrud from './../components/people/index.vue'
-import PeopleListCrud from './../components/people/list.vue'
-import PeopleCreateCrud from './../components/people/create.vue'
-import PeopleUpdateCrud from './../components/people/update.vue'
-import PeopleDetail from './../components/people/detail.vue'
+import PeopleThumbnailCrud from './../components/people/listing/thumbnail.vue'
+// import PeopleCrud from './../components/people/index.vue'
+// import PeopleListCrud from './../components/people/list.vue'
+// import PeopleCreateCrud from './../components/people/create.vue'
+// import PeopleUpdateCrud from './../components/people/update.vue'
+// import PeopleDetail from './../components/people/detail.vue'
 
 import ProfileIndex from './../components/user/profile/index.vue'
 import ProfileInformation from './../components/user/profile/profile.vue'
@@ -47,6 +60,7 @@ import FolderRegulatorComponent from './../components/folder/regulator.vue'
  */
  import RegulatorCrud from './../components/regulator/index.vue'
  import RegulatorListCrud from './../components/regulator/list.vue'
+ import RegulatorThumbnailCrud from './../components/regulator/listing/thumbnail.vue'
  import RegulatorChildCrud from './../components/regulator/child.vue'
 //  import RegulatorCreateCrud from './../components/regulator/create.vue'
 //  import RegulatorUpdateCrud from './../components/regulator/update.vue'
@@ -55,9 +69,17 @@ import FolderRegulatorComponent from './../components/folder/regulator.vue'
  * Organization Components
  */
 import OrganizationCrud from './../components/organization/index.vue'
-import OrganizationListCrud from './../components/organization/list.vue'
+import OrganizationThumbnailCrud from './../components/organization/thumbnail.vue'
 import OrganizationOrgchart from './../components/organization/orgchart.vue'
+import OrganizationDetails from './../components/organization/details.vue'
 
+/**
+ * Positions
+ */
+import PositionCrud from './../components/position/index.vue'
+import PositionThumbnailCrud from './../components/position/thumbnail.vue'
+import PositionOrgchart from './../components/position/orgchart.vue'
+import PositionDetails from './../components/position/details.vue'
 
 /**
  * Attendant Components
@@ -66,6 +88,23 @@ import AttendantCrud from './../components/attendant/index.vue'
 import AttendantListCrud from './../components/attendant/list.vue'
 import AttendantMonthlyCrud from './../components/attendant/monthly.vue'
 
+
+import QRComponent from './../components/qrcodes/index.vue'
+import QRListComponent from './../components/qrcodes/list.vue'
+import QRCheckinComponent from './../components/qrcodes/checkin.vue'
+
+/**
+ * Task Components
+ */
+import TaskCrud from './../components/task/index.vue'
+import TaskListCrud from './../components/task/list.vue'
+
+/**
+ * Law book Components
+ */
+import LawCrud from './../components/law/index.vue'
+import LawListCrud from './../components/law/listing/thumbnail.vue'
+import LawBookContent from './../components/law/listing/content.vue'
 
 import Orgchart from './../components/regulator/orgchart.vue'
 
@@ -157,24 +196,14 @@ export const getRoutes = () => {
                 },
                 children: [
                     {
-                        name: "UserList" ,
+                        name: "UserTable" ,
                         path: '' ,
-                        component: UserListCrud
+                        component: UserThumbnailCrud // UserTableCrud
                     },
                     {
-                        name: "UserDetail" ,
-                        path: ':id/detail' ,
-                        component: UserDetail
-                    },
-                    {
-                        name: "UserCreate" ,
-                        path: 'create' ,
-                        component: UserCreateCrud
-                    },
-                    {
-                        name: "UserUpdate" ,
-                        path: 'update' ,
-                        component: UserUpdateCrud
+                        name: "UserThumbnail" ,
+                        path: 'thumbnail' ,
+                        component: UserThumbnailCrud
                     }
                 ]
             },
@@ -189,25 +218,40 @@ export const getRoutes = () => {
                 },
                 children: [
                     {
-                        name: "PeopleList" ,
+                        name: "PeopleTable" ,
                         path: '' ,
-                        component: PeopleListCrud
+                        component: PeopleThumbnailCrud // UserTableCrud
                     },
                     {
-                        name: "PeopleDetail" ,
-                        path: ':id/detail' ,
-                        component: PeopleDetail
+                        name: "PeopleThumbnail" ,
+                        path: 'thumbnail' ,
+                        component: PeopleThumbnailCrud
                     },
                     {
-                        name: "PeopleCreate" ,
-                        path: 'create' ,
-                        component: PeopleCreateCrud
-                    },
-                    {
-                        name: "PeopleUpdate" ,
-                        path: 'update' ,
-                        component: PeopleUpdateCrud
+                        name: "PeopleThumbnailFilter" ,
+                        path: 'thumbnail/:ids' ,
+                        component: PeopleThumbnailCrud
                     }
+                    // {
+                    //     name: "PeopleList" ,
+                    //     path: '' ,
+                    //     component: PeopleListCrud
+                    // },
+                    // {
+                    //     name: "PeopleDetail" ,
+                    //     path: ':id/detail' ,
+                    //     component: PeopleDetail
+                    // },
+                    // {
+                    //     name: "PeopleCreate" ,
+                    //     path: 'create' ,
+                    //     component: PeopleCreateCrud
+                    // },
+                    // {
+                    //     name: "PeopleUpdate" ,
+                    //     path: 'update' ,
+                    //     component: PeopleUpdateCrud
+                    // }
                 ]
             },
             {
@@ -229,9 +273,78 @@ export const getRoutes = () => {
                         name: 'AttendantMonthly' ,
                         path: ':date/month/:userId/user' ,
                         component: AttendantMonthlyCrud
+                    },
+                    {
+                        name: 'QRListComponent' ,
+                        path: 'qrlist' ,
+                        component: QRListComponent
+                    },
+                    {
+                        name: 'QRCheckinComponent' ,
+                        path: 'qrcheckin' ,
+                        component: QRCheckinComponent
+                    }
+                    
+                ]
+            },
+            {
+                name: 'QRCodes' ,
+                path: '/qrcodes',
+                component: QRComponent ,
+                meta: { 
+                    transition: 'slide-right' ,
+                    requiresAuth: true,
+                    is_admin : true
+                },
+                children: [
+                    {
+                        name: "QRCodesList" ,
+                        path: '' ,
+                        component: QRListComponent
+                    },
+                    {
+                        name: 'QRCheckin' ,
+                        path: 'checkin/:id' ,
+                        component: QRCheckinComponent
+                    }
+                    
+                ]
+            },
+            {
+                name: 'Task' ,
+                path: '/task',
+                component: TaskCrud ,
+                meta: { 
+                    transition: 'slide-right' ,
+                    requiresAuth: true,
+                    is_admin : true
+                },
+                children: [
+                    {
+                        name: "TaskList" ,
+                        path: '' ,
+                        component: TaskListCrud
                     }
                 ]
             },
+            {
+                name: 'Law' ,
+                path: '/law',
+                component: LawCrud ,
+                meta: { 
+                    transition: 'slide-right' ,
+                    requiresAuth: true,
+                    is_admin : true
+                },
+                children: [
+                    {
+                        name: "LawList" ,
+                        path: '' ,
+                        component: LawListCrud
+                    }
+                ]
+            },
+            
             // Folder
             {
                 name: 'Folder' ,
@@ -316,13 +429,13 @@ export const getRoutes = () => {
                     {
                         name: "RegulatorList" ,
                         path: '' ,
-                        component: RegulatorListCrud
+                        component: RegulatorThumbnailCrud
                     },
-                    // {
-                    //     name: "RegulatorUpdate" ,
-                    //     path: 'update' ,
-                    //     component: RegulatorUpdateCrud
-                    // }
+                    {
+                        name: "RegulatorThumbnailCrud" ,
+                        path: 'thumbnail' ,
+                        component: RegulatorThumbnailCrud
+                    },
                     {
                         name: "RegulatorChild" ,
                         path: 'child/:id' ,
@@ -331,7 +444,7 @@ export const getRoutes = () => {
                     },
                 ]
             },
-            // Folder
+            // Organization
             {
                 name: 'Organization' ,
                 path: '/organization',
@@ -345,7 +458,22 @@ export const getRoutes = () => {
                     {
                         name: "OrganizationList" ,
                         path: '' ,
-                        component: OrganizationOrgchart
+                        component: OrganizationThumbnailCrud ,
+                        meta: { 
+                            transition: 'slide-right' ,
+                            requiresAuth: true,
+                            is_admin : true
+                        }
+                    },
+                    {
+                        name: "SubOrganizationList" ,
+                        path: ':rootId/sub' ,
+                        component: OrganizationThumbnailCrud ,
+                        meta: { 
+                            transition: 'slide-right' ,
+                            requiresAuth: true,
+                            is_admin : true
+                        }
                     },
                     {
                         name: 'OrganizationOrgchart' ,
@@ -357,7 +485,96 @@ export const getRoutes = () => {
                             is_admin : true
                         }
                     },
+                    {
+                        name: 'OrganizationDetails' ,
+                        path: ':id/details' ,
+                        component: OrganizationDetails ,
+                        meta: { 
+                            transition: 'slide-right' ,
+                            requiresAuth: true,
+                            is_admin : true
+                        }
+                    },
+                    
                 ]
+            },
+            // Position
+            {
+                name: 'Position' ,
+                path: '/position',
+                component: PositionCrud ,
+                meta: { 
+                    transition: 'slide-right' ,
+                    requiresAuth: true,
+                    is_admin : true
+                },
+                children: [
+                    {
+                        name: "PositionList" ,
+                        path: '' ,
+                        component: PositionThumbnailCrud ,
+                        meta: { 
+                            transition: 'slide-right' ,
+                            requiresAuth: true,
+                            is_admin : true
+                        }
+                    },
+                    {
+                        name: "SubPositionList" ,
+                        path: ':rootId/sub' ,
+                        component: PositionThumbnailCrud ,
+                        meta: { 
+                            transition: 'slide-right' ,
+                            requiresAuth: true,
+                            is_admin : true
+                        }
+                    },
+                    {
+                        name: 'PositionOrgchart' ,
+                        path: 'orgchart' ,
+                        component: PositionOrgchart ,
+                        meta: { 
+                            transition: 'slide-right' ,
+                            requiresAuth: true,
+                            is_admin : true
+                        }
+                    },
+                    {
+                        name: 'PositionDetails' ,
+                        path: ':id/details' ,
+                        component: PositionDetails ,
+                        meta: { 
+                            transition: 'slide-right' ,
+                            requiresAuth: true,
+                            is_admin : true
+                        }
+                    },
+                    
+                ]
+            },
+            {
+                name: 'OfficerCard',
+                path: '/officer/card/:id',
+                component: DetailCardComponent ,
+                meta: {
+                    // transition: 'fade'
+                }
+            },
+            {
+                name: 'QrCheckinAndCheckoutComponent',
+                path: '/officer/checkinout/:id',
+                component: QrCheckinAndCheckoutComponent ,
+                meta: {
+                    // transition: 'fade'
+                }
+            },
+            {
+                name: 'QrCheckinAndCheckoutCameraComponent',
+                path: '/officer/checkinout/:id/camera',
+                component: QrCheckinAndCheckoutCameraComponent ,
+                meta: {
+                    // transition: 'fade'
+                }
             },
             // {
             //     name: 'RegulatorOrgchart' ,
@@ -397,6 +614,31 @@ export const getRoutes = () => {
                 // transition: 'fade'
             }
         },
+        {
+            name: 'OfficerCard',
+            path: '/officer/card/:id',
+            component: DetailCardComponent ,
+            meta: {
+                // transition: 'fade'
+            }
+        },
+        {
+            name: 'QrCheckinAndCheckoutComponent',
+            path: '/officer/checkinout/:id',
+            component: QrCheckinAndCheckoutComponent ,
+            meta: {
+                // transition: 'fade'
+            }
+        },
+        {
+            name: 'QrCheckinAndCheckoutCameraComponent',
+            path: '/officer/checkinout/:id/camera',
+            component: QrCheckinAndCheckoutCameraComponent ,
+            meta: {
+                // transition: 'fade'
+            }
+        },
+        
         // will match everything and put it under `$route.params.pathMatch`
         { path: '/:pathMatch(.*)*', name: 'NotFound', component: Page404 }
     ]

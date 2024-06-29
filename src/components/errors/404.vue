@@ -8,7 +8,7 @@
               <div class="text-center my-2" >
                   <!-- <div class="my-2 text-xs font-moul">{{ store.state.organization.name }}</div> -->
                   <div class="my-2 text-xs font-moul text-yellow-500">ទីស្ដីការគណៈរដ្ឋមន្ត្រី</div>
-                  <div class="my-2 text-4xl font-tactieng" >3</div>
+                  <div class="my-2 text-4xl font-tacteing" >3</div>
               </div>
               <div class="w-full mx-auto my-2 text-xs font-moul">{{ store.state.system.name }}</div>
               <div class="w-full mx-auto mt-20 mb-8 pb-2 text-center text-lg flex justify-center ">
@@ -22,7 +22,7 @@
   </div>
 </template>
 <script>
-import Footer from './../../components/footer/copy-right.vue'
+import Footer from './../../components/footer/copyright.vue'
 import Frame4Corner from './../../components/widgets/frame/corner4.vue'
 import { reactive, ref, computed } from 'vue'
 import { useStore } from 'vuex'

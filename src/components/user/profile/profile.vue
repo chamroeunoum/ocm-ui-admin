@@ -2,7 +2,7 @@
   <div class="w-full relative flex flex-wrap" >
     <Transition name="fade" >
       <div v-if="user!=null" class="w-full">
-        <div class="flex w-full title-bar border-b border-gray-200 px-4 ">
+        <div class="flex w-full title-bar border-b border-gray-200 ">
           <!-- Title of crud -->
           <div class="flex w-64 h-10 py-1 title " >
             <svg class="w-8 h-8 cursor-pointer" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -26,27 +26,19 @@
           </div>
         </div>
         <!-- End Menu -->    
-        <div class="profileInformation p-8 sm:w-2/3 md:w-3/5 lg:w-2/5 w-4/5 mx-auto border my-8 relative">
+        <div class="profileInformation p-8 sm:w-2/3 md:w-3/5 lg:w-2/5 w-4/5 mx-auto border my-8 relative bg-white rounded ">
           <div class="profileImage border rounded-full border-gray-200 p-2 w-40 h-40 flex-none mx-auto overflow-hidden bg-center bg-no-repeat bg-80% bg-white bg-cover" :style=" 'background-image: url(' + localProfile +');' " ></div>
           <div class="uploader absolute right-0 top-0 w-24flex" >
             <input type="file" placeholder="ឯកសារយោង" @change="fileChange" class="hidden " id="referenceDocument" />
             <div class="cursor-pointer hover:border-green-500 flex flex-wrap"  >
               <n-tooltip trigger="hover">
                 <template #trigger>
-                  <div class="changeProfile p-2 m-1 border rounded-full w-10 h-10 border-gray-300" @click="clickUpload"  >
-                    <n-icon size="22" class="text-gray-600" >
-                      <CameraOutline />
-                    </n-icon>
-                  </div>
+                  <svg class="changeProfile p-2 m-1 border rounded-full w-10 h-10 border-gray-300" @click="clickUpload" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512"><path d="M350.54 148.68l-26.62-42.06C318.31 100.08 310.62 96 302 96h-92c-8.62 0-16.31 4.08-21.92 10.62l-26.62 42.06C155.85 155.23 148.62 160 140 160H80a32 32 0 0 0-32 32v192a32 32 0 0 0 32 32h352a32 32 0 0 0 32-32V192a32 32 0 0 0-32-32h-59c-8.65 0-16.85-4.77-22.46-11.32z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"></path><circle cx="256" cy="272" r="80" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"></circle><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M124 158v-22h-24v22"></path></svg>    
                 </template>ប្ដូររូបភាពគណនី
               </n-tooltip>
               <n-tooltip trigger="hover">
                 <template #trigger>
-                  <div class="saveProfile p-2 m-1 border rounded-full w-10 h-10 border-gray-300" @click="uploadFiles" >
-                    <n-icon size="22" class="text-gray-600" >
-                      <CloudUploadOutline />
-                    </n-icon>
-                  </div>
+                  <svg class="saveProfile p-2 m-1 border rounded-full w-10 h-10 border-gray-300" @click="uploadFiles" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24"><path d="M19.35 10.04A7.49 7.49 0 0 0 12 4C9.11 4 6.6 5.64 5.35 8.04A5.994 5.994 0 0 0 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5c0-2.64-2.05-4.78-4.65-4.96zM19 18H6c-2.21 0-4-1.79-4-4c0-2.05 1.53-3.76 3.56-3.97l1.07-.11l.5-.95A5.469 5.469 0 0 1 12 6c2.62 0 4.88 1.86 5.39 4.43l.3 1.5l1.53.11A2.98 2.98 0 0 1 22 15c0 1.65-1.35 3-3 3zM8 13h2.55v3h2.9v-3H16l-4-4z" fill="currentColor"></path></svg>
                 </template>រក្សារទុករូបភាពថ្មី
               </n-tooltip>
             </div>
@@ -87,10 +79,11 @@ import { isAuth, getUser , authLogout } from './../../../plugins/authentication.
 import { reactive, ref , computed } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter, useRoute } from 'vue-router'
-import FooterComponent from './../../../components/footer/copy-right.vue'
+import FooterComponent from './../../../components/footer/copyright.vue'
 import { useMessage, useNotification } from 'naive-ui'
 import { Icon } from '@vicons/utils'
 import { CameraOutline , CloudUploadOutline} from '@vicons/ionicons5'
+import ocmLogoUrl from './../../../assets/logo.svg'
 
   export default {
     name: 'Profile' ,

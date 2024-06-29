@@ -4,7 +4,7 @@
 </script>
 <template>
   <n-dialog-provider>
-  <n-message-provider>
+  <n-message-provider placement="bottom">
   <n-notification-provider placement="bottom-right" >
     <router-view v-slot="{ Component, route }">
       <component :is="Component" />

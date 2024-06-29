@@ -3,7 +3,7 @@ import crud from '../../api/crud'
 // initial state
 const state = () => ({
   model: {
-    name: "client" ,
+    name: "clients" ,
     title: "អតិថិជន" 
   },
   records: [] ,

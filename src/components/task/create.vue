@@ -1,10 +1,10 @@
 <template>
   <!-- Form edit account -->
     <div class="vcb-pop-create font-ktr">
-      <n-modal v-model:show="show" :on-after-leave="onClose" :on-after-enter="initial" transform-origin="center">
+      <n-modal v-model:show="show" :on-mask-click="closeModal" transform-origin="center" :on-after-enter="initial" >
         <n-card class="w-1/2 font-pvh text-xl" :title="'បន្ថែម ' + model.title" :bordered="false" size="small">
           <template #header-extra>
-            <n-button type="success" @click="create()" >
+            <n-button type="success" :disabled="btnSavingLoadingRef" @click="create()" :loading="btnSavingLoadingRef" >
               <template #icon>
                 <n-icon>
                   <Save20Regular />
@@ -18,8 +18,6 @@
             <div class=" mx-auto p-4 flex-wrap">
               <div class="crud-form-panel w-full flex flex-wrap ">
                 <n-form 
-                  :id="model.name"
-                  :name="model.name"
                   class="w-full text-left font-btb text-lg flex flex-wrap" 
                   :label-width="80"
                   :model="record"
@@ -27,44 +25,13 @@
                   size="large"
                   ref="formRef"
                 >
-                  <n-form-item label="ឈ្មោះក្នុងប្រព័ន្ធ" path="username" class="w-4/5 mr-8" >
-                    <n-input v-model:value="record.username" placeholder="ឈ្មោះក្នុងប្រព័ន្ធ" @blur="checkUsername" />
+                  <n-form-item label="បរិយាយពីការងារ" path="objective" class="w-4/5 mr-8" >
+                    <n-input type="textarea" v-model:value="record.objective" placeholder="បរិយាយពីការងារ" />
                   </n-form-item>
-                  <n-form-item label="ត្រកូល" path="lastname" class="w-4/5 mr-8" >
-                    <n-input v-model:value="record.lastname" placeholder="នាមត្រកូល" />
-                  </n-form-item>
-                  <n-form-item label="ឈ្មោះ" path="firstname" class="w-4/5 mr-8" >
-                    <n-input v-model:value="record.firstname" placeholder="នាមខ្លួន" />
-                  </n-form-item>
-                  <n-form-item label="អ៊ីមែល" path="email" class="w-4/5 mr-8" >
-                    <n-input v-model:value="record.email" placeholder="អ៊ីមែល" @blur="checkEmail" />
-                  </n-form-item>
-                  <n-form-item label="ទូរស័ព្ទ" path="phone" class="w-4/5 mr-8" >
-                    <n-input v-model:value="record.phone" placeholder="ទូរស័ព្ទ" @blur="checkPhone" />
-                  </n-form-item>
-                  <n-form-item label="ពាក្យសម្ងាត់" path="password" class="w-4/5 mr-8" >
-                    <n-input type="password" show-password-on="mousedown" v-model:value="record.password" placeholder="ពាក្យសម្ងាត់" />
-                  </n-form-item>
-                  <n-form-item label="អង្គភាព" path="organization" class="w-4/5 mr-8" >
-                    <n-select
-                      v-model:value="selectedOrganizations"
-                      filterable
-                      placeholder="សូមជ្រើសរើសអង្គភាព"
-                      :options="organizations"
-                      multiple
-                    />
-                  </n-form-item>
-                  <n-form-item label="តួនាទី" path="position" class="w-4/5 mr-8" >
-                    <n-select
-                      v-model:value="selectedPositions"
-                      filterable
-                      placeholder="សូមជ្រើសរើសតួនាទី"
-                      :options="positions"
-                      multiple
-                    />
+                  <n-form-item label="រយះពេលកណត់បញ្ចប់ការងារ" path="minutes" class="w-4/5 mr-8" >
+                    <n-input-number v-model:value="record.minutes" placeholder="រយះពេលកណត់បញ្ចប់ការងារ" />
                   </n-form-item>
                 </n-form>
-                <div class="w-1/2 h-8"></div>  
               </div>
             </div>
           </div>
@@ -76,14 +43,17 @@
     <!-- End of edit account -->
 </template>
 <script>
-import { reactive , computed , onMounted , ref } from 'vue'
+import { reactive, computed, ref } from 'vue'
 import { useStore } from 'vuex'
 import { useMessage, useNotification } from 'naive-ui'
 import { Save20Regular } from '@vicons/fluent'
+import { DocumentPdf24Regular } from '@vicons/fluent'
+import dateFormat from "dateformat";
 
 export default {
   components: {
-    Save20Regular
+    Save20Regular ,
+    DocumentPdf24Regular
   },
   props: {
     model: {
@@ -103,23 +73,10 @@ export default {
       default: () => {
         return reactive({
           id: 0 ,
-          username: '' ,
-          firstname: '' ,
-          lastname: '' ,
-          email: '' ,
-          phone: '',
-          active: 1 ,
-          password: '' ,
-          organizations: [] ,
-          positions: []
+          objective: '' ,
+          minutes: 0
         })
-      },
-      // validator: (val) => {
-      //   for(var field in ['id','username','firstname','lastname','email','phone','password','active'] ){
-      //     if( !val.hasOwnProperty(field) ) return false
-      //   }
-      //   return true 
-      // }
+      }
     },
     show: {
       type: Boolean ,
@@ -136,75 +93,47 @@ export default {
     const store = useStore()
     const message = useMessage()
     const notify = useNotification()
-    const selectedOrganizations = ref([])
-    const selectedPositions = ref([])
-
-    const organizations = computed( () => 
-      store.getters['organizations/getRecords'].map( o => ( { label: o.name , value : o.id } ) )
-    )
-    const positions = computed( () => 
-      store.getters['position/getRecords'].map( o => ( { label: o.name , value : o.id } ) )
-    ) 
+    const btnSavingLoadingRef = ref(false)
+    
     /**
      * Variables
      */    
     const rules = {
-        firstname: {
+        objective: {
           required: true,
-          message: 'សូមបញ្ចូលនាមខ្លួន',
-          trigger: [ 'blur']
-        },
-        lastname: {
-          required: true,
-          message: 'សូមបញ្ចូលត្រកូល',
-          trigger: [ 'blur']
-        },
-        password: {
-          required: true,
-          message: 'សូមបញ្ចូលពាក្យសម្ងាត់',
+          message: 'សូមបំពេញ ការបរិយាយអំពីការងារ។',
           trigger: [ 'blur']
         }
     }
-    const helpers = reactive({
-      username: false ,
-      email: false ,
-      phone: false ,
-    })
-    /**
-     * Functions
-     */
-    function clearRecord(){
-      props.record = {
-        id : 0 ,
-        username: '' ,
-        lastname: '' ,
-        firstname: '' ,
-        phone: '' ,
-        email: '' ,
-        password: '' ,
-        active: 1 ,
-        organizations: [] ,
-        positions: []
+
+    function clearForm(){
+      props.record.id = 0
+      props.record.objective = '' 
+      props.record.minutes = 0
+      if( props.show == true ){
+        props.onClose()
       }
     }
 
     function create(){
-      if( props.record.email == "" ){
+      if( props.record.objective == "" ){
         notify.warning({
           'title' : 'ពិនិត្យព័ត៌មាន' ,
-          'description' : 'សូមបំពេញ អ៊ីមែល។' ,
+          'description' : 'សូមបំពេញ ការបរិយាយអំពីការងារ។' ,
           duration : 3000
         })
         return false
       }
-      // if( props.record.phone == "" ){
-      //   notify.warning({
-      //     'title' : 'ពិនិត្យព័ត៌មាន' ,
-      //     'description' : 'សូមបំពេញ លេខទូរស័ព្ទ។' ,
-      //     duration : 3000
-      //   })
-      //   return false
-      // }
+
+      if( props.record.minutes < 1 ){
+        notify.warning({
+          'title' : 'ពិនិត្យព័ត៌មាន' ,
+          'description' : 'រយះពេលបញ្ចប់ការងារ ត្រូវធំជាង សូន្យ។ (រាប់ជានាទី)' ,
+          duration : 3000
+        })
+        return false
+      }
+
       if( props.model === undefined || props.model.name == "" ){
         notify.warning({
           'title' : 'ពិនិត្យព័ត៌មាន' ,
@@ -213,27 +142,22 @@ export default {
         })
         return false
       }
+      
+      btnSavingLoadingRef.value = true
       store.dispatch( props.model.name+'/create',{
-        // id: props.record.id ,
-        username: props.record.username ,
-        firstname: props.record.firstname ,
-        lastname: props.record.lastname ,
-        phone: props.record.phone ,
-        email: props.record.email.toLowerCase() ,
-        password: props.record.password ,
-        active: props.record.active == 1 ? 1 : 0 ,
-        organizations: selectedOrganizations.value ,
-        positions: selectedPositions.value
+        objective: props.record.objective ,
+        minutes: props.record.minutes
       }).then( res => {
         switch( res.status ){
           case 200 : 
           notify.success({
-            'title' : 'រក្សារទុកព័ត៌មាន' ,
-            'description' : res.data.message ,
-            duration : 3000
+            title: 'រក្សារទុកព័ត៌មាន' ,
+            description: 'រក្សារទុកព័ត៌មានរួចរាល់។' ,
+            duration: 3000
           })
-          clearRecord()
-          props.onClose()
+          props.record.id = res.data.record.id
+          clearForm()
+          btnSavingLoadingRef.value = false
           break;
         }
       }).catch( err => {
@@ -245,70 +169,16 @@ export default {
         })
       })
     }
-    
-    function checkUsername(){
-      if( props.record.username != "" ){
-        store.dispatch('user/checkUsername',{username: props.record.username}).then( res => {
-          if( res.data.ok ){
-            notify.info({
-              title: 'ពិនិត្យឈ្មោះអ្នកប្រើប្រាស់' ,
-              description : "ឈ្មោះអ្នកប្រើប្រាស់ មានរួចហើយ។" ,
-              duration : 3000
-            })
-          }
-        }).catch( err => {
-          console.log( err )
-          notify.error({
-            'title' : 'ពិនិត្យឈ្មោះអ្នកប្រើប្រាស់' ,
-            'description' : 'មានបញ្ហាក្នុងពេលពិនិត្យឈ្មោះអ្នកប្រើប្រាស់។' ,
-            duration : 3000
-          })
-        })
-      }
-    }
-    function checkPhone(){
-      if( props.record.phone != "" ){
-        store.dispatch('user/checkPhone',{phone: props.record.phone}).then( res => {
-          if( res.data.ok ){
-            notify.info({
-              title: 'ពិនិត្យលេខទូរស័ព្ទ' ,
-              description : "លេខទូរស័ព្ទ មានរួចហើយ។" ,
-              duration : 3000
-            })
-          }
-        }).catch( err => {
-          console.log( err )
-          notify.error({
-            'title' : 'ពិនិត្យលេខទូរស័ព្ទ' ,
-            'description' : 'មានបញ្ហាក្នុងពេលពិនិត្យលេខទូរស័ព្ទ។' ,
-            duration : 3000
-          })
-        })
-      }
-    }
-    function checkEmail(){
-      if( props.record.email != "" ){
-        store.dispatch('user/checkEmail',{email: props.record.email.toLowerCase()}).then( res => {
-          if( res.data.ok ){
-            notify.info({
-              title: 'ពិនិត្យអ៊ីមែល' ,
-              description : "ពិនិត្យអ៊ីមែល មានរួចហើយ។" ,
-              duration : 3000
-            })
-          }
-        }).catch( err => {
-          console.log( err )
-          notify.error({
-            'title' : 'រក្សារទុកព័ត៌មាន' ,
-            'description' : 'មានបញ្ហាក្នុងពេលពិនិត្យអ៊ីមែល។' ,
-            duration : 3000
-          })
-        })
+
+    function closeModal(){
+      console.log( props.show )
+      if( props.show == true ){
+        props.onClose()
       }
     }
 
     function initial(){
-      selectedOrganizations.value = [463]
+      
     }
 
     return {
@@ -316,18 +186,13 @@ export default {
        * Variables
        */
       rules ,
-      organizations ,
-      positions ,
-      selectedOrganizations ,
-      selectedPositions ,
+      btnSavingLoadingRef ,
       /**
        * Functions
        */
+      initial ,
       create ,
-      checkUsername ,
-      checkPhone ,
-      checkEmail ,
-      initial
+      closeModal
     }
   }
 }

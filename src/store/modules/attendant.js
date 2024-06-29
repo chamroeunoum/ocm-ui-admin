@@ -1,4 +1,5 @@
 import crud from '../../api/crud'
+import axios from "axios"
 
 // initial state
 const state = () => ({
@@ -63,6 +64,34 @@ const actions = {
     return await crud.list(rootState.apiServer+"/"+state.model.name + '/' + params.date + '/month/' + params.userId + '/user'
     )
   },
+  async checkAttendant({ state, commit, rootState },params) {
+    return await crud.create(rootState.apiServer+"/"+state.model.name+"/checkattendantbyemailorphone",params)
+  },
+  async getAttendant({ state, commit, rootState },params) {
+    return await crud.read(rootState.apiServer+"/"+state.model.name+"/getattendantbyemailorphone/"+params.term+'/'+params.type)
+  }
+  // async requestFengshui({ state, commit, rootState },params) {
+  //   return await axios({
+  //     method: 'POST' ,
+  //     url: 'https://fengshui.vi-school.com/calculate' ,
+  //     data: { 
+  //       "BDY" : 1994 ,
+  //       "BDM" : 2,
+  //       "BDD" : 14 ,
+  //       "BDH" : 5 ,
+  //       "BDMIN" : 0 ,
+  //       "SEX" : "Male"
+  //     },
+  //     headers: {
+  //       'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept, X-Api-Key, Access-Control-Allow-Methods, Access-Control-Allow-Origin, Access-Control-Allow-Credentials',
+  //       'Access-Control-Allow-Credentials': 'true' ,
+  //       'Access-Control-Allow-Origin' : 'http://127.0.0.1:3000' ,
+  //       'Content-Type' : 'application/json; charset=utf-8' ,
+  //       'Access-Control-Allow-Methods': 'POST',
+  //       'X-Api-Key' : '7042ef3b-hwvk-7084-ewu3-71d2ba685471'
+  //     }
+  //   })
+  // }
 }
 
 // mutations

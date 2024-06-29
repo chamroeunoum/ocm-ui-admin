@@ -1,20 +1,18 @@
 <template>
   <!-- Form edit account -->
-    <div class="vcb-pop-create font-ktr">
-      <n-modal v-model:show="show" :on-after-leave="clearRecord" :on-after-enter="initial" transform-origin="center">
-        <n-card class="w-1/2 font-pvh text-xl" :title="'កែប្រែ ' + model.title" :bordered="false" size="small">
+    <div class="vcb-pop-update font-ktr">
+      <n-modal v-model:show="show" :on-mask-click="closeModal" transform-origin="center" :on-after-enter="initial" >
+        <n-card class="w-1/2 font-pvh text-xl" :title="'បន្ថែម ' + model.title" :bordered="false" size="small">
           <template #header-extra>
-            <n-button type="success" @click="update()" >
+            <n-button type="success" :disabled="btnSavingLoadingRef" @click="update()" :loading="btnSavingLoadingRef" >
               <template #icon>
-                <n-icon>
-                  <Save20Regular />
-                </n-icon>
+                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 20 20"><g fill="none"><path d="M6 2a2 2 0 0 0-2 2v5h1V4a1 1 0 0 1 1-1h4v3.5A1.5 1.5 0 0 0 11.5 8H15v8a1 1 0 0 1-1 1h-3v1h3a2 2 0 0 0 2-2V7.414a1.5 1.5 0 0 0-.44-1.06l-3.914-3.915A1.5 1.5 0 0 0 10.586 2H6zm8.793 5H11.5a.5.5 0 0 1-.5-.5V3.207L14.793 7zM4 10h3v2H4v-2zm-2 0h1v2.5a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5v-2.41a1 1 0 0 1 .293.203l1.414 1.414a1 1 0 0 1 .293.707V18a1 1 0 0 1-1 1v-4.5a.5.5 0 0 0-.5-.5h-6a.5.5 0 0 0-.5.5V19a1 1 0 0 1-1-1v-7a1 1 0 0 1 1-1zm6 5v4H3v-4h5z" fill="currentColor"></path></g></svg>
               </template>
               រក្សារទុក
             </n-button>
           </template>
           <!-- Form edit account -->
-          <div class="crud-create-form w-full border-t">
+          <div class="crud-update-form w-full border-t">
             <div class=" mx-auto p-4 flex-wrap">
               <div class="crud-form-panel w-full flex flex-wrap ">
                 <n-form 
@@ -25,38 +23,11 @@
                   size="large"
                   ref="formRef"
                 >
-                  <n-form-item label="ឈ្មោះក្នុងប្រព័ន្ធ" path="username" class="w-4/5 mr-8" >
-                    <n-input v-model:value="record.username" placeholder="ឈ្មោះក្នុងប្រព័ន្ធ" />
+                  <n-form-item label="បរិយាយពីការងារ" path="objective" class="w-4/5 mr-8" >
+                    <n-input type="textarea" v-model:value="record.objective" placeholder="បរិយាយពីការងារ" />
                   </n-form-item>
-                  <n-form-item label="ត្រកូល" path="lastname" class="w-4/5 mr-8" >
-                    <n-input v-model:value="record.lastname" placeholder="ត្រកូល" />
-                  </n-form-item>
-                  <n-form-item label="ឈ្មោះ" path="firstname" class="w-4/5 mr-8" >
-                    <n-input v-model:value="record.firstname" placeholder="ឈ្មោះ" />
-                  </n-form-item>
-                  <n-form-item label="ទូរស័ព្ទ" path="phone" class="w-4/5 mr-8" >
-                    <n-input v-model:value="record.phone" placeholder="ទូរស័ព្ទ" />
-                  </n-form-item>
-                  <n-form-item label="អ៊ីមែល" path="email" class="w-4/5 mr-8" >
-                    <n-input v-model:value="record.email" placeholder="អ៊ីមែល" />
-                  </n-form-item>
-                  <n-form-item label="អង្គភាព" path="organization" class="w-4/5 mr-8" >
-                    <n-select
-                      v-model:value="selectedOrganizations"
-                      filterable
-                      placeholder="សូមជ្រើសរើសអង្គភាព"
-                      :options="organizations"
-                      multiple
-                    />
-                  </n-form-item>
-                  <n-form-item label="តួនាទី" path="position" class="w-4/5 mr-8" >
-                    <n-select
-                      v-model:value="selectedPositions"
-                      filterable
-                      placeholder="សូមជ្រើសរើសតួនាទី"
-                      :options="positions"
-                      multiple
-                    />
+                  <n-form-item label="រយះពេលកណត់បញ្ចប់ការងារ" path="minutes" class="w-4/5 mr-8" >
+                    <n-input-number v-model:value="record.minutes" placeholder="រយះពេលកណត់បញ្ចប់ការងារ" />
                   </n-form-item>
                 </n-form>
                 <div class="w-1/2 h-8"></div>  
@@ -71,14 +42,13 @@
     <!-- End of edit account -->
 </template>
 <script>
-import { reactive , ref , computed } from 'vue'
+import { reactive, computed, ref } from 'vue'
 import { useStore } from 'vuex'
 import { useMessage, useNotification } from 'naive-ui'
-import { Save20Regular } from '@vicons/fluent'
+import dateFormat from "dateformat";
 
 export default {
   components: {
-    Save20Regular
   },
   props: {
     model: {
@@ -94,26 +64,18 @@ export default {
     } , 
     record: {
       type: Object ,
-      required: true ,
+      required: false ,
       default: () => {
         return reactive({
           id: 0 ,
-          username: '' ,
-          firstname: '' ,
-          lastname: '' ,
-          email: '' ,
-          phone: '' ,
-          person: null ,
-          orgainzations: [] ,
-          positions: []
+          objective: '' ,
+          minutes : 0 ,
+          amount: 0.0 ,
+          amount_type: 0 ,
+          start: '' ,
+          end: '' ,
         })
       },
-      // validator: (val) => {
-      //   for(var field in ['id','username','firstname','lastname','email','phone','password','active'] ){
-      //     if( !val.hasOwnProperty(field) ) return false
-      //   }
-      //   return true 
-      // }
     },
     show: {
       type: Boolean ,
@@ -121,111 +83,152 @@ export default {
     },
     onClose: {
       type: Function
-    } ,
-    // onShow: {
-    //   type: Function
-    // }
+    }
   },
   setup(props){
-    console.log( props.record )
-    var store = useStore()
+    const store = useStore()
     const message = useMessage()
     const notify = useNotification()
+    const btnSavingLoadingRef = ref(false)
 
-    const selectedOrganizations = ref([])
-    const selectedPositions = ref([])
-
-    const organizations = computed( () => 
-      store.getters['organizations/getRecords'].map( o => ( { label: o.name , value : o.id } ) )
-    )
-    const positions = computed( () => 
-      store.getters['position/getRecords'].map( o => ( { label: o.name , value : o.id } ) )
-    ) 
-    
+    const today = ref( new Date() )
+    const meetingDateTime = reactive({
+      year: parseInt( dateFormat( today.value , 'yyyy') ) ,
+      month: parseInt( dateFormat( today.value , 'mm') ) ,
+      day: parseInt( dateFormat( today.value , 'dd') ) ,
+      start: {
+        hour : parseInt( dateFormat( today.value , 'H') ) ,
+        minutes : parseInt( dateFormat( today.value , 'MM') )
+      },
+      end: {
+        hour: parseInt( dateFormat( today.value , 'H') ) ,
+        minutes: parseInt( dateFormat( today.value , 'MM') )
+      }
+    })
 
     /**
      * Variables
      */    
-    var rules = {
-        firstname: {
+    const rules = {
+        objective: {
           required: true,
-          message: 'សូមបញ្ចូលឈ្មោះ',
-          trigger: [ 'blur']
-        },
-        lastname: {
-          required: true,
-          message: 'សូមបញ្ចូលត្រកូល',
+          message: 'សូមបំពេញខ្លឹមសារនៃការងារ។',
           trigger: [ 'blur']
         }
     }
-    /**
-     * Functions
-     */
-    function clearRecord(){
+
+    function clearForm(){
       props.record.id = 0
-      props.record.username = ""
-      props.record.firstname = ""
-      props.record.lastname = ""
-      props.record.phone = ""
-      props.record.email = ""
-      props.record.person = null ,
-      props.record.organizations = [] 
-      props.record.positions = []
-      selectedPositions.value = []
-      selectedOrganizations.value = []
-      props.onClose()
+      
+      today.value = new Date()
+
+      meetingDateTime.year = parseInt( dateFormat( today.value , 'yyyy') )
+      meetingDateTime.month = parseInt( dateFormat( today.value , 'mm') )
+      meetingDateTime.day = parseInt( dateFormat( today.value , 'dd') )
+      meetingDateTime.start = {
+        hour : parseInt( dateFormat( today.value , 'H') ) ,
+        minutes : parseInt( dateFormat( today.value , 'MM') )
+      }
+      meetingDateTime.end = {
+        hour: parseInt( dateFormat( today.value , 'H') ) ,
+        minutes: parseInt( dateFormat( today.value , 'MM') )
+      }
+
+      if( props.show == true ){
+        props.onClose()
+      }
     }
 
     function update(){
-      if( props.record.phone == "" && props.record.email == "" ){
+      if( props.record.objective == "" ){
         notify.warning({
-          title: 'ពិនិត្យព័ត៌មាន' ,
-          description: 'សូមបំពេញ លេខទូរស័ព្ទ ឬ អ៊ីមែល' ,
-          duration: 2000
+          'title' : 'ពិនិត្យព័ត៌មាន' ,
+          'description' : 'សូមបំពេញ កម្មវត្ថុ' ,
+          duration : 3000
         })
         return false
       }
+
+      // Check date time
+      // year: parseInt( dateFormat( new Date() , 'yyyy') ),
+      // month: parseInt( dateFormat( new Date() , 'mm') ),
+      // day: parseInt( dateFormat( new Date() , 'dd') )
+
       if( props.model === undefined || props.model.name == "" ){
         notify.warning({
-          title: 'ពិនិត្យព័ត៌មាន' ,
-          description: 'ទម្រង់នៃព័ត៌មានមិនទាន់បានកំណត់។' ,
-          duration: 2000
+          'title' : 'ពិនិត្យព័ត៌មាន' ,
+          'description' : 'ទម្រង់នៃព័ត៌មានមិនទាន់បានកំណត់។' ,
+          duration : 3000
         })
         return false
       }
-      
+
+      /**
+       * Saving information of the regulator
+       */
+      // let year = new Date(props.record.year) 
+      // notify.info({
+      //   title: 'រក្សារទុកព័ត៌មាន' ,
+      //   description: 'កំពុងរក្សារទុកព័ត៌មាន។' ,
+      //   duration: 3000
+      // })
+
+      // props.record.date = [meetingDateTime.year,meetingDateTime.month,meetingDateTime.day].join('-')
+      // props.record.start = [meetingDateTime.start.hour,meetingDateTime.start.minutes].join(':')
+      // props.record.end = [meetingDateTime.end.hour,meetingDateTime.end.minutes].join(':')
+      // props.record.type_id = selectedType.value > 0 ? selectedType.value : 0 
+
+      btnSavingLoadingRef.value = true
       store.dispatch( props.model.name+'/update',{
         id: props.record.id ,
-        username: props.record.username ,
-        firstname: props.record.firstname ,
-        lastname: props.record.lastname ,
-        phone: props.record.phone ,
-        email: props.record.email.toLowerCase() ,
-        organizations: selectedOrganizations.value ,
-        positions: selectedPositions.value ,
+        objective: props.record.objective ,
+        minutes: props.record.minutes ,
+        start: props.record.start ,
+        end: props.record.end ,
+        amount: props.record.amount ,
+        amount_type : props.record.amount_type ,
       }).then( res => {
-        if( res.data.ok ){
+        switch( res.status ){
+          case 200 : 
           notify.success({
             title: 'រក្សារទុកព័ត៌មាន' ,
-            description: res.data.message ,
-            duration: 2000
+            description: 'រក្សារទុកព័ត៌មានរបស់ឯកសាររួចរាល់។' ,
+            duration: 3000
           })
-          clearRecord()
-        }else{
-          notify.error({
-            title: 'រក្សារទុកព័ត៌មាន' ,
-            description: 'មានបញ្ហាក្នុងពេលរក្សារទុកព័ត៌មាន។' ,
-            duration: 2000
-          })
+          props.record.id = res.data.record.id
+          clearForm()
+          btnSavingLoadingRef.value = false
+          break;
         }
       }).catch( err => {
-        message.error( err )
+        console.log( err )
+        notify.error({
+          'title' : 'រក្សារទុកព័ត៌មាន' ,
+          'description' : 'មានបញ្ហាក្នុងពេលរក្សារទុកព័ត៌មាន។' ,
+          duration : 3000
+        })
       })
     }
-  
+
+    function closeModal(){
+      console.log( props.show )
+      if( props.show == true ){
+        props.onClose()
+      }
+    }
+
     function initial(){
-      // selectedOrganizations.value = [463]
-      selectedOrganizations.value = Array.isArray( props.record.organizations ) ? props.record.organizations.map( o => o.id ) : []
+      today.value = props.record.date ? new Date( props.record.date ) : new Date()
+      meetingDateTime.year = parseInt( dateFormat( today.value , 'yyyy') ) ,
+      meetingDateTime.month = parseInt( dateFormat( today.value , 'mm') ) ,
+      meetingDateTime.day = parseInt( dateFormat( today.value , 'dd') ) ,
+      meetingDateTime.start = props.record.start == null 
+        ? { hour : parseInt( dateFormat( today.value , 'HH') ) , minutes : parseInt( dateFormat( today.value , 'MM') ) }
+        : { hour : parseInt( props.record.start.split(":")[0] ) , minutes : parseInt( props.record.start.split(":")[1] ) }
+
+      meetingDateTime.end = props.record.start == null 
+        ? { hour : parseInt( dateFormat( today.value , 'HH') ) , minutes : parseInt( dateFormat( today.value , 'MM') ) }
+        : { hour : parseInt( props.record.end.split(":")[0] ) , minutes : parseInt( props.record.end.split(":")[1] ) }
     }
 
     return {
@@ -233,16 +236,14 @@ export default {
        * Variables
        */
       rules ,
-      selectedOrganizations ,
-      organizations ,
-      selectedPositions ,
-      positions ,
+      btnSavingLoadingRef ,
+      meetingDateTime ,
       /**
        * Functions
        */
-      update  ,
       initial ,
-      clearRecord
+      update ,
+      closeModal
     }
   }
 }

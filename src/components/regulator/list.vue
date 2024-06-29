@@ -5,7 +5,6 @@
       <!-- Title of crud -->
       <div class="flex w-64 h-10 py-1 title " >
         <svg  class="text-red-600 mr-2" @click="pdfPreview(record)" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 384 512"><path d="M369.9 97.9L286 14C277 5 264.8-.1 252.1-.1H48C21.5 0 0 21.5 0 48v416c0 26.5 21.5 48 48 48h288c26.5 0 48-21.5 48-48V131.9c0-12.7-5.1-25-14.1-34zM332.1 128H256V51.9l76.1 76.1zM48 464V48h160v104c0 13.3 10.7 24 24 24h104v288H48zm250.2-143.7c-12.2-12-47-8.7-64.4-6.5c-17.2-10.5-28.7-25-36.8-46.3c3.9-16.1 10.1-40.6 5.4-56c-4.2-26.2-37.8-23.6-42.6-5.9c-4.4 16.1-.4 38.5 7 67.1c-10 23.9-24.9 56-35.4 74.4c-20 10.3-47 26.2-51 46.2c-3.3 15.8 26 55.2 76.1-31.2c22.4-7.4 46.8-16.5 68.4-20.1c18.9 10.2 41 17 55.8 17c25.5 0 28-28.2 17.5-38.7zm-198.1 77.8c5.1-13.7 24.5-29.5 30.4-35c-19 30.3-30.4 35.7-30.4 35zm81.6-190.6c7.4 0 6.7 32.1 1.8 40.8c-4.4-13.9-4.3-40.8-1.8-40.8zm-24.4 136.6c9.7-16.9 18-37 24.7-54.7c8.3 15.1 18.9 27.2 30.1 35.5c-20.8 4.3-38.9 13.1-54.8 19.2zm131.6-5s-5 6-37.3-7.8c35.1-2.6 40.9 5.4 37.3 7.8z" fill="currentColor"></path></svg>
-        
         <div class="leading-8 font-moul" v-html="model.title" ></div>
       </div>
       <!-- Actions button of the crud -->
@@ -43,7 +42,7 @@
         <table v-if="Array.isArray( table.records.matched ) && table.records.matched.length > 0 " class="vcb-table" >
           <tr>
             <th colspan="6" >
-              <div class="vcb-table-header text-left border-b py-4">លទ្ធផលនែការស្វែងរកគឺ ៖ <span class="text-lg text-blue-500">{{ table.pagination.totalRecords }}</span></div>
+              <div class="vcb-table-header text-left border-b py-4">លទ្ធផលនែការស្វែងរកគឺ ៖ <span class="text-lg ml-2 text-blue-500">{{ getKhmer( table.pagination.totalRecords ) }}</span></div>
             </th>
           </tr>
           <tr class="vcb-table-headers" >
@@ -56,10 +55,10 @@
             <th class="vcb-table-header text-right w-40" >ប្រតិបត្តិការ</th>
           </tr>
           <tr v-for="(record, index) in table.records.matched" :key='index' class="vcb-table-row" >
-            <td class="vcb-table-cell font-bold w-12" >{{ ( table.pagination.perPage * ( table.pagination.page - 1 ) ) + index + 1 }}</td>
-            <td  class="vcb-table-cell w-32" >{{ ( Array.isArray( record.types ) && record.types.length > 0 ? prefixOfTypes[ record.types[0].id ] + ' / ' : '' ) + record.fid }}</td>
-            <td class="vcb-table-cell leading-8 flex flex-wrap regulator" >
-              <div class="w-full pb-1 mb-1" v-html="applyTagMark(record.objective)" ></div>
+            <td class="vcb-table-cell font-bold w-12" >{{ getKhmer( ( table.pagination.perPage * ( table.pagination.page - 1 ) ) + index + 1 ) }}</td>
+            <td  class="vcb-table-cell w-32" >{{ ( Array.isArray( record.types ) && record.types.length > 0 ? prefixOfTypes[ record.types[0].id ] + ' / ' : '' ) + getKhmer( record.fid ) }}</td>
+            <td class="vcb-table-cell flex flex-wrap regulator" >
+              <div class="w-full pb-1 mb-1 leading-6 break-all " v-html="applyTagMark(record.objective)" ></div>
               <!-- <div v-if="record.types != null && record.types.length" class="mr-2 text-left regulator-additional" >{{ ( record.types != null && record.types.length ? ' - ' + record.types.map( r => r.name ).join(' , ') : '' ) }}</div>
               <div v-if="record.signatures != null && record.signatures.length" class="mr-2 text-left w-full regulator-additional" >{{ ( record.signatures != null && record.signatures.length ? ' - ' + record.signatures.map( r => r.name ).join(' , ') : '' ) }}</div>
               <div v-if="record.organizations != null && record.organizations.length" class="mr-2 text-left w-full regulator-additional" >{{ ( record.organizations != null && record.organizations.length ? ' - ' + record.organizations.map( r => r.name ).join(' , ') : '' ) }}</div>
@@ -67,7 +66,7 @@
               <div v-if="record.relatedOrganizations != null && record.relatedOrganizations.length" class="mr-2 text-left w-full regulator-additional" >{{ ( record.relatedOrganizations != null && record.relatedOrganizations.length ? ' - ' + record.relatedOrganizations.map( r => r.name ).join(' , ') : '' ) }}</div> -->
             </td>
             <td  class="vcb-table-cell w-40" >{{ regulatorAccessibilities[ record.accessibility ] }}</td>
-            <td class="vcb-table-cell w-24" >{{ record.year.slice(0,10) }}</td>
+            <td class="vcb-table-cell w-24" >{{ getKhmer( record.year.slice(0,10) ) }}</td>
             <!-- <td  class="vcb-table-cell w-40" >{{ record.createdBy.lastname + ' ' + record.createdBy.firstname }}</td> -->
             <td class="vcb-table-actions-panel text-right" >
               <svg class="cursor-pointer text-blue-500 mx-1 w-6 " @click="showShareRegulatorModal(record)" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 20 20"><g fill="none"><path d="M2 3.5A1.5 1.5 0 0 1 3.5 2h1A1.5 1.5 0 0 1 6 3.5v1A1.5 1.5 0 0 1 4.5 6h-1A1.5 1.5 0 0 1 2 4.5v-1zM3.5 3a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1zM2 9.5A1.5 1.5 0 0 1 3.5 8h1A1.5 1.5 0 0 1 6 9.5v1A1.5 1.5 0 0 1 4.5 12h-1A1.5 1.5 0 0 1 2 10.5v-1zM3.5 9a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1zM2 15.5A1.5 1.5 0 0 1 3.5 14h1A1.5 1.5 0 0 1 6 15.5v1A1.5 1.5 0 0 1 4.5 18h-1A1.5 1.5 0 0 1 2 16.5v-1zm1.5-.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1zM8 4.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0 6a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0 6a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5z" fill="currentColor"></path></g></svg>
@@ -77,14 +76,14 @@
               <svg class="cursor-pointer mx-1  text-green-500 w-6" @click="showAccessibilityModal(record)" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 32 32"><path d="M22 14a8 8 0 1 0 8 8a8.01 8.01 0 0 0-8-8zm5.91 7h-1.954a12.03 12.03 0 0 0-1.218-4.332A6.01 6.01 0 0 1 27.91 21zm-7.854 0A10.014 10.014 0 0 1 22 16.015A10.012 10.012 0 0 1 23.945 21zm3.89 2A10.01 10.01 0 0 1 22 27.985A10.012 10.012 0 0 1 20.055 23zm-4.684-6.332A12.027 12.027 0 0 0 18.044 21H16.09a6.01 6.01 0 0 1 3.172-4.332zM16.09 23h1.953a12.027 12.027 0 0 0 1.218 4.332A6.01 6.01 0 0 1 16.09 23zm8.648 4.332A12.024 12.024 0 0 0 25.956 23h1.954a6.009 6.009 0 0 1-3.172 4.332z" fill="currentColor"></path><path d="M6 14h6v2H6z" fill="currentColor"></path><path d="M6 6h12v2H6z" fill="currentColor"></path><path d="M6 10h12v2H6z" fill="currentColor"></path><path d="M6 24h6v2H6z" fill="currentColor"></path><path d="M12 30H4a2.002 2.002 0 0 1-2-2V4a2.002 2.002 0 0 1 2-2h16a2.002 2.002 0 0 1 2 2v8h-2V4H4v24h8z" fill="currentColor"></path></svg>
               <svg v-if="record.pdf" class="cursor-pointer text-red-500 mx-1 w-6" @click="pdfPreview(record)" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 384 512"><path d="M369.9 97.9L286 14C277 5 264.8-.1 252.1-.1H48C21.5 0 0 21.5 0 48v416c0 26.5 21.5 48 48 48h288c26.5 0 48-21.5 48-48V131.9c0-12.7-5.1-25-14.1-34zM332.1 128H256V51.9l76.1 76.1zM48 464V48h160v104c0 13.3 10.7 24 24 24h104v288H48zm250.2-143.7c-12.2-12-47-8.7-64.4-6.5c-17.2-10.5-28.7-25-36.8-46.3c3.9-16.1 10.1-40.6 5.4-56c-4.2-26.2-37.8-23.6-42.6-5.9c-4.4 16.1-.4 38.5 7 67.1c-10 23.9-24.9 56-35.4 74.4c-20 10.3-47 26.2-51 46.2c-3.3 15.8 26 55.2 76.1-31.2c22.4-7.4 46.8-16.5 68.4-20.1c18.9 10.2 41 17 55.8 17c25.5 0 28-28.2 17.5-38.7zm-198.1 77.8c5.1-13.7 24.5-29.5 30.4-35c-19 30.3-30.4 35.7-30.4 35zm81.6-190.6c7.4 0 6.7 32.1 1.8 40.8c-4.4-13.9-4.3-40.8-1.8-40.8zm-24.4 136.6c9.7-16.9 18-37 24.7-54.7c8.3 15.1 18.9 27.2 30.1 35.5c-20.8 4.3-38.9 13.1-54.8 19.2zm131.6-5s-5 6-37.3-7.8c35.1-2.6 40.9 5.4 37.3 7.8z" fill="currentColor"></path></svg>
               <svg @click="showFolderModalPopup(record)" class="cursor-pointer text-blue-700 mx-1 w-6" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 20 20"><g fill="none"><path d="M7.167 3c.27 0 .535.073.765.21l.135.09l1.6 1.2H15.5a2.5 2.5 0 0 1 2.479 2.174l.016.162L18 7v7.5a2.5 2.5 0 0 1-2.336 2.495L15.5 17h-11a2.5 2.5 0 0 1-2.495-2.336L2 14.5v-9a2.5 2.5 0 0 1 2.336-2.495L4.5 3h2.667zm.99 4.034a1.5 1.5 0 0 1-.933.458l-.153.008L3 7.499V14.5a1.5 1.5 0 0 0 1.356 1.493L4.5 16h11a1.5 1.5 0 0 0 1.493-1.355L17 14.5V7a1.5 1.5 0 0 0-1.355-1.493L15.5 5.5H9.617l-1.46 1.534zM7.168 4H4.5a1.5 1.5 0 0 0-1.493 1.356L3 5.5v.999l4.071.001a.5.5 0 0 0 .302-.101l.06-.054L8.694 5.02L7.467 4.1a.5.5 0 0 0-.22-.093L7.167 4z" fill="currentColor"></path></g></svg>
-              <svg class="cursor-pointer mx-1 text-yellow-500 w-6" @click="$router.push('/regulator/child/'+record.id)" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 32 32"><path d="M28 12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h11v4H9a2 2 0 0 0-2 2v4H4a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2v-4a2 2 0 0 0-2-2H9v-4h14v4h-3a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2v-4a2 2 0 0 0-2-2h-3v-4a2 2 0 0 0-2-2h-6v-4zM12 28H4v-4h8zm16 0h-8v-4h8zM4 4h24v6H4z" fill="currentColor"></path></svg>
+              <!-- <svg class="cursor-pointer mx-1 text-yellow-500 w-6" @click="$router.push('/regulator/child/'+record.id)" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 32 32"><path d="M28 12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h11v4H9a2 2 0 0 0-2 2v4H4a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2v-4a2 2 0 0 0-2-2H9v-4h14v4h-3a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2v-4a2 2 0 0 0-2-2h-3v-4a2 2 0 0 0-2-2h-6v-4zM12 28H4v-4h8zm16 0h-8v-4h8zM4 4h24v6H4z" fill="currentColor"></path></svg> -->
             </td>
           </tr>
         </table>
       </Transition>
       <!-- Loading -->
       <Transition name="slide-fade" >
-        <div v-if="table.loading" class="table-loading fixed flex h-screen left-0 top-0 right-0 bottom-0 bg-white bg-opacity-80 ">
+        <div v-if="table.loading" class="table-loading fixed flex h-screen left-0 top-10 right-0 bottom-0 bg-white bg-opacity-80 ">
           <div class="flex mx-auto items-center">
             <div class="spinner">
               <svg class="animate-spin w-16 mx-auto text-blue-500" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512"><path d="M304 48c0 26.51-21.49 48-48 48s-48-21.49-48-48s21.49-48 48-48s48 21.49 48 48zm-48 368c-26.51 0-48 21.49-48 48s21.49 48 48 48s48-21.49 48-48s-21.49-48-48-48zm208-208c-26.51 0-48 21.49-48 48s21.49 48 48 48s48-21.49 48-48s-21.49-48-48-48zM96 256c0-26.51-21.49-48-48-48S0 229.49 0 256s21.49 48 48 48s48-21.49 48-48zm12.922 99.078c-26.51 0-48 21.49-48 48s21.49 48 48 48s48-21.49 48-48c0-26.509-21.491-48-48-48zm294.156 0c-26.51 0-48 21.49-48 48s21.49 48 48 48s48-21.49 48-48c0-26.509-21.49-48-48-48zM108.922 60.922c-26.51 0-48 21.49-48 48s21.49 48 48 48s48-21.49 48-48s-21.491-48-48-48z" fill="currentColor"></path></svg>
@@ -92,26 +91,42 @@
             </div>
           </div>
           <div class="absolute top-1 right-1 cursor-pointer bg-white rounded-full " @click="closeTableLoading" >
-            <svg class="w-14 mx-auto text-red-500" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512"><path d="M448 256c0-106-86-192-192-192S64 150 64 256s86 192 192 192s192-86 192-192z" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"></path><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M320 320L192 192"></path><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M192 320l128-128"></path></svg>
+            <svg class="w-10 mx-auto text-red-500" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512"><path d="M448 256c0-106-86-192-192-192S64 150 64 256s86 192 192 192s192-86 192-192z" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"></path><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M320 320L192 192"></path><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M192 320l128-128"></path></svg>
           </div>
         </div>
       </Transition>
       
     </div>
     <!-- Pagination of crud -->
-    <div class="vcb-table-pagination">
-      <!-- First -->
-      <!-- Previous -->
-      <div class="vcb-pagination-page" v-html='"<"' @click="previous()" ></div>
-      <!-- Pages (7) -->
-      <div v-for="(page, index) in table.pagination.buttons" :key="index" class="vcb-pagination-page pages h-8 mx-2 font-bold" @click="table.pagination.page == page ? false : goTo(page) " >
-        <div :class="'page w-8 h-8 text-center align-middle leading-8 cursor-pointer' + (table.pagination.page == page ? ' text-blue-500' : '' ) ">{{ page }}</div>
+    <div class="fixed left-0 right-0 bottom-1 flex flex-wrap" >
+      <!-- This pagination is for the media side with from Medium up -->
+      <div class="vcb-table-pagination bg-blue-300 mx-auto">
+        <!-- Information -->
+        <div class="vcb-table-pagination-info" >{{ table.pagination.totalRecords > 0 ? getKhmer( table.pagination.totalRecords ) + " ឯកសារ" : "" }}</div>
+          <div class="vcb-table-pagination-info" >{{ table.pagination.totalPages > 0 ? " ចែកជា " + getKhmer( table.pagination.totalPages ) + " ទំព័រ" : "" }}</div>
+        <!-- First -->
+        <!-- Pages (7) -->
+        <div v-for="(page, index) in table.pagination.buttons" :key="index" :class=" (table.pagination.page == page ? ' vcb-pagination-page-active ' : ' vcb-pagination-page ' )" @click="table.pagination.page == page ? false : goTo(page) " >{{ getKhmer( page ) }}</div>
+        <!-- Previous -->          
+        <div v-if="table.pagination.page > 1 " class="vcb-pagination-page " v-html='"<"' @click="previous()" ></div>
+        <n-tooltip v-if="table.pagination.page <= 1 "  trigger="hover">
+          <template #trigger>
+            <div class="vcb-pagination-page border-gray-200 text-gray-200 " v-html='"<"' ></div>
+          </template>
+          អ្នកកំពុងស្ថិតនៅទំព័រដើមបង្អស់ហើយ។
+        </n-tooltip>
+        <!-- Next -->
+        <div v-if="table.pagination.page < table.pagination.totalPages " class="vcb-pagination-page " v-html='">"' @click="next()" ></div>
+        <n-tooltip v-if="table.pagination.page >= table.pagination.totalPages " trigger="hover">
+          <template #trigger>
+            <div class="vcb-pagination-page border-gray-200 text-gray-200 " v-html='">"' ></div>
+          </template>
+          អ្នកកំពុងស្ថិតនៅទំព័រចុងក្រោយហើយ។
+        </n-tooltip>
+        <!-- Last -->
+        <!-- Go to -->
+        <!-- Total per page -->
       </div>
-      <!-- Next -->
-      <div class="vcb-pagination-page" v-html='">"' @click="next()" ></div>
-      <!-- Last -->
-      <!-- Go to -->
-      <!-- Total per page -->
     </div>
     <!-- Filter panel of crud -->
     <div v-if="filterPanel" class="vcb-filter-panel h-64">
@@ -185,6 +200,7 @@ import { useRouter } from 'vue-router'
 import QrcodeVue from 'qrcode.vue'
 import Vue3Barcode from 'vue3-barcode'
 import VuePdfEmbed from 'vue-pdf-embed'
+import { getKhmer } from './../../plugins/kh/number.js'
 import { Switcher, Filter, DataStructured , ParentChild} from '@vicons/carbon'
 import { Icon } from '@vicons/utils'
 import { IosCheckmarkCircleOutline, IosRefresh } from '@vicons/ionicons4'
@@ -194,10 +210,10 @@ import { Edit20Regular, Key16Regular, Save20Regular, Add20Regular, Search20Regul
 /**
  * CRUD component form
  */
-import CreateForm from './create.vue'
-import UpdateForm from './update.vue'
-import AddRemoveReaderForm from './actions/addremovereader.vue'
-import AccessibilityForm from './actions/accessibility.vue'
+import CreateForm from './widgets/create.vue'
+import UpdateForm from './widgets/update.vue'
+import AddRemoveReaderForm from './listing/actions/addremovereader.vue'
+import AccessibilityForm from './listing/actions/accessibility.vue'
 export default {
   name: "Regulator" ,
   components: {
@@ -884,14 +900,15 @@ export default {
       /**
        * Folder
        */
-       getFolders ,
+      getFolders ,
       showFolderModalPopup ,
       closeFolderModalPopup ,
       addRegulatorToFolder ,
       removeRegulatorFromFolder ,
       showFolderModal ,
       listFolders ,
-      prefixOfTypes
+      prefixOfTypes ,
+      getKhmer
     }
   }
 }

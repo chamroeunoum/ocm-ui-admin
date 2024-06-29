@@ -27,7 +27,10 @@ const actions = {
     return await crud.list(rootState.apiServer+"/"+state.model.name + "?" + new URLSearchParams({
         search: params.search ,
         perPage: params.perPage ,
-        page: params.page
+        page: params.page ,
+        positions: params.positions ,
+        organizations: params.organizations ,
+        ids: params.ids
       }).toString()
     )
   },

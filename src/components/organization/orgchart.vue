@@ -47,13 +47,12 @@
         src="https://bumbeishvili.github.io/d3-tooltip/forkme.png" alt="Fork me on GitHub">
     </a> -->
     <!-- Chart -->
-    <div class="chart-container border " > </div>
-    <!-- Naive Drawer for child creation -->
-    <Transition name="fade" >
-      <action-form
-      v-bind:model="model" v-bind:record="selectedNode" v-bind:show="organizationModal" :onClose="onCloseOrganizationModel"
-      />
+    <Transition name="slide-fade" >
+      <div v-if="dataFlattened" class="chart-container border " > </div>
     </Transition>
+    <!-- Naive Drawer for child creation -->
+    <action-form v-bind:model="model" v-bind:record="selectedNode" v-bind:show="organizationModal" :onClose="onCloseOrganizationModel" />
+    <add-child-organization-form v-bind:model="model" v-bind:record="selectedNode" v-bind:show="childOrganizationModal" :onClose="onCloseChildOrganizationModal" />
     <Frame4Corner />
   </div>
 </template>
@@ -67,20 +66,25 @@ import { reactive ,ref } from 'vue'
 import { useStore } from 'vuex'
 import { useNotification , useDialog, selectDark } from 'naive-ui'
 import Frame4Corner from './../widgets/frame/corner4.vue'
+import { getKhmer } from './../../plugins/kh/number.js'
 import ActionForm from './modal/actions.vue'
+import AddChildOrganizationForm from './modal/addChild.vue'
+import ocmLogoUrl from './../../assets/logo.svg'
 
 /**
  * CRUD component form
  */
 
 export default {
-  name: "RegulatorOrgchart" ,
+  name: "OrganizationOrgchart" ,
   components: { 
     Frame4Corner ,
-    ActionForm
+    ActionForm ,
+    AddChildOrganizationForm
   },
   data() {
     return {
+      ocmLogoUrl ,
       model: {
         name: "organizations" ,
         title: "រចនាសម្ព័ន្ធក្រសួង"
@@ -105,6 +109,7 @@ export default {
         leader: []
       },
       organizationModal : false ,
+      childOrganizationModal : false ,
       dataFlattened: []
     };
   },
@@ -119,13 +124,13 @@ export default {
       /**
        * Get CSV
        */
-      this.$store.dispatch('organizations/list',{
+      this.$store.dispatch('organizations/listByParent',{
         search: '' ,
         perPage: 1000 , 
         page: 1 ,
-        id: 164
+        id: 163
       }).then( res => {
-        // console.log( res.data.records[0] )
+        console.log( res.data.records[0] )
         // console.log( res.data.columns )
         // return false 
         // d3
@@ -144,7 +149,7 @@ export default {
           //   res.data.columns
           // ]
           )
-          .svgHeight(window.innerHeight - 80)
+          .svgHeight(window.innerHeight - 55)
           .initialZoom(0.8)
           .nodeWidth((d3Node) => {
             let i = 0;
@@ -184,22 +189,21 @@ export default {
           //       { id: 3, from: "O-6164", to: "O-6070", label: "Possible conflicts of interest" }
           //   ],
           // )
-          .nodeContent(function (d, i, arr, state) {
-            return `<div style="padding:0px">
+          // .nodeContent(function (d, i, arr, state) {
+          //   return `<div style="padding:0px">
               
-              ${state.layout == 'top' && state.compact && d.flexCompactDim && (d.flexCompactDim[0] || d.flexCompactDim[0] == 1) ? ` <div style="border:1px solid black;opacity:0.5;margin-left:${-(d.flexCompactDim[0] / 2 - d.width) / 2 + state.compactMarginPair(d) / 4}px;width:${d.flexCompactDim[0]}px;height:${d.flexCompactDim[1]}px;z-index:-1;position:absolute;background-color:red"></div>` : ''}
-              ${state.layout == 'bottom' && state.compact && d.flexCompactDim && (d.flexCompactDim[0] || d.flexCompactDim[0] == 1) ? ` <div style="border:1px solid black;opacity:0.5;margin-top:${-d.flexCompactDim[1] + d.height}px;margin-left:${-(d.flexCompactDim[0] / 2 - d.width) / 2 + state.compactMarginPair(d) / 4}px;width:${d.flexCompactDim[0]}px;height:${d.flexCompactDim[1]}px;z-index:-1;position:absolute;background-color:red"></div>` : ''}
-              ${state.layout == 'left' && state.compact && d.flexCompactDim && (d.flexCompactDim[0] || d.flexCompactDim[0] == 1) ? ` <div style="border:1px solid black;opacity:0.5;margin-top:${-(d.flexCompactDim[0]/2-d.height)/2+ state.compactMarginPair(d) / 4}px;margin-left:${0}px;width:${d.flexCompactDim[1]}px;height:${d.flexCompactDim[0]}px;z-index:-1;position:absolute;background-color:red"></div>` : ''}
-              ${state.layout == 'right' && state.compact && d.flexCompactDim && (d.flexCompactDim[0] || d.flexCompactDim[0] == 1) ? ` <div style="border:1px solid black;opacity:0.5; margin-top:${-(d.flexCompactDim[0]/2-d.height)/2+ state.compactMarginPair(d) / 4}px;margin-left:${d.width-d.flexCompactDim[1]}px;width:${d.flexCompactDim[1]}px;height:${d.flexCompactDim[0]}px;z-index:-1;position:absolute;background-color:red"></div>` : ''}
+          //     ${state.layout == 'top' && state.compact && d.flexCompactDim && (d.flexCompactDim[0] || d.flexCompactDim[0] == 1) ? ` <div style="border:1px solid black;opacity:0.5;margin-left:${-(d.flexCompactDim[0] / 2 - d.width) / 2 + state.compactMarginPair(d) / 4}px;width:${d.flexCompactDim[0]}px;height:${d.flexCompactDim[1]}px;z-index:-1;position:absolute;background-color:red"></div>` : ''}
+          //     ${state.layout == 'bottom' && state.compact && d.flexCompactDim && (d.flexCompactDim[0] || d.flexCompactDim[0] == 1) ? ` <div style="border:1px solid black;opacity:0.5;margin-top:${-d.flexCompactDim[1] + d.height}px;margin-left:${-(d.flexCompactDim[0] / 2 - d.width) / 2 + state.compactMarginPair(d) / 4}px;width:${d.flexCompactDim[0]}px;height:${d.flexCompactDim[1]}px;z-index:-1;position:absolute;background-color:red"></div>` : ''}
+          //     ${state.layout == 'left' && state.compact && d.flexCompactDim && (d.flexCompactDim[0] || d.flexCompactDim[0] == 1) ? ` <div style="border:1px solid black;opacity:0.5;margin-top:${-(d.flexCompactDim[0]/2-d.height)/2+ state.compactMarginPair(d) / 4}px;margin-left:${0}px;width:${d.flexCompactDim[1]}px;height:${d.flexCompactDim[0]}px;z-index:-1;position:absolute;background-color:red"></div>` : ''}
+          //     ${state.layout == 'right' && state.compact && d.flexCompactDim && (d.flexCompactDim[0] || d.flexCompactDim[0] == 1) ? ` <div style="border:1px solid black;opacity:0.5; margin-top:${-(d.flexCompactDim[0]/2-d.height)/2+ state.compactMarginPair(d) / 4}px;margin-left:${d.width-d.flexCompactDim[1]}px;width:${d.flexCompactDim[1]}px;height:${d.flexCompactDim[0]}px;z-index:-1;position:absolute;background-color:red"></div>` : ''}
               
-              <img src="${d.data.image}"  style="border-radius:100px;width:60px;height:60px;" />
-              ID: ${d.data.id} <br>
-              Children Direct:${d.data._directSubordinates}<br>
-              Children Total:${d.data._totalSubordinates}
-            </div>`;
-          })
+          //     <img src="${d.data.image}"  style="border-radius:100px;width:60px;height:60px;" />
+          //     ID: ${d.data.id} <br>
+          //     Children Direct:${d.data._directSubordinates}<br>
+          //     Children Total:${d.data._totalSubordinates}
+          //   </div>`;
+          // })
           // Commentable
-
           .nodeHeight(d => 100)
           .nodeWidth(d => {
               return 400
@@ -217,14 +221,18 @@ export default {
             /**
              * Show drawer for adding
              */
-            // this.nodeVal.pid = this.selectedNode.id 
+            this.nodeVal.pid = this.selectedNode.id 
             this.drawerHelper = true 
           })
           .compactMarginBetween(d => 35)
           .compactMarginPair(d => 30)
           .neightbourMargin((a, b) => 20)
           .buttonContent(({ node, state }) => {
-              return `<div style="color:#716E7B;border-radius:5px;padding:3px;font-size:10px;margin:auto auto;background-color:white;border: 1px solid #E4E2E9"> <span style="font-size:9px">${node.children ? `<i class="fas fa-angle-up"></i>` : `<i class="fas fa-angle-down"></i>`}</span> ${node.data._directSubordinates}  </div>`
+            console.log( node )
+              return `<div class="border border-gray-300 bg-white rounded-md flex flex-row h-6 font-bold text-blue-500" >
+                <svg class="w-4" style="margin: 2px 10px auto 10px; " xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 20 20"><g fill="none"><path d="M9 2.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5H10v1a5 5 0 0 1 5 5v1h1a2 2 0 0 1 2 2v4a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-4a2 2 0 0 1 2-2h1v-1a5.002 5.002 0 0 1 4-4.9V2.5zm7 9.5h-1.5a.5.5 0 0 1-.5-.5V10a4 4 0 0 0-8 0v1.5a.5.5 0 0 1-.5.5H4a1 1 0 0 0-1 1v4h5v-2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2h5v-4a1 1 0 0 0-1-1zM6 13.5a.5.5 0 0 0-1 0v2a.5.5 0 0 0 1 0v-2zm9 0a.5.5 0 0 0-1 0v2a.5.5 0 0 0 1 0v-2zM8.5 9a.5.5 0 0 0-.5.5v2a.5.5 0 0 0 1 0v-2a.5.5 0 0 0-.5-.5zm3.5.5a.5.5 0 0 0-1 0v2a.5.5 0 0 0 1 0v-2zM9 17h2v-2H9v2z" fill="currentColor"></path></g></svg>
+                <div class="" style="margin: 3px 5px auto 5px; " >${ getKhmer( node.data._directSubordinates ) }</div>
+                </div>`
           })
           .linkUpdate(function (d, i, arr) {
               d3.select(this)
@@ -243,7 +251,7 @@ export default {
                         <!-- Picture -->` +
                         (
                           d.data.image==null
-                          ? `<img src="/src/assets/logo.png" class="w-8 mt-1 mx-auto" />`
+                          ? `<img src="`+ocmLogoUrl+`" class="w-8 mt-1 mx-auto" />`
                           : `<svg class='w-8 h-8 m-2' xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 20 20"><g fill="none"><path d="M9 2.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5H10v1a5 5 0 0 1 5 5v1h1a2 2 0 0 1 2 2v4a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-4a2 2 0 0 1 2-2h1v-1a5.002 5.002 0 0 1 4-4.9V2.5zm7 9.5h-1.5a.5.5 0 0 1-.5-.5V10a4 4 0 0 0-8 0v1.5a.5.5 0 0 1-.5.5H4a1 1 0 0 0-1 1v4h5v-2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2h5v-4a1 1 0 0 0-1-1zM6 13.5a.5.5 0 0 0-1 0v2a.5.5 0 0 0 1 0v-2zm9 0a.5.5 0 0 0-1 0v2a.5.5 0 0 0 1 0v-2zM8.5 9a.5.5 0 0 0-.5.5v2a.5.5 0 0 0 1 0v-2a.5.5 0 0 0-.5-.5zm3.5.5a.5.5 0 0 0-1 0v2a.5.5 0 0 0 1 0v-2zM9 17h2v-2H9v2z" fill="currentColor"></path></g></svg>`
                         )
                         + `</div><!-- Menu icon -->
@@ -259,13 +267,14 @@ export default {
                           d.data.leader[0].positions.map( (p) => p.name ).join(' , ') 
                         ) : 'មិនមានអ្នកគ្រប់គ្រង' } </div>
                         <!-- Total staffs within the organization -->
-                        <div style="width: 40px; position: absolute; right: 5px; bottom: -12px; border: 1px solid #EEE; background-color: #FFF; color:#716E7B; border-radius: 5px; height: 20px; padding: 3px; float: left;" >
-                          <svg style=" float: left; width: 10px; height: 10px; margin: 1px; display: inline-block; font-size: 10px ;" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 448 512"><path d="M224 256c70.7 0 128-57.3 128-128S294.7 0 224 0S96 57.3 96 128s57.3 128 128 128zm95.8 32.6L272 480l-32-136l32-56h-96l32 56l-32 136l-47.8-191.4C56.9 292 0 350.3 0 422.4V464c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48v-41.6c0-72.1-56.9-130.4-128.2-133.8z" fill="currentColor"></path></svg>
-                          <div style=" float: right; font-size: 10px ; height: 10; margin: 1px; " >${ d.data.staffs != null && d.data.staffs.length > 0 ? d.data.staffs.length : 0 }</div>
+                        <div style="width: 40px; position: absolute; right: 5px; bottom: -4px; border: 1px solid #CCC; background-color: #FFF; color:#716E7B; border-radius: 5px; height: 22px; padding: 2px; float: left;" >
+                          <svg class="text-blue-600" style=" float: left; width: 12px; height: 12px; margin: 1px auto auto 2px; display: inline-block; font-size: 12px ;" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 448 512"><path d="M224 256c70.7 0 128-57.3 128-128S294.7 0 224 0S96 57.3 96 128s57.3 128 128 128zm95.8 32.6L272 480l-32-136l32-56h-96l32 56l-32 136l-47.8-191.4C56.9 292 0 350.3 0 422.4V464c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48v-41.6c0-72.1-56.9-130.4-128.2-133.8z" fill="currentColor"></path></svg>
+                          <div class="text-blue-600" style=" float: right; font-size: 12px ; " >${ getKhmer( d.data.staffs != null && d.data.staffs.length > 0 ? d.data.staffs.length : 0 ) }</div>
                         </div>
                       </div>
                       `;
-          }).render()
+          })
+          .render()
         // }) // Finish building chart
       }).catch( err => { console.log( err ) } );
 
@@ -309,7 +318,7 @@ export default {
             id: res.data.record.id,
             parentId: res.data.record.pid ,
             name: res.data.record.name,
-            image: res.data.record.image != "" ? res.data.record.image : '/src/assets/logo.svg' ,
+            image: res.data.record.image != "" ? res.data.record.image : ocmLogoUrl ,
             desp: res.data.record.desp ,
             _centered: true
           })
@@ -361,6 +370,11 @@ export default {
         console.log( err )
       });
     },
+    onCloseChildOrganizationModal(record){
+      console.log( "on close child organization modal")
+      this.chart.render()
+      this.childOrganizationModal = false
+    },
     onCloseOrganizationModel(record){
       // this.dataFlattened = res.data.records
       // this.dataFlattened.columns = 'id,name,imageUrl,parentId,desp,staffs,leader'
@@ -374,6 +388,10 @@ export default {
       // this.drawingOrgchart()
       // console.log( res.data )
       // this.drawerHelper = false
+      this.organizationModal = false
+    },
+    openChildOrganization(){
+      alert('me')
     }
   },
   created() {

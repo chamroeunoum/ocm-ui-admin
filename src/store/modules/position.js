@@ -29,7 +29,17 @@ const actions = {
         search: params.search ,
         perPage: params.perPage ,
         page: params.page ,
-        id: params.id 
+        id: params.id
+      }).toString()
+    )
+  },
+  async listByParent ({ state, commit, rootState },params) {
+    return await crud.list(rootState.apiServer+"/"+state.model.name + "/listbyparent" 
+    + "?" + new URLSearchParams({
+        search: params.search ,
+        perPage: params.perPage ,
+        page: params.page ,
+        id: params.id
       }).toString()
     )
   },
@@ -40,6 +50,9 @@ const actions = {
   },
   async read ({ state, commit, rootState },params) {
     return await crud.read(rootState.apiServer+"/"+state.model.name+"/"+params.id+'/read')
+  },
+  async people ({ state, commit, rootState },params) {
+    return await crud.read(rootState.apiServer+"/"+state.model.name+"/"+params.id+'/people')
   },
   async create ({ state, commit, rootState },params) {
     return await crud.create(rootState.apiServer+"/"+state.model.name+"/create",params)
@@ -55,6 +68,15 @@ const actions = {
   },
   async activate({state, commit, rootState}, params){
     return await crud.update(rootState.apiServer+"/"+state.model.name+"/activate",params)
+  },
+  async deactivate({state, commit, rootState}, params){
+    return await crud.update(rootState.apiServer+"/"+state.model.name+"/deactivate",params)
+  },
+  async setLeader ({ state, commit, rootState },params) {
+    return await crud.update(rootState.apiServer+"/"+state.model.name+"/setleader",params)
+  },
+  async addPeople ({ state, commit, rootState },params) {
+    return await crud.update(rootState.apiServer+"/"+state.model.name+"/addstaff",params)
   },
   async regulators ({ state, commit, rootState },params) {
     return await crud.read(rootState.apiServer+"/"+state.model.name+"/regulators"+ "?" + new URLSearchParams({
@@ -75,9 +97,9 @@ const actions = {
     }).toString(),
     null,
     true
-  )}
+  )},
+  
 }
-
 // mutations
 const mutations = {
   // increment (state) {
