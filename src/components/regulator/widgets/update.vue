@@ -33,8 +33,8 @@
                       :options="types"
                     />
                   </n-form-item>
-                  <n-form-item label="លេខ" path="number" class="w-4/5 mr-8" >
-                    <n-input v-model:value="record.number" placeholder="លេខ" />
+                  <n-form-item label="លេខ" path="fid" class="w-4/5 mr-8" >
+                    <n-input v-model:value="record.fid" placeholder="លេខ" />
                   </n-form-item>
                   <n-form-item label="ចំណងជើង" path="title" class="w-4/5 mr-8" >
                     <n-input v-model:value="record.title" placeholder="ចំណងជើង" />
@@ -108,7 +108,7 @@
                         <br/>
                       </div>
                       <div class="list-files-upload w-full p-4" >
-                        <div class="selectedFiles w-full m-2" v-for="(pdf,index) in record.pdfs" :key="index" v-html="'ឯកសារយោងមានឈ្មោះ៖ ' + pdf.name + ' , ទំហំ៖ ' + (pdf.size/1024/1024).toFixed(2) + ' មេកាបៃ (MB)' " ></div>
+                        <div class="selectedFiles w-full m-2" v-for="(pdf,index) in pdfs" :key="index" v-html="'ឯកសារយោងមានឈ្មោះ៖ ' + pdf.name + ' , ទំហំ៖ ' + (pdf.size/1024/1024).toFixed(2) + ' មេកាបៃ (MB)' " ></div>
                       </div>
                     </div>
                   </n-form-item>
@@ -155,7 +155,7 @@ export default {
       default: () => {
         return reactive({
           id: 0 ,
-          number: '' ,
+          fid: '' ,
           title: '' ,
           objective: '' ,
           active: 1 ,
@@ -197,6 +197,7 @@ export default {
     const selectedOwnOrganizations = ref([])
     const selectedRelatedOrganizations = ref([])
     const selectedSignatures = ref([])
+    const pdfs = ref([])
 
     const regulatorDate = reactive({
       year: parseInt( dateFormat( props.record.year , 'yyyy') ),
@@ -328,7 +329,7 @@ export default {
         //   /**
         //    * Read binary string from 'e.target.result' and convert to base64
         //    */
-        //   props.record.pdfs.push( btoa( e.target.result ) );
+        //   pdfs.value.push( btoa( e.target.result ) );
         //   // formData.append('files', btoa( e.target.result ) )
         // }
         // // // // Read in the image file as base64 type
@@ -336,8 +337,8 @@ export default {
         // reader.readAsBinaryString(file);
 
         // // Read in the image file as base64 type
-        // props.record.pdfs.push( window.URL.createObjectURL( file ) )
-        props.record.pdfs.push( file )
+        // pdfs.value.push( window.URL.createObjectURL( file ) )
+        pdfs.value.push( file )
       }
     }
     /**
@@ -347,10 +348,12 @@ export default {
       document.getElementById('referenceDocument').click()
     }
     function uploadFiles(){
-      // console.log( props.record.pdfs )
-      let formData = new FormData();
+      // console.log( pdfs.value )
+      const file = document.getElementById('referenceDocument').files[0]; // Select your file input element
+      console.log( file )
+      const formData = new FormData();
       formData.append('id', props.record.id )
-      formData.append('files', props.record.pdfs[0] )
+      formData.append('file', file ); 
       // notify.info({
       //   title: 'រក្សារទុកព័ត៌មាន' ,
       //   description: 'កំពុងបញ្ចូលឯកសារយោង។' ,
@@ -362,22 +365,22 @@ export default {
           description: 'បានបញ្ចូលឯកសារយោងរួចរាល់។' ,
           duration: 3000
         })
-        props.record.pdfs = []
-        btnSavingLoadingRef.value = false 
         props.onClose()
       }).catch( err => {
         console.log( err )
         notify.error({
           title: 'រក្សារទុកព័ត៌មាន' ,
-          description: 'មានបញ្ហាពេលបញ្ចូលឯកសារយោង។' ,
+          description: err.response.data.message ,
           duration: 3000
         })
       })
-      // props.onClose()
+      document.getElementById('referenceDocument').value = ''     
+      pdfs.value = []
+      btnSavingLoadingRef.value = false 
     }
 
     function update(){
-      if( props.record.number == "" ){
+      if( props.record.fid == "" ){
         notify.warning({
           'title' : 'ពិនិត្យព័ត៌មាន' ,
           'description' : 'សូមបំពេញ លេខឯកសារ' ,
@@ -430,7 +433,7 @@ export default {
       btnSavingLoadingRef.value = true
       store.dispatch( props.model.name+'/update',{
         id: props.record.id ,
-        number: props.record.number.toString().padStart(4,'0') ,
+        fid: props.record.fid.toString().padStart(4,'0') ,
         title: props.record.title ,
         objective: props.record.objective ,
         // year: year.getFullYear().toString().padStart(4, '0') + "-" + (year.getMonth() + 1).toString().padStart(2, '0') + "-" + year.getDate().toString().padStart(2, '0') ,
@@ -442,38 +445,23 @@ export default {
         relatedOrganizations: selectedRelatedOrganizations.value ,
         signatures: selectedSignatures.value ,
       }).then( res => {
-        switch( res.status ){
-          case 200 : 
-            document.getElementById('referenceDocument').value = ''     
-            if( res.data.ok ){
-              // notify.success({
-              //   title: 'រក្សារទុកព័ត៌មាន' ,
-              //   description: 'រក្សារទុកព័ត៌មានរបស់ឯកសាររួចរាល់។' ,
-              //   duration: 3000
-              // })
-              /**
-               * Start uploading reference document of this regulator
-               */
-              if( res.data.record.id > 0 && props.record.pdfs.length > 0 ){
-                uploadFiles()
-              }else{
-                props.record.pdfs = []
-                btnSavingLoadingRef.value = false
-              }
-            }else{
-              props.record.pdfs = []
-              btnSavingLoadingRef.value = false
-              notify.warning({
-                title: 'រក្សារទុកព័ត៌មាន' ,
-                description: res.data.message ,
-                duration: 3000
-              })
-            }
-          break;
+        if( res.status == 200 && res.data.ok ){
+          /**
+           * Start uploading reference document of this regulator
+           */
+          if( res.data.record.id > 0 && pdfs.value.length > 0 ){
+            uploadFiles()
+          }
+        }else{
+          notify.warning({
+            title: 'រក្សារទុកព័ត៌មាន' ,
+            description: res.data.message ,
+            duration: 3000
+          })
         }
       }).catch( err => {
-        document.getElementById('referenceDocument').value = ''
-        props.record.pdfs = []
+        document.getElementById('referenceDocument').value = ''     
+        pdfs.value = []
         btnSavingLoadingRef.value = false
         console.log( err )
         notify.error({
@@ -482,6 +470,9 @@ export default {
           duration : 3000
         })
       })
+      document.getElementById('referenceDocument').value = ''     
+      pdfs.value = []
+      btnSavingLoadingRef.value = false
     }
     
     function checkPhone(){
@@ -528,6 +519,7 @@ export default {
       /**
        * Variables
        */
+      pdfs,
       rules ,
       btnSavingLoadingRef ,
       publish ,

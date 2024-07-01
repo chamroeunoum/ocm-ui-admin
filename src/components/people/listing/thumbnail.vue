@@ -54,7 +54,7 @@
                 </div>
                 <div class="w-full" >
                   <div v-if="Array.isArray( record.positions ) && record.positions.length > 0 " class="w-full text-center text-xs my-1 text-gray-500 mr-2 leading-5 tracking-wider" >{{ record.positions.map( o => o.name ).join( ' , ' ) }}</div>
-                  <div v-if="Array.isArray( record.organizations ) && record.organizations.length > 0 " class="w-full text-center text-xs my-1 text-gray-500 leading-5 tracking-wide" >{{ record.organizations.map( o => o.name ).join( ' , ' ) }}</div>
+                  <div v-if="Array.isArray( record.organizationPeople ) && record.organizationPeople.length > 0 " class="w-full text-center text-xs my-1 text-gray-500 leading-5 tracking-wide" v-html=" record.organizationPeople.map( o => o.organization.name + '<strong>' + ( o.organization.code != null ? ' ' + o.organization.code : ' OCM' ) + ( o.code != null ? '-' + o.code : '-' + record.id ) + '</strong>' ).join( ' , ' ) " ></div>
                 </div>
               </div>
               <thumbnail-actions-form v-bind:model="model" v-bind:record="record" :onClose="closeActions" />

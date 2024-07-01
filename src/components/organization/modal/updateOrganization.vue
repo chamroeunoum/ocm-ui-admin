@@ -13,6 +13,9 @@
       <n-form-item label="ឈ្មោះ" path="name" class="w-4/5 mr-8" >
         <n-input placeholder="សូមបញ្ចូលឈ្មោះ" v-model:value="record.name" @blur="update()" />
       </n-form-item>
+      <n-form-item label="ទំម្រង់កូដសម្គាល់អង្គភាព" path="name" class="w-4/5 mr-8" >
+        <n-input placeholder="ទំម្រង់កូដសម្គាល់អង្គភាព" v-model:value="record.code" @blur="update()" />
+      </n-form-item>
       <n-form-item label="ព័ត៌មានអំពីអង្គភាព" path="description" class="w-4/5 mr-8" >
         <n-input type="textarea" v-model:value="record.desp" placeholder="ព័ត៌មានអំពីអង្គភាព" @blur="update()" />
       </n-form-item>
@@ -56,6 +59,7 @@ export default {
           id: 0 ,
           parentId: "" ,
           name: "" ,
+          code: "" ,
           image: "https://picsum.photos/200/300" ,
           desp: ""
         })
@@ -140,6 +144,7 @@ export default {
       store.dispatch('organizations/update',{
         id: props.record.id ,
         name: props.record.name ,
+        code: props.record.code ,
         // document_id : 0 , // Id of the document that this record despribe
         pid : props.record.parentId > 0 ? props.record.parentId : 0 , // Id of the parent record
         desp: props.record.desp ,

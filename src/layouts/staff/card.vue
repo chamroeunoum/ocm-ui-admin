@@ -26,9 +26,11 @@
                   <td class="w-24 p-2 font-moul leading-7 text-sm" style="vertical-align: top; text-align: left;"  >តួនាទី</td>
                   <td class="p-2 font-moul leading-7 text-sm" style="vertical-align: top; text-align: left;"  >{{ officer.positions.map( (o) => o.name ).join( ', ' )}}</td>
                 </tr>
-                <tr v-if="officer != null && officer.positions != null ">
+                <tr v-if="officer != null && officer.organization_people != null && officer.organization_people != undefined && officer.organization_people.length > 0 ">
                   <td class="w-24 p-2 font-moul leading-7 text-sm" style="vertical-align: top; text-align: left;"  >លេខសម្គាល់</td>
-                  <td class="p-2 leading-7 text-sm" style="vertical-align: top; text-align: left;"  >{{ 'OCM-ORG-'+officer.id }}</td>
+                  <td class="p-2 " style="vertical-align: top; text-align: left;"  >
+                      <div class="leading-7 text-sm font-bold" v-for="(organizationPivot, index) in officer.organization_people" >{{ organizationPivot.organization.code != "" && organizationPivot.organization.code != undefined && organizationPivot.organization.code.length > 0 ? organizationPivot.organization.code : 'OCM' }}{{ organizationPivot.code != "" && organizationPivot.code != undefined && organizationPivot.code.length > 0 ? "-" + organizationPivot.code : '-' + officer.id }}</div>
+                  </td>
                 </tr>
               </table>
           </div>

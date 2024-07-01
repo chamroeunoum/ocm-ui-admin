@@ -43,6 +43,10 @@ const actions = {
   async update ({ state, commit, rootState },params) {
     return await crud.update(rootState.apiServer+"/"+state.model.name+"/update",params)
   },
+  async updateOrganizationCode ({ state, commit, rootState },params) {
+    return await crud.update(rootState.apiServer+"/"+state.model.name+"/update_organization_code",params)
+  },
+  
   async updateAuth ({ state, commit, rootState },params) {
     return await crud.update(rootState.apiServer+"/"+state.model.name+"/authenticated",params)
   },

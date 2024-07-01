@@ -218,7 +218,7 @@ export default {
     var regulatorModal = reactive({show:false})
     var regulatorRecord = reactive({
       id: 0 ,
-      number: "" ,
+      fid: "" ,
       title: "" ,
       objective: "" ,
       type_id: null ,
@@ -236,7 +236,7 @@ export default {
 
     function showShareRegulatorModal(record){
       regulatorRecord.id = record.id
-      regulatorRecord.number = record.fid
+      regulatorRecord.fid = record.fid
       regulatorRecord.title = record.title
       regulatorRecord.objective = record.objective
       regulatorRecord.type_id = record.type
@@ -364,7 +364,7 @@ export default {
     var accessibilityModal = reactive({show:false})
     var accessibilityRecord = reactive({
       id: 0 ,
-      number: "" ,
+      fid: "" ,
       title: "" ,
       objective: "" ,
       type_id: null ,
@@ -376,7 +376,7 @@ export default {
     })
     function showAccessibilityModal(record){
       accessibilityRecord.id = record.id
-      accessibilityRecord.number = record.fid
+      accessibilityRecord.fid = record.fid
       accessibilityRecord.title = record.title
       accessibilityRecord.objective = record.objective
       accessibilityRecord.type_id = record.type
@@ -470,7 +470,7 @@ export default {
     var pdfPreviewModal = reactive({show:false})
     var pdfPreviewRecord = reactive({
       id: 0 ,
-      number: "" ,
+      fid: "" ,
       title: "" ,
       objective: "" ,
       type_id: null ,
@@ -488,7 +488,7 @@ export default {
 
     function showPdfPreviewModal(record){
       pdfPreviewRecord.id = record.id
-      pdfPreviewRecord.number = record.fid
+      pdfPreviewRecord.fid = record.fid
       pdfPreviewRecord.title = record.title
       pdfPreviewRecord.objective = record.objective
       pdfPreviewRecord.type_id = record.type

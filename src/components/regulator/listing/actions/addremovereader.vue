@@ -99,7 +99,7 @@ export default {
       default: () => {
         return reactive({
           id: 0 ,
-          number: '' ,
+          fid: '' ,
           title: '' ,
           objective: '' ,
           active: 1 ,

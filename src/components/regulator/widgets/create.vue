@@ -34,7 +34,7 @@
                     />
                   </n-form-item>
                   <n-form-item label="លេខ" path="number" class="w-4/5 mr-8" >
-                    <n-input v-model:value="record.number" placeholder="លេខ" />
+                    <n-input v-model:value="record.fid" placeholder="លេខ" />
                   </n-form-item>
                   <n-form-item label="ចំណងជើង" path="title" class="w-4/5 mr-8" >
                     <n-input v-model:value="record.title" placeholder="ចំណងជើង" />
@@ -359,7 +359,7 @@ export default {
     }
 
     function create(){
-      if( props.record.number == "" ){
+      if( props.record.fid == "" ){
         notify.warning({
           'title' : 'ពិនិត្យព័ត៌មាន' ,
           'description' : 'សូមបំពេញ លេខឯកសារ' ,
@@ -412,7 +412,7 @@ export default {
       btnSavingLoadingRef.value = true
       store.dispatch( props.model.name+'/create',{
         // id: props.record.id ,
-        number: props.record.number.toString().padStart(4,'0') ,
+        number: props.record.fid.toString().padStart(4,'0') ,
         title: props.record.title ,
         objective: props.record.objective ,
         active: 1 ,

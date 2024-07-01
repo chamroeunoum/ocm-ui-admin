@@ -50,7 +50,7 @@
     <!-- Form update account -->
     <detail-form v-bind:model="model" v-bind:record="record" v-bind:show="detailModal.show" :onClose="closeDetail"/>
     <!-- Form update account -->
-    <preview-card-form v-bind:model="model" v-bind:record="record" v-bind:show="previewCardModal.show" :onClose="closePreviewCard"/>
+    <preview-card-form v-bind:model="model" v-bind:record="previewCardRecord" v-bind:show="previewCardModal.show" :onClose="closePreviewCard"/>
   </div>
 </template>
 <script>
@@ -125,6 +125,8 @@ export default {
       phone: "" ,
       email: "" ,
       person: null ,
+      image: null ,
+      organizationPeople: [] ,
       organizations: [] ,
       positions: [] ,
       countesies: []
@@ -139,8 +141,10 @@ export default {
       editRecord.mobile_phone = record.mobile_phone
       editRecord.office_phone = record.office_phone
       editRecord.email = record.email
+      editRecord.image = record.image
       editRecord.marry_status = record.marry_status
       editRecord.user = record.user
+      editRecord.organizationPeople = record.organizationPeople
       editRecord.organizations = record.organizations
       editRecord.positions = record.positions
       editRecord.countesies = record.countesies
@@ -160,6 +164,8 @@ export default {
       phone: "" ,
       email: "" ,
       person: null ,
+      image: null ,
+      organizationPeople: [] ,
       organizations: [] ,
       positions: [] ,
       countesies: []
@@ -171,12 +177,14 @@ export default {
       previewCardRecord.gender = record.gender
       previewCardRecord.firstname = record.firstname
       previewCardRecord.lastname = record.lastname
+      previewCardRecord.image = record.image
       previewCardRecord.mobile_phone = record.mobile_phone
       previewCardRecord.office_phone = record.office_phone
       previewCardRecord.email = record.email
       previewCardRecord.marry_status = record.marry_status
       previewCardRecord.user = record.user
       previewCardRecord.organizations = record.organizations
+      previewCardRecord.organizationPeople = record.organizationPeople
       previewCardRecord.positions = record.positions
       previewCardRecord.countesies = record.countesies
       previewCardModal.show = true
@@ -194,8 +202,10 @@ export default {
       editRecord.mobile_phone = record.mobile_phone
       editRecord.office_phone = record.office_phone
       editRecord.email = record.email
+      editREcord.image = record.image
       editRecord.marry_status = record.marry_status
       editRecord.user = record.user
+      editRecord.organizationPeople = record.organizationPeople
       editRecord.organizations = record.organizations
       editRecord.positions = record.positions
       editRecord.countesies = record.countesies
@@ -264,7 +274,8 @@ export default {
       //
       showPreviewCardModal ,
       closePreviewCard,
-      previewCardModal
+      previewCardModal ,
+      previewCardRecord
     }
   }
 }

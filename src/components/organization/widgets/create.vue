@@ -37,6 +37,9 @@
                   <n-form-item label="ឈ្មោះអង្គភាព" path="name" class="w-1/2 p-1" >
                     <n-input v-model:value="record.name" placeholder="ឈ្មោះអង្គភាព" />
                   </n-form-item>
+                  <n-form-item label="ទំម្រង់កូដសម្គាល់អង្គភាព" path="name" class="w-1/2 mr-8" >
+                    <n-input placeholder="ទំម្រង់កូដសម្គាល់អង្គភាព" v-model:value="record.code" />
+                  </n-form-item>
                   <n-form-item label="ព័ត៌មានផ្សេងៗ" path="desp" class="w-1/2 p-1" >
                     <n-input v-model:value="record.desp" placeholder="ព័ត៌មានផ្សេងៗ" />
                   </n-form-item>
@@ -82,6 +85,7 @@ export default {
           id: 0 ,
           name: '' ,
           desp: '' ,
+          code: '' ,
           pid: null
         })
       },
@@ -125,6 +129,7 @@ export default {
     const helpers = reactive({
       name: false ,
       desp: false ,
+      code: false ,
       pid: false ,
     })
     /**
@@ -135,6 +140,7 @@ export default {
         id : 0 ,
         name: '' ,
         desp: '' ,
+        code: '' ,
         pid: null
       }
     }
@@ -171,7 +177,8 @@ export default {
         // id: props.record.id ,
         name: props.record.name ,
         desp: props.record.desp ,
-        pid: props.record.pid
+        pid: props.record.pid ,
+        code: props.record.code
       }).then( res => {
         switch( res.status ){
           case 200 : 

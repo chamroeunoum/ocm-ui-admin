@@ -43,10 +43,6 @@
                     <div class="py-4" >
                       <!-- Countesies , Name -->
                       <div class="w-full mb-4 pb-2 leading-6 border-b border-gray-200 flex font-moul">{{ userCountesies }} {{ record.lastname + " " + record.firstname }}</div>
-                      <!-- Officer Organization -->
-                      <div v-if="record != null && record.organizations != null " class="w-full mb-4 pb-2 leading-6 border-b border-gray-200">អង្គភាព ៖ {{ record.organizations.map( (o) => o.name ).join( ', ' )}}</div>
-                      <!-- Officer Position -->
-                      <div v-if="record != null && record.positions != null " class="w-full mb-4 pb-2 leading-6 border-b border-gray-200">តួនាទី ៖ {{ record.positions.map( (o) => o.name ).join( ', ' )}}</div>
                       <!-- Officer Date of birth -->
                       <div v-if="record != null && record.nid != null " class="w-full mb-4 pb-2 leading-6 border-b border-gray-200">លេខអត្តសញ្ញាណបណ្ណ ៖ {{ record.nid }}</div>
                       <div v-if="record != null && record.dob != null " class="w-full mb-4 pb-2 leading-6 border-b border-gray-200">ថ្ងៃ ខែ ឆ្នាំ កំណើត ៖ {{ record.dob }}</div>
@@ -61,9 +57,28 @@
                         <svg class="w-4 h-4 text-blue-500 ml-4 mt-1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 32 32"><path d="M18 30h-4a2 2 0 0 1-2-2v-7a2 2 0 0 1-2-2v-6a3 3 0 0 1 3-3h6a3 3 0 0 1 3 3v6a2 2 0 0 1-2 2v7a2 2 0 0 1-2 2zm-5-18a.94.94 0 0 0-1 1v6h2v9h4v-9h2v-6a.94.94 0 0 0-1-1z" fill="currentColor"></path><path d="M16 9a4 4 0 1 1 4-4a4 4 0 0 1-4 4zm0-6a2 2 0 1 0 2 2a2 2 0 0 0-2-2z" fill="currentColor"></path></svg>
                       </div>
                       <div v-if="record != null && record.marry_status != null && record.marry_status == 'devorced' " class="w-full mb-4 pb-2 leading-6 border-b border-gray-200 flex flex-wrap ">
-                        លះលែង
+                        ពោះមាយ / មេមាយ
                         <svg class="w-4 h-4 text-blue-500 ml-4 mt-1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 20 20"><g fill="none"><path d="M13 12a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v1.5C2 15.554 4.088 17 7.5 17c.459 0 .893-.026 1.302-.076l-.363-.363a1.494 1.494 0 0 1-.359-.576c-.187.01-.38.015-.58.015C4.579 16 3 14.907 3 13.5V12a1 1 0 0 1 1-1h7a1 1 0 0 1 1 1v.085a1.496 1.496 0 0 1 1 1.414V12zm5 .5c0 .425-.065.822-.193 1.185l-.829-.828c.015-.115.022-.234.022-.357V12a1 1 0 0 0-1-1h-2.171a3 3 0 0 0-.594-1H16a2 2 0 0 1 2 2v.5zm-7-7a3.5 3.5 0 1 0-7 0a3.5 3.5 0 0 0 7 0zm-6 0a2.5 2.5 0 1 1 5 0a2.5 2.5 0 0 1-5 0zm12 1a2.5 2.5 0 1 0-5 0a2.5 2.5 0 0 0 5 0zm-4 0a1.5 1.5 0 1 1 3 0a1.5 1.5 0 0 1-3 0zm-1.854 11.354a.5.5 0 0 0 .708-.708L10.707 16h5.586l-1.147 1.146a.5.5 0 0 0 .708.708l2-2a.5.5 0 0 0 0-.708l-2-2a.5.5 0 0 0-.708.708L16.293 15h-5.586l1.147-1.146a.5.5 0 0 0-.708-.708l-2 2a.5.5 0 0 0 0 .708l2 2zM11.243 15h1.325h-1.325z" fill="currentColor"></path></g></svg>
                       </div>
+                    </div>
+                  </n-tab-pane>
+                  <n-tab-pane name="organization-information" tab="ព័ត៌មានក្នុងអង្គភាព">
+                    <div class="py-4" >
+                      <!-- Officer Organization -->
+                      <div v-if="record != null && record.organizations != null " class="w-full mb-4 pb-2 leading-6 border-b border-gray-200">អង្គភាព ៖ {{ record.organizations.map( (o) => o.name ).join( ', ' )}}</div>
+                      <!-- Officer Position -->
+                      <div v-if="record != null && record.positions != null " class="w-full mb-4 pb-2 leading-6 border-b border-gray-200">តួនាទី ៖ {{ record.positions.map( (o) => o.name ).join( ', ' )}}</div>
+                      <Transition name="slide-fade" >
+                        <div 
+                          v-if="record.organizationPeople != null && record.organizationPeople != undefined && record.organizationPeople.length > 0 "
+                          class="w-full"
+                          >
+                          <div class="w-full mb-4" >លេខសម្កាល់មន្ត្រីក្នុងស្ថាប័នស្ថិតនៅ</div>
+                          <div class="w-full mb-4" v-for="(organizationPivot, index) in record.organizationPeople" >
+                            <div class="w-full " >{{ getKhmer( index + 1 ) + '. ' +organizationPivot.organization.name }}{{ organizationPivot.organization.code != "" && organizationPivot.organization.code != undefined && organizationPivot.organization.code.length > 0 ? ' - ' + organizationPivot.organization.code : '' }} {{ organizationPivot.code }}</div>
+                          </div>
+                        </div>
+                      </Transition>
                     </div>
                   </n-tab-pane>
                 </n-tabs>
@@ -84,6 +99,7 @@ import { useMessage, useNotification } from 'naive-ui'
 import { Save20Regular } from '@vicons/fluent'
 import Frame4Corner from './../../widgets/frame/corner4.vue'
 import QrcodeVue from 'qrcode.vue'
+import { getKhmer } from '../../../plugins/kh/number.js'
 
 export default {
   components: {
@@ -204,7 +220,8 @@ export default {
        */
       initial ,
       clearRecord ,
-      maskOrEscClick
+      maskOrEscClick ,
+      getKhmer
     }
   }
 }

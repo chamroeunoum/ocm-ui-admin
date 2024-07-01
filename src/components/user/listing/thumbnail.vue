@@ -54,7 +54,12 @@
                 </div>
                 <div v-if="record.person != undefined" class="w-full" >
                   <div v-if="Array.isArray( record.person.positions ) && record.person.positions.length > 0 " class="w-full text-center text-xs my-1 text-gray-500 mr-2 leading-5 tracking-wider" >{{ record.person.positions.map( o => o.name ).join( ' , ' ) }}</div>
-                  <div v-if="Array.isArray( record.person.organizations ) && record.person.organizations.length > 0 " class="w-full text-center text-xs my-1 text-gray-500 leading-5 tracking-wide" >{{ record.person.organizations.map( o => o.name ).join( ' , ' ) }}</div>
+                  <!-- <div v-if="Array.isArray( record.person.organizations ) && record.person.organizations.length > 0 " class="w-full text-center text-xs my-1 text-gray-500 leading-5 tracking-wide" >{{ record.person.organizations.map( o => o.name ).join( ' , ' ) }}</div> -->
+                  <div 
+                    v-if="Array.isArray( record.person.organization_people ) && record.person.organization_people.length > 0 " 
+                    class="w-full text-center text-xs my-1 text-gray-500 leading-5 tracking-wide" 
+                    v-html="record.person.organization_people.map( o => o.organization.name + '<strong>' + ( o.organization.code != null ? ' ' + o.organization.code : ' OCM' ) + ( o.code != null ? '-' + o.code : '-' + record.id ) + '</strong>' ).join( ' , ' )" 
+                  ></div>
                 </div>
               </div>
               <thumbnail-actions-form v-bind:model="model" v-bind:record="record" :onClose="closeActions" />

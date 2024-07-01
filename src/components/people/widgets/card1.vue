@@ -1,17 +1,19 @@
 <template>
   <!-- Form edit account -->
     <div class="vcb-pop-create font-ktr ">
-      <n-modal v-model:show="show" :on-esc="maskOrEscClick" :on-mask-click="maskOrEscClick"  :on-after-enter="initial" transform-origin="center" class=" bg-white p-8" >
+      <n-modal 
+      v-model:show="show" :on-esc="maskOrEscClick" :on-mask-click="maskOrEscClick"  :on-after-enter="initial" transform-origin="center" 
+      class=" bg-white p-8 " >
         <!-- Form edit account -->
-        <div class="card relative border border-gray-300 rounded mx-auto w-96 bg-center bg-cover bg-no-repeat overflow-hidden" style="background-image: url('/src/assets/logo.svg'); background-size: 70% 70%;" >
+        <div class="card relative border border-gray-300 rounded mx-auto bg-center bg-cover bg-no-repeat overflow-hidden" style="background-image: url('/src/assets/logo.svg'); background-size: 70% 70%;" >
           <div class="absolute left-0 top-0 right-0 bottom-0 bg-blue-700 bg-opacity-90 " ></div>
           <!-- Start design artwork -->
           <!-- <div class="absolute -left-20 top-0 -right-20 h-60 bg-opacity-100 bg-blue-700 rounded-br-full rounded-bl-full" ></div> -->
           <!-- <div class="absolute -left-20 bottom-0 -right-20 h-4/6 bg-opacity-90 bg-blue-700 rounded-tr-full rounded-tl-full " ></div> -->
           <!-- <div class="absolute -left-20 bottom-0 -right-20 h-full bg-opacity-90 bg-blue-700 " ></div> -->
-           <div class="absolute left-0 bottom-0 right-0 h-full bg-opacity-90 bg-white rounded-bl-full " ></div>
+          <div class="absolute left-0 bottom-0 right-0 h-full bg-opacity-90 bg-white rounded-bl-full " ></div>
           <!-- End design artwork -->
-          <div v-if="record != undefined " class="flex relative overflow-hidden " >
+          <div v-if="record != undefined " class="flex relative overflow-hidden  max-w-max" >
             <!-- Column 1 -->
             <div class="mx-auto p-4 w-full flex flex-wrap" >
               <div class="w-full mb-2" >
@@ -24,8 +26,16 @@
                 <img :src="(record.image!=''? record.image:ocmLogoUrl)" class="w-24 mx-auto rounded-md border border-gray-100 p-1 bg-white" />
               </div>
               <!-- Officer ID -->
-              <div class="w-full h-6 text-center mx-auto my-2 font-bold " >OCM-ORG-{{ record.id }}</div>
-              <div class="font-moul text-left " >
+              <!-- <div class="w-full h-6 text-center mx-auto my-2 font-bold " >OCM-ORG-{{ record.id }}</div> -->
+              <div 
+                v-if="record.organizationPeople != null && record.organizationPeople != undefined && record.organizationPeople.length > 0 "
+                class="w-full"
+                >
+                <div class="w-full" v-for="(organizationPivot, index) in record.organizationPeople" >
+                  <div class="w-full h-6 text-center mx-auto my-2 font-bold " >{{ organizationPivot.organization.code != "" && organizationPivot.organization.code != undefined && organizationPivot.organization.code.length > 0 ? organizationPivot.organization.code : 'OCM' }}{{ organizationPivot.code != "" && organizationPivot.code != undefined && organizationPivot.code.length > 0 ? "-" + organizationPivot.code : '-' + record.id }}</div>
+                </div>
+              </div>
+              <div class="font-moul text-left mx-auto" >
                 <table class="" >
                   <tr v-if="userCountesies!=''" >
                     <td class="w-24 p-1  font-moul leading-6" style="vertical-align: top; text-align: left;" >ងារ</td>
@@ -69,6 +79,7 @@ import { Save20Regular } from '@vicons/fluent'
 import Frame4Corner from './../../widgets/frame/corner4.vue'
 import QrcodeVue from 'qrcode.vue'
 import ocmLogoUrl from './../../../assets/logo.svg'
+import { getKhmer } from '../../../plugins/kh/number.js'
 
 export default {
   components: {
@@ -197,7 +208,8 @@ export default {
       initial ,
       clearRecord ,
       maskOrEscClick ,
-      ocmLogoUrl
+      ocmLogoUrl ,
+      getKhmer
     }
   }
 }

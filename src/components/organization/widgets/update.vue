@@ -37,6 +37,9 @@
                   <n-form-item label="ឈ្មោះអង្គភាព" path="name" class="w-1/2 p-1" >
                     <n-input v-model:value="currentRecord.name" placeholder="ឈ្មោះអង្គភាព" />
                   </n-form-item>
+                  <n-form-item label="ទំម្រង់កូដសម្គាល់អង្គភាព" class="w-1/2 mr-8" >
+                    <n-input v-model:value="currentRecord.code" placeholder="ទំម្រង់កូដសម្គាល់អង្គភាព" />
+                  </n-form-item>
                   <n-form-item label="ព័ត៌មានផ្សេងៗ" path="desp" class="w-1/2 p-1" >
                     <n-input v-model:value="currentRecord.desp" placeholder="ព័ត៌មានផ្សេងៗ" />
                   </n-form-item>
@@ -82,6 +85,7 @@ export default {
           id: 0 ,
           name: '' ,
           desp: '' ,
+          code: '' ,
           pid: null
         })
       },
@@ -111,6 +115,7 @@ export default {
       id: 0 ,
       name: '' ,
       desp: '' ,
+      code: '' ,
       pid: null
     })
 
@@ -131,6 +136,7 @@ export default {
     const helpers = reactive({
       name: false ,
       desp: false ,
+      code: false ,
       pid: false ,
     })
     /**
@@ -141,6 +147,7 @@ export default {
         id : 0 ,
         name: '' ,
         desp: '' ,
+        code: '' ,
         pid: null
       }
     }
@@ -159,21 +166,24 @@ export default {
           return o.label.trim() == currentRecord.value.name.trim()
       })
 
-      if( result != undefined ){
-        // The name is already exist, let check the parent organization
-        if( parseInt( currentRecord.value.pid ) == parseInt( props.record.pid ) ){
-          // The organization does not change
-          if( currentRecord.value.desp.trim() == props.record.desp.trim() ){
-            // The description does not change
-            notify.warning({
-              'title' : 'ពិនិត្យព័ត៌មាន' ,
-              'description' : 'អ្នកមិនបានកែប្រែអ្វីឡើយ។' ,
-              duration : 3000
-            })
-            return false
-          }
-        }
-      }
+      // if( result != undefined ){
+      //   // The name is already exist, let check the parent organization
+      //   if( currentRecord.value.pid != null && parseInt( currentRecord.value.pid ) == parseInt( props.record.pid ) ){
+      //     // The organization parent does not change
+      //     if( currentRecord.value.desp != null && currentRecord.value.desp.trim() == props.record.desp.trim() ){
+      //       // The organization description does not change
+      //       if( currentRecord.value.code != null && currentRecord.value.code.trim() == props.record.code.trim() ){
+      //         // The description code does not change
+      //         notify.warning({
+      //           'title' : 'ពិនិត្យព័ត៌មាន' ,
+      //           'description' : 'អ្នកមិនបានកែប្រែអ្វីឡើយ។' ,
+      //           duration : 3000
+      //         })
+      //         return false
+      //       }
+      //     }
+      //   }
+      // }
       
       if( props.model === undefined || props.model.name == "" ){
         notify.warning({
@@ -187,7 +197,8 @@ export default {
         id: currentRecord.value.id ,
         name: currentRecord.value.name ,
         desp: currentRecord.value.desp ,
-        pid: currentRecord.value.pid
+        pid: currentRecord.value.pid ,
+        code: currentRecord.value.code 
       }).then( res => {
         switch( res.status ){
           case 200 : 
@@ -216,6 +227,7 @@ export default {
     function initial(){
       currentRecord.value.id = parseInt( props.record.id )
       currentRecord.value.name = props.record.name
+      currentRecord.value.code = props.record.code
       currentRecord.value.desp = props.record.desp
       currentRecord.value.pid = parseInt( props.record.pid )
     }
