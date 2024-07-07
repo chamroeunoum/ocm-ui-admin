@@ -209,7 +209,7 @@ export default {
     }
     function closeEditModal(){
       editModal.show = false
-      closeActions( 0 )
+      closeActions( 1 )
     }
 
     /**

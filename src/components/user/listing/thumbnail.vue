@@ -64,9 +64,9 @@
               </div>
               <thumbnail-actions-form v-bind:model="model" v-bind:record="record" :onClose="closeActions" />
               <!-- Status of the account -->
-              <n-tooltip trigger="hover">
+              <n-tooltip v-if="record.roles != undefined && record.roles.find( (role) => role.id >= 2 ) != undefined " trigger="hover">
                 <template #trigger>
-                  <div v-if="record.roles != undefined && record.roles.find( (role) => role.id > 2 ) != undefined " :class="'action w-6 h-6 rounded-full absolute left-2 top-2 font-bold text-lg leading-6 ' + ( parseInt( record.active ) == 1 ? ' text-blue-500 ' : ' text-gray-500 ') "  >{{ record.roles.map( ( r ) => r.name.substring(0,1).toUpperCase() ).join( ', ') }}</div>
+                  <div :class="'action w-6 h-6 rounded-full absolute left-2 top-2 font-bold text-lg leading-6 ' + ( parseInt( record.active ) == 1 ? ' text-blue-500 ' : ' text-gray-500 ') "  >{{ record.roles.map( ( r ) => r.name.substring(0,1).toUpperCase() ).join( ', ') }}</div>
                   <!-- <svg :class="'action w-4 h-4 absolute left-2 top-2 ' + ( parseInt( record.active ) == 1 ? ' text-green-500 ' : ' text-gray-500 ') " xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24">
                     <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10s10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8s8 3.59 8 8s-3.59 8-8 8zm3.88-11.71L10 14.17l-1.88-1.88a.996.996 0 1 0-1.41 1.41l2.59 2.59c.39.39 1.02.39 1.41 0L17.3 9.7a.996.996 0 0 0 0-1.41c-.39-.39-1.03-.39-1.42 0z" fill="currentColor"></path>
                   </svg> -->
@@ -125,11 +125,11 @@
         <div class="filter-actions" >
           <div class="filter-action" >
             <!-- Positions -->
-            <n-select v-model:value="selectedPositions" @update:value="filterRecords()" placeholder="សូមជ្រើសរើស មុខតំណែង" :options="optionPositions" />
+            <n-select v-model:value="selectedPositions" filterable clearable multiple @update:value="filterRecords(false)" placeholder="សូមជ្រើសរើស មុខតំណែង" :options="optionPositions" />
           </div>
           <div class="filter-action" >
             <!-- Organizations -->
-            <n-select v-model:value="selectedOrganizations" @update:value="filterRecords()" placeholder="សូមជ្រើសើស ស្ថាប័ន / អង្គភាព" :options="optionOrganizations" />
+            <n-select v-model:value="selectedOrganizations" filterable clearable multiple @update:value="filterRecords(false)" placeholder="សូមជ្រើសើស ស្ថាប័ន / អង្គភាព" :options="optionOrganizations" />
           </div>
         </div>
       </div>
@@ -222,27 +222,6 @@ export default {
         buttons: []
       }
     })
-
-    function filterRecords(helper=true){
-      if( helper ){
-        table.records.matched = []
-        if( table.search != "" ) {
-          for(var index in table.records.all ){
-            for(var field in table.records.all[index] ){
-              if( (""+table.records.all[index][field]).includes( table.search ) !== false ) {
-                table.records.matched.push( table.records.all[index] )
-                break;
-              }
-            }
-          }
-        }
-        if( table.records.matched.length <= 0 ) {
-          table.records.matched = table.records.all
-        }
-      }else{
-        setTimeout( goTo(1) , 500 )
-      }
-    }
 
     /**
      * Functions
@@ -403,8 +382,28 @@ export default {
     }
 
     const filter = ref(false)
-    function filterRecords(){
-      getRecords()
+    function filterRecords(helper=true){
+      if( helper ){
+        table.records.matched = []
+        if( table.search != "" ) {
+          for(var index in table.records.all ){
+            for(var field in table.records.all[index] ){
+              if( (""+table.records.all[index][field]).includes( table.search ) !== false ) {
+                table.records.matched.push( table.records.all[index] )
+                break;
+              }
+            }
+          }
+        }
+        if( table.records.matched.length <= 0 ) {
+          table.records.matched = table.records.all
+        }
+      }else{
+        setTimeout( function(){
+          table.pagination.page = 1 
+          getRecords()
+        } , 500 )
+      }
     }
     function toggleFilter(){
       filter.value = !filter.value

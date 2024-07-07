@@ -110,11 +110,11 @@
         <div class="filter-actions" >
           <div class="filter-action" >
             <!-- Positions -->
-            <n-select v-model:value="selectedPositions" multiple @update:value="filterRecords()" placeholder="សូមជ្រើសរើស មុខតំណែង" :options="optionPositions" />
+            <n-select v-model:value="selectedPositions" filterable clearable multiple @update:value="filterRecords(false)" placeholder="សូមជ្រើសរើស មុខតំណែង" :options="optionPositions" />
           </div>
           <div class="filter-action" >
             <!-- Organizations -->
-            <n-select v-model:value="selectedOrganizations" multiple @update:value="filterRecords()" placeholder="សូមជ្រើសើស ស្ថាប័ន / អង្គភាព" :options="optionOrganizations" />
+            <n-select v-model:value="selectedOrganizations" filterable clearable multiple @update:value="filterRecords(false)" placeholder="សូមជ្រើសើស ស្ថាប័ន / អង្គភាព" :options="optionOrganizations" />
           </div>
         </div>
       </div>
@@ -231,7 +231,10 @@ export default {
           table.records.matched = table.records.all
         }
       }else{
-        setTimeout( goTo(1) , 500 )
+        setTimeout( function(){
+          table.pagination.page = 1
+          getRecords()
+        } , 500 )
       }
     }
 
@@ -395,10 +398,7 @@ export default {
       })
     }
 
-    const filter = ref(false)
-    function filterRecords(){
-      getRecords()
-    }
+    const filter = ref(false)    
     function toggleFilter(){
       filter.value = !filter.value
     }

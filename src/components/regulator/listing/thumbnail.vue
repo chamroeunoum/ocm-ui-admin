@@ -237,8 +237,10 @@ export default {
           table.records.matched = table.records.all
         }
       }else{
-        table.pagination.page = 1
-        setTimeout( goTo(1) , 500 )
+        setTimeout( function(){
+          table.pagination.page = 1
+          getRecords()
+        } , 500 )
       }
     }
 

@@ -9,11 +9,15 @@
               <!-- Column 1 -->
               <div class="flex-none p-4 " >
                 <div class="w-full mb-2" >
-                  <div class="w-14 h-14 mx-auto bg-center bg-no-repeat bg-white bg-contain border-gray-200 " style="background-image: url('/src/assets/logo.svg')" ></div>
+                  <div class="w-14 h-14 mx-auto bg-center bg-no-repeat bg-white bg-contain border-gray-200 " :style=" 'background-image: url(' + ocmLogoUrl + ');' " ></div>
                   <div class="w-full font-moul text-center text-yellow-500 " >ទីស្ដីការគណៈរដ្ឋមន្ត្រី</div>
                 </div>
                 <!-- Picture -->
-                <div class="w-24 h-24 lg:w-40 lg:h-40 md:w-32 md:h-32  mx-auto bg-center bg-no-repeat bg-white bg-cover rounded border border-gray-200 " :style=" 'background-image: url(' + (record.image!=''? record.image:'/src/assets/logo.svg') +');' " ></div>
+                <div class="w-24 overflow-hidden lg:w-40 md:w-32 mx-auto bg-center bg-no-repeat bg-white bg-cover rounded border border-gray-200 " >
+                  <img 
+                  class="w-full mx-auto"
+                  :src="record.image!=''? record.image : ocmLogoUrl "  />
+                </div>
                 <!-- Officer ID -->
                 <div class="w-full h-6 text-center mx-auto my-2 font-bold " >OCM-ORG-{{ record.id }}</div>
                 <!-- QR CODE -->                
@@ -100,6 +104,7 @@ import { Save20Regular } from '@vicons/fluent'
 import Frame4Corner from './../../widgets/frame/corner4.vue'
 import QrcodeVue from 'qrcode.vue'
 import { getKhmer } from '../../../plugins/kh/number.js'
+import ocmLogoUrl from './../../../assets/logo.svg'
 
 export default {
   components: {
@@ -221,7 +226,8 @@ export default {
       initial ,
       clearRecord ,
       maskOrEscClick ,
-      getKhmer
+      getKhmer ,
+      ocmLogoUrl
     }
   }
 }

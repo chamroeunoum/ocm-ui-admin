@@ -202,7 +202,7 @@ export default {
       editRecord.mobile_phone = record.mobile_phone
       editRecord.office_phone = record.office_phone
       editRecord.email = record.email
-      editREcord.image = record.image
+      editRecord.image = record.image
       editRecord.marry_status = record.marry_status
       editRecord.user = record.user
       editRecord.organizationPeople = record.organizationPeople
