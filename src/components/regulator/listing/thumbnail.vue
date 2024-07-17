@@ -49,19 +49,19 @@
               <div v-if="record.image == false || record.image == null || record.image == undefined " class="image bg-contain bg-center bg-no-repeat " :style=" 'background-image: url('+ocmLogoUrl+');' " ></div> -->
               <div class="flex flex-wrap " >
                 <div class="w-full py-2" >
-                  <div class="font-moul" >{{ ( Array.isArray( record.types ) && record.types.length > 0 ? prefixOfTypes[ record.types[0].id ] + ' / ' : '' ) + getKhmer( record.fid ) }}</div>
+                  <div class="font-moul" style="font-size: 0.7rem; " >{{ ( Array.isArray( record.types ) && record.types.length > 0 ? record.types[0].desp + '/' : ' ' ) + getKhmer( record.fid ) }}</div>
                   <div class="" >{{ getKhmer( record.year.slice(0,10) ) }}</div>
                 </div>
                 <div class="w-full py-2" >
-                  <div class="w-full pb-1 mb-1 leading-6 break-all text-justify" v-html="applyTagMark( getKhmer( record.objective ))" ></div>
+                  <div class="w-full pb-1 mb-1 leading-6 break-all text-left " v-html="applyTagMark( getKhmer( record.objective ))" ></div>
                 </div>
                 <div class="w-full flex " >
-                  <div v-if="Array.isArray( record.signatures ) && record.signatures.length > 0 " class="w-1/2 text-left text-xs my-1 text-gray-500 mr-2 leading-5 tracking-wider" >{{ record.signatures.map( o => o.name ).join( ' , ' ) }}</div>
-                  <div v-if="Array.isArray( record.organizations ) && record.organizations.length > 0 " class="w-1/2 text-right text-xs my-1 text-gray-500 leading-5 tracking-wide" >{{ record.organizations.map( o => o.name ).join( ' , ' ) }}</div>
+                  <div v-if="Array.isArray( record.signatures ) && record.signatures.length > 0 " class="w-1/2 text-left text-gray-600 mr-2 leading-4 font-moul" style="font-size: 0.5rem; " >{{ record.signatures.map( o => o.name ).join( ' , ' ) }}</div>
+                  <div v-if="Array.isArray( record.organizations ) && record.organizations.length > 0 " class="w-1/2 text-right text-gray-600 leading-4 font-moul" style="font-size: 0.5rem; " >{{ record.organizations.map( o => o.name ).join( ' , ' ) }}</div>
                 </div>
               </div>
               <thumbnail-actions-form v-bind:model="model" v-bind:record="record" :onClose="closeActions" />
-              <div class="absolute top-0 left-0 p-1 border-l-0 border-t-0 border border-gray-200 font-moul rounded-br-lg shadow-sm" >{{ getKhmer( ( table.pagination.perPage * ( table.pagination.page - 1 ) ) + index + 1 ) }}</div>
+              <div class="absolute top-0 left-0 p-1 border-l-0 border-t-0 border border-gray-200 font-moul rounded-br-lg shadow-sm" style="font-size: 0.6rem; " >{{ getKhmer( ( table.pagination.perPage * ( table.pagination.page - 1 ) ) + index + 1 ) }}</div>
             </div>
           </div>
         </div>
@@ -330,23 +330,6 @@ export default {
       filter.value = !filter.value
     }
 
-    const prefixOfTypes = ref([
-      'មិនមាន' ,
-      'នស/រកម' ,
-      'នស/រកត' ,
-      'អនក្រ/បក' ,
-      'ស.ជ.ណ' ,
-      'សសរ' ,
-      'សរ,សរណន' ,
-      'ប្រ.ក' ,
-      'គនបជ' ,
-      'ផយស' ,
-      'បប' ,
-      'ផសក្រ' ,
-      'អនក្រ.តត' ,
-      'នស/រកត'
-    ])
-
     /**
      * Mark the matched text with in search box
      */
@@ -470,7 +453,6 @@ export default {
       optionDocumentOrganizations ,
       selectedDocumentOrganizations ,
       getKhmer ,
-      prefixOfTypes ,
       applyTagMark ,
       getDocumentTypes ,
       getDocumentOrganizations ,

@@ -3,7 +3,21 @@
     <div class="vcb-pop-create font-ktr">
       <n-modal v-model:show="show" :on-after-leave="onClose" :on-after-enter="initial" transform-origin="center">
         <div class="table-loading fixed flex h-screen left-0 top-0 right-0 bottom-0 bg-white z-40">
-          <vue-pdf-embed :source="pdf.url" class="w-full h-screen overflow-y-scroll" />
+          <n-watermark
+            content="ទីស្ដីការគណៈរដ្ឋមន្ត្រី"
+            cross
+            selectable
+            :font-size="16"
+            :line-height="16"
+            :width="192"
+            :height="150"
+            :x-offset="12"
+            :y-offset="28"
+            :rotate="-10" 
+            class="w-full"
+          >
+            <vue-pdf-embed :source="pdf.url" class="w-full h-screen overflow-y-scroll" />
+          </n-watermark>
           <n-tooltip trigger="hover">
             <template #trigger>
               <div class="absolute text-red-500 top-2 right-6 p-2 cursor-pointer bg-opacity-50 hover:bg-opacity-100 duration-300 bg-white shadow-md rounded-full" @click="closePdf" >
