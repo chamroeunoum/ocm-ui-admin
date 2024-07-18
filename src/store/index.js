@@ -29,9 +29,20 @@ import matra from './modules/law/matra'
 const debug = process.env.NODE_ENV !== 'production'
 
 export default createStore({
+  // state: {
+  //   apiServer: 'https://edoc.onetechcambodia.com/api/admin' ,
+  //   organization: {
+  //     name: 'បច្ចេកវិទ្យាតែមួយនៃកម្ពុជា'
+  //   },
+  //   system: {
+  //     name: 'ផ្នែករដ្ឋបាលប្រព័ន្ធ'
+  //   },
+  //   company: {
+  //     name: 'បច្ចេកវិទ្យាតែមួយនៃកម្ពុជា'
+  //   }
+  // },
   state: {
     apiServer: 'http://127.0.0.1:8000/api/admin' ,
-    // apiServer: 'https://edoc.onetechcambodia.com/api/admin' ,
     // apiServer: 'https://apis.ocm.gov.kh/api/admin' ,
     organization: {
       name: 'អគ្គនាយកដ្ឋានសម្របសម្រួលកិច្ចការទូទៅ'

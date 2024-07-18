@@ -331,6 +331,7 @@ export default {
       /**
        * Clear time interval after calling
        */
+      console.log( 'list' )
       window.clearTimeout()
       table.loading = true
       store.dispatch(model.name+'/list',{
@@ -340,7 +341,7 @@ export default {
       }).then(res => {
         table.records.all = table.records.matched = res.data.records
         table.pagination = res.data.pagination
-
+        
         var paginationNumberList = 5
         if( ( table.pagination.page - ( paginationNumberList - 1 ) ) < 1 ){
           table.pagination.start = 1

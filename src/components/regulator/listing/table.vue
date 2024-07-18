@@ -284,6 +284,7 @@ export default {
       /**
        * Clear time interval after calling
        */
+       console.log( 'table' )
       window.clearTimeout()
       table.loading = true
       store.dispatch(model.name+'/list',{
