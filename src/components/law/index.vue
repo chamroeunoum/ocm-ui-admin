@@ -12,8 +12,8 @@
   </div>
 </template>
 <script >
-import Topmenu from './../menu/topmenu.vue'
-import Dock from '../widgets/Dock.vue'
+import Topmenu from '@components/menu/topmenu.vue'
+import Dock from '@components/widgets/Dock.vue'
 export default {
     components: { 
       Topmenu ,
