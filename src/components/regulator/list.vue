@@ -4,12 +4,8 @@
     <div class="flex title-bar border-b border-gray-200">
       <!-- Title of crud -->
       <div class="flex w-64 h-10 py-1 title " >
-        <Icon size="27" class="text-red-600 mr-2" >
-          <n-icon>
-            <DocumentPdf24Regular />
-          </n-icon>
-        </Icon>
-        <div class="leading-8 font-muol" v-html="model.title" ></div>
+        <svg  class="text-red-600 mr-2" @click="pdfPreview(record)" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 384 512"><path d="M369.9 97.9L286 14C277 5 264.8-.1 252.1-.1H48C21.5 0 0 21.5 0 48v416c0 26.5 21.5 48 48 48h288c26.5 0 48-21.5 48-48V131.9c0-12.7-5.1-25-14.1-34zM332.1 128H256V51.9l76.1 76.1zM48 464V48h160v104c0 13.3 10.7 24 24 24h104v288H48zm250.2-143.7c-12.2-12-47-8.7-64.4-6.5c-17.2-10.5-28.7-25-36.8-46.3c3.9-16.1 10.1-40.6 5.4-56c-4.2-26.2-37.8-23.6-42.6-5.9c-4.4 16.1-.4 38.5 7 67.1c-10 23.9-24.9 56-35.4 74.4c-20 10.3-47 26.2-51 46.2c-3.3 15.8 26 55.2 76.1-31.2c22.4-7.4 46.8-16.5 68.4-20.1c18.9 10.2 41 17 55.8 17c25.5 0 28-28.2 17.5-38.7zm-198.1 77.8c5.1-13.7 24.5-29.5 30.4-35c-19 30.3-30.4 35.7-30.4 35zm81.6-190.6c7.4 0 6.7 32.1 1.8 40.8c-4.4-13.9-4.3-40.8-1.8-40.8zm-24.4 136.6c9.7-16.9 18-37 24.7-54.7c8.3 15.1 18.9 27.2 30.1 35.5c-20.8 4.3-38.9 13.1-54.8 19.2zm131.6-5s-5 6-37.3-7.8c35.1-2.6 40.9 5.4 37.3 7.8z" fill="currentColor"></path></svg>
+        <div class="leading-8 font-moul" v-html="model.title" ></div>
       </div>
       <!-- Actions button of the crud -->
       <div class="flex-grow action-buttons flex-row-reverse flex">
@@ -26,16 +22,8 @@
         </div>
         <div class="w-2/5 relative" >
           <input type="text" @keypress.enter="filterRecords(false)" v-model="table.search" class="bg-gray-100 px-2 h-9 my-1 w-full rounded border border-gray-200 focus:border-blue-600 hover:border-blue-600 " placeholder="ស្វែងរក" />
-          <Icon size="27" class="absolute right-1 top-2 text-gray-400 hover:text-blue-700 cursor-pointer" @click="filterRecords(false)" >
-            <n-icon>
-              <Search20Regular />
-            </n-icon>
-          </Icon>
-          <!-- <Icon size="27" class="absolute -left-10 top-2 text-gray-500 hover:text-blue-700 cursor-pointer" @click="filterPanel=!filterPanel">
-            <n-icon>
-              <Filter />
-            </n-icon>
-          </Icon> -->
+          <svg class="absolute right-1 top-2 text-gray-400 hover:text-blue-700 cursor-pointer" @click="filterRecords(false)" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 20 20"><g fill="none"><path d="M8.5 3a5.5 5.5 0 0 1 4.227 9.02l4.127 4.126a.5.5 0 0 1-.638.765l-.07-.057l-4.126-4.127A5.5 5.5 0 1 1 8.5 3zm0 1a4.5 4.5 0 1 0 0 9a4.5 4.5 0 0 0 0-9z" fill="currentColor"></path></g></svg>
+          <!-- <svg class="absolute -left-10 top-2 text-gray-500 hover:text-blue-700 cursor-pointer" @click="filterPanel=!filterPanel" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 32 32"><path d="M18 28h-4a2 2 0 0 1-2-2v-7.59L4.59 11A2 2 0 0 1 4 9.59V6a2 2 0 0 1 2-2h20a2 2 0 0 1 2 2v3.59a2 2 0 0 1-.59 1.41L20 18.41V26a2 2 0 0 1-2 2zM6 6v3.59l8 8V26h4v-8.41l8-8V6z" fill="currentColor"></path></svg> -->
         </div>
         
       </div>
@@ -44,92 +32,102 @@
     <div class="vcb-table-panel relative flex">
       <Transition name="fade" >
         <table v-if="Array.isArray( table.records.matched ) && table.records.matched.length > 0 " class="vcb-table" >
-          <tr class="vcb-table-headers" >
-            <th class="vcb-table-header" >ល.រ</th>
-            <th class="vcb-table-header">កម្មវត្ថុ</th>
-            <th class="vcb-table-header">លេខ</th>
-            <th class="vcb-table-header w-32">ប្រភេទ</th>
-            <th class="vcb-table-header w-40">ការប្រើប្រាស់</th>
-            <th class="vcb-table-header w-24">ថ្ងៃខែឆ្នាំ</th>
-            <th class="vcb-table-header w-40">អ្នកបង្កើត</th>
-            <th class="vcb-table-header text-right w-40" >ប្រតិបត្តិការ</th>
-          </tr>
-          <tr v-for="(record, index) in table.records.matched" :key='index' class="vcb-table-row" >
-            <td class="vcb-table-cell font-bold w-20" >{{ index + 1 }}</td>
-            <td class="vcb-table-cell" v-html="applyTagMark(record.objective)" ></td>
-            <td  class="vcb-table-cell w-40" >{{ record.fid }}</td>
-            <td  class="vcb-table-cell w-40" >{{ record.type.name }}</td>
-            <td  class="vcb-table-cell w-40" >{{ regulatorAccessibilities[ record.accessibility ] }}</td>
-            <td class="vcb-table-cell w-40" >{{ record.document_year.slice(0,10) }}</td>
-            <td  class="vcb-table-cell w-40" >{{ record.createdBy.lastname + ' ' + record.createdBy.firstname }}</td>
-            <td class="vcb-table-actions-panel text-right" >
-              <n-icon size="22" class="cursor-pointer text-blue-500 mx-1" @click="showShareRegulatorModal(record)" title="ប្រតិបត្តិការផ្សេងៗ" >
-                <AppsList20Regular />
-              </n-icon>
-              <n-icon size="22" class="cursor-pointer text-blue-500 mx-1" @click="showEditModal(record)" title="កែប្រែព័ត៌មាន" >
-                <Edit20Regular />
-              </n-icon>
-              <n-icon size="22" class="cursor-pointer text-red-500 mx-1" @click="destroy(record)" title="លុបគណនីនេះចោល" >
-                <TrashOutline />
-              </n-icon>
-              <n-icon size="22" :class="'cursor-pointer mx-1 ' + (record.active == 1 ? ' text-green-500 ' : ' text-gray-500 ') " @click="activateRegulator(record)" :title="record.active == 1 ? 'ឯកសារនេះកំពុងបើកតំណើរការ' : 'ឯកសារនេះកំពុងត្រូវបានបិទមិនអាចប្រើប្រាស់បាន' " >
-                <IosCheckmarkCircleOutline />
-              </n-icon>
-              <n-icon size="22" class="cursor-pointer mx-1  text-green-500" @click="showAccessibilityModal(record)" title="ឯកសារកំពុងបើកជាសាធារណ" >
-                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 32 32"><path d="M22 14a8 8 0 1 0 8 8a8.01 8.01 0 0 0-8-8zm5.91 7h-1.954a12.03 12.03 0 0 0-1.218-4.332A6.01 6.01 0 0 1 27.91 21zm-7.854 0A10.014 10.014 0 0 1 22 16.015A10.012 10.012 0 0 1 23.945 21zm3.89 2A10.01 10.01 0 0 1 22 27.985A10.012 10.012 0 0 1 20.055 23zm-4.684-6.332A12.027 12.027 0 0 0 18.044 21H16.09a6.01 6.01 0 0 1 3.172-4.332zM16.09 23h1.953a12.027 12.027 0 0 0 1.218 4.332A6.01 6.01 0 0 1 16.09 23zm8.648 4.332A12.024 12.024 0 0 0 25.956 23h1.954a6.009 6.009 0 0 1-3.172 4.332z" fill="currentColor"></path><path d="M6 14h6v2H6z" fill="currentColor"></path><path d="M6 6h12v2H6z" fill="currentColor"></path><path d="M6 10h12v2H6z" fill="currentColor"></path><path d="M6 24h6v2H6z" fill="currentColor"></path><path d="M12 30H4a2.002 2.002 0 0 1-2-2V4a2.002 2.002 0 0 1 2-2h16a2.002 2.002 0 0 1 2 2v8h-2V4H4v24h8z" fill="currentColor"></path></svg>
-              </n-icon>
-              <div v-if="record.pdf" class="cursor-pointer mx-1 " @click="pdfPreview(record)" title="មើលឯកសារ" alt="មើលឯកសារ" >
-                <n-icon size="20" class="cursor-pointer text-red-500" >
-                  <DocumentPdf24Regular />
-                </n-icon>
-              </div>
-              <n-icon size="20" class="cursor-pointer text-blue-700 mx-1" title="ដាក់ឯកសារចូលថត" alt="ដាក់ឯកសារចូលថត" @click="showFolderModalPopup(record)" >
-                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 20 20"><g fill="none"><path d="M7.167 3c.27 0 .535.073.765.21l.135.09l1.6 1.2H15.5a2.5 2.5 0 0 1 2.479 2.174l.016.162L18 7v7.5a2.5 2.5 0 0 1-2.336 2.495L15.5 17h-11a2.5 2.5 0 0 1-2.495-2.336L2 14.5v-9a2.5 2.5 0 0 1 2.336-2.495L4.5 3h2.667zm.99 4.034a1.5 1.5 0 0 1-.933.458l-.153.008L3 7.499V14.5a1.5 1.5 0 0 0 1.356 1.493L4.5 16h11a1.5 1.5 0 0 0 1.493-1.355L17 14.5V7a1.5 1.5 0 0 0-1.355-1.493L15.5 5.5H9.617l-1.46 1.534zM7.168 4H4.5a1.5 1.5 0 0 0-1.493 1.356L3 5.5v.999l4.071.001a.5.5 0 0 0 .302-.101l.06-.054L8.694 5.02L7.467 4.1a.5.5 0 0 0-.22-.093L7.167 4z" fill="currentColor"></path></g></svg>
-              </n-icon>
-              <!-- <n-icon size="20" class="cursor-pointer mx-1" @click="$router.push('/regulator/child/'+record.id)" >
-                <ParentChild />
-              </n-icon> -->
-            </td>
-          </tr>
+          <thead>
+            <tr>
+              <th colspan="6" >
+                <div class="vcb-table-header text-left border-b py-4">លទ្ធផលនែការស្វែងរកគឺ ៖ <span class="text-lg ml-2 text-blue-500">{{ $toKhmer( table.pagination.totalRecords ) }}</span></div>
+              </th>
+            </tr>
+            <tr class="vcb-table-headers" >
+              <th class="vcb-table-header" >ល.រ</th>
+              <th class="vcb-table-header">ប្រភេទ / លេខ</th>
+              <th class="vcb-table-header">កម្មវត្ថុ</th>
+              <th class="vcb-table-header w-32">ការប្រើប្រាស់</th>
+              <th class="vcb-table-header w-24">ថ្ងៃខែឆ្នាំ</th>
+              <!-- <th class="vcb-table-header w-40">អ្នកបង្កើត</th> -->
+              <th class="vcb-table-header text-right w-40" >ប្រតិបត្តិការ</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(record, index) in table.records.matched" :key='index' class="vcb-table-row" >
+              <td class="vcb-table-cell font-bold w-12" >{{ $toKhmer( ( table.pagination.perPage * ( table.pagination.page - 1 ) ) + index + 1 ) }}</td>
+              <td  class="vcb-table-cell w-32" >{{ ( Array.isArray( record.types ) && record.types.length > 0 ? prefixOfTypes[ record.types[0].id ] + ' / ' : '' ) + $toKhmer( record.fid ) }}</td>
+              <td class="vcb-table-cell flex flex-wrap regulator" >
+                <div class="w-full pb-1 mb-1 leading-6 break-all " v-html="applyTagMark(record.objective)" ></div>
+                <!-- <div v-if="record.types != null && record.types.length" class="mr-2 text-left regulator-additional" >{{ ( record.types != null && record.types.length ? ' - ' + record.types.map( r => r.name ).join(' , ') : '' ) }}</div>
+                <div v-if="record.signatures != null && record.signatures.length" class="mr-2 text-left w-full regulator-additional" >{{ ( record.signatures != null && record.signatures.length ? ' - ' + record.signatures.map( r => r.name ).join(' , ') : '' ) }}</div>
+                <div v-if="record.organizations != null && record.organizations.length" class="mr-2 text-left w-full regulator-additional" >{{ ( record.organizations != null && record.organizations.length ? ' - ' + record.organizations.map( r => r.name ).join(' , ') : '' ) }}</div>
+                <div v-if="record.ownOrganizations != null && record.ownOrganizations.length" class="mr-2 text-left w-full regulator-additional" >{{ ( record.ownOrganizations != null && record.ownOrganizations.length ? ' - ' + record.ownOrganizations.map( r => r.name ).join(' , ') : '' ) }}</div>
+                <div v-if="record.relatedOrganizations != null && record.relatedOrganizations.length" class="mr-2 text-left w-full regulator-additional" >{{ ( record.relatedOrganizations != null && record.relatedOrganizations.length ? ' - ' + record.relatedOrganizations.map( r => r.name ).join(' , ') : '' ) }}</div> -->
+              </td>
+              <td  class="vcb-table-cell w-40" >{{ regulatorAccessibilities[ record.accessibility ] }}</td>
+              <td class="vcb-table-cell w-24" >{{ $toKhmer( record.year.slice(0,10) ) }}</td>
+              <!-- <td  class="vcb-table-cell w-40" >{{ record.createdBy.lastname + ' ' + record.createdBy.firstname }}</td> -->
+              <td class="vcb-table-actions-panel text-right" >
+                <svg class="cursor-pointer text-blue-500 mx-1 w-6 " @click="showShareRegulatorModal(record)" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 20 20"><g fill="none"><path d="M2 3.5A1.5 1.5 0 0 1 3.5 2h1A1.5 1.5 0 0 1 6 3.5v1A1.5 1.5 0 0 1 4.5 6h-1A1.5 1.5 0 0 1 2 4.5v-1zM3.5 3a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1zM2 9.5A1.5 1.5 0 0 1 3.5 8h1A1.5 1.5 0 0 1 6 9.5v1A1.5 1.5 0 0 1 4.5 12h-1A1.5 1.5 0 0 1 2 10.5v-1zM3.5 9a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1zM2 15.5A1.5 1.5 0 0 1 3.5 14h1A1.5 1.5 0 0 1 6 15.5v1A1.5 1.5 0 0 1 4.5 18h-1A1.5 1.5 0 0 1 2 16.5v-1zm1.5-.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1zM8 4.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0 6a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0 6a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5z" fill="currentColor"></path></g></svg>
+                <svg class="cursor-pointer text-blue-500 mx-1 w-6 " @click="showEditModal(record)" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 20 20"><g fill="none"><path d="M4 15h5.986c-.227.3-.4.639-.51 1H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v5.232c-.326.14-.631.343-.897.609L15 9.944V4a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1zm8-9.5a.5.5 0 0 1 1 0v6.444l-.88.88A.498.498 0 0 1 12 12.5v-7zm-7 2a.5.5 0 0 1 1 0v5a.5.5 0 0 1-1 0v-5zM9 9a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 1 0v-3A.5.5 0 0 0 9 9zm1.98 6.377l4.83-4.83a1.87 1.87 0 1 1 2.645 2.646l-4.83 4.829a2.197 2.197 0 0 1-1.02.578l-1.498.374a.89.89 0 0 1-1.079-1.078l.375-1.498c.096-.386.296-.74.578-1.02z" fill="currentColor"></path></g></svg>
+                <svg class="cursor-pointer text-red-500 mx-1 w-6 " @click="destroy(record)" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512"><path d="M112 112l20 320c.95 18.49 14.4 32 32 32h184c17.67 0 30.87-13.51 32-32l20-320" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"></path><path stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="32" d="M80 112h352" fill="currentColor"></path><path d="M192 112V72h0a23.93 23.93 0 0 1 24-24h80a23.93 23.93 0 0 1 24 24h0v40" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"></path><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M256 176v224"></path><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M184 176l8 224"></path><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M328 176l-8 224"></path></svg>
+                <svg :class="'cursor-pointer mx-1 w-6 ' + (record.active == 1 ? ' text-green-500 ' : ' text-gray-500 ') " @click="activateRegulator(record)" :title="record.active == 1 ? 'ឯកសារនេះកំពុងបើកតំណើរការ' : 'ឯកសារនេះកំពុងត្រូវបានបិទមិនអាចប្រើប្រាស់បាន' " version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><g><path d="M362.6,192.9L345,174.8c-0.7-0.8-1.8-1.2-2.8-1.2c0,0,0,0,0,0c-1.1,0-2.1,0.4-2.8,1.2l-122,122.9L173,253.3 c-0.8-0.8-1.8-1.2-2.8-1.2c-1,0-2,0.4-2.8,1.2l-17.8,17.8c-1.6,1.6-1.6,4.1,0,5.7l56,56c3.6,3.6,8,5.7,11.7,5.7 c5.3,0,9.9-3.9,11.6-5.5c0,0,0,0,0.1,0l133.7-134.4C364.1,196.9,364.1,194.4,362.6,192.9z"></path><g><g><path d="M256,76c48.1,0,93.3,18.7,127.3,52.7S436,207.9,436,256s-18.7,93.3-52.7,127.3S304.1,436,256,436 c-48.1,0-93.3-18.7-127.3-52.7C94.7,349.3,76,304.1,76,256s18.7-93.3,52.7-127.3C162.7,94.7,207.9,76,256,76 M256,48 C141.1,48,48,141.1,48,256s93.1,208,208,208c114.9,0,208-93.1,208-208S370.9,48,256,48L256,48z"></path></g></g></g></svg>
+                <svg class="cursor-pointer mx-1  text-green-500 w-6" @click="showAccessibilityModal(record)" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 32 32"><path d="M22 14a8 8 0 1 0 8 8a8.01 8.01 0 0 0-8-8zm5.91 7h-1.954a12.03 12.03 0 0 0-1.218-4.332A6.01 6.01 0 0 1 27.91 21zm-7.854 0A10.014 10.014 0 0 1 22 16.015A10.012 10.012 0 0 1 23.945 21zm3.89 2A10.01 10.01 0 0 1 22 27.985A10.012 10.012 0 0 1 20.055 23zm-4.684-6.332A12.027 12.027 0 0 0 18.044 21H16.09a6.01 6.01 0 0 1 3.172-4.332zM16.09 23h1.953a12.027 12.027 0 0 0 1.218 4.332A6.01 6.01 0 0 1 16.09 23zm8.648 4.332A12.024 12.024 0 0 0 25.956 23h1.954a6.009 6.009 0 0 1-3.172 4.332z" fill="currentColor"></path><path d="M6 14h6v2H6z" fill="currentColor"></path><path d="M6 6h12v2H6z" fill="currentColor"></path><path d="M6 10h12v2H6z" fill="currentColor"></path><path d="M6 24h6v2H6z" fill="currentColor"></path><path d="M12 30H4a2.002 2.002 0 0 1-2-2V4a2.002 2.002 0 0 1 2-2h16a2.002 2.002 0 0 1 2 2v8h-2V4H4v24h8z" fill="currentColor"></path></svg>
+                <svg v-if="record.pdf" class="cursor-pointer text-red-500 mx-1 w-6" @click="pdfPreview(record)" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 384 512"><path d="M369.9 97.9L286 14C277 5 264.8-.1 252.1-.1H48C21.5 0 0 21.5 0 48v416c0 26.5 21.5 48 48 48h288c26.5 0 48-21.5 48-48V131.9c0-12.7-5.1-25-14.1-34zM332.1 128H256V51.9l76.1 76.1zM48 464V48h160v104c0 13.3 10.7 24 24 24h104v288H48zm250.2-143.7c-12.2-12-47-8.7-64.4-6.5c-17.2-10.5-28.7-25-36.8-46.3c3.9-16.1 10.1-40.6 5.4-56c-4.2-26.2-37.8-23.6-42.6-5.9c-4.4 16.1-.4 38.5 7 67.1c-10 23.9-24.9 56-35.4 74.4c-20 10.3-47 26.2-51 46.2c-3.3 15.8 26 55.2 76.1-31.2c22.4-7.4 46.8-16.5 68.4-20.1c18.9 10.2 41 17 55.8 17c25.5 0 28-28.2 17.5-38.7zm-198.1 77.8c5.1-13.7 24.5-29.5 30.4-35c-19 30.3-30.4 35.7-30.4 35zm81.6-190.6c7.4 0 6.7 32.1 1.8 40.8c-4.4-13.9-4.3-40.8-1.8-40.8zm-24.4 136.6c9.7-16.9 18-37 24.7-54.7c8.3 15.1 18.9 27.2 30.1 35.5c-20.8 4.3-38.9 13.1-54.8 19.2zm131.6-5s-5 6-37.3-7.8c35.1-2.6 40.9 5.4 37.3 7.8z" fill="currentColor"></path></svg>
+                <svg @click="showFolderModalPopup(record)" class="cursor-pointer text-blue-700 mx-1 w-6" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 20 20"><g fill="none"><path d="M7.167 3c.27 0 .535.073.765.21l.135.09l1.6 1.2H15.5a2.5 2.5 0 0 1 2.479 2.174l.016.162L18 7v7.5a2.5 2.5 0 0 1-2.336 2.495L15.5 17h-11a2.5 2.5 0 0 1-2.495-2.336L2 14.5v-9a2.5 2.5 0 0 1 2.336-2.495L4.5 3h2.667zm.99 4.034a1.5 1.5 0 0 1-.933.458l-.153.008L3 7.499V14.5a1.5 1.5 0 0 0 1.356 1.493L4.5 16h11a1.5 1.5 0 0 0 1.493-1.355L17 14.5V7a1.5 1.5 0 0 0-1.355-1.493L15.5 5.5H9.617l-1.46 1.534zM7.168 4H4.5a1.5 1.5 0 0 0-1.493 1.356L3 5.5v.999l4.071.001a.5.5 0 0 0 .302-.101l.06-.054L8.694 5.02L7.467 4.1a.5.5 0 0 0-.22-.093L7.167 4z" fill="currentColor"></path></g></svg>
+                <!-- <svg class="cursor-pointer mx-1 text-yellow-500 w-6" @click="$router.push('/regulator/child/'+record.id)" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 32 32"><path d="M28 12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h11v4H9a2 2 0 0 0-2 2v4H4a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2v-4a2 2 0 0 0-2-2H9v-4h14v4h-3a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2v-4a2 2 0 0 0-2-2h-3v-4a2 2 0 0 0-2-2h-6v-4zM12 28H4v-4h8zm16 0h-8v-4h8zM4 4h24v6H4z" fill="currentColor"></path></svg> -->
+              </td>
+            </tr>
+          </tbody>
         </table>
       </Transition>
       <!-- Loading -->
-      <div v-if="table.loading" class="table-loading absolute left-0 top-0 right-0 bottom-0 bg-white bg-opacity-75 ">
-        <div class="spinner mt-24">
-          <Icon size="40" class="animate-spin  text-blue-500" >
-           <IosRefresh />
-          </Icon><br/><br/>
-          កំពុងអាន...
+      <Transition name="slide-fade" >
+        <div v-if="table.loading" class="table-loading fixed flex h-screen left-0 top-10 right-0 bottom-0 bg-white bg-opacity-80 ">
+          <div class="flex mx-auto items-center">
+            <div class="spinner">
+              <svg class="animate-spin w-16 mx-auto text-blue-500" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512"><path d="M304 48c0 26.51-21.49 48-48 48s-48-21.49-48-48s21.49-48 48-48s48 21.49 48 48zm-48 368c-26.51 0-48 21.49-48 48s21.49 48 48 48s48-21.49 48-48s-21.49-48-48-48zm208-208c-26.51 0-48 21.49-48 48s21.49 48 48 48s48-21.49 48-48s-21.49-48-48-48zM96 256c0-26.51-21.49-48-48-48S0 229.49 0 256s21.49 48 48 48s48-21.49 48-48zm12.922 99.078c-26.51 0-48 21.49-48 48s21.49 48 48 48s48-21.49 48-48c0-26.509-21.491-48-48-48zm294.156 0c-26.51 0-48 21.49-48 48s21.49 48 48 48s48-21.49 48-48c0-26.509-21.49-48-48-48zM108.922 60.922c-26.51 0-48 21.49-48 48s21.49 48 48 48s48-21.49 48-48s-21.491-48-48-48z" fill="currentColor"></path></svg>
+              <br/><br/>កំពុងអាន...
+            </div>
+          </div>
+          <div class="absolute top-1 right-1 cursor-pointer bg-white rounded-full " @click="closeTableLoading" >
+            <svg class="w-10 mx-auto text-red-500" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512"><path d="M448 256c0-106-86-192-192-192S64 150 64 256s86 192 192 192s192-86 192-192z" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"></path><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M320 320L192 192"></path><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M192 320l128-128"></path></svg>
+          </div>
         </div>
-        <div class="absolute top-3 right-3 " @click="closeTableLoading" >
-          <Icon size="40" class="text-red-600" >
-           <CloseCircleOutline />
-          </Icon>
-        </div>
-      </div>
+      </Transition>
       
     </div>
     <!-- Pagination of crud -->
-    <div class="vcb-table-pagination">
-      <!-- First -->
-      <!-- Previous -->
-      <div class="vcb-pagination-page" v-html='"<"' @click="previous()" ></div>
-      <!-- Pages (7) -->
-      <div v-for="(page, index) in table.pagination.buttons" :key="index" class="vcb-pagination-page pages h-8 mx-2 font-bold" @click="table.pagination.page == page ? false : goTo(page) " >
-        <div :class="'page w-8 h-8 text-center align-middle leading-8 cursor-pointer' + (table.pagination.page == page ? ' text-blue-500' : '' ) ">{{ page }}</div>
+    <div class="fixed left-0 right-0 bottom-1 flex flex-wrap" >
+      <!-- This pagination is for the media side with from Medium up -->
+      <div class="vcb-table-pagination bg-blue-300 mx-auto">
+        <!-- Information -->
+        <div class="vcb-table-pagination-info" >{{ table.pagination.totalRecords > 0 ? $toKhmer( table.pagination.totalRecords ) + " ឯកសារ" : "" }}</div>
+          <div class="vcb-table-pagination-info" >{{ table.pagination.totalPages > 0 ? " ចែកជា " + $toKhmer( table.pagination.totalPages ) + " ទំព័រ" : "" }}</div>
+        <!-- First -->
+        <!-- Pages (7) -->
+        <div v-for="(page, index) in table.pagination.buttons" :key="index" :class=" (table.pagination.page == page ? ' vcb-pagination-page-active ' : ' vcb-pagination-page ' )" @click="table.pagination.page == page ? false : goTo(page) " >{{ $toKhmer( page ) }}</div>
+        <!-- Previous -->          
+        <div v-if="table.pagination.page > 1 " class="vcb-pagination-page " v-html='"<"' @click="previous()" ></div>
+        <n-tooltip v-if="table.pagination.page <= 1 "  trigger="hover">
+          <template #trigger>
+            <div class="vcb-pagination-page border-gray-200 text-gray-200 " v-html='"<"' ></div>
+          </template>
+          អ្នកកំពុងស្ថិតនៅទំព័រដើមបង្អស់ហើយ។
+        </n-tooltip>
+        <!-- Next -->
+        <div v-if="table.pagination.page < table.pagination.totalPages " class="vcb-pagination-page " v-html='">"' @click="next()" ></div>
+        <n-tooltip v-if="table.pagination.page >= table.pagination.totalPages " trigger="hover">
+          <template #trigger>
+            <div class="vcb-pagination-page border-gray-200 text-gray-200 " v-html='">"' ></div>
+          </template>
+          អ្នកកំពុងស្ថិតនៅទំព័រចុងក្រោយហើយ។
+        </n-tooltip>
+        <!-- Last -->
+        <!-- Go to -->
+        <!-- Total per page -->
       </div>
-      <!-- Next -->
-      <div class="vcb-pagination-page" v-html='">"' @click="next()" ></div>
-      <!-- Last -->
-      <!-- Go to -->
-      <!-- Total per page -->
     </div>
     <!-- Filter panel of crud -->
     <div v-if="filterPanel" class="vcb-filter-panel h-64">
       <div class="filter-container relative w-full flex">
-        <Icon size="40" class="absolute right-0 top-0 cursor-pointer text-red-700" @click="filterPanel=!filterPanel" >
-          <CloseCircleOutline />
-        </Icon>
+        <svg class="absolute right-0 top-0 cursor-pointer text-red-700" @click="filterPanel=!filterPanel" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512"><path d="M448 256c0-106-86-192-192-192S64 150 64 256s86 192 192 192s192-86 192-192z" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"></path><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M320 320L192 192"></path><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M192 320l128-128"></path></svg>
       </div>
     </div>
     <!-- Form create account -->
@@ -159,12 +157,8 @@
           <div class="flex-grow">
             {{ (index +1 ) + '. ' + folder.name }}
           </div>
-          <Icon v-if="!folder.exists" size="20" class="text-gray-600 flex-none" @click="addDocumentToFolder(folder)"  >
-            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 20 20"><g fill="none"><path d="M13.854 7.854a.5.5 0 0 0-.708-.708L8.5 11.793l-1.646-1.647a.5.5 0 0 0-.708.708l2 2a.5.5 0 0 0 .708 0l5-5zM5.682 3A2.682 2.682 0 0 0 3 5.682v8.636C3 15.8 4.2 17 5.682 17h8.636C15.8 17 17 15.8 17 14.318V5.682C17 4.2 15.8 3 14.318 3H5.682zM4 5.682C4 4.753 4.753 4 5.682 4h8.636C15.247 4 16 4.753 16 5.682v8.636c0 .929-.753 1.682-1.682 1.682H5.682A1.682 1.682 0 0 1 4 14.318V5.682z" fill="currentColor"></path></g></svg>
-          </Icon>
-          <Icon v-if="folder.exists" size="20" class="text-green-600 flex-none" @click="removeDocumentFromFolder(folder)"  >
-            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 20 20"><g fill="none"><path d="M13.854 7.854a.5.5 0 0 0-.708-.708L8.5 11.793l-1.646-1.647a.5.5 0 0 0-.708.708l2 2a.5.5 0 0 0 .708 0l5-5zM5.682 3A2.682 2.682 0 0 0 3 5.682v8.636C3 15.8 4.2 17 5.682 17h8.636C15.8 17 17 15.8 17 14.318V5.682C17 4.2 15.8 3 14.318 3H5.682zM4 5.682C4 4.753 4.753 4 5.682 4h8.636C15.247 4 16 4.753 16 5.682v8.636c0 .929-.753 1.682-1.682 1.682H5.682A1.682 1.682 0 0 1 4 14.318V5.682z" fill="currentColor"></path></g></svg>
-          </Icon>
+          <svg v-if="!folder.exists" class="text-gray-600 flex-none" @click="addRegulatorToFolder(folder)"  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 20 20"><g fill="none"><path d="M13.854 7.854a.5.5 0 0 0-.708-.708L8.5 11.793l-1.646-1.647a.5.5 0 0 0-.708.708l2 2a.5.5 0 0 0 .708 0l5-5zM5.682 3A2.682 2.682 0 0 0 3 5.682v8.636C3 15.8 4.2 17 5.682 17h8.636C15.8 17 17 15.8 17 14.318V5.682C17 4.2 15.8 3 14.318 3H5.682zM4 5.682C4 4.753 4.753 4 5.682 4h8.636C15.247 4 16 4.753 16 5.682v8.636c0 .929-.753 1.682-1.682 1.682H5.682A1.682 1.682 0 0 1 4 14.318V5.682z" fill="currentColor"></path></g></svg>
+          <svg v-if="folder.exists" size="20" class="text-green-600 flex-none" @click="removeRegulatorFromFolder(folder)"  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 20 20"><g fill="none"><path d="M13.854 7.854a.5.5 0 0 0-.708-.708L8.5 11.793l-1.646-1.647a.5.5 0 0 0-.708.708l2 2a.5.5 0 0 0 .708 0l5-5zM5.682 3A2.682 2.682 0 0 0 3 5.682v8.636C3 15.8 4.2 17 5.682 17h8.636C15.8 17 17 15.8 17 14.318V5.682C17 4.2 15.8 3 14.318 3H5.682zM4 5.682C4 4.753 4.753 4 5.682 4h8.636C15.247 4 16 4.753 16 5.682v8.636c0 .929-.753 1.682-1.682 1.682H5.682A1.682 1.682 0 0 1 4 14.318V5.682z" fill="currentColor"></path></g></svg>
         </div>  
         <!-- <template #footer>
           Footer
@@ -196,44 +190,23 @@ import { useRouter } from 'vue-router'
 import QrcodeVue from 'qrcode.vue'
 import Vue3Barcode from 'vue3-barcode'
 import VuePdfEmbed from 'vue-pdf-embed'
-import { Switcher, Filter, DataStructured , ParentChild} from '@vicons/carbon'
-import { Icon } from '@vicons/utils'
-import { IosCheckmarkCircleOutline, IosRefresh } from '@vicons/ionicons4'
-import { TrashOutline, CloseCircleOutline } from '@vicons/ionicons5'
+import { getKhmer } from './../../plugins/kh/number.js'
 import { useDialog, useMessage, useNotification } from 'naive-ui'
-import { Edit20Regular, Key16Regular, Save20Regular, Add20Regular, Search20Regular , ContactCard28Regular, DocumentPdf24Regular, AppsList20Regular } from '@vicons/fluent'
 /**
  * CRUD component form
  */
-import CreateForm from './create.vue'
-import UpdateForm from './update.vue'
-import AddRemoveReaderForm from './actions/addremovereader.vue'
-import AccessibilityForm from './actions/accessibility.vue'
+import CreateForm from './widgets/create.vue'
+import UpdateForm from './widgets/update.vue'
+import AddRemoveReaderForm from './listing/actions/addremovereader.vue'
+import AccessibilityForm from './listing/actions/accessibility.vue'
 export default {
   name: "Regulator" ,
   components: {
-    ParentChild, 
     QrcodeVue ,
     Vue3Barcode,
-    Switcher,
-    Add20Regular ,
-    DataStructured,
-    Icon,
-    IosCheckmarkCircleOutline,
     CreateForm,
-    IosRefresh ,
-    CloseCircleOutline ,
     UpdateForm,
-    Search20Regular ,
-    Edit20Regular,
-    Key16Regular,
-    DocumentPdf24Regular ,
-    Save20Regular ,
-    TrashOutline ,
-    ContactCard28Regular ,
-    Filter ,
     VuePdfEmbed ,
-    AppsList20Regular ,
     AddRemoveReaderForm  ,
     AccessibilityForm
   },
@@ -244,7 +217,7 @@ export default {
     const notify = useNotification()
     const showFolderModal = ref(false)
     const listFolders = ref([])
-    const selectedDocumentId = ref(0)
+    const selectedRegulatorId = ref(0)
     /**
      * Variables
      */    
@@ -255,7 +228,7 @@ export default {
 
     const regulatorAccessibilities = ref([
       "បិទទាំងស្រុង" , // 0 
-      "ខ្លួនឯង និង អ្នកដែលចែករំលែកទៅ" , // 1 
+      "អ្នកដែលចែករំលែកទៅ" , // 1 
       "ទូទាំងប្រព័ន្ធ" , // 2 
       "" , // 3 
       "ជាសកល" , // 4 
@@ -326,6 +299,7 @@ export default {
       /**
        * Clear time interval after calling
        */
+      console.log( 'list' )
       window.clearTimeout()
       table.loading = true
       store.dispatch(model.name+'/list',{
@@ -335,7 +309,7 @@ export default {
       }).then(res => {
         table.records.all = table.records.matched = res.data.records
         table.pagination = res.data.pagination
-
+        
         var paginationNumberList = 5
         if( ( table.pagination.page - ( paginationNumberList - 1 ) ) < 1 ){
           table.pagination.start = 1
@@ -475,17 +449,28 @@ export default {
       year: null ,
       pdfs: [] ,
       publish: 0 ,
-      active: 0 
+      active: 0 ,
+      signatures: [] ,
+      types: [] ,
+      organizations: [] ,
+      ownOrganizations: [] ,
+      relatedOrganizations: [] ,
     })
     function showEditModal(record){
       editRecord.id = record.id
       editRecord.number = record.fid
       editRecord.title = record.title
       editRecord.objective = record.objective
-      editRecord.type_id = record.document_type
-      editRecord.year = new Date( record.document_year ).getTime()
+      editRecord.type_id = record.type
+      // editRecord.year = new Date( record.year ).getTime()
+      editRecord.year = record.year
       editRecord.publish = record.publish
       editRecord.active = record.active
+      editRecord.types = record.types
+      editRecord.signatures = record.signatures
+      editRecord.organizations = record.organizations
+      editRecord.ownOrganizations = record.ownOrganizations
+      editRecord.relatedOrganizations = record.relatedOrganizations
       // editRecord.pdfs = record.pdf
       editModal.show = true
     }
@@ -508,7 +493,12 @@ export default {
       pdfs: [] ,
       publish: 0 ,
       active: 0 ,
-      accessibility: 0
+      accessibility: 0 ,
+      types: [] ,
+      orgainzations: [] ,
+      ownOrgainzations: [] ,
+      relatedOrgainzations: [] ,
+      signatures: []
     })
 
     function showShareRegulatorModal(record){
@@ -516,11 +506,16 @@ export default {
       regulatorRecord.number = record.fid
       regulatorRecord.title = record.title
       regulatorRecord.objective = record.objective
-      regulatorRecord.type_id = record.document_type
-      regulatorRecord.year = new Date( record.document_year ).getTime()
+      regulatorRecord.type_id = record.type
+      regulatorRecord.year = new Date( record.year ).getTime()
       regulatorRecord.publish = record.publish
       regulatorRecord.active = record.active
       regulatorRecord.accessibility = record.accessibility
+      regulatorRecord.types = record.types
+      regulatorRecord.organizations = record.organizations
+      regulatorRecord.ownOrganizations = record.ownOrganizations
+      regulatorRecord.relatedOrganizations = record.relatedOrganizations
+      regulatorRecord.signatures = record.signatures
       // actionRecord.pdfs = record.pdf
       regulatorModal.show = true
     }
@@ -550,8 +545,8 @@ export default {
       accessibilityRecord.number = record.fid
       accessibilityRecord.title = record.title
       accessibilityRecord.objective = record.objective
-      accessibilityRecord.type_id = record.document_type
-      accessibilityRecord.year = new Date( record.document_year ).getTime()
+      accessibilityRecord.type_id = record.type
+      accessibilityRecord.year = new Date( record.year ).getTime()
       accessibilityRecord.publish = record.publish
       accessibilityRecord.active = record.active
       accessibilityRecord.accessibility = record.accessibility
@@ -613,6 +608,34 @@ export default {
         notify.error({
           title: 'អានប្រភេទឯកសារ' ,
           description: 'មានបញ្ហាក្នុងពេលអានប្រភេទឯកសារ។'
+        })
+        console.log( err )
+      })
+    }
+    /**
+     * Load pivot data of this model
+     */
+     function getDocumentOrganizations(){
+      store.dispatch('regulatorOrganization/compact').then(res=>{
+        store.commit('regulatorOrganization/setRecords',res.data.records)
+      }).catch(err =>{
+        notify.error({
+          title: 'អានអង្គភាពនៃឯកសាររួចរាល់' ,
+          description: 'មានបញ្ហាក្នុងពេលអានអង្គភាពរបស់ឯកសារ។'
+        })
+        console.log( err )
+      })
+    }
+    /**
+     * Load pivot data of this model
+     */
+     function getDocumentSignatures(){
+      store.dispatch('regulatorSignature/compact').then(res=>{
+        store.commit('regulatorSignature/setRecords',res.data.records)
+      }).catch(err =>{
+        notify.error({
+          title: 'អានហត្ថលេខានៃឯកសាររួចរាល់' ,
+          description: 'មានបញ្ហាក្នុងពេលអានហត្ថលេខារបស់ឯកសារ។'
         })
         console.log( err )
       })
@@ -687,11 +710,11 @@ export default {
     }
 
     function getFolders(){
-      store.dispatch('folder/listDocumentWithValidation',{
+      store.dispatch('folder/listRegulatorWithValidation',{
         search: '' ,
         page: 1 ,
         perPage: 50 ,
-        document_id : selectedDocumentId.value
+        document_id : selectedRegulatorId.value
       }).then( res => {
         listFolders.value = res.data.records
       }).catch( err => {
@@ -704,20 +727,20 @@ export default {
       /**
        * Mark the selected document
        */
-      selectedDocumentId.value = document.id
+      selectedRegulatorId.value = document.id
       getFolders()
     }
 
     function closeFolderModalPopup(){
       showFolderModal.value = false
       listFolders.value = []
-      selectedDocumentId.value = 0
+      selectedRegulatorId.value = 0
     }
 
-    function addDocumentToFolder(folder){
+    function addRegulatorToFolder(folder){
       store.dispatch('folder/addRegulator',{
         id: folder.id ,
-        document_id : selectedDocumentId.value
+        document_id : selectedRegulatorId.value
       }).then( res => {
         notify.success({
           title: "ដាក់ឯកសារចូលថត" ,
@@ -735,10 +758,10 @@ export default {
       })
     }
 
-    function removeDocumentFromFolder(folder){
+    function removeRegulatorFromFolder(folder){
       store.dispatch('folder/removeRegulator',{
         id: folder.id ,
-        document_id : selectedDocumentId.value
+        document_id : selectedRegulatorId.value
       }).then( res => {
         notify.success({
           title: "ដកឯកសារចេញពីថត" ,
@@ -756,11 +779,29 @@ export default {
       })
     }
 
+    const prefixOfTypes = ref([
+      'មិនមាន' ,
+      'នស/រកម' ,
+      'នស/រកត' ,
+      'អនក្រ/បក' ,
+      'ស.ជ.ណ' ,
+      'សសរ' ,
+      'សរ,សរណន' ,
+      'ប្រ.ក' ,
+      'គនបជ' ,
+      'ផយស' ,
+      'បប' ,
+      'ផសក្រ' ,
+      'អនក្រ.តត' ,
+      'នស/រកត'
+    ])
     /**
      * Initial the data
      */
     getRecords()
     getDocumentTypes()
+    getDocumentOrganizations()
+    getDocumentSignatures()
 
 
     return {
@@ -828,64 +869,16 @@ export default {
       /**
        * Folder
        */
-       getFolders ,
+      getFolders ,
       showFolderModalPopup ,
       closeFolderModalPopup ,
-      addDocumentToFolder ,
-      removeDocumentFromFolder ,
+      addRegulatorToFolder ,
+      removeRegulatorFromFolder ,
       showFolderModal ,
-      listFolders
+      listFolders ,
+      prefixOfTypes 
     }
   }
 }
 
 </script>
-
-<style scoped>
-  .vcb-table-panel {
-    @apply absolute right-4 left-4 mt-4 mb-16 top-12 bottom-0 overflow-auto;
-  }
-  .vcb-table {
-    @apply w-full ;
-    height: fit-content ;
-  }
-  .vcb-table tr.vcb-table-row {
-    @apply border-b border-gray-100 text-left ;
-  }
-  .vcb-table tr.vcb-table-row td {
-    @apply p-2;
-  }
-  .vcb-table-actions-panel {
-    @apply flex flex-row-reverse ;
-  }
-  .vcb-table-actions-panel .vcb-action-button {
-    @apply  rounded-full border border-gray-200 w-8 h-8 mx-2 text-center cursor-pointer hover:border-blue-500 hover:text-blue-500  duration-300;
-  }
-  .vcb-table-headers {
-    @apply border-b border-gray-200;
-  }
-  .vcb-table-headers .vcb-table-header {
-    @apply px-2 py-4 text-left ;
-  }
-  .vcb-table-pagination {
-    @apply flex flex-row absolute bg-white right-0 bottom-0 border border-l p-3 ;
-  }
-  .vcb-pagination-page {
-    @apply  rounded-full border border-gray-200 mx-1 leading-7 w-8 h-8 font-bold cursor-pointer hover:text-blue-500 hover:border-blue-500 duration-300;
-  }
-  .vcb-filter-panel {
-    @apply flex flex-row fixed bg-white right-0 bottom-0 left-0 border border-l p-3 ;
-  }
-  .vcb-table-cell {
-    @apply leading-6 align-text-top;
-  }
-  .fade-enter-active,
-  .fade-leave-active {
-    transition: opacity 0.5s ease;
-  }
-
-  .fade-enter-from,
-  .fade-leave-to {
-    opacity: 0;
-  }
-</style>

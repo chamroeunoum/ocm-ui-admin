@@ -1,14 +1,32 @@
 <template>
-  <div class="w-full h-min-screen bg-gray-200">
+  <div class="w-full h-min-screen ">
+    <div class="flex title-bar border-b border-gray-200">
+      <!-- Title of crud -->
+      <div class="flex w-64 h-10 py-1 title " >
+        <svg class="text-gray-700 mr-2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 20 20"><g fill="none"><path d="M9 2.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5H10v1a5 5 0 0 1 5 5v1h1a2 2 0 0 1 2 2v4a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-4a2 2 0 0 1 2-2h1v-1a5.002 5.002 0 0 1 4-4.9V2.5zm7 9.5h-1.5a.5.5 0 0 1-.5-.5V10a4 4 0 0 0-8 0v1.5a.5.5 0 0 1-.5.5H4a1 1 0 0 0-1 1v4h5v-2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2h5v-4a1 1 0 0 0-1-1zM6 13.5a.5.5 0 0 0-1 0v2a.5.5 0 0 0 1 0v-2zm9 0a.5.5 0 0 0-1 0v2a.5.5 0 0 0 1 0v-2zM8.5 9a.5.5 0 0 0-.5.5v2a.5.5 0 0 0 1 0v-2a.5.5 0 0 0-.5-.5zm3.5.5a.5.5 0 0 0-1 0v2a.5.5 0 0 0 1 0v-2zM9 17h2v-2H9v2z" fill="currentColor"></path></g></svg>
+        <div class="leading-8 font-moul mt-1" v-html="model.title" ></div>
+      </div>
+      <!-- Actions button of the crud -->
+      <div class="flex-grow action-buttons flex-row-reverse flex">
+        <!-- New Button -->
+        <div class="mt-1 ml-2">
+        </div>
+        <div class="w-2/5 relative" >
+          <!-- <input type="text" @keypress.enter="filterRecords(false)" v-model="table.search" class="bg-gray-100 px-2 h-9 my-1 w-full rounded border border-gray-200 focus:border-blue-600 hover:border-blue-600 " placeholder="ស្វែងរក" />
+          <svg class="absolute right-1 top-2 text-gray-400 hover:text-blue-700 cursor-pointer" @click="filterRecords(false)" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 20 20"><g fill="none"><path d="M8.5 3a5.5 5.5 0 0 1 4.227 9.02l4.127 4.126a.5.5 0 0 1-.638.765l-.07-.057l-4.126-4.127A5.5 5.5 0 1 1 8.5 3zm0 1a4.5 4.5 0 1 0 0 9a4.5 4.5 0 0 0 0-9z" fill="currentColor"></path></g></svg> -->
+        </div>
+        
+      </div>
+    </div>
     <!-- Buttons -->
-    <div v-if="chart!==null" class="action-buttons" style="margin:0 100px">
+    <div v-if="chart!==null" class="action-buttons hidden" style="margin:0 100px" >
       <button @click='chart.setExpanded("1").render()' class="simptip-position-bottom border border-gray-300 py-2 px-4 rounded m-2 " >Expand 1</button>
 
       <button @click='chart.setExpanded("1",false).render()' class="simptip-position-bottom border border-gray-300 py-2 px-4 rounded m-2 " >Collapse 1</button>
 
-      <button @click='chart.addNode({id:"5",parentId:"1",name:"ក្រសួងថ្មី",imageUrl:"https://scontent.fpnh11-1.fna.fbcdn.net/v/t39.30808-1/272989966_243037994668044_1336394919081446684_n.jpg?stp=dst-jpg_p200x200&_nc_cat=101&ccb=1-7&_nc_sid=c6021c&_nc_ohc=YFBkZNzaqLkAX-WexVW&_nc_ht=scontent.fpnh11-1.fna&oh=00_AfBWCY8Gms9RVLWbKvQlJsdtlOZvVFjs32HHnQlFRixw3g&oe=639809C4"})' class="simptip-position-bottom border border-gray-300 py-2 px-4 rounded m-2 " >Add node as roots' child</button>
+      <button @click='chart.addNode({id:"5",pid:"1",name:"ក្រសួងថ្មី",imageUrl:"https://scontent.fpnh11-1.fna.fbcdn.net/v/t39.30808-1/272989966_243037994668044_1336394919081446684_n.jpg?stp=dst-jpg_p200x200&_nc_cat=101&ccb=1-7&_nc_sid=c6021c&_nc_ohc=YFBkZNzaqLkAX-WexVW&_nc_ht=scontent.fpnh11-1.fna&oh=00_AfBWCY8Gms9RVLWbKvQlJsdtlOZvVFjs32HHnQlFRixw3g&oe=639809C4"})' class="simptip-position-bottom border border-gray-300 py-2 px-4 rounded m-2 " >Add node as roots' child</button>
       
-      <button @click='chart.addNode({id:"6",parentId:"1",name:"ក្រសួងថ្មី ១",_centered:true})' class="simptip-position-bottom border border-gray-300 py-2 px-4 rounded m-2 " >Insert node at 5-th to 1</button>
+      <button @click='chart.addNode({id:"6",pid:"1",name:"ក្រសួងថ្មី ១",_centered:true})' class="simptip-position-bottom border border-gray-300 py-2 px-4 rounded m-2 " >Insert node at 5-th to 1</button>
 
       <button @click='chart.removeNode("2")' class="simptip-position-bottom border border-gray-300 py-2 px-4 rounded m-2 " >Remove 2</button>
 
@@ -47,7 +65,7 @@
         src="https://bumbeishvili.github.io/d3-tooltip/forkme.png" alt="Fork me on GitHub">
     </a> -->
     <!-- Chart -->
-    <div class="chart-container" style=" padding-top:10px;  height:1200px ;background-color:white"> </div>
+    <div class="chart-container " style=" padding-top:10px;  height:1200px ;"> </div>
     <!-- Naive Drawer for child creation -->
     <n-drawer v-model:show="drawerHelper" :width="480" :resizable="true" placement="right" >
       <n-drawer-content closable>
@@ -93,6 +111,7 @@
 import * as d3 from 'd3'
 import { OrgChart } from 'd3-org-chart'
 import jspdf from 'jspdf'
+import { reactive } from 'vue'
 import { useNotification , useDialog, selectDark } from 'naive-ui'
 
 /**
@@ -103,8 +122,17 @@ export default {
   name: "RegulatorOrgchart" ,
   components: {  },
   setup(){  
+
+    /**
+     * Variables
+     */    
+     const model = reactive( {
+      name: "organization" ,
+      title: "រចនាសម្ព័ន្ធក្រសួង"
+    })
+
     return {
-      
+      model
     }
   },
   data() {
@@ -114,16 +142,16 @@ export default {
       chart : null ,
       selectedNode: {
         id: 0 ,
-        parentId: "" ,
+        pid: "" ,
         name: "" ,
-        imageUrl: "https://picsum.photos/200/300" ,
+        image: "https://picsum.photos/200/300" ,
         desc: ""
       } ,
       nodeVal: {
         id: 0 ,
-        parentId: "" ,
+        pid: "" ,
         name: "" ,
-        imageUrl: "https://picsum.photos/200/300" ,
+        image: "https://picsum.photos/200/300" ,
         desc: ""
       }
     };
@@ -203,7 +231,7 @@ export default {
               ${state.layout == 'left' && state.compact && d.flexCompactDim && (d.flexCompactDim[0] || d.flexCompactDim[0] == 1) ? ` <div style="border:1px solid black;opacity:0.5;margin-top:${-(d.flexCompactDim[0]/2-d.height)/2+ state.compactMarginPair(d) / 4}px;margin-left:${0}px;width:${d.flexCompactDim[1]}px;height:${d.flexCompactDim[0]}px;z-index:-1;position:absolute;background-color:red"></div>` : ''}
               ${state.layout == 'right' && state.compact && d.flexCompactDim && (d.flexCompactDim[0] || d.flexCompactDim[0] == 1) ? ` <div style="border:1px solid black;opacity:0.5; margin-top:${-(d.flexCompactDim[0]/2-d.height)/2+ state.compactMarginPair(d) / 4}px;margin-left:${d.width-d.flexCompactDim[1]}px;width:${d.flexCompactDim[1]}px;height:${d.flexCompactDim[0]}px;z-index:-1;position:absolute;background-color:red"></div>` : ''}
               
-              <img src="${d.data.imageUrl}"  style="border-radius:100px;width:60px;height:60px;" />
+              <img src="${d.data.image}"  style="border-radius:100px;width:60px;height:60px;" />
               ID: ${d.data.id} <br>
               Children Direct:${d.data._directSubordinates}<br>
               Children Total:${d.data._totalSubordinates}
@@ -223,12 +251,13 @@ export default {
             //   id: node.data.id ,
             //   name: node.data.name ,
             //   imageUrl: node.data.imageUrl ,
-            //   parentId: node.data.parentId
+            //   pid: node.data.pid
             // }
             /**
              * Show drawer for adding
              */
-            this.nodeVal.parentId = this.selectedNode.id 
+            // this.nodeVal.pid = this.selectedNode.id 
+            this.nodeVal.tpid = this.selectedNode.id 
             this.drawerHelper = true 
           })
           .compactMarginBetween(d => 35)
@@ -252,7 +281,7 @@ export default {
               return `<div style="font-family: 'Inter', sans-serif;background-color:${color}; position:absolute;margin-top:-1px; margin-left:-1px;width:${d.width}px;height:${d.height}px;border-radius:10px;border: 1px solid #E4E2E9">
                         <div style="background-color:${color};position:absolute;margin-top:-25px;margin-left:${15}px;border-radius:100px;width:50px;height:50px;" ></div>
                         <!-- Picture -->
-                        <img src=" ${d.data.imageUrl}" style="position:absolute;margin-top:-20px;margin-left:${20}px;border-radius:100px;width:40px;height:40px;" />  
+                        <img src=" ${d.data.image==null ? '/src/assets/logo.svg' : d.data.image }" style="position:absolute;margin-top:-20px;margin-left:${20}px;border-radius:100px;width:40px;height:40px;" />  
                         <!-- Menu icon -->
                         <!-- <div style="color:#08011E;position:absolute;right:20px;top:17px;font-size:10px;"><i class="fas fa-ellipsis-h"></i></div> -->
                         <!-- Name of the shape -->
@@ -269,7 +298,7 @@ export default {
       // // d3.csv('/src/misc/government.csv')
       // .then(dataFlattened => {
       //   console.log( dataFlattened );
-      //   console.log( dataFlattened[0].parentId)
+      //   console.log( dataFlattened[0].pid)
       //   this.chart = new OrgChart()
       //     .container('.chart-container')
       //     .data(dataFlattened)
@@ -341,12 +370,12 @@ export default {
       //       //   id: node.data.id ,
       //       //   name: node.data.name ,
       //       //   imageUrl: node.data.imageUrl ,
-      //       //   parentId: node.data.parentId
+      //       //   pid: node.data.pid
       //       // }
       //       /**
       //        * Show drawer for adding
       //        */
-      //       this.nodeVal.parentId = this.selectedNode.id 
+      //       this.nodeVal.pid = this.selectedNode.id 
       //       this.drawerHelper = true 
       //     })
       //     .compactMarginBetween(d => 35)
@@ -412,27 +441,29 @@ export default {
       this.$store.dispatch( 'regulator/childDocument',{
         name: this.nodeVal.name ,
         document_id : 0 , // Id of the document that this record describe
-        document_parent_id : 0 , // id of the document that is the top level of this document (document_id)
-        parent_id : this.nodeVal.parentId > 0 ? this.nodeVal.parentId : 0 , // Id of the parent record
+        tpid : this.nodeVal.tpid > 0 ? this.nodeVal.tpid : 0 , // id of the document that is the top level of this document (document_id)
+        pid : this.nodeVal.pid > 0 ? this.nodeVal.pid : 0 , // Id of the parent record
         desc: this.nodeVal.desc ,
-        image: this.nodeVal.imageUrl
+        image: this.nodeVal.image
       }).then( res => {
         if( res.data.ok ){
 
           this.chart.addNode({
             id: res.data.record.id,
-            parentId: res.data.record.parent_id ,
+            pid: res.data.record.pid ,
+            tpid: res.data.record.tpid ,
             name: res.data.record.name,
-            imageUrl: "https://picsum.photos/200/300" // res.data.record.image
+            image: "https://picsum.photos/200/300" // res.data.record.image
           })
 
           this.chart.setCentered(res.data.record.id).render()
           this.drawerHelper = false 
           this.nodeVal = {
             id: 0 ,
-            parentId: 0 ,
+            pid: 0 ,
+            tpid: 0 ,
             name: "" ,
-            imageUrl: ""
+            image: ""
           }
 
           // notify.success({
@@ -458,18 +489,19 @@ export default {
         id: this.selectedNode.id ,
         name: this.selectedNode.name ,
         document_id : 0 , // Id of the document that this record describe
-        document_parent_id : 0 , // id of the document that is the top level of this document (document_id)
-        parent_id : this.selectedNode.parentId > 0 ? this.selectedNode.parentId : 0 , // Id of the parent record
+        tpid : this.selectedNode.tpid > 0 ? this.selectedNode.tpid : 0 , // id of the document that is the top level of this document (document_id)
+        pid : this.selectedNode.pid > 0 ? this.selectedNode.pid : 0 , // Id of the parent record
         desc: this.selectedNode.desc ,
-        image: this.selectedNode.imageUrl
+        image: this.selectedNode.image
       }).then( res => {
         console.log( res.data )
         this.selectedNode = {
           id: 0 ,
           name: "" ,
-          parent_id : 0 ,
+          pid : 0 ,
+          tpid: 0 ,
           desc: "" ,
-          imageUrl: ""
+          image: ""
         }
         this.drawerHelper = false
         this.drawingOrgchart()

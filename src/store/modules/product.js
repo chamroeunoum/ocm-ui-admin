@@ -20,22 +20,22 @@ const getters = {
 // actions
 const actions = {
   async list ({ state, commit, rootState },params) {
-    return await crud.list(rootState.apiServer+"/package",params)
+    return await crud.list(import.meta.env.VITE_API_SERVER+"/package",params)
   },
   async read ({ state, commit, rootState },params) {
-    return await crud.read(rootState.apiServer+"/package/"+params.id)
+    return await crud.read(import.meta.env.VITE_API_SERVER+"/package/"+params.id)
   },
   async get ({ state, commit, rootState },params) {
-    return await crud.get(rootState.apiServer+"/package/"+params.id+'/public')
+    return await crud.get(import.meta.env.VITE_API_SERVER+"/package/"+params.id+'/public')
   },
   async create ({ state, commit, rootState },params) {
-    return await crud.create(rootState.apiServer+"/package/create",params)
+    return await crud.create(import.meta.env.VITE_API_SERVER+"/package/create",params)
   },
   async update ({ state, commit, rootState },params) {
-    return await crud.update(rootState.apiServer+"/package/update",params)
+    return await crud.update(import.meta.env.VITE_API_SERVER+"/package/update",params)
   },
   async delete ({ state, commit, rootState },params) {
-    return await crud.delete(rootState.apiServer+"/package/"+params.id)
+    return await crud.delete(import.meta.env.VITE_API_SERVER+"/package/"+params.id)
   }
 }
 

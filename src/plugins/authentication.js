@@ -1,6 +1,5 @@
 export const authLogout = () => {
   try {
-
     localStorage.removeItem('token')
     localStorage.removeItem('user')
   } catch (error) {

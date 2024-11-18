@@ -33,15 +33,10 @@
           >
             <template #prefix>
               <n-icon>
-                <Search20Regular />
+                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 20 20"><g fill="none"><path d="M8.5 3a5.5 5.5 0 0 1 4.227 9.02l4.127 4.126a.5.5 0 0 1-.638.765l-.07-.057l-4.126-4.127A5.5 5.5 0 1 1 8.5 3zm0 1a4.5 4.5 0 1 0 0 9a4.5 4.5 0 0 0 0-9z" fill="currentColor"></path></g></svg>
               </n-icon>
             </template>
           </n-input>
-          <!-- <Icon size="27" class="absolute right-1 top-2 text-gray-400 hover:text-blue-700 cursor-pointer" >
-            <n-icon>
-              <Search20Regular />
-            </n-icon>
-          </Icon> -->
         </div>
         
       </div>
@@ -51,6 +46,7 @@
     <!-- Table of crud -->
     <div class="vcb-table-panel relative">
       <table class="vcb-table" >
+        <tbody>
         <tr class="vcb-table-headers" >
           <th v-for="(column,index) in table.columns.format" :key="index" class="vcb-table-header" >{{ column.label }}</th>
           <th class="vcb-table-header text-right w-40" >ប្រតិបត្តិការ</th>
@@ -67,19 +63,16 @@
             </n-icon>
           </td>
         </tr>
+      </tbody>
       </table>
       <!-- Loading -->
       <div v-if="table.loading" class="table-loading absolute left-0 top-0 right-0 bottom-0 bg-white bg-opacity-75 ">
         <div class="spinner mt-24">
-          <Icon size="40" class="animate-spin  text-blue-500" >
-           <IosRefresh />
-          </Icon><br/><br/>
+          <svg class="animate-spin  text-blue-500" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512"><path d="M304 48c0 26.51-21.49 48-48 48s-48-21.49-48-48s21.49-48 48-48s48 21.49 48 48zm-48 368c-26.51 0-48 21.49-48 48s21.49 48 48 48s48-21.49 48-48s-21.49-48-48-48zm208-208c-26.51 0-48 21.49-48 48s21.49 48 48 48s48-21.49 48-48s-21.49-48-48-48zM96 256c0-26.51-21.49-48-48-48S0 229.49 0 256s21.49 48 48 48s48-21.49 48-48zm12.922 99.078c-26.51 0-48 21.49-48 48s21.49 48 48 48s48-21.49 48-48c0-26.509-21.491-48-48-48zm294.156 0c-26.51 0-48 21.49-48 48s21.49 48 48 48s48-21.49 48-48c0-26.509-21.49-48-48-48zM108.922 60.922c-26.51 0-48 21.49-48 48s21.49 48 48 48s48-21.49 48-48s-21.491-48-48-48z" fill="currentColor"></path></svg><br/><br/>
           កំពុងអាន...
         </div>
         <div class="absolute top-3 right-3 " @click="closeTableLoading" >
-          <Icon size="40" class="text-gray-400" >
-           <CloseCircleOutline />
-          </Icon>
+          <svg class="animate-spin w-16 mx-auto text-blue-500" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512"><path d="M304 48c0 26.51-21.49 48-48 48s-48-21.49-48-48s21.49-48 48-48s48 21.49 48 48zm-48 368c-26.51 0-48 21.49-48 48s21.49 48 48 48s48-21.49 48-48s-21.49-48-48-48zm208-208c-26.51 0-48 21.49-48 48s21.49 48 48 48s48-21.49 48-48s-21.49-48-48-48zM96 256c0-26.51-21.49-48-48-48S0 229.49 0 256s21.49 48 48 48s48-21.49 48-48zm12.922 99.078c-26.51 0-48 21.49-48 48s21.49 48 48 48s48-21.49 48-48c0-26.509-21.491-48-48-48zm294.156 0c-26.51 0-48 21.49-48 48s21.49 48 48 48s48-21.49 48-48c0-26.509-21.49-48-48-48zM108.922 60.922c-26.51 0-48 21.49-48 48s21.49 48 48 48s48-21.49 48-48s-21.491-48-48-48z" fill="currentColor"></path></svg>
         </div>
       </div>
     </div>
@@ -108,12 +101,9 @@ import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 import QrcodeVue from 'qrcode.vue'
 import Vue3Barcode from 'vue3-barcode'
-import { Switcher } from '@vicons/carbon'
-import { Icon } from '@vicons/utils'
-import { IosCheckmarkCircleOutline, IosRefresh } from '@vicons/ionicons4'
-import { TrashOutline, CloseCircleOutline } from '@vicons/ionicons5'
+
+
 import { useDialog, useMessage } from 'naive-ui'
-import { Edit20Regular, Key16Regular, Save20Regular, Add20Regular, Search20Regular } from '@vicons/fluent'
 /**
  * CRUD component form
  */
@@ -154,19 +144,10 @@ export default {
   components: {
     QrcodeVue ,
     Vue3Barcode,
-    Switcher,
-    Add20Regular ,
-    Icon,
-    IosCheckmarkCircleOutline,
+    
     CreateForm,
-    IosRefresh ,
-    CloseCircleOutline ,
-    UpdateForm,
-    Search20Regular ,
-    Edit20Regular,
-    Key16Regular,
-    Save20Regular ,
-    TrashOutline
+    
+    UpdateForm
   },
   setup(props){
     var store = useStore()

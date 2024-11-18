@@ -1,8 +1,8 @@
 <template>
-  <div class="relative w-full min-h-screen bg-gray-50 bg-center bg-cover bg-background" >
-    <div class="absolute p-4 top-16 right-0 bottom-0 left-0 ">
+  <div class="relative bg-gray-50 w-full min-h-screen" >
+    <div class="top-10 right-0 bottom-0 left-0 absolute p-4">
       <router-view v-slot="{ Component , route}">
-        <Transition name="fade" mode="out-in" >
+        <Transition name="slide-fade" >
           <component :is="Component" />
         </Transition>
       </router-view>
@@ -13,7 +13,7 @@
 </template>
 <script >
 import Topmenu from './../menu/topmenu.vue'
-import Dock from './../widgets/dock.vue'
+import Dock from '../widgets/Dock.vue'
 export default {
     components: { 
       Topmenu ,
@@ -22,7 +22,7 @@ export default {
     setup() {
       return {}
     },
-    name: "RolePage", 
+    name: "UserPage", 
     data() {
         return {};
     },

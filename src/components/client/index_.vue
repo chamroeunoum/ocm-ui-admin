@@ -25,6 +25,7 @@
     <!-- Table of crud -->
     <div class="vcb-table-panel ">
       <table class="vcb-table" >
+        <thead>
         <tr class="vcb-table-headers" >
           <th class="vcb-table-header" >ល.រ</th>
           <th class="vcb-table-header">ឈ្មោះ</th>
@@ -33,6 +34,8 @@
           <th class="vcb-table-header">អសយដ្ឋាន</th>
           <th class="vcb-table-header w-60" >ប្រតិបត្តិការផ្សេងៗ</th>
         </tr>
+      </thead>
+      <tbody>
         <tr v-for="(record, index) in $store.getters[model.name+'/getRecords'].records" :key='index' class="vcb-table-row" >
           <td class="vcb-table-cell font-bold" >{{ index + 1 }}</td>
           <td  class="vcb-table-cell" >{{ record.lastname + " " + record.firstname }}</td>
@@ -56,6 +59,7 @@
             </div>
           </td>
         </tr>
+      </tbody>
       </table>
     </div>
     <!-- Pagination of crud -->

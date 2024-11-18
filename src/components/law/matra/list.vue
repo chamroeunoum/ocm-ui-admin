@@ -1,0 +1,1351 @@
+<template>
+  <div>
+  <!-- Top action panel of crud -->
+    <div class="flex title-bar border-b border-gray-200">
+      <!-- Title of crud -->
+      <div class="flex-grow h-10 py-1 title relative" >
+        <svg class="text-red-600 mr-2 absolute top-2 left-0 " xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24"><g fill="none"><path d="M7.503 13.002a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 1 0v-.5H8.5a1.5 1.5 0 0 0 0-3h-.997zm.997 2h-.497v-1H8.5a.5.5 0 1 1 0 1zm6.498-1.5a.5.5 0 0 1 .5-.5h1.505a.5.5 0 1 1 0 1h-1.006l-.001 1.002h1.007a.5.5 0 0 1 0 1h-1.007l.002.497a.5.5 0 0 1-1 .002l-.003-.998v-.002l.003-2.002zm-3.498-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h.498a2 2 0 0 0 0-4H11.5zm.5 3v-2a1 1 0 0 1 0 2zM20 20v-1.164c.591-.281 1-.884 1-1.582V12.75c0-.698-.409-1.3-1-1.582v-1.34a2 2 0 0 0-.586-1.414l-5.829-5.828a.491.491 0 0 0-.049-.04a.63.63 0 0 1-.036-.03a2.072 2.072 0 0 0-.219-.18a.652.652 0 0 0-.08-.044l-.048-.024l-.05-.029c-.054-.031-.109-.063-.166-.087a1.977 1.977 0 0 0-.624-.138c-.02-.001-.04-.004-.059-.007A.605.605 0 0 0 12.172 2H6a2 2 0 0 0-2 2v7.168c-.591.281-1 .884-1 1.582v4.504c0 .698.409 1.3 1 1.582V20a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2zm-2 .5H6a.5.5 0 0 1-.5-.5v-.996h13V20a.5.5 0 0 1-.5.5zm.5-10.5v1h-13V4a.5.5 0 0 1 .5-.5h6V8a2 2 0 0 0 2 2h4.5zm-1.122-1.5H14a.5.5 0 0 1-.5-.5V4.621L17.378 8.5zm-12.628 4h14.5a.25.25 0 0 1 .25.25v4.504a.25.25 0 0 1-.25.25H4.75a.25.25 0 0 1-.25-.25V12.75a.25.25 0 0 1 .25-.25z" fill="currentColor"></path></g></svg>
+        <div class="leading-10 font-bold ml-8 text-left" v-html="regulatorTitle" ></div>
+      </div>
+      <!-- Actions button of the crud -->
+      <div class="flex w-96 action-buttons flex-row-reverse">
+        <!-- New Matra -->
+        <div class="mt-1 ml-2">
+          <n-button type="success" @click="goToCreateMatra()" >
+            <template #icon>
+              <n-icon>
+                <Add20Regular />
+              </n-icon>
+            </template>
+            មាត្រា
+          </n-button>
+        </div>
+        <!-- New Matra -->
+        <div class="mt-1 ml-2">
+          <n-button type="success" @click="goToCreateSection()" >
+            <template #icon>
+              <n-icon>
+                <Add20Regular />
+              </n-icon>
+            </template>
+            កថាភាគ
+          </n-button>
+        </div>
+        <!-- New Matra -->
+        <div class="mt-1 ml-2">
+          <n-button type="success" @click="goToCreatePart()" >
+            <template #icon>
+              <n-icon>
+                <Add20Regular />
+              </n-icon>
+            </template>
+            ផ្នែក
+          </n-button>
+        </div>
+        <!-- New Matra -->
+        <div class="mt-1 ml-2">
+          <n-button type="success" @click="goToCreateChapter()" >
+            <template #icon>
+              <n-icon>
+                <Add20Regular />
+              </n-icon>
+            </template>
+            ជំពូក
+          </n-button>
+        </div>
+        <!-- New Matra -->
+        <div class="mt-1 ml-2">
+          <n-button type="success" @click="goToCreateMatika()" >
+            <template #icon>
+              <n-icon>
+                <Add20Regular />
+              </n-icon>
+            </template>
+            មាតិកា
+          </n-button>
+        </div>
+        <!-- New Matra -->
+        <div class="mt-1 ml-2">
+          <n-button type="success" @click="goToCreateKunty()" >
+            <template #icon>
+              <n-icon>
+                <Add20Regular />
+              </n-icon>
+            </template>
+            គន្ថី
+          </n-button>
+        </div>
+        <div class="w-4/5 relative" >
+          <input type="text" @keypress.enter="filterRecords(false)" v-model="table.search" class="bg-gray-100 px-2 h-9 my-1 w-full rounded border border-gray-200 focus:border-blue-600 hover:border-blue-600 " placeholder="ស្វែងរក" />
+          <svg class="absolute right-1 top-2 text-gray-400 hover:text-blue-700 cursor-pointer" @click="filterRecords(false)" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 20 20"><g fill="none"><path d="M8.5 3a5.5 5.5 0 0 1 4.227 9.02l4.127 4.126a.5.5 0 0 1-.638.765l-.07-.057l-4.126-4.127A5.5 5.5 0 1 1 8.5 3zm0 1a4.5 4.5 0 1 0 0 9a4.5 4.5 0 0 0 0-9z" fill="currentColor"></path></g></svg>
+          <svg class="absolute -left-10 top-2 text-gray-500 hover:text-blue-700 cursor-pointer" @click="filterPanel=!filterPanel" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 32 32"><path d="M18 28h-4a2 2 0 0 1-2-2v-7.59L4.59 11A2 2 0 0 1 4 9.59V6a2 2 0 0 1 2-2h20a2 2 0 0 1 2 2v3.59a2 2 0 0 1-.59 1.41L20 18.41V26a2 2 0 0 1-2 2zM6 6v3.59l8 8V26h4v-8.41l8-8V6z" fill="currentColor"></path></svg>
+        </div>
+        
+      </div>
+    </div>
+    <!-- Table of crud -->
+    <div class="vcb-table-panel relative flex">
+      <table class="vcb-table" >
+        <thead>
+        <tr class="vcb-table-headers" >
+          <th class="vcb-table-header" >ល.រ</th>
+          <th class="vcb-table-header" >លេខមាត្រា</th>
+          <th class="vcb-table-header">ចំណងជើង</th>
+          <th class="vcb-table-header">គន្ថី</th>
+          <th class="vcb-table-header w-44">មាតិកា</th>
+          <th class="vcb-table-header w-44">ជំពូក</th>
+          <th class="vcb-table-header w-44">ផ្នែក</th>
+          <th class="vcb-table-header w-44">កថាភាគ</th>
+          <th class="vcb-table-header text-right w-28" >ប្រតិបត្តិការ</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="(record, index) in table.records.matched" :key='index' class="vcb-table-row" >
+          <td class="vcb-table-cell font-bold" >{{ index + 1 }}</td>
+          <td class="vcb-table-cell" >{{ record.number }}</td>
+          <td class="vcb-table-cell" >
+              <n-popover style="width: 90%" trigger="click">
+                <template #trigger>
+                  <div v-html="applyTagMark(record.title)"></div>
+                </template>
+                <div class="leading-10" v-html="applyTagMark(record.meaning)"></div>
+              </n-popover>
+          </td>
+          <td  class="vcb-table-cell" >{{ record.kunty != undefined && record.kunty !== null ? record.kunty.title : "" }}</td>
+          <td  class="vcb-table-cell" >{{ record.matika != undefined && record.matika !== null ? record.matika.title : "" }}</td>
+          <td  class="vcb-table-cell" >{{ record.chapter != undefined && record.chapter !== null ? record.chapter.title : "" }}</td>
+          <td  class="vcb-table-cell" >{{ record.part != undefined && record.part !== null ? record.part.title : "" }}</td>
+          <td  class="vcb-table-cell" >{{ record.section != undefined && record.section !== null ? record.section.title : "" }}</td>
+          <td class="vcb-table-actions-panel text-right" >
+            <n-icon size="22" class="cursor-pointer text-blue-500" @click="showEditModal(record)" title="កែប្រែព័ត៌មាន" >
+              <Edit20Regular />
+            </n-icon>
+            <n-icon size="22" class="cursor-pointer text-red-500" @click="destroy(record)" title="លុបគណនីនេះចោល" >
+              <TrashOutline />
+            </n-icon>
+            <n-icon size="22" :class="'cursor-pointer ' + (record.active == 1 ? ' text-green-500 ' : ' text-gray-500 ') " @click="activateRecord(record)" :title="record.active == 1 ? 'គណនីនេះកំពុងបើកតំណើរការ' : 'គណនីនេះកំពុងត្រូវបានបិទមិនអាចប្រើប្រាស់បាន' " >
+              <IosCheckmarkCircleOutline />
+            </n-icon>
+            <!-- <n-icon size="30" :class="'cursor-pointer ' + (record.pdf == 1 ? ' text-green-500 ' : ' text-gray-500 ') " @click="activateRecord(record)" :title="record.active == 1 ? 'គណនីនេះកំពុងបើកតំណើរការ' : 'គណនីនេះកំពុងត្រូវបានបិទមិនអាចប្រើប្រាស់បាន' " >
+              <DocumentPdf24Regular />
+            </n-icon> -->
+          </td>
+        </tr>
+      </tbody>
+      </table>
+      <!-- Loading -->
+      <div v-if="table.loading" class="table-loading absolute left-0 top-0 right-0 bottom-0 bg-white bg-opacity-75 ">
+        <div class="spinner mt-24">
+          <svg class="animate-spin  text-blue-500" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512"><path d="M304 48c0 26.51-21.49 48-48 48s-48-21.49-48-48s21.49-48 48-48s48 21.49 48 48zm-48 368c-26.51 0-48 21.49-48 48s21.49 48 48 48s48-21.49 48-48s-21.49-48-48-48zm208-208c-26.51 0-48 21.49-48 48s21.49 48 48 48s48-21.49 48-48s-21.49-48-48-48zM96 256c0-26.51-21.49-48-48-48S0 229.49 0 256s21.49 48 48 48s48-21.49 48-48zm12.922 99.078c-26.51 0-48 21.49-48 48s21.49 48 48 48s48-21.49 48-48c0-26.509-21.491-48-48-48zm294.156 0c-26.51 0-48 21.49-48 48s21.49 48 48 48s48-21.49 48-48c0-26.509-21.49-48-48-48zM108.922 60.922c-26.51 0-48 21.49-48 48s21.49 48 48 48s48-21.49 48-48s-21.491-48-48-48z" fill="currentColor"></path></svg><br/><br/>
+          កំពុងអាន...
+        </div>
+        <div class="absolute top-3 right-3 " @click="closeTableLoading" >
+          <svg class="text-red-600" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512"><path d="M448 256c0-106-86-192-192-192S64 150 64 256s86 192 192 192s192-86 192-192z" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"></path><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M320 320L192 192"></path><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M192 320l128-128"></path></svg>
+        </div>
+      </div>
+    </div>
+    <!-- Pagination of crud -->
+    <div class="vcb-table-pagination">
+      <!-- First -->
+      <div class="vcb-pagination-page" v-html='"|<"' @click="first()" ></div>
+      <!-- Previous -->
+      <div class="vcb-pagination-page" v-html='"<"' @click="previous()" ></div>
+      <!-- Pages (7) -->
+      <div v-for="(page, index) in table.pagination.buttons" :key="index" class="vcb-pagination-page pages h-8 mx-2 font-bold" @click="table.pagination.page == page ? false : goTo(page) " >
+        <div :class="'page w-8 h-8 text-center align-middle leading-8 cursor-pointer' + (table.pagination.page == page ? ' text-blue-500' : '' ) ">{{ page }}</div>
+      </div>
+      <!-- Next -->
+      <div class="vcb-pagination-page" v-html='">"' @click="next()" ></div>
+      <!-- Last -->
+      <div class="vcb-pagination-page" v-html='">|"' @click="last()" ></div>
+      <!-- Go to -->
+      <!-- Total per page -->
+    </div>
+    <!-- Filter panel of crud -->
+    <div v-if="filterPanel" class="vcb-filter-panel">
+      <div class="filter-container relative w-full px-4 pb-16 pt-12 ">
+        <div class="filter-layer w-full flex flex-row mb-4">
+          <!-- Book filter -->
+          <n-select
+            v-model:value="selectedRegulator"
+            @update:value="bookChange"
+            :loading="bookSelectLoading"
+            clearable
+            remote
+            :clear-filter-after-select="false"
+            @search="handleSearchBook"  
+            filterable
+            placeholder="សូមជ្រើសរើសលិខិតបទដ្ឋានគតិយុត្ត"
+            :options="books"
+            class="basis-1/3 px-2" 
+          />
+          <!-- End Book filter -->
+          <!-- Kunty filter -->
+          <n-select
+            v-if="toggleKunty"
+            v-model:value="selectedKunty"
+            @update:value="kuntyChange"
+            :loading="kuntySelectLoading"
+            clearable
+            remote
+            :clear-filter-after-select="false"
+            @search="handleSearchKunty"  
+            filterable
+            placeholder="សូមជ្រើសរើសគន្ថី"
+            :options="kunties"
+            class="basis-1/3 px-2" 
+          />
+          <!-- End kunty filter -->
+          <!-- Matika filter -->
+          <n-select
+            v-if="toggleMatika"
+            v-model:value="selectedMatika"
+            @update:value="matikaChange"
+            :loading="matikaSelectLoading"
+            clearable
+            remote
+            :clear-filter-after-select="false"
+            @search="handleSearchMatika"  
+            filterable
+            placeholder="សូមជ្រើសរើសមាតិកា"
+            :options="matikas"
+            class="basis-1/3 px-2" 
+          />
+          <!-- End matika filter -->
+        </div>
+        <div class="filter-layer w-full flex flex-row">
+          <!-- Chapter filter -->
+          <n-select
+            v-if="toggleChapter"
+            v-model:value="selectedChapter"
+            @update:value="chapterChange"
+            :loading="chapterSelectLoading"
+            clearable
+            remote
+            :clear-filter-after-select="false"
+            @search="handleSearchChapter"  
+            filterable
+            placeholder="សូមជ្រើសរើសជំពូក"
+            :options="chapters"
+            class="basis-1/3 px-2" 
+          />
+          <!-- End chapter filter -->
+          <!-- Part filter -->
+          <n-select
+            v-if="togglePart"
+            v-model:value="selectedPart"
+            @update:value="partChange"
+            :loading="partSelectLoading"
+            clearable
+            remote
+            :clear-filter-after-select="false"
+            @search="handleSearchPart"  
+            filterable
+            placeholder="សូមជ្រើសរើសផ្នែក"
+            :options="parts"
+            class="basis-1/3 px-2" 
+          />
+          <!-- End part filter -->
+          <!-- Section filter -->
+          <n-select
+            v-if="toggleSection"
+            v-model:value="selectedSection"
+            :loading="sectionSelectLoading"
+            clearable
+            remote
+            :clear-filter-after-select="false"
+            @search="handleSearchSection"  
+            filterable
+            placeholder="សូមជ្រើសរើសកថាភាគ"
+            :options="sections"
+            class="basis-1/3 px-2" 
+          />
+          <!-- End section filter -->
+        </div>
+        <svg class="absolute right-0 top-0 cursor-pointer text-red-700" @click="filterPanel=!filterPanel" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512"><path d="M448 256c0-106-86-192-192-192S64 150 64 256s86 192 192 192s192-86 192-192z" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"></path><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M320 320L192 192"></path><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M192 320l128-128"></path></svg>
+      </div>
+    </div>
+    <!-- Form create account -->
+    <!-- <create-form v-bind:model="model" v-bind:bookId="bookId" v-bind:show="createModal.show" :onClose="closeCreateModal"/> -->
+    <!-- Form update account -->
+    <!-- <update-form v-bind:model="model" v-bind:record="editRecord"  v-bind:bookId="bookId" v-bind:show="editModal.show" :onClose="closeEditModal"/> -->
+  </div>
+</template>
+<script>
+import { reactive, computed, ref } from 'vue'
+import { useStore } from 'vuex'
+import { useRouter, useRoute } from 'vue-router'
+import QrcodeVue from 'qrcode.vue'
+import Vue3Barcode from 'vue3-barcode'
+/**
+ * CRUD component form
+ */
+import CreateForm from './create.vue'
+import UpdateForm from './update.vue'
+export default {
+  name: "Matra" ,
+  components: {
+    QrcodeVue ,
+    Vue3Barcode,
+    
+    CreateForm,
+    
+    UpdateForm,
+    
+  },
+  setup(){
+    var store = useStore()
+    const dialog = useDialog()
+    const message = useMessage()
+    const notify = useNotification()
+    const route = useRoute()
+    const router = useRouter()
+    const bookId = parseInt( route.params.id ) > 0 ? ref(parseInt( route.params.id )) : ref(0)
+
+    /**
+     * Variables
+     */    
+    const model = reactive( {
+      name: "matra" ,
+      title: "មាត្រា នៃ លិខិតបទដ្ឋានគតិយុត្ត"
+    })
+    const table = reactive( {
+      loading: false , 
+      search: '' ,
+      records: {
+        all: [] ,
+        matched: []
+      },
+      columns: {
+        searchable: {
+          number: '' ,
+          title: '' ,
+          meaning: ''
+        },
+        format: {
+          id: 0 ,
+          number: '' ,
+          title: '' ,
+          meaning: '' ,
+          kunthy: '' ,
+          chapter: '' ,
+          part: '' ,
+          section: ''
+        }
+      } ,
+      pagination: {
+        perPage: 20 ,
+        page: 1 ,
+        totalPages: 0 ,
+        totalRecords: 0 ,
+        start: 0 ,
+        end: 0 ,
+        buttons: []
+      }
+    })
+    const filterPanel = ref(false)
+
+    function filterRecords(helper=true){
+      if( helper ){
+        table.records.matched = []
+        if( table.search != "" ) {
+          for(var index in table.records.all ){
+            for(var field in table.records.all[index] ){
+              if( (""+table.records.all[index][field]).includes( table.search ) !== false ) {
+                table.records.matched.push( table.records.all[index] )
+                break;
+              }
+            }
+          }
+        }
+        if( table.records.matched.length <= 0 ) {
+          table.records.matched = table.records.all
+        }
+      }else{
+        setTimeout( goTo(1) , 500 )
+      }
+    }
+    /**
+     * Functions
+     */
+    function getRecords(){
+      /**
+       * Clear time interval after calling
+       */
+      window.clearTimeout()
+      table.loading = true
+      store.dispatch('book/matras',{
+        book_id: bookId.value ,
+        kunty_id: selectedKunty.value !== null ? selectedKunty.value : '' ,
+        matika_id: selectedMatika.value !== null ? selectedMatika.value : '' ,
+        chapter_id: selectedChapter.value !== null ? selectedChapter.value : '' ,
+        part_id: selectedPart.value !== null ? selectedPart.value : '' ,
+        section_id: selectedSection.value !== null ? selectedSection.value : '' ,
+        search: table.search ,
+        perPage: table.pagination.perPage ,
+        page: table.pagination.page
+      }).then(res => {
+        store.commit('matra/setRecords', res.data.records )
+        table.records.all = table.records.matched = res.data.records
+        table.pagination = res.data.pagination
+        var paginationNumberList = 5
+        if( ( table.pagination.page - ( paginationNumberList - 1 ) ) < 1 ){
+          table.pagination.start = 1
+          table.pagination.end = table.pagination.totalPages > 9 ? 9 : table.pagination.totalPages
+        }
+        else{
+          table.pagination.start = table.pagination.page  - ( paginationNumberList - 1 )
+          table.pagination.end = table.pagination.page + 4 >= table.pagination.totalPages ? table.pagination.totalPages : table.pagination.page + 4
+        }
+        /**
+         * Create pagination buttons
+         */
+        table.pagination.buttons = []
+        for(var i=table.pagination.start;i<=table.pagination.end;i++){
+          table.pagination.buttons.push(i)
+        }
+        closeTableLoading()
+      }).catch( err => {
+        console.log( err )
+      })
+    }
+    function closeTableLoading(){
+      table.loading = false
+    }
+
+    /**
+     * Pagination functions
+     */
+    function first(){
+      goTo( table.pagination.page > 0 ? 1 : 0)
+    }
+    function last(){
+      goTo( table.pagination.totalPages > 0 ? table.pagination.totalPages : 1 )
+    }
+    function previous(){
+      goTo( table.pagination.page <= 1 ? 1 : table.pagination.page - 1 )
+    }
+    function next(){
+      goTo( table.pagination.page >= table.pagination.totalPages ? table.pagination.totalPages : table.pagination.page + 1 )
+    }
+    function goTo(page){
+      table.pagination.page = page > table.pagination.totalPages ? table.pagination.totalPages : ( page < 1 ? 1 : page)
+      getRecords()
+    }
+    function updatePerpage(perPage){
+      table.pagination.perPage = perPage < 5 ? 5 : ( perPage > 100 ? 100 : perPgae )
+      table.pagination.page = 1
+      getRecords()
+    }
+    const paginationButtons = computed(()=>{
+      /**
+       * 9 Buttons is recommended
+       */
+      return table.pagination.totalPages ? table.pagination.totalPages : 0
+    })
+
+    function activateRecord(record){
+      dialog.warning({
+        title: "បិទ ឬ បើក ឯកសារ" ,
+        content: "តើអ្នកចង់ " + ( record.active == 1 ? "បិទ" : "បើក" )+ " មាត្រានេះមែនទេ ?" ,
+        positiveText: 'បាទ / ចាស',
+        negativeText: 'ទេ',
+        onPositiveClick: () => {
+          store.dispatch( model.name+(parseInt(record.active)==1?'/deactivate':'/activate'),{id:record.id}).then( res => {
+            if( res.data.ok ){
+              notify.success({
+                title: 'ស្ថានភាពមាត្រា' ,
+                description: 'ស្ថានភាពមាត្រាបានកែប្រែជោគជ័យ។' ,
+                duration: 3000
+              })
+              getRecords()
+            }else{
+              notify.error({
+                title: 'ស្ថានភាពគណនី' ,
+                description: 'មានបញ្ហាក្នុងពេលកែប្រែស្ថានភាពមាត្រា។' ,
+                duration: 3000
+              })
+            }
+          }).catch( err => {
+            message.error( err )
+          })
+        },
+        onNegativeClick: () => {
+          
+        }
+      })
+    }
+    /**
+     * Create modal handling
+     */
+    var createModal = reactive({show:false})
+    function showCreateModal(){
+      createModal.show = true
+    }
+
+    function closeCreateModal(){
+      createModal.show = false
+      getRecords()
+    }
+
+    var editModal = reactive({show:false})
+    const editRecord = reactive({
+      id: 0 ,
+      number : 0 ,
+      meaning: '' ,
+      book_id: 0 ,
+      kunty_id : 0 ,
+      matika_id : 0 ,
+      chapter_id : 0 ,
+      part_id : 0 ,
+      section_id : 0
+    })
+    function showEditModal(record){
+      editRecord.id = record.id 
+      editRecord.number = record.number 
+      editRecord.title = record.title 
+      editRecord.meaning = record.meaning 
+      editRecord.book_id = record.book_id 
+      editRecord.kunty_id = record.kunty_id 
+      editRecord.matika_id = record.matika_id 
+      editRecord.chapter_id = record.chapter_id 
+      editRecord.part_id = record.part_id 
+      editRecord.section_id = record.section_id 
+      editRecord['book'] = record.book
+      editRecord['kunty'] = record.kunty
+      editRecord['matika'] = record.matika
+      editRecord['chapter'] = record.chapter
+      editRecord['part'] = record.part
+      editRecord['section'] = record.section
+
+      editModal.show = true
+    }
+    function closeEditModal(record){
+      editModal.show = false
+      getRecords()
+    }
+
+    function destroy(record){
+      dialog.warning({
+        title: "លុបមាត្រា" ,
+        content: "តើអ្នកចង់ លុប មាត្រានេះមែនទេ ?" ,
+        positiveText: 'បាទ / ចាស',
+        negativeText: 'ទេ',
+        onPositiveClick: () => {
+          store.dispatch(model.name+'/delete',{id:record.id}).then( res => {
+            if( res.data.ok ){
+              notify.success({
+                title: 'លុបមាត្រា' ,
+                description: 'លុបបានរួចរាល់។' ,
+                duration: 3000
+              })
+              getRecords()
+            }else{
+              notify.success({
+                title: 'លុបមាត្រា' ,
+                description: 'មានបញ្ហាក្នុងពេលលុបមាត្រា។' ,
+                duration: 3000
+              })
+            }
+        }).catch( err => {
+          message.error( err )
+        })
+        },
+        onNegativeClick: () => {
+        }
+      })
+    }
+
+    /**
+     * Load pivot data of this model
+     */
+    const books = ref([])
+    const selectedBook = ref(null)
+    const bookSelectLoading = ref(false)
+    const regulatorTimeoutHelper = ref(null)
+    
+    function bookChange(val){
+      kunties.value = []
+      selectedKunty.value = null
+      matikas.value = []
+      selectedMatika.value = null
+      chapters.value = [] 
+      selectedChapter.value = null
+      parts.value = [] 
+      selectedPart.value = null
+      sections.value = [] 
+      selectedSection.value = null
+      if( !(val > 0) ) return ;
+      bookId.value = val
+      getRecords()
+      store.dispatch('book/kunty',{id : val }).then( res =>{
+        /**
+         * Apply the kunty, matika to the dropdownlist
+         */
+        if( res.data.ok ){
+          if( Array.isArray( res.data.records ) && res.data.records.length > 0 ){
+            kunties.value = res.data.records.map( record => { return { label: record.number + "៖ " + record.title , value: record.id } } )
+          }else{
+            store.dispatch('kunty/matika',{id:val}).then(res => {
+              if( Array.isArray( res.data.records ) && res.data.records.length > 0 ){
+                matikas.value = res.data.records.map( record => { return { label: record.number + "៖ " + record.title , value: record.id } } )
+              }
+            }).catch( err => {
+              console.log( err )
+              notify.error({
+                title: "អានមាតិកានៃគន្ថី" ,
+                description: "មានបញ្ហាពេលអានមាតិកានៃគន្ថី" ,
+                duration: 3000
+              })
+            })
+          }
+        }else{
+          /** 
+           * Try to retrive matikas in case the book does not has kunty
+           */
+           store.dispatch('book/matika',{id:val}).then(res => {
+              if( Array.isArray( res.data.records ) && res.data.records.length > 0 ){
+                matikas.value = res.data.records.map( record => { return { label: record.number + "៖ " + record.title , value: record.id } } )
+              }
+            }).catch( err => {
+              console.log( err )
+              notify.error({
+                title: "អានមាតិកានៃគន្ថី" ,
+                description: "មានបញ្ហាពេលអានមាតិកានៃគន្ថី" ,
+                duration: 3000
+              })
+            })
+        }
+      }).catch( err => {
+        console.log( err )
+        notify.info({
+          title: "អានគន្ថី" ,
+          description: "មានបញ្ហាពេលអានគន្ថី។" ,
+          duration: 3000
+        })
+      })
+
+      /** Code of getting full sttucture of regulator */
+      // if( res.data.structure !== null && Array.isArray( res.data.structure ) && res.data.structure.length ){
+      //       /**
+      //        * Get kunty
+      //        */
+      //       if( res.data.structure[0].type == 'kunty' ){
+      //         kunties.value = res.data.structure.map( kunty => { 
+      //           /**
+      //            * Get matika
+      //            */
+      //           // if( Array.isArray( kunty.children ) && kunty.children.length ){
+      //           //   matikas.value = kunty.children.map( matika => {
+      //           //     /**
+      //           //      * Get chapter
+      //           //      */
+      //           //     if( Array.isArray( matika.children ) && matika.children.length ){
+      //           //       chapters.value = matika.children.map( chapter => {
+      //           //         /**
+      //           //          * Get part
+      //           //          */
+      //           //         if( Array.isArray( chapter.children ) && chapter.children.length ){
+      //           //           parts.value = chapter.children.map( part => {
+      //           //             /**
+      //           //              * Get section
+      //           //              */
+      //           //             if( Array.isArray( part.children ) && part.children.length ){
+      //           //               sections.value = part.children.map( section => {
+      //           //                 return { label: section.title , value: section.id }     
+      //           //               })
+      //           //             }
+      //           //             return { label: part.title , value: part.id }     
+      //           //           })
+      //           //         }
+      //           //         return { label: chapter.title , value: chapter.id }     
+      //           //       })
+      //           //     }
+      //           //     return { label: matika.title , value: matika.id }     
+      //           //   })
+      //           // }
+      //           return { label: kunty.title , value: kunty.id } 
+      //         })
+      //         console.log( kunties.value != undefined && kunties.value.length > 0 )
+      //       }else if( res.data.structure[0].type == 'matika' ){
+      //         kunties.value = []
+      //         /**
+      //          * Get matika
+      //          */
+      //         if( Array.isArray( kunty.children ) && kunty.children.length ){
+      //           matikas.value = kunty.children.map( matika => {
+      //             // /**
+      //             //  * Get chapter
+      //             //  */
+      //             // if( Array.isArray( matika.children ) && matika.children.length ){
+      //             //   chapters.value = matika.children.map( chapter => {
+      //             //     /**
+      //             //      * Get part
+      //             //      */
+      //             //     if( Array.isArray( chapter.children ) && chapter.children.length ){
+      //             //       parts.value = chapter.children.map( part => {
+      //             //         /**
+      //             //          * Get section
+      //             //          */
+      //             //         if( Array.isArray( part.children ) && part.children.length ){
+      //             //           sections.value = part.children.map( section => {
+      //             //             return { label: section.title , value: section.id }     
+      //             //           })
+      //             //         }
+      //             //         return { label: part.title , value: part.id }     
+      //             //       })
+      //             //     }
+      //             //     return { label: chapter.title , value: chapter.id }     
+      //             //   })
+      //             // }
+      //             return { label: matika.title , value: matika.id }     
+      //           })
+      //         }
+      //       }
+      //     }
+
+    }
+
+    function handleSearchBook(query){
+      clearTimeout( regulatorTimeoutHelper.value )
+      regulatorTimeoutHelper.value = setTimeout( () => {
+        if (!query.length) {
+          books.value = [];
+          return;
+        }
+        getBooks(query)
+      }, 1000 )
+    }
+
+    function getBooks(query){
+      books.value = []
+      bookSelectLoading.value = true 
+      store.dispatch('book/compact',{
+        page: 1 ,
+        perPage : 100 ,
+        search : query == undefined || query == "" ? "" : query
+      }).then(res=>{
+        if(res.data.ok){
+          store.commit('book/setRecords',res.data.records)
+          store.commit('book/setRecord',res.data.records.find( book => book.id == bookId.value ) )
+          books.value = res.data.records.map( 
+            record => { 
+              return {
+                label: record.title , 
+                value: record.id
+              } 
+            } 
+          )
+          selectedBook.value = []
+        }else{
+          notify.error({
+            title: 'អានលិខិតបទដ្ឋានគតិយុត្ត' ,
+            description: 'មានបញ្ហាក្នុងពេលអានលិខិតបទដ្ឋានគតិយុត្ត។'
+          })
+        }
+      }).catch(err =>{
+        notify.error({
+          title: 'អានលិខិតបទដ្ឋានគតិយុត្ត' ,
+          description: 'មានបញ្ហាក្នុងពេលអានលិខិតបទដ្ឋានគតិយុត្ត។'
+        })
+        console.log( err )
+      })
+      bookSelectLoading.value = false
+    }
+    
+    const regulatorTitle = computed( () => {
+      return store.getters['book/getRecord'] !== null && store.getters['book/getRecord'] !== undefined && store.getters['book/getRecord'].id > 0 ? store.getters['book/getRecord'].title : ''
+    })
+
+    /**
+     * Load pivot data of this model
+     */
+    const kunties = ref([])
+    const toggleKunty = computed( () => {
+      return kunties.value != undefined && kunties.value.length > 0
+    })
+    const selectedKunty = ref(null)
+    const kuntySelectLoading = ref(false)
+    
+    function kuntyChange(val){
+      matikas.value = []
+      selectedMatika.value = null
+      chapters.value = [] 
+      selectedChapter.value = null
+      parts.value = [] 
+      selectedPart.value = null
+      sections.value = [] 
+      selectedSection.value = null
+      getRecords()
+      if( !(val > 0) ) return ;
+      store.dispatch('kunty/matika',{id : val }).then( res =>{
+        /**
+         * Apply the kunty, matika to the dropdownlist
+         */
+        if( res.data.ok ){
+          if( Array.isArray( res.data.records ) && res.data.records.length > 0 ){
+            matikas.value = res.data.records.map( record => { return { label: record.number + "៖ " + record.title , value: record.id } } )
+          }else{
+            store.dispatch('kunty/chapter',{id:val}).then(res => {
+              if( Array.isArray( res.data.records ) && res.data.records.length > 0 ){
+                chapters.value = res.data.records.map( record => { return { label: record.number + "៖ " + record.title , value: record.id } } )
+              }
+            }).catch( err => {
+              console.log( err )
+              notify.error({
+                title: "អានជំពូកនៃមាតិកា" ,
+                description: "មានបញ្ហាពេលអានជំពូកនៃមាតិកា" ,
+                duration: 3000
+              })
+            })
+          }
+        }
+      }).catch( err => {
+        console.log( err )
+        notify.error({
+          title: "អានមាតិកា" ,
+          description: "មានបញ្ហាពេលអានមាតិកា" ,
+          duration: 3000
+        })
+      })
+    }
+
+    function handleSearchKunty(query){
+      if (!query.length) {
+        kunties.value = [];
+        return;
+      }
+      getKunties(query)
+    }
+
+    function getKunties(query){
+      kunties.value = []
+      kuntySelectLoading.value = true 
+      store.dispatch('kunty/compact',{
+        page: 1 ,
+        perPage : 100 ,
+        search : query ,
+        book_id: selectedBook.value
+      }).then(res=>{
+        if(res.data.ok){
+          store.commit('kunty/setRecords',res.data.records)
+          kunties.value = res.data.records.map( 
+            record => { 
+              return {
+                label: record.title , 
+                value: record.id
+              } 
+            } 
+          )
+          selectedKunty.value = []
+        }else{
+          notify.error({
+            title: 'អានគន្ថី' ,
+            description: 'មានបញ្ហាក្នុងពេលអានគន្ថី។'
+          })
+        }
+      }).catch(err =>{
+        notify.error({
+          title: 'អានគន្ថី' ,
+          description: 'មានបញ្ហាក្នុងពេលអានគន្ថី។'
+        })
+        console.log( err )
+      })
+      kuntySelectLoading.value = false
+    }
+
+    /**
+     * Load pivot data of this model
+     */
+    const matikas = ref([])
+    const toggleMatika = computed( () => {
+      return matikas.value != undefined && matikas.value.length > 0
+    })
+    const selectedMatika = ref(null)
+    const matikaSelectLoading = ref(false)
+
+    function matikaChange(val){
+      chapters.value = [] 
+      selectedChapter.value = null
+      parts.value = [] 
+      selectedPart.value = null
+      sections.value = [] 
+      selectedSection.value = null
+      getRecords()
+      if( !(val > 0) ) return ;
+      store.dispatch('matika/chapter',{id : val }).then( res =>{
+        /**
+         * Apply the kunty, matika to the dropdownlist
+         */
+        if( res.data.ok ){
+          if( Array.isArray( res.data.records ) && res.data.records.length > 0 ){
+            chapters.value = res.data.records.map( record => { return { label: record.number + "៖ " + record.title , value: record.id } } )
+          }
+        }
+      }).catch( err => {
+        console.log( err )
+        notify.error({
+          title: "អានជំពូក" ,
+          description: "មានបញ្ហាពេលអានជំពូក" ,
+          duration: 3000
+        })
+      })
+    }
+    
+    function handleSearchMatika(query){
+      if (!query.length) {
+        matikas.value = [];
+        return;
+      }
+      getMatikas(query)
+    }
+
+    function getMatikas(query){
+      matikas.value = []
+      matikaSelectLoading.value = true 
+      store.dispatch('matika/compact',{
+        page: 1 ,
+        perPage : 100 ,
+        search : query ,
+        book_id: selectedBook.value ,
+        kunty_id: selectedKunty.value
+      }).then(res=>{
+        if(res.data.ok){
+          store.commit('matika/setRecords',res.data.records)
+          matikas.value = res.data.records.map( 
+            record => { 
+              return {
+                label: record.title , 
+                value: record.id
+              } 
+            } 
+          )
+          selectedMatika.value = []
+        }else{
+          notify.error({
+            title: 'អានមាតិកា' ,
+            description: 'មានបញ្ហាក្នុងពេលអានមាតិកា។'
+          })
+        }
+      }).catch(err =>{
+        notify.error({
+            title: 'អានមាតិកា' ,
+            description: 'មានបញ្ហាក្នុងពេលអានមាតិកា។'
+          })
+        console.log( err )
+      })
+      matikaSelectLoading.value = false
+    }
+
+    /**
+     * Load pivot data of this model
+     */
+    const chapters = ref([])
+    const toggleChapter = computed( () => {
+      return chapters.value != undefined && chapters.value.length > 0
+    })
+    const selectedChapter = ref(null)
+    const chapterSelectLoading = ref(false)
+
+    function chapterChange(val){
+      parts.value = [] 
+      selectedPart.value = null
+      sections.value = [] 
+      selectedSection.value = null
+      getRecords()
+      if( !(val > 0) ) return ;
+      store.dispatch('chapter/part',{id : val }).then( res =>{
+        /**
+         * Apply the kunty, matika to the dropdownlist
+         */
+        if( res.data.ok ){
+          if( Array.isArray( res.data.records ) && res.data.records.length > 0 ){
+            parts.value = res.data.records.map( record => { return { label: record.number + "៖ " + record.title , value: record.id } } )
+          }
+        }
+      }).catch( err => {
+        console.log( err )
+        notify.error({
+          title: "អានផ្នែក" ,
+          description: "មានបញ្ហាពេលអានផ្នែក" ,
+          duration: 3000
+        })
+      })
+    }
+    
+    function handleSearchChapter(query){
+      if (!query.length) {
+        chapters.value = [];
+        return;
+      }
+    }
+
+    function getChapters(query){
+      chapters.value = []
+      chapterSelectLoading.value = true 
+      store.dispatch('chapter/compact',{
+        page: 1 ,
+        perPage : 100 ,
+        search : query ,
+        book_id: selectedBook.value ,
+        kunty_id: selectedKunty.value ,
+        matika_id: selectedMatika.value
+      }).then(res=>{
+        if(res.data.ok){
+          store.commit('chapter/setRecords',res.data.records)
+          chapters.value = res.data.records.map( 
+            record => { 
+              return {
+                label: record.title , 
+                value: record.id
+              } 
+            } 
+          )
+          selectedChapter.value = []
+        }else{
+          notify.error({
+            title: 'អានជំពូក' ,
+            description: 'មានបញ្ហាក្នុងពេលអានជំពូក។'
+          })
+        }
+      }).catch(err =>{
+        notify.error({
+            title: 'អានជំពូក' ,
+            description: 'មានបញ្ហាក្នុងពេលអានជំពូក។'
+          })
+        console.log( err )
+      })
+      chapterSelectLoading.value = false
+    }
+
+    /**
+     * Load pivot data of this model
+     */
+    const parts = ref([])
+    const selectedPart = ref(null)
+    const togglePart = computed( () => {
+      return parts.value != undefined && parts.value.length > 0
+    })
+    const partSelectLoading = ref(false)
+    
+    function partChange(val){
+      sections.value = [] 
+      selectedSection.value = null
+      getRecords()
+      if( !(val > 0) ) return ;
+      store.dispatch('part/section',{id : val }).then( res =>{
+        /**
+         * Apply the kunty, matika to the dropdownlist
+         */
+        if( res.data.ok ){
+          if( Array.isArray( res.data.records ) && res.data.records.length > 0 ){
+            sections.value = res.data.records.map( record => { return { label: record.number + "៖ " + record.title , value: record.id } } )
+          }
+        }
+      }).catch( err => {
+        console.log( err )
+        notify.error({
+          title: "អានកថាភាគ" ,
+          description: "មានបញ្ហាពេលអានកថាភាគ។" ,
+          duration: 3000
+        })
+      })
+    }
+
+    function handleSearchPart(query){
+      if (!query.length) {
+        parts.value = [];
+        return;
+      }
+      getParts(query)
+    }
+
+    function getParts(query){
+      parts.value = []
+      partSelectLoading.value = true 
+      store.dispatch('part/compact',{
+        page: 1 ,
+        perPage : 100 ,
+        search : query ,
+        book_id: selectedBook.value ,
+        kunty_id: selectedKunty.value ,
+        matika_id: selectedMatika.value ,
+        chapter_id: selectedChapter.value
+      }).then(res=>{
+        if(res.data.ok){
+          store.commit('part/setRecords',res.data.records)
+          parts.value = res.data.records.map( 
+            record => { 
+              return {
+                label: record.title , 
+                value: record.id
+              } 
+            } 
+          )
+          selectedPart.value = []
+        }else{
+          notify.error({
+            title: 'អានផ្នែក' ,
+            description: 'មានបញ្ហាក្នុងពេលអានផ្នែក។'
+          })
+        }
+      }).catch(err =>{
+        notify.error({
+            title: 'អានផ្នែក' ,
+            description: 'មានបញ្ហាក្នុងពេលអានផ្នែក។'
+          })
+        console.log( err )
+      })
+      partSelectLoading.value = false
+    }
+
+    /**
+     * Load pivot data of this model
+     */
+    const sections = ref([])
+    const selectedSection = ref(null)
+    const toggleSection = computed( () => {
+      return sections.value != undefined && sections.value.length > 0
+    })
+    const sectionSelectLoading = ref(false)
+    
+    function handleSearchSection(query){
+      if (!query.length) {
+        sections.value = [];
+        return;
+      }
+      getSections(query)
+    }
+
+    function getSections(query){
+      sections.value = []
+      sectionSelectLoading.value = true 
+      store.dispatch('section/compact',{
+        page: 1 ,
+        perPage : 100 ,
+        search : query ,
+        book_id: selectedBook.value ,
+        kunty_id: selectedKunty.value ,
+        matika_id: selectedMatika.value ,
+        chapter_id: selectedChapter.value ,
+        part_id: selectedPart.value
+      }).then(res=>{
+        if(res.data.ok){
+          store.commit('section/setRecords',res.data.records)
+          sections.value = res.data.records.map( 
+            record => { 
+              return {
+                label: record.title , 
+                value: record.id
+              } 
+            } 
+          )
+          selectedSection.value = []
+        }else{
+          notify.error({
+            title: 'អានកថាភាគ' ,
+            description: 'មានបញ្ហាក្នុងពេលអានកថាភាគ។'
+          })
+        }
+      }).catch(err =>{
+        notify.error({
+            title: 'អានកថាភាគ' ,
+            description: 'មានបញ្ហាក្នុងពេលអានកថាភាគ។'
+          })
+        console.log( err )
+      })
+      sectionSelectLoading.value = false
+    }
+
+    /**
+     * Mark the matched text with in search box
+     */
+     function applyTagMark(str){
+      // Split the string by whitespace
+      if( table.search.trim() != "" ){
+        var arrStrSearch = table.search.split(/(\s+)/).filter( e => e.trim().length > 0).map( e => e.replaceAll(" ","") )
+        for( var i in arrStrSearch ){
+          if( str.includes( arrStrSearch[i] ) ) str = str.replaceAll( arrStrSearch[i] , '<mark>' + arrStrSearch[i] + '</mark>' ) 
+        }
+      }
+      return str
+    }
+
+    /**
+     * Redirect to create page
+     */
+    function goToCreateMatra(){
+      router.push('/book/'+bookId.value+'/matra/create')
+    }
+    function goToCreateSection(){
+      router.push('/book/'+bookId.value+'/matra/createSection')
+    }
+    function goToCreatePart(){
+      router.push('/book/'+bookId.value+'/matra/createPart')
+    }
+    function goToCreateChapter(){
+      router.push('/book/'+bookId.value+'/matra/createChapter')
+    }
+    function goToCreateMatika(){
+      router.push('/book/'+bookId.value+'/matra/createMatika')
+    }
+    function goToCreateKunty(){
+      router.push('/book/'+bookId.value+'/matra/createKunty')
+    }
+
+    /**
+     * Initial the data
+     */
+    getBooks()
+    bookChange( bookId.value )
+
+
+    return {
+      /**
+       * Variables
+       */
+      bookId, 
+      model ,
+      table ,
+      filterPanel ,
+      regulatorTitle ,
+      /**
+       * Book, Kunty, Matika, Chapter, Part, Section filter
+       */
+      books ,
+      selectedBook ,
+      bookSelectLoading ,
+      bookChange ,
+
+      kunties ,
+      toggleKunty ,
+      selectedKunty ,
+      kuntySelectLoading ,
+      kuntyChange ,
+
+      matikas ,
+      toggleMatika ,
+      selectedMatika ,
+      matikaSelectLoading ,
+      matikaChange ,
+
+      chapters ,
+      toggleChapter ,
+      selectedChapter ,
+      chapterSelectLoading ,
+      chapterChange ,
+
+      parts ,
+      togglePart ,
+      selectedPart ,
+      partSelectLoading ,
+      partChange ,
+
+      sections ,
+      toggleSection ,
+      selectedSection ,
+      sectionSelectLoading ,
+      /**
+       * Table
+       */
+      filterRecords ,
+      getBooks ,
+      handleSearchRegulator ,
+      
+      getKunties ,
+      handleSearchKunty ,
+
+      getMatikas ,
+      handleSearchMatika ,
+
+      getChapters ,
+      handleSearchChapter ,
+
+      getParts ,
+      handleSearchPart ,
+
+      getSections ,
+      handleSearchSection ,
+      /**
+       * Pagination functions
+       */
+      updatePerpage ,
+      goTo ,
+      previous ,
+      next ,
+      first ,
+      last ,
+      paginationButtons ,
+      /**
+       * Loading overlay
+       */
+      closeTableLoading ,
+      /**
+       * Creating
+       */
+      createModal ,
+      showCreateModal ,
+      closeCreateModal ,     
+      /**
+       * Editing
+       */
+      editModal ,
+      showEditModal ,
+      closeEditModal , 
+      editRecord ,
+      /**
+       * Functions
+       */
+      activateRecord ,
+      destroy ,
+      applyTagMark ,
+      goToCreateMatra ,
+      goToCreateSection ,
+      goToCreatePart ,
+      goToCreateChapter ,
+      goToCreateMatika ,
+      goToCreateKunty
+    }
+  }
+}
+
+</script>
+
+<style scoped>
+  .vcb-table-panel {
+    @apply absolute right-4 left-4 mt-4 mb-16 top-12 bottom-0 overflow-auto;
+  }
+  .vcb-table {
+    @apply w-full ;
+  }
+  .vcb-table tr.vcb-table-row {
+    @apply border-b border-gray-100 text-left ;
+  }
+  .vcb-table tr.vcb-table-row td {
+    @apply p-2;
+  }
+  .vcb-table-actions-panel {
+    @apply flex flex-row-reverse ;
+  }
+  .vcb-table-actions-panel .vcb-action-button {
+    @apply  rounded-full border border-gray-200 w-8 h-8 mx-2 text-center cursor-pointer hover:border-blue-500 hover:text-blue-500  duration-300;
+  }
+  .vcb-table-headers {
+    @apply border-b border-gray-200;
+  }
+  .vcb-table-headers .vcb-table-header {
+    @apply px-2 py-4 text-left ;
+  }
+  .vcb-table-pagination {
+    @apply flex flex-row absolute bg-white right-0 bottom-0 border border-l p-3 ;
+  }
+  .vcb-pagination-page {
+    @apply  rounded-full border border-gray-200 mx-1 leading-7 w-8 h-8 font-bold cursor-pointer hover:text-blue-500 hover:border-blue-500 duration-300;
+  }
+  .vcb-filter-panel {
+    @apply flex flex-row fixed bg-white right-0 bottom-0 left-0 border border-l p-3 ;
+  }
+  .vcb-table-cell {
+    @apply leading-6 align-text-top;
+  }
+</style>
