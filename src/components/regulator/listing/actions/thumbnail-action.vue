@@ -3,12 +3,12 @@
     <Transition name="slide-fade" >
       <div v-if="show" class="panel" >
 
-        <n-tooltip trigger="hover">
+        <!-- <n-tooltip trigger="hover">
           <template #trigger>
-            <!-- <svg class="action text-blue-500" @click="showDetailModal(record)" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 28 28"><g fill="none"><path d="M15 11.75a.75.75 0 0 1 .75-.75h5.5a.75.75 0 0 1 0 1.5h-5.5a.75.75 0 0 1-.75-.75zm.75 3.25a.75.75 0 0 0 0 1.5h5.5a.75.75 0 0 0 0-1.5h-5.5zm-4.5-3.25a1.75 1.75 0 1 1-3.5 0a1.75 1.75 0 0 1 3.5 0zM7 14.5h5a1 1 0 0 1 1 1v.5s-.5 2.5-3.5 2.5S6 16 6 16v-.5a1 1 0 0 1 1-1zM2.004 6.75A2.75 2.75 0 0 1 4.754 4H23.25A2.75 2.75 0 0 1 26 6.75v14.5A2.75 2.75 0 0 1 23.25 24H4.755a2.75 2.75 0 0 1-2.75-2.75V6.75zm2.75-1.25c-.69 0-1.25.56-1.25 1.25v14.5c0 .69.56 1.25 1.25 1.25H23.25c.69 0 1.25-.56 1.25-1.25V6.75c0-.69-.56-1.25-1.25-1.25H4.755z" fill="currentColor"></path></g></svg> -->
+            <svg class="action text-blue-500" @click="showDetailModal(record)" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 28 28"><g fill="none"><path d="M15 11.75a.75.75 0 0 1 .75-.75h5.5a.75.75 0 0 1 0 1.5h-5.5a.75.75 0 0 1-.75-.75zm.75 3.25a.75.75 0 0 0 0 1.5h5.5a.75.75 0 0 0 0-1.5h-5.5zm-4.5-3.25a1.75 1.75 0 1 1-3.5 0a1.75 1.75 0 0 1 3.5 0zM7 14.5h5a1 1 0 0 1 1 1v.5s-.5 2.5-3.5 2.5S6 16 6 16v-.5a1 1 0 0 1 1-1zM2.004 6.75A2.75 2.75 0 0 1 4.754 4H23.25A2.75 2.75 0 0 1 26 6.75v14.5A2.75 2.75 0 0 1 23.25 24H4.755a2.75 2.75 0 0 1-2.75-2.75V6.75zm2.75-1.25c-.69 0-1.25.56-1.25 1.25v14.5c0 .69.56 1.25 1.25 1.25H23.25c.69 0 1.25-.56 1.25-1.25V6.75c0-.69-.56-1.25-1.25-1.25H4.755z" fill="currentColor"></path></g></svg>
             <svg class="action text-blue-500" @click="showShareRegulatorModal(record)" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 20 20"><g fill="none"><path d="M2 3.5A1.5 1.5 0 0 1 3.5 2h1A1.5 1.5 0 0 1 6 3.5v1A1.5 1.5 0 0 1 4.5 6h-1A1.5 1.5 0 0 1 2 4.5v-1zM3.5 3a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1zM2 9.5A1.5 1.5 0 0 1 3.5 8h1A1.5 1.5 0 0 1 6 9.5v1A1.5 1.5 0 0 1 4.5 12h-1A1.5 1.5 0 0 1 2 10.5v-1zM3.5 9a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1zM2 15.5A1.5 1.5 0 0 1 3.5 14h1A1.5 1.5 0 0 1 6 15.5v1A1.5 1.5 0 0 1 4.5 18h-1A1.5 1.5 0 0 1 2 16.5v-1zm1.5-.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1zM8 4.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0 6a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0 6a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5z" fill="currentColor"></path></g></svg>
-          </template>ព័ត៌មានលម្អិត
-        </n-tooltip>
+          </template>ចែករំលែកឯកសារ
+        </n-tooltip> -->
 
         <n-tooltip trigger="hover">
           <template #trigger>
@@ -19,7 +19,7 @@
         <n-tooltip trigger="hover">
           <template #trigger>
             <svg 
-            :class="'action text-gray-300 ' + ( parseInt( record.publish ) > 0 ? ' text-green-500 ' : ' text-gray-500 ') " @click="publishRegulator(record)" version="1.1" 
+            :class="'action text-gray-300 ' + ( parseInt( record.publish ) > 0 ? ' text-green-600 ' : ' text-gray-500 ') " @click="publishRegulator(record)" version="1.1" 
             xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24"><g fill="none"><path d="M13 9.125v1.625h.75a.625.625 0 1 1 0 1.25H12.5a.615.615 0 0 1-.063-.003a.625.625 0 0 1-.688-.622v-2.25a.625.625 0 1 1 1.251 0zm-.625-3.12a4.75 4.75 0 1 0 0 9.5a4.75 4.75 0 0 0 0-9.5zm-3.5 4.75a3.5 3.5 0 1 1 7 0a3.5 3.5 0 0 1-7 0zM6.5 2A2.5 2.5 0 0 0 4 4.5v15A2.5 2.5 0 0 0 6.5 22h13.25a.75.75 0 0 0 0-1.5H6.5a1 1 0 0 1-1-1h14.25a.75.75 0 0 0 .75-.75V4.5A2.5 2.5 0 0 0 18 2H6.5zM19 18H5.5V4.5a1 1 0 0 1 1-1H18a1 1 0 0 1 1 1V18z" fill="currentColor"></path></g></svg>
           </template>{{ parseInt( record.publish ) > 0  ? 'ឯកសារកំពុងចេញផ្សាយ' : 'ឯកសារនេះកំពុងត្រូវបានបិទផ្សាយ' }}
         </n-tooltip>
@@ -27,7 +27,7 @@
         <n-tooltip trigger="hover">
           <template #trigger>
             <svg 
-            :class="'action text-gray-300 ' + ( parseInt( record.active ) > 0 ? ' text-green-500 ' : ' text-gray-500 ') " @click="activateRegulator(record)" version="1.1" 
+            :class="'action text-gray-300 ' + ( parseInt( record.active ) > 0 ? ' text-green-600 ' : ' text-gray-500 ') " @click="activateRegulator(record)" version="1.1" 
             xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1024 1024"><path d="M699 353h-46.9c-10.2 0-19.9 4.9-25.9 13.3L469 584.3l-71.2-98.8c-6-8.3-15.6-13.3-25.9-13.3H325c-6.5 0-10.3 7.4-6.5 12.7l124.6 172.8a31.8 31.8 0 0 0 51.7 0l210.6-292c3.9-5.3.1-12.7-6.4-12.7z" fill="currentColor"></path><path d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448s448-200.6 448-448S759.4 64 512 64zm0 820c-205.4 0-372-166.6-372-372s166.6-372 372-372s372 166.6 372 372s-166.6 372-372 372z" fill="currentColor"></path></svg>
           </template>{{ parseInt( record.active ) > 0  ? 'ឯកសារនេះកំពុងបើកតំណើរការ' : 'ឯកសារនេះកំពុងត្រូវបានបិទមិនអាចប្រើប្រាស់បាន' }}
         </n-tooltip>
@@ -66,15 +66,33 @@
 
       </div>
     </Transition>
-    <n-tooltip v-if="record.pdf==true" trigger="hover">
-      <template #trigger>
-        <div class="action-pdf" >
-          <svg class="text-red-600 mr-2" 
-          @click="showPdfPreviewModal(record)" 
-          xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 384 512"><path d="M369.9 97.9L286 14C277 5 264.8-.1 252.1-.1H48C21.5 0 0 21.5 0 48v416c0 26.5 21.5 48 48 48h288c26.5 0 48-21.5 48-48V131.9c0-12.7-5.1-25-14.1-34zM332.1 128H256V51.9l76.1 76.1zM48 464V48h160v104c0 13.3 10.7 24 24 24h104v288H48zm250.2-143.7c-12.2-12-47-8.7-64.4-6.5c-17.2-10.5-28.7-25-36.8-46.3c3.9-16.1 10.1-40.6 5.4-56c-4.2-26.2-37.8-23.6-42.6-5.9c-4.4 16.1-.4 38.5 7 67.1c-10 23.9-24.9 56-35.4 74.4c-20 10.3-47 26.2-51 46.2c-3.3 15.8 26 55.2 76.1-31.2c22.4-7.4 46.8-16.5 68.4-20.1c18.9 10.2 41 17 55.8 17c25.5 0 28-28.2 17.5-38.7zm-198.1 77.8c5.1-13.7 24.5-29.5 30.4-35c-19 30.3-30.4 35.7-30.4 35zm81.6-190.6c7.4 0 6.7 32.1 1.8 40.8c-4.4-13.9-4.3-40.8-1.8-40.8zm-24.4 136.6c9.7-16.9 18-37 24.7-54.7c8.3 15.1 18.9 27.2 30.1 35.5c-20.8 4.3-38.9 13.1-54.8 19.2zm131.6-5s-5 6-37.3-7.8c35.1-2.6 40.9 5.4 37.3 7.8z" fill="currentColor"></path></svg>
-        </div>
-      </template>មើលឯកសារយោង
-    </n-tooltip>
+    <div class="action-status flex flex-wrap" >
+      <n-tooltip v-if="record.publish==true" trigger="hover">
+        <template #trigger>
+          <div class="action-publish w-6 h-6" >
+            <svg class="text-green-600 mr-2" 
+            xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24"><g fill="none"><path d="M13 9.125v1.625h.75a.625.625 0 1 1 0 1.25H12.5a.615.615 0 0 1-.063-.003a.625.625 0 0 1-.688-.622v-2.25a.625.625 0 1 1 1.251 0zm-.625-3.12a4.75 4.75 0 1 0 0 9.5a4.75 4.75 0 0 0 0-9.5zm-3.5 4.75a3.5 3.5 0 1 1 7 0a3.5 3.5 0 0 1-7 0zM6.5 2A2.5 2.5 0 0 0 4 4.5v15A2.5 2.5 0 0 0 6.5 22h13.25a.75.75 0 0 0 0-1.5H6.5a1 1 0 0 1-1-1h14.25a.75.75 0 0 0 .75-.75V4.5A2.5 2.5 0 0 0 18 2H6.5zM19 18H5.5V4.5a1 1 0 0 1 1-1H18a1 1 0 0 1 1 1V18z" fill="currentColor"></path></g></svg>
+          </div>
+        </template>ឯកសារបានបោះផ្សាយប្រើប្រាស់
+      </n-tooltip>
+      <n-tooltip v-if="record.active==true" trigger="hover">
+        <template #trigger>
+          <div class="action-active w-6 h-6" >
+            <svg class="text-green-600 mr-2" 
+            xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1024 1024"><path d="M699 353h-46.9c-10.2 0-19.9 4.9-25.9 13.3L469 584.3l-71.2-98.8c-6-8.3-15.6-13.3-25.9-13.3H325c-6.5 0-10.3 7.4-6.5 12.7l124.6 172.8a31.8 31.8 0 0 0 51.7 0l210.6-292c3.9-5.3.1-12.7-6.4-12.7z" fill="currentColor"></path><path d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448s448-200.6 448-448S759.4 64 512 64zm0 820c-205.4 0-372-166.6-372-372s166.6-372 372-372s372 166.6 372 372s-166.6 372-372 372z" fill="currentColor"></path></svg>
+          </div>
+        </template>ឯកសារបានបើកប្រើប្រាស់
+      </n-tooltip>
+      <n-tooltip v-if="record.pdf==true" trigger="hover">
+        <template #trigger>
+          <div class="action-pdf w-5 h-5" >
+            <svg class="text-red-600 mr-2" 
+            @click="showPdfPreviewModal(record)" 
+            xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 384 512"><path d="M369.9 97.9L286 14C277 5 264.8-.1 252.1-.1H48C21.5 0 0 21.5 0 48v416c0 26.5 21.5 48 48 48h288c26.5 0 48-21.5 48-48V131.9c0-12.7-5.1-25-14.1-34zM332.1 128H256V51.9l76.1 76.1zM48 464V48h160v104c0 13.3 10.7 24 24 24h104v288H48zm250.2-143.7c-12.2-12-47-8.7-64.4-6.5c-17.2-10.5-28.7-25-36.8-46.3c3.9-16.1 10.1-40.6 5.4-56c-4.2-26.2-37.8-23.6-42.6-5.9c-4.4 16.1-.4 38.5 7 67.1c-10 23.9-24.9 56-35.4 74.4c-20 10.3-47 26.2-51 46.2c-3.3 15.8 26 55.2 76.1-31.2c22.4-7.4 46.8-16.5 68.4-20.1c18.9 10.2 41 17 55.8 17c25.5 0 28-28.2 17.5-38.7zm-198.1 77.8c5.1-13.7 24.5-29.5 30.4-35c-19 30.3-30.4 35.7-30.4 35zm81.6-190.6c7.4 0 6.7 32.1 1.8 40.8c-4.4-13.9-4.3-40.8-1.8-40.8zm-24.4 136.6c9.7-16.9 18-37 24.7-54.7c8.3 15.1 18.9 27.2 30.1 35.5c-20.8 4.3-38.9 13.1-54.8 19.2zm131.6-5s-5 6-37.3-7.8c35.1-2.6 40.9 5.4 37.3 7.8z" fill="currentColor"></path></svg>
+          </div>
+        </template>មើលឯកសារយោង
+      </n-tooltip>
+    </div>
     <n-tooltip v-if="!show" trigger="hover">
       <template #trigger>
         <div class="action-toggle bg-gray-200 hover:bg-blue-500 duration-500 hover:text-gray-50" @click="toggleActions" >
@@ -110,38 +128,15 @@ import AccessibilityForm from './accessibility.vue'
 import PdfPreviewForm from './../../widgets/pdfpreview.vue'
 import QrcodeVue from 'qrcode.vue'
 import Vue3Barcode from 'vue3-barcode'
-
-import { Switcher, Filter, DataStructured , ParentChild} from '@vicons/carbon'
-import { Icon } from '@vicons/utils'
-import { IosCheckmarkCircleOutline, IosRefresh } from '@vicons/ionicons4'
-import { TrashOutline, CloseCircleOutline } from '@vicons/ionicons5'
-import { Edit20Regular, Key16Regular, Save20Regular, Add20Regular, Search20Regular , ContactCard28Regular, DocumentPdf24Regular, AppsList20Regular } from '@vicons/fluent'
 /**
  * CRUD component form
  */
 export default {
   name: "ThumbnailActions" ,
   components: {
-    ParentChild, 
     QrcodeVue ,
     Vue3Barcode,
-    Switcher,
-    Add20Regular ,
-    DataStructured,
-    Icon,
-    IosCheckmarkCircleOutline,
-    IosRefresh ,
-    CloseCircleOutline ,
     UpdateForm,
-    Search20Regular ,
-    Edit20Regular,
-    Key16Regular,
-    DocumentPdf24Regular ,
-    Save20Regular ,
-    TrashOutline ,
-    ContactCard28Regular ,
-    Filter ,
-    AppsList20Regular ,
     AddRemoveReaderForm  ,
     AccessibilityForm ,
     PdfPreviewForm
@@ -563,8 +558,8 @@ export default {
 .vcb-thumbnail .actions .action-toggle {
   @apply absolute top-1 right-1 w-6 h-6 p-1 rounded-full cursor-pointer ;
 }
-.vcb-thumbnail .actions .action-pdf {
-  @apply absolute top-1 right-8 w-6 h-6 rounded-full cursor-pointer ;
+.vcb-thumbnail .actions .action-status {
+  @apply absolute top-1 right-8 h-6 rounded-full cursor-pointer ;
 }
 .vcb-thumbnail .actions .panel {
   @apply bg-white bg-opacity-90 absolute w-full top-0 bottom-0 flex flex-wrap content-center justify-center p-4 ;

@@ -1,7 +1,7 @@
 <template>
   <!-- Form edit account -->
     <div class="vcb-pop-create font-ktr">
-      <n-modal v-model:show="show" :on-esc="maskOrEscClick" :on-mask-click="maskOrEscClick" :on-after-enter="initial" transform-origin="center">
+      <n-modal v-bind:show="show" :on-esc="maskOrEscClick" :on-mask-click="maskOrEscClick" :on-after-enter="initial" transform-origin="center">
         <n-card class="w-10/12 sm:w-3/4 md:w-8/12 lg:w-3/5 xl:w-7/12" :title="'កែប្រែ ' + model.title" :bordered="false" size="small">
           <template #header-extra>
             <n-button type="success" @click="update()" >
@@ -108,12 +108,11 @@
 import { reactive , ref , computed } from 'vue'
 import { useStore } from 'vuex'
 import { useMessage, useNotification } from 'naive-ui'
-import { Save20Regular } from '@vicons/fluent'
 import dateFormat from "dateformat";
 
 export default {
   components: {
-    Save20Regular
+    
   },
   props: {
     model: {

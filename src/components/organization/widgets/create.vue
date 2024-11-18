@@ -59,11 +59,12 @@
 import { reactive , computed , onMounted , ref } from 'vue'
 import { useStore } from 'vuex'
 import { useMessage, useNotification } from 'naive-ui'
-import { Save20Regular } from '@vicons/fluent'
 
 export default {
+  methods: {
+  },
   components: {
-    Save20Regular
+    
   },
   props: {
     model: {

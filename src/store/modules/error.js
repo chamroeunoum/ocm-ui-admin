@@ -24,7 +24,7 @@ const getters = {
 // actions
 const actions = {
   async list ({ state, commit, rootState },params) {
-    return await crud.list(rootState.apiServer+"/"+state.model.name + "?" + new URLSearchParams({
+    return await crud.list(import.meta.env.VITE_API_SERVER+"/"+state.model.name + "?" + new URLSearchParams({
         search: params.search ,
         perPage: params.perPage ,
         page: params.page
@@ -32,10 +32,10 @@ const actions = {
     )
   },
   async create ({ state, commit, rootState },params) {
-    return await crud.create(rootState.apiServer+"/"+state.model.name+"/create",params)
+    return await crud.create(import.meta.env.VITE_API_SERVER+"/"+state.model.name+"/create",params)
   },
   async update ({ state, commit, rootState },params) {
-    return await crud.update(rootState.apiServer+"/"+state.model.name+"/update",params)
+    return await crud.update(import.meta.env.VITE_API_SERVER+"/"+state.model.name+"/update",params)
   }
 }
 

@@ -1,3 +1,6 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 /**
  * Define fonts
  */
@@ -124,6 +127,16 @@ body * {
   font-size: 0.9rem;
 }
 
+.text-vcb-xs {
+  font-size: 0.6rem;
+}
+
+.text-vcb-xxs {
+  font-size: 0.55rem;
+}
+.text-vcb-xxxs {
+  font-size: 0.5rem;
+}
 /**
 Transition
 */
@@ -217,10 +230,10 @@ Table Pagination of VCB
   @apply flex flex-row bg-white right-1 bottom-1 left-1 border border-l z-40 justify-center px-4 py-3 mx-auto rounded-full h-14 ;
 }
 .vcb-pagination-page {
-  @apply rounded-full border border-gray-200 w-8 h-8 leading-8 mx-1 font-bold cursor-pointer text-center hover:text-blue-500 hover:border-blue-500 duration-300 transform hover:scale-110;
+  @apply rounded-full border border-gray-200 w-auto px-2 h-8 leading-8 mx-1 font-bold cursor-pointer text-center hover:text-blue-500 hover:border-blue-500 duration-300 transform hover:scale-110;
 }
 .vcb-pagination-page-active {
-  @apply rounded-full border border-blue-400 w-8 h-8 leading-8 mx-1 font-bold cursor-pointer text-center hover:text-blue-500 duration-300 text-blue-500 text-lg;
+  @apply rounded-full border border-blue-400 w-auto px-2 h-8 leading-8 mx-1 font-bold cursor-pointer text-center hover:text-blue-500 duration-300 text-blue-500 text-lg;
 }
 .vcb-filter-panel {
   @apply flex flex-row fixed bg-white right-0 bottom-0 left-0 border border-l p-3 ;
@@ -229,7 +242,8 @@ Table Pagination of VCB
   @apply leading-6 align-text-top;
 }
 .vcb-table-pagination-info {
-  @apply font-pvh text-blue-600 leading-9 px-2 h-8 ;
+  @apply font-pvh text-blue-600 leading-8 px-2 h-8;
+  line-height: 1.8rem;
 }
 
 /**

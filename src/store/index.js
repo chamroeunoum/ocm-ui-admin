@@ -3,6 +3,8 @@ import auth from './modules/authentication'
 import countesy from './modules/countesy'
 import user from './modules/user'
 import people from './modules/people'
+import officer from './modules/officer'
+import room from './modules/room'
 import folder from './modules/folder'
 import error from './modules/error'
 import role from './modules/role'
@@ -29,20 +31,8 @@ import matra from './modules/law/matra'
 const debug = process.env.NODE_ENV !== 'production'
 
 export default createStore({
-  // state: {
-  //   apiServer: 'https://edoc.onetechcambodia.com/api/admin' ,
-  //   organization: {
-  //     name: 'បច្ចេកវិទ្យាតែមួយនៃកម្ពុជា'
-  //   },
-  //   system: {
-  //     name: 'ផ្នែករដ្ឋបាលប្រព័ន្ធ'
-  //   },
-  //   company: {
-  //     name: 'បច្ចេកវិទ្យាតែមួយនៃកម្ពុជា'
-  //   }
-  // },
   state: {
-    apiServer: 'http://127.0.0.1:8000/api/admin' ,
+    // apiServer: 'http://127.0.0.1:8000/api/admin' ,
     // apiServer: 'https://apis.ocm.gov.kh/api/admin' ,
     organization: {
       name: 'អគ្គនាយកដ្ឋានសម្របសម្រួលកិច្ចការទូទៅ'
@@ -69,6 +59,8 @@ export default createStore({
     countesy ,
     user,
     people,
+    officer,
+    room ,
     folder ,
     role ,
     orgchart ,

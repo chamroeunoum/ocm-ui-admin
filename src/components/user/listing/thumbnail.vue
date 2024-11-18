@@ -11,12 +11,12 @@
       <div class="flex-grow action-buttons flex-row-reverse flex">
         <!-- New Button -->
         <div class="mt-1 ml-2 flex flex-wrap">
-          <n-tooltip trigger="hover">
+          <!-- <n-tooltip trigger="hover">
             <template #trigger>
               <svg class="w-8 h-8 cursor-pointer hover:text-green-500 duration-300" @click="showCreateModal()" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M9 12h6"></path><path d="M12 9v6"></path></g></svg>
             </template>
             បន្ថែមទិន្នន័យថ្មី
-          </n-tooltip>
+          </n-tooltip> -->
         </div>
         <div class="w-3/5 md:w-2/5 relative" >
           <n-tooltip trigger="hover">
@@ -49,16 +49,17 @@
               <div v-if="record.avatar_url == false || record.avatar_url == null || record.avatar_url == undefined " class="image bg-contain bg-center bg-no-repeat " :style=" 'background-image: url('+ocmLogoUrl+');' " ></div>
               <div class="flex flex-wrap " >
                 <div class="w-full py-2" >
-                  <div v-if="record.person != undefined && Array.isArray( record.person.countesies ) && record.person.countesies.length > 0" class="w-full text-center font-moul mr-2" >{{  record.person.countesies.map( o => o.name ).join( ' , ' )  }}</div>
-                  <div class="w-full text-center font-moul leading-6 tracking-wider" >{{ record.lastname + " " + record.firstname }}</div>
+                  <div v-if="record.officer.people != undefined && record.officer.people != null && ( record.officer.countesy != undefined && record.officer.countesy != null ) " class="w-full text-center font-moul mr-2" >{{  record.officer.countesy.name }}</div>
+                  <div class="w-full text-center font-moul leading-6 tracking-wider" >{{ record.officer.people.lastname + " " + record.officer.people.firstname }}</div>
+                  <div class="w-full text-center font-moul leading-6 tracking-wider" >{{ record.officer.people.enlastname + " " + record.officer.people.enfirstname }}</div>
                 </div>
-                <div v-if="record.person != undefined" class="w-full" >
-                  <div v-if="Array.isArray( record.person.positions ) && record.person.positions.length > 0 " class="w-full text-center text-xs my-1 text-gray-500 mr-2 leading-5 tracking-wider" >{{ record.person.positions.map( o => o.name ).join( ' , ' ) }}</div>
-                  <!-- <div v-if="Array.isArray( record.person.organizations ) && record.person.organizations.length > 0 " class="w-full text-center text-xs my-1 text-gray-500 leading-5 tracking-wide" >{{ record.person.organizations.map( o => o.name ).join( ' , ' ) }}</div> -->
+                <div v-if="record.officer.people != undefined" class="w-full" >
+                  <div v-if="record.officer.position != undefined && record.officer.position != null " class="w-full text-center text-xs my-1 text-gray-500 mr-2 leading-5 tracking-wider" >{{ record.officer.position.name }}</div>
+                  <div v-if="record.officer.organization != undefined && record.officer.organization != null " class="w-full text-center text-xs my-1 text-gray-500 leading-5 tracking-wide" >{{ record.officer.organization.name }}</div>
                   <div 
-                    v-if="Array.isArray( record.person.organization_people ) && record.person.organization_people.length > 0 " 
+                    v-if="record.officer.card != undefined && record.officer.card != null " 
                     class="w-full text-center text-xs my-1 text-gray-500 leading-5 tracking-wide" 
-                    v-html="record.person.organization_people.map( o => o.organization.name + '<strong>' + ( o.organization.code != null ? ' ' + o.organization.code : ' OCM' ) + ( o.code != null ? '-' + o.code : '-' + record.id ) + '</strong>' ).join( ' , ' )" 
+                    v-html="'<strong>' + record.officer.card.number + '</strong>'" 
                   ></div>
                 </div>
               </div>
@@ -92,31 +93,66 @@
         </div>
       </Transition>
       <!-- Pagination of crud -->
-    <div class="fixed left-0 right-0 bottom-1 flex flex-wrap" >
-      <!-- This pagination is for the media side with from Medium up -->
-      <div class="vcb-table-pagination bg-blue-300 mx-auto">
-        <!-- Information -->
-        <div class="vcb-table-pagination-info font-pvh text-blue-600 leading-7 p-1 mx-2" >{{ table.pagination.totalRecords > 0 ? getKhmer( table.pagination.totalRecords ) + " គណនី" : "" }}</div>
-        <div class="vcb-table-pagination-info font-pvh text-blue-600 leading-7 p-1 mx-2" >{{ table.pagination.totalPages > 0 ? getKhmer( table.pagination.totalPages ) + " ទំព័រ" : "" }}</div>
-        <!-- First -->
-        <!-- Pages (7) -->
-        <div v-for="(page, index) in table.pagination.buttons" :key="index" :class=" (table.pagination.page == page ? ' vcb-pagination-page-active ' : ' vcb-pagination-page ' )" @click="table.pagination.page == page ? false : goTo(page) " >{{ getKhmer( page ) }}</div>
-        <!-- Previous -->
-        <Transition name="slide-fade" >
-          <div v-if="table.pagination.page > 1 " class="vcb-pagination-page " v-html='"<"' @click="previous()" ></div>
-        </Transition>
-        <!-- Next -->
-        <Transition name="slide-fade" >
-          <div v-if="table.pagination.page < table.pagination.totalPages " class="vcb-pagination-page " v-html='">"' @click="next()" ></div>
-        </Transition>
-        <!-- Last -->
-        <!-- Go to -->
-        <!-- Total per page -->
-      </div>
-    </div>
+      <Transition name="slide-fade" >
+        <div v-if="table.pagination.totalPages > 1 " class="fixed left-0 right-0 bottom-1 flex flex-wrap" >
+          <div class="vcb-table-pagination bg-blue-300 mx-auto">
+            <n-tooltip trigger="hover">
+              <template #trigger>
+                <n-popselect 
+                  trigger="click"
+                  v-model:value="table.pagination.perPage"
+                  :options="[
+                    { label: 5 , value: 5 } ,
+                    { label: 10 , value: 10 } ,
+                    { label: 20 , value: 20 } ,
+                    { label: 30 , value: 30 } ,
+                    { label: 40 , value: 40 } ,
+                    { label: 50 , value: 50 } ,
+                    { label: 100 , value: 100 } ,
+                    { label: 200 , value: 200 } ,
+                    { label: 500 , value: 500 } ,
+                  ]"
+                  size="small"
+                  scrollable
+                  @update:value="goTo(1)"
+                >
+                  <div class="cursor-pointer font-pvh rounded-full p-2 px-4 border border-gray-200 text-blue-600" >{{ $toKhmer( table.pagination.perPage ) }}</div>
+                </n-popselect>
+              </template>
+              ចំនួនព័ត៌មានបង្ហាញម្ដង
+            </n-tooltip>
+            <!-- <n-tooltip trigger="hover">
+              <template #trigger>
+                <div class="vcb-table-pagination-info font-pvh " >{{ table.pagination.totalRecords > 0 ? $toKhmer( table.pagination.totalRecords ) + " ព័ត៌មាន" : "" }}</div>
+              </template>
+              ចំនួនព័ត៌មានសរុប
+            </n-tooltip> -->
+            <n-tooltip trigger="hover">
+              <template #trigger>
+                <div class="vcb-table-pagination-info font-pvh " >{{ table.pagination.totalPages > 0 ? $toKhmer( table.pagination.totalPages ) + " ទំព័រ" : "" }}</div>
+              </template>
+              ចំនួនទំព័រសរុប
+            </n-tooltip>
+            <div v-for="(page, index) in table.pagination.buttons" :key="index" :class=" (table.pagination.page == page ? ' vcb-pagination-page-active ' : ' vcb-pagination-page ' )" @click="table.pagination.page == page ? false : goTo(page) " >
+              <n-tooltip trigger="hover">
+                <template #trigger>
+                  <div class="leading-8 text-md font-pvh " >{{ $toKhmer( page ) }} </div>
+                </template>
+                ទំព័រទី {{ $toKhmer( page ) }}
+              </n-tooltip>
+            </div>
+            <Transition name="slide-fade" >
+              <div v-if="table.pagination.page > 1 " class="vcb-pagination-page " v-html='"<"' @click="previous()" ></div>
+            </Transition>
+            <Transition name="slide-fade" >
+              <div v-if="table.pagination.page < table.pagination.totalPages " class="vcb-pagination-page " v-html='">"' @click="next()" ></div>
+            </Transition>
+          </div>
+        </div>
+      </Transition>
     </div>
     <!-- Form create account -->
-    <create-form v-bind:model="model" v-bind:show="createModal.show" :onClose="closeCreateModal"/>
+    <!-- <create-form v-bind:model="model" v-bind:show="createModal.show" :onClose="closeCreateModal"/> -->
     <!-- Filter panel of crud -->
     <Transition name="slide-fade" >
       <div v-if="filter" class="vcb-filters-panel">
@@ -142,37 +178,19 @@ import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 import QrcodeVue from 'qrcode.vue'
 import Vue3Barcode from 'vue3-barcode'
-import { Switcher } from '@vicons/carbon'
-import { Icon } from '@vicons/utils'
-import { getKhmer } from './../../../plugins/kh/number.js'
-import { IosCheckmarkCircleOutline, IosRefresh } from '@vicons/ionicons4'
-import { TrashOutline, CloseCircleOutline } from '@vicons/ionicons5'
 import { useDialog, useMessage, useNotification } from 'naive-ui'
-import { Edit20Regular, Key16Regular, Save20Regular, Add20Regular, Search20Regular , ContactCard28Regular } from '@vicons/fluent'
 import ocmLogoUrl from './../../../assets/logo.svg'
 /**
  * CRUD component form
  */
-import CreateForm from './../widgets/create.vue'
+// import CreateForm from './../widgets/create.vue'
 import ThumbnailActionsForm from './actions/thumbnail-action.vue'
 export default {
   name: "User" ,
   components: {
     QrcodeVue ,
     Vue3Barcode,
-    Switcher,
-    Add20Regular ,
-    Icon,
-    IosCheckmarkCircleOutline,
-    IosRefresh ,
-    CloseCircleOutline ,
-    Search20Regular ,
-    Edit20Regular,
-    Key16Regular,
-    Save20Regular ,
-    TrashOutline ,
-    ContactCard28Regular ,
-    CreateForm ,
+    // CreateForm ,
     ThumbnailActionsForm
   },
   setup(){
@@ -256,7 +274,7 @@ export default {
          */
         table.pagination.buttons = []
         for(var i=table.pagination.start;i<=table.pagination.end;i++){
-          table.pagination.buttons.push(i)
+          i <= table.pagination.totalPages ? table.pagination.buttons.push(i) : false
         }
 
         closeTableLoading()
@@ -344,7 +362,7 @@ export default {
         page: 1 ,
         perPage: 1000 ,
         search: '' ,
-        id: 164
+        id: 0
       }).then(res=>{
         store.commit('organizations/setRecords',res.data.records)
       }).catch(err =>{
@@ -460,8 +478,7 @@ export default {
       optionOrganizations ,
       selectedOrganizations ,
       optionCountesies ,
-      selectedCountesies ,
-      getKhmer
+      selectedCountesies
     }
   }
 }

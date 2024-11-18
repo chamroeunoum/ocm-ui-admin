@@ -12,7 +12,7 @@
 import { computed, ref } from 'vue'
 import { useStore } from 'vuex'
 import { getUser } from './../../plugins/authentication'
-import Dock from './../widgets/dock.vue'
+import Dock from '../widgets/Dock.vue'
 import Footer from './../footer/copyright.vue'
 export default {
   name: 'Topmenu'  ,

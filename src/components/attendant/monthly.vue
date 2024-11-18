@@ -22,11 +22,7 @@
         </div> -->
         <div class="w-1/5 relative hidden" >
           <input type="text" @keypress.enter="filterRecords(false)" v-model="table.search" class="bg-gray-100 px-2 h-9 my-1 w-full rounded border border-gray-200 focus:border-blue-600 hover:border-blue-600 " placeholder="ស្វែងរក" />
-          <Icon size="27" class="absolute right-1 top-2 text-gray-400 hover:text-blue-700 cursor-pointer" @click="filterRecords(false)" >
-            <n-icon>
-              <Search20Regular />
-            </n-icon>
-          </Icon>
+          <svg class="absolute right-1 top-2 text-gray-400 hover:text-blue-700 cursor-pointer" @click="filterRecords(false)" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 20 20"><g fill="none"><path d="M8.5 3a5.5 5.5 0 0 1 4.227 9.02l4.127 4.126a.5.5 0 0 1-.638.765l-.07-.057l-4.126-4.127A5.5 5.5 0 1 1 8.5 3zm0 1a4.5 4.5 0 1 0 0 9a4.5 4.5 0 0 0 0-9z" fill="currentColor"></path></g></svg>
         </div>
         <div class="mt-1 mr-2">
           <n-date-picker v-model:value="attendantDate" type="month" @update:value="filterRecords(false)"/>
@@ -63,18 +59,22 @@
                 </div>
                 <div class="flex-grow p-4" >
                   <table class="w-full" >
-                    <tr class="" >
-                      <td class="font-kantumruy py-1 text-left font-bold">វេន</td>
-                      <td class="font-kantumruy py-1 text-left font-bold">ចូល</td>
-                      <td class="font-kantumruy py-1 text-left font-bold">ចេញ</td>
-                      <td class="font-kantumruy py-1 text-right font-bold">សរុប</td>
-                    </tr>
-                    <tr v-for="(ct , ctIndex) in attendant.calculateTime.checktimes" :key="ctIndex">
-                      <td class=" py-1 text-left " >{{ ct.timeslot.title }} {{ ct.timeslot.start +'-'+ct.timeslot.end }}</td>
-                      <td class=" py-1 text-left " >{{ ct.checkin }}</td>
-                      <td class=" py-1 text-left " >{{ ct.checkout }}</td>
-                      <td class=" py-1 text-right font-bold" >{{ ct.workedTime }}</td>
-                    </tr>
+                    <thead>
+                      <tr class="" >
+                        <td class="font-kantumruy py-1 text-left font-bold">វេន</td>
+                        <td class="font-kantumruy py-1 text-left font-bold">ចូល</td>
+                        <td class="font-kantumruy py-1 text-left font-bold">ចេញ</td>
+                        <td class="font-kantumruy py-1 text-right font-bold">សរុប</td>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr v-for="(ct , ctIndex) in attendant.calculateTime.checktimes" :key="ctIndex">
+                        <td class=" py-1 text-left " >{{ ct.timeslot.title }} {{ ct.timeslot.start +'-'+ct.timeslot.end }}</td>
+                        <td class=" py-1 text-left " >{{ ct.checkin }}</td>
+                        <td class=" py-1 text-left " >{{ ct.checkout }}</td>
+                        <td class=" py-1 text-right font-bold" >{{ ct.workedTime }}</td>
+                      </tr>
+                    </tbody>
                   </table>
                 </div>
                 <div class=" w-60 p-4 font-bold text-xl " >{{ attendant.calculateTime.total.workedTime }}</div>
@@ -82,43 +82,6 @@
               </div>
             </div>
           </div>
-          <!-- <div v-for="(record, index) in table.records.matched" :key='index' class="w-1/4 p-2" >
-            <div class="shadow p-4 w-full flex relative" >
-              <div class="w-2/6" >
-                <img v-if="user.avatar_url==null||user.avatar_url==undefined||user.avatar_url==''" src="./../../assets/logo.svg" class="w-28 h-28 mx-auto rounded-full" />
-                <img v-if="user.avatar_url!=null&&user.avatar_url!=undefined&&user.avatar_url!=''" :src="user.avatar_url" class="w-28 h-28 mx-auto rounded-full" />
-                <div class="p-4 font-moul w-full" >{{ user.lastname }}&ensp;{{ user.firstname }}</div>
-              </div>
-              <div class="w-4/6" >
-                <table class="w-full" >
-                  <tr >
-                    <td class=" py-1 text-left " colspan="1" >កាលបរិច្ឆែទ ៖ </td>
-                    <td class=" py-1 text-right font-bold" colspan="3"  >{{ getDayOfWeek(record.day_of_week).name.kh }} {{ record.date }}</td>
-                  </tr>
-                  <tr class="bg-gray-100" >
-                    <td class="font-moul py-1 text-left  font-moul">វេន</td>
-                    <td class="font-moul py-1 text-left  font-moul">ចូល</td>
-                    <td class="font-moul py-1 text-left  font-moul">ចេញ</td>
-                    <td class="font-moul py-1 text-right  font-moul">សរុប</td>
-                  </tr>
-                  <tr v-for="(ct , ctIndex) in record.calculateTime.checktimes" :key="ctIndex">
-                    <td class=" py-1 text-left " >{{ ct.timeslot.title }} {{ ct.timeslot.start +'-'+ct.timeslot.end }}</td>
-                    <td class=" py-1 text-left " >{{ ct.checkin }}</td>
-                    <td class=" py-1 text-left " >{{ ct.checkout }}</td>
-                    <td class=" py-1 text-right font-bold" >{{ ct.workedTime }}</td>
-                  </tr>
-                  <tr >
-                    <td class=" py-1 text-left " colspan="2" >សរុបរយះពេលបំពេញការងារ</td>
-                    <td class=" py-1 text-right font-bold" colspan="2"  >{{ record.calculateTime.total.workedTime }}</td>
-                  </tr>
-                  <tr >
-                    <td class=" py-1 text-left " colspan="2" >រយះពេលដែល{{ ( record.calculateTime.total.lateOrEarly > 0 ? ' លើស ' : ' ខ្វះ ' ) }}</td>
-                    <td :class="'pb-2 text-right text-xl font-bold' + ( record.calculateTime.total.lateOrEarly > 0 ? ' text-green-600 ' : ' text-red-600 ' )" colspan="2"  >{{ record.calculateTime.total.lateOrEarly }}</td>
-                  </tr>
-                </table>
-              </div>
-            </div>
-          </div> -->
         </div>
       </Transition>
       <div v-if="!Array.isArray( table.records.matched ) || table.records.matched.length <= 0 " class="w-full flex flex-wrap justify-between " >មិនមានព័ត៌មានដែលអ្នកកំពុងស្វែងរកឡើយ។</div>
@@ -145,12 +108,7 @@ import { useStore } from 'vuex'
 import { useRouter, useRoute } from 'vue-router'
 import QrcodeVue from 'qrcode.vue'
 import Vue3Barcode from 'vue3-barcode'
-import { Switcher } from '@vicons/carbon'
-import { Icon } from '@vicons/utils'
-import { IosCheckmarkCircleOutline, IosRefresh } from '@vicons/ionicons4'
-import { TrashOutline, CloseCircleOutline } from '@vicons/ionicons5'
 import { useDialog, useMessage, useNotification } from 'naive-ui'
-import { Edit20Regular, Key16Regular, Save20Regular, Add20Regular, Search20Regular , ContactCard28Regular } from '@vicons/fluent'
 import dateFormat from "dateformat";
 /**
  * CRUD component form
@@ -159,19 +117,7 @@ export default {
   name: "User" ,
   components: {
     QrcodeVue ,
-    Vue3Barcode,
-    Switcher,
-    Add20Regular ,
-    Icon,
-    IosCheckmarkCircleOutline,
-    IosRefresh ,
-    CloseCircleOutline ,
-    Search20Regular ,
-    Edit20Regular,
-    Key16Regular,
-    Save20Regular ,
-    TrashOutline ,
-    ContactCard28Regular
+    Vue3Barcode
   },
   setup(){
     var store = useStore()

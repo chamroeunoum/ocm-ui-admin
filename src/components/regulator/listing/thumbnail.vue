@@ -49,11 +49,11 @@
               <div v-if="record.image == false || record.image == null || record.image == undefined " class="image bg-contain bg-center bg-no-repeat " :style=" 'background-image: url('+ocmLogoUrl+');' " ></div> -->
               <div class="flex flex-wrap " >
                 <div class="w-full py-2" >
-                  <div class="font-moul" style="font-size: 0.7rem; " >{{ ( Array.isArray( record.types ) && record.types.length > 0 ? record.types[0].desp + '/' : ' ' ) + getKhmer( record.fid ) }}</div>
-                  <div class="" >{{ getKhmer( record.year.slice(0,10) ) }}</div>
+                  <div class="font-moul" style="font-size: 0.7rem; " >{{ ( Array.isArray( record.types ) && record.types.length > 0 ? record.types[0].desp + '/' : ' ' ) + $toKhmer( record.fid ) }}</div>
+                  <div class="" >{{ $toKhmer( record.year.slice(0,10) ) }}</div>
                 </div>
                 <div class="w-full py-2" >
-                  <div class="w-full pb-1 mb-1 leading-6 break-all text-left " v-html="applyTagMark( getKhmer( record.objective ))" ></div>
+                  <div class="w-full pb-1 mb-1 leading-6 break-all text-left " v-html="applyTagMark( $toKhmer( record.objective ))" ></div>
                 </div>
                 <div class="w-full flex " >
                   <div v-if="Array.isArray( record.signatures ) && record.signatures.length > 0 " class="w-1/2 text-left text-gray-600 mr-2 leading-4 font-moul" style="font-size: 0.5rem; " >{{ record.signatures.map( o => o.name ).join( ' , ' ) }}</div>
@@ -61,7 +61,7 @@
                 </div>
               </div>
               <thumbnail-actions-form v-bind:model="model" v-bind:record="record" :onClose="closeActions" />
-              <div class="absolute top-0 left-0 p-1 border-l-0 border-t-0 border border-gray-200 font-moul rounded-br-lg shadow-sm" style="font-size: 0.6rem; " >{{ getKhmer( ( table.pagination.perPage * ( table.pagination.page - 1 ) ) + index + 1 ) }}</div>
+              <div class="absolute top-0 left-0 p-1 border-l-0 border-t-0 border border-gray-200 font-moul rounded-br-lg shadow-sm" style="font-size: 0.6rem; " >{{ $toKhmer( ( table.pagination.perPage * ( table.pagination.page - 1 ) ) + index + 1 ) }}</div>
             </div>
           </div>
         </div>
@@ -85,21 +85,60 @@
         <Transition name="slide-fade" >
           <!-- This pagination is for the media side with from Medium up -->
           <div v-if="table.pagination.totalPages > 1" class="vcb-table-pagination bg-blue-300 mx-auto">
+            <n-tooltip trigger="hover">
+              <template #trigger>
+                <n-popselect 
+                  trigger="click"
+                  v-model:value="table.pagination.perPage"
+                  :options="[
+                    { label: 5 , value: 5 } ,
+                    { label: 10 , value: 10 } ,
+                    { label: 20 , value: 20 } ,
+                    { label: 30 , value: 30 } ,
+                    { label: 40 , value: 40 } ,
+                    { label: 50 , value: 50 } ,
+                    { label: 100 , value: 100 } ,
+                    { label: 200 , value: 200 } ,
+                    { label: 500 , value: 500 } ,
+                  ]"
+                  size="small"
+                  scrollable
+                  @update:value="goTo(1)"
+                >
+                  <div class="cursor-pointer font-pvh rounded-full p-2 px-4 border border-gray-200 text-blue-600" >{{ $toKhmer( table.pagination.perPage ) }}</div>
+                </n-popselect>
+              </template>
+              ចំនួនព័ត៌មានបង្ហាញម្ដង
+            </n-tooltip>
             <!-- Information -->
-            <div class="vcb-table-pagination-info font-pvh text-blue-600 leading-7 p-1 mx-2" >{{ table.pagination.totalRecords > 0 ? getKhmer( table.pagination.totalRecords ) + " គណនី" : "" }}</div>
-            <div class="vcb-table-pagination-info font-pvh text-blue-600 leading-7 p-1 mx-2" >{{ table.pagination.totalPages > 0 ? getKhmer( table.pagination.totalPages ) + " ទំព័រ" : "" }}</div>
-            <!-- First -->
+            <div class="vcb-table-pagination-info font-pvh text-blue-600 p-1 mx-2" >{{ table.pagination.totalRecords > 0 ? $toKhmer( table.pagination.totalRecords ) + " ឯកសារ" : "" }}</div>
+            <div class="vcb-table-pagination-info font-pvh text-blue-600 p-1 mx-2" >{{ table.pagination.totalPages > 0 ? $toKhmer( table.pagination.totalPages ) + " ទំព័រ" : "" }}</div>
             <!-- Pages (7) -->
-            <div v-for="(page, index) in table.pagination.buttons" :key="index" :class=" (table.pagination.page == page ? ' vcb-pagination-page-active ' : ' vcb-pagination-page ' )" @click="table.pagination.page == page ? false : goTo(page) " >{{ getKhmer( page ) }}</div>
+            <div v-for="(page, index) in table.pagination.buttons" :key="index" :class=" (table.pagination.page == page ? ' vcb-pagination-page-active ' : ' vcb-pagination-page ' )" @click="table.pagination.page == page ? false : goTo(page) " >{{ $toKhmer( page ) }}</div>
+            <!-- First -->
+            <div v-if="table.pagination.page > 1 " class="vcb-pagination-page p-1" @click="first()" >
+              <svg class="w-5 h-5 mx-auto" 
+              xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24"><path d="M18.29 17.29a.996.996 0 0 0 0-1.41L14.42 12l3.88-3.88a.996.996 0 1 0-1.41-1.41L12.3 11.3a.996.996 0 0 0 0 1.41l4.59 4.59c.38.38 1.01.38 1.4-.01z" fill="currentColor"></path><path d="M11.7 17.29a.996.996 0 0 0 0-1.41L7.83 12l3.88-3.88a.996.996 0 1 0-1.41-1.41L5.71 11.3a.996.996 0 0 0 0 1.41l4.59 4.59c.38.38 1.01.38 1.4-.01z" fill="currentColor"></path></svg>
+            </div>
             <!-- Previous -->
             <Transition name="slide-fade" >
-              <div v-if="table.pagination.page > 1 " class="vcb-pagination-page " v-html='"<"' @click="previous()" ></div>
+              <div v-if="table.pagination.page > 1 " class="vcb-pagination-page p-1" @click="previous()" >
+                <svg class="w-5 h-5 mx-auto" 
+                xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24"><path d="M14.71 15.88L10.83 12l3.88-3.88a.996.996 0 1 0-1.41-1.41L8.71 11.3a.996.996 0 0 0 0 1.41l4.59 4.59c.39.39 1.02.39 1.41 0c.38-.39.39-1.03 0-1.42z" fill="currentColor"></path></svg>
+              </div>
             </Transition>
             <!-- Next -->
             <Transition name="slide-fade" >
-              <div v-if="table.pagination.page < table.pagination.totalPages " class="vcb-pagination-page " v-html='">"' @click="next()" ></div>
+              <div v-if="table.pagination.page < table.pagination.totalPages " class="vcb-pagination-page p-1" @click="next()" >
+                <svg class="w-5 h-5 mx-auto" 
+                xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24"><path d="M9.29 15.88L13.17 12L9.29 8.12a.996.996 0 1 1 1.41-1.41l4.59 4.59c.39.39.39 1.02 0 1.41L10.7 17.3a.996.996 0 0 1-1.41 0c-.38-.39-.39-1.03 0-1.42z" fill="currentColor"></path></svg>
+              </div>
             </Transition>
             <!-- Last -->
+            <div v-if="table.pagination.page < table.pagination.totalPages "  class="vcb-pagination-page p-1" @click="last()" >
+              <svg class="w-5 h-5 mx-auto" 
+              xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24"><path d="M5.7 6.71a.996.996 0 0 0 0 1.41L9.58 12L5.7 15.88a.996.996 0 1 0 1.41 1.41l4.59-4.59a.996.996 0 0 0 0-1.41L7.12 6.71c-.39-.39-1.03-.39-1.42 0z" fill="currentColor"></path><path d="M12.29 6.71a.996.996 0 0 0 0 1.41L16.17 12l-3.88 3.88a.996.996 0 1 0 1.41 1.41l4.59-4.59a.996.996 0 0 0 0-1.41L13.7 6.7c-.38-.38-1.02-.38-1.41.01z" fill="currentColor"></path></svg>
+            </div>
             <!-- Go to -->
             <!-- Total per page -->
           </div>
@@ -137,13 +176,7 @@ import { useStore } from 'vuex'
 import { useRouter, useRoute } from 'vue-router'
 import QrcodeVue from 'qrcode.vue'
 import Vue3Barcode from 'vue3-barcode'
-import { Switcher } from '@vicons/carbon'
-import { Icon } from '@vicons/utils'
-import { getKhmer } from './../../../plugins/kh/number.js'
-import { IosCheckmarkCircleOutline, IosRefresh } from '@vicons/ionicons4'
-import { TrashOutline, CloseCircleOutline } from '@vicons/ionicons5'
 import { useDialog, useMessage, useNotification } from 'naive-ui'
-import { Edit20Regular, Key16Regular, Save20Regular, Add20Regular, Search20Regular , ContactCard28Regular } from '@vicons/fluent'
 import ocmLogoUrl from './../../../assets/logo.svg'
 /**
  * CRUD component form
@@ -155,18 +188,6 @@ export default {
   components: {
     QrcodeVue ,
     Vue3Barcode,
-    Switcher,
-    Add20Regular ,
-    Icon,
-    IosCheckmarkCircleOutline,
-    IosRefresh ,
-    CloseCircleOutline ,
-    Search20Regular ,
-    Edit20Regular,
-    Key16Regular,
-    Save20Regular ,
-    TrashOutline ,
-    ContactCard28Regular ,
     CreateForm ,
     ThumbnailActionsForm
   },
@@ -264,7 +285,7 @@ export default {
         table.records.all = table.records.matched = res.data.records
         table.pagination = res.data.pagination
         
-        var paginationNumberList = 10
+        var paginationNumberList = 5
         if( ( table.pagination.page - ( parseInt( paginationNumberList / 2 ) + 1 ) ) < 1 ){
           table.pagination.start = 1
           table.pagination.end = table.pagination.totalPages > paginationNumberList ? paginationNumberList : table.pagination.totalPages
@@ -292,14 +313,20 @@ export default {
     /**
      * Pagination functions
      */
+    function first(){
+      goTo( table.pagination.totalPages > 0 ? 1 : 0 )
+    }
     function previous(){
       goTo( table.pagination.page <= 1 ? 1 : table.pagination.page - 1 )
     }
     function next(){
       goTo( table.pagination.page >= table.pagination.totalPages ? table.pagination.totalPages : table.pagination.page + 1 )
     }
+    function last(){
+      goTo( table.pagination.totalPages > 0 ? table.pagination.totalPages : 0 )
+    }
     function goTo(page){
-      table.pagination.page = page > table.pagination.totalPages ? table.pagination.totalPages : ( page < 1 ? 1 : page)
+      table.pagination.page = page >= table.pagination.totalPages ? table.pagination.totalPages : ( page < 1 ? 1 : page)
       getRecords()
     }
     function updatePerpage(perPage){
@@ -424,7 +451,9 @@ export default {
        */
       updatePerpage ,
       goTo ,
+      first ,
       previous ,
+      last ,
       next ,
       /**
        * Loading overlay
@@ -451,8 +480,7 @@ export default {
       optionDocumentSignatures ,
       selectedDocumentSignatures ,
       optionDocumentOrganizations ,
-      selectedDocumentOrganizations ,
-      getKhmer ,
+      selectedDocumentOrganizations  ,
       applyTagMark ,
       getDocumentTypes ,
       getDocumentOrganizations ,

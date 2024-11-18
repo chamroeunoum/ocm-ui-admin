@@ -25,26 +25,21 @@ import UserUpdateCrud from './../components/user/widgets/update.vue'
 /**
  * Prople Components
  */
-import PeopleCrud from './../components/people/index.vue'
-import PeopleThumbnailCrud from './../components/people/listing/thumbnail.vue'
-// import PeopleCrud from './../components/people/index.vue'
-// import PeopleListCrud from './../components/people/list.vue'
-// import PeopleCreateCrud from './../components/people/create.vue'
-// import PeopleUpdateCrud from './../components/people/update.vue'
-// import PeopleDetail from './../components/people/detail.vue'
-
 import ProfileIndex from './../components/user/profile/index.vue'
 import ProfileInformation from './../components/user/profile/profile.vue'
 
 /**
- * Folder Components
+ * Officer Components
  */
-import FolderCrud from './../components/folder/index.vue'
-import FolderListCrud from './../components/folder/list.vue'
-import FolderCreateCrud from './../components/folder/create.vue'
-import FolderUpdateCrud from './../components/folder/update.vue'
-import FolderDetail from './../components/folder/detail.vue'
-import FolderRegulatorComponent from './../components/folder/regulator.vue'
+import OfficerCrud from './../components/officer/index.vue'
+import OfficerThumbnailCrud from './../components/officer/listing/thumbnail.vue'
+
+/**
+ * Room Components
+ */
+import RoomCrud from './../components/room/index.vue'
+import RoomThumbnailCrud from './../components/room/listing/thumbnail.vue'
+
 
 /**
  * Folder Components
@@ -173,16 +168,16 @@ export const getRoutes = () => {
                     is_admin : true
                 },
                 children:[
-                {
-                    name: "ProfileInformation" ,
-                    path: '' ,
-                    component: ProfileInformation ,
-                    meta: { 
-                        transition: 'slide-right' ,
-                        requiresAuth: true,
-                        is_admin : true
-                    },
-                }  
+                    {
+                        name: "ProfileInformation" ,
+                        path: '' ,
+                        component: ProfileInformation ,
+                        meta: { 
+                            transition: 'slide-right' ,
+                            requiresAuth: true,
+                            is_admin : true
+                        },
+                    }  
                 ]
             },
             {
@@ -208,9 +203,9 @@ export const getRoutes = () => {
                 ]
             },
             {
-                name: 'People' ,
-                path: '/people',
-                component: PeopleCrud ,
+                name: 'Officer' ,
+                path: '/officer',
+                component: OfficerCrud ,
                 meta: { 
                     transition: 'slide-right' ,
                     requiresAuth: true,
@@ -218,20 +213,25 @@ export const getRoutes = () => {
                 },
                 children: [
                     {
-                        name: "PeopleTable" ,
+                        name: "OfficerTable" ,
                         path: '' ,
-                        component: PeopleThumbnailCrud // UserTableCrud
+                        component: OfficerThumbnailCrud // UserTableCrud
                     },
                     {
-                        name: "PeopleThumbnail" ,
+                        name: "OfficerThumbnail" ,
                         path: 'thumbnail' ,
-                        component: PeopleThumbnailCrud
+                        component: OfficerThumbnailCrud
                     },
                     {
-                        name: "PeopleThumbnailFilter" ,
+                        name: "OfficerThumbnailFilter" ,
                         path: 'thumbnail/:ids' ,
-                        component: PeopleThumbnailCrud
-                    }
+                        component: OfficerThumbnailCrud
+                    },
+                    // {
+                    //     name: "PeopleExportCrud" ,
+                    //     path: 'export' ,
+                    //     component: PeopleExportCrud
+                    // },
                     // {
                     //     name: "PeopleList" ,
                     //     path: '' ,
@@ -252,6 +252,33 @@ export const getRoutes = () => {
                     //     path: 'update' ,
                     //     component: PeopleUpdateCrud
                     // }
+                ]
+            },
+            {
+                name: 'Room' ,
+                path: '/room',
+                component: RoomCrud ,
+                meta: { 
+                    transition: 'slide-right' ,
+                    requiresAuth: true,
+                    is_admin : true
+                },
+                children: [
+                    {
+                        name: "RoomTable" ,
+                        path: '' ,
+                        component: RoomThumbnailCrud // UserTableCrud
+                    },
+                    {
+                        name: "RoomThumbnail" ,
+                        path: 'thumbnail' ,
+                        component: RoomThumbnailCrud
+                    },
+                    {
+                        name: "RoomThumbnailFilter" ,
+                        path: 'thumbnail/:ids' ,
+                        component: RoomThumbnailCrud
+                    }
                 ]
             },
             {
@@ -342,45 +369,6 @@ export const getRoutes = () => {
                         path: '' ,
                         component: LawListCrud
                     }
-                ]
-            },
-            
-            // Folder
-            {
-                name: 'Folder' ,
-                path: '/folder',
-                component: FolderCrud ,
-                meta: { 
-                    transition: 'slide-right' ,
-                    requiresAuth: true,
-                    is_admin : true
-                },
-                children: [
-                    {
-                        name: "FolderList" ,
-                        path: '' ,
-                        component: FolderListCrud
-                    },
-                    {
-                        name: "FolderDetail" ,
-                        path: ':id/detail' ,
-                        component: FolderDetail
-                    },
-                    {
-                        name: "FolderCreate" ,
-                        path: 'create' ,
-                        component: FolderCreateCrud
-                    },
-                    {
-                        name: "FolderUpdate" ,
-                        path: 'update' ,
-                        component: FolderUpdateCrud
-                    },
-                    {
-                        name: "FolderRegulators" ,
-                        path: ':id/regulators' ,
-                        component: FolderRegulatorComponent
-                    },
                 ]
             },
             // Role

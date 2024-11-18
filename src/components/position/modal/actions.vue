@@ -1,7 +1,7 @@
 <template>
   <!-- Form edit account -->
     
-      <n-modal v-model:show="show" :on-esc="closeModal" :on-mask-click="closeModal" transform-origin="center" :on-after-enter="initial" class=" relative min-h-screen" >
+      <n-modal v-bind:show="show" :on-esc="closeModal" :on-mask-click="closeModal" transform-origin="center" :on-after-enter="initial" class=" relative min-h-screen" >
         <n-card class="w-11/12 font-pvh text-xl relative min-h-full">
           <n-tabs
             class="card-tabs"

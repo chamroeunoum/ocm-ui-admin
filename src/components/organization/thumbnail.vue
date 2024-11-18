@@ -50,26 +50,26 @@
                   <n-tooltip v-if="record.totalChilds>0" trigger="hover">
                     <template #trigger>
                       <div class="cursor-pointer mx-auto text-center font-moul leading-6 text-green-500 " @click="$router.push('/organization/'+record.id+'/sub')" >
-                        អង្គភាព<br/>{{ getKhmer( record.totalChilds ) }}
+                        អង្គភាព<br/>{{ $toKhmer( record.totalChilds ) }}
                       </div>
                     </template>
                     <div class="leading-6" v-html=" 'ចំនួនអង្គភាពក្រោមបង្គាប់' + ( record.childNodes != null && record.childNodes != undefined ? ( ' ៖ <br/>' + record.childNodes.map( ( o ) => '+ ' + o.name ).join('<br/>') ) : '' ) "></div>
                   </n-tooltip>
                   <n-tooltip v-if="record.totalLeaders>0" trigger="hover">
                     <template #trigger>
-                      <div class="cursor-pointer mx-auto text-center font-moul leading-6 text-blue-500 " @click="$router.push('/people/thumbnail/'+ ( record.leader.map( (l) => l.id ).join(',') ) )" >ថ្នាក់ដឹកនាំ<br/>{{ getKhmer( record.totalLeaders) }}</div>
+                      <div class="cursor-pointer mx-auto text-center font-moul leading-6 text-blue-500 " @click="$router.push('/people/thumbnail/'+ ( record.leader.map( (l) => l.id ).join(',') ) )" >ថ្នាក់ដឹកនាំ<br/>{{ $toKhmer( record.totalLeaders) }}</div>
                     </template>
                     <div class="leading-6" v-html=" 'ចំនួនថ្នាក់ដឹកនាំសរុបក្នុងអង្គភាព' + ( record.leader != null && record.leader != undefined ? ( ' ៖ <br/>' + record.leader.map( ( o ) => '+ ' + o.lastname + ' ' + o.firstname ).join('<br/>') ) : '' ) "></div>
                   </n-tooltip>
                   <n-tooltip v-if="record.totalStaffs>0" trigger="hover">
                     <template #trigger>
-                      <div class="cursor-pointer mx-auto text-center font-moul leading-6 text-yellow-700 " @click="$router.push('/people/thumbnail/'+ ( record.staffs.map( (l) => l.id ).join(',') ) )" >មន្ត្រី<br/>{{ getKhmer( record.totalStaffs ) }}</div>
+                      <div class="cursor-pointer mx-auto text-center font-moul leading-6 text-yellow-700 " @click="$router.push('/people/thumbnail/'+ ( record.staffs.map( (l) => l.id ).join(',') ) )" >មន្ត្រី<br/>{{ $toKhmer( record.totalStaffs ) }}</div>
                     </template>
                     <div class="leading-6" v-html=" 'ចំនួនមន្ត្រីសរុបក្នុងអង្គភាព' + ( record.staffs != null && record.staffs != undefined ? ( ' ៖ <br/>' + record.staffs.map( ( o ) => '+ ' + o.lastname + ' ' + o.firstname ).join('<br/>') ) : '' ) "></div>
                   </n-tooltip>
                   <n-tooltip v-if="record.totalStaffAllLevel>0" trigger="hover">
                     <template #trigger>
-                      <div class="cursor-pointer mx-auto text-center font-moul leading-6 text-pink-500 " @click="$router.push('/people/thumbnail/'+ ( record.staffs.map( (l) => l.id ).join(',') ) )" >មន្ត្រី<br/>{{ getKhmer( record.totalStaffs ) }}</div>
+                      <div class="cursor-pointer mx-auto text-center font-moul leading-6 text-pink-500 " @click="$router.push('/people/thumbnail/'+ ( record.staffs.map( (l) => l.id ).join(',') ) )" >មន្ត្រី<br/>{{ $toKhmer( record.totalStaffs ) }}</div>
                     </template>
                     ចំនួនមន្ត្រីសរុបក្នុងអង្គភាព
                   </n-tooltip>
@@ -119,11 +119,11 @@
         <!-- This pagination is for the media side with from Medium up -->
         <div class="vcb-table-pagination bg-blue-300 mx-auto">
           <!-- Information -->
-          <div class="vcb-table-pagination-info" >{{ table.pagination.totalRecords > 0 ? getKhmer( table.pagination.totalRecords ) + " អង្គភាព" : "" }}</div>
-          <div class="vcb-table-pagination-info" >{{ table.pagination.totalPages > 0 ? " ចែកជា " + getKhmer ( table.pagination.totalPages ) + " ទំព័រ" : "" }}</div>
+          <div class="vcb-table-pagination-info" >{{ table.pagination.totalRecords > 0 ? $toKhmer( table.pagination.totalRecords ) + " អង្គភាព" : "" }}</div>
+          <div class="vcb-table-pagination-info" >{{ table.pagination.totalPages > 0 ? " ចែកជា " + $toKhmer ( table.pagination.totalPages ) + " ទំព័រ" : "" }}</div>
           <!-- First -->
           <!-- Pages (7) -->
-          <div v-for="(page, index) in table.pagination.buttons" :key="index" :class=" (table.pagination.page == page ? ' vcb-pagination-page-active ' : ' vcb-pagination-page ' )" @click="table.pagination.page == page ? false : goTo(page) " >{{ getKhmer( page ) }}</div>
+          <div v-for="(page, index) in table.pagination.buttons" :key="index" :class=" (table.pagination.page == page ? ' vcb-pagination-page-active ' : ' vcb-pagination-page ' )" @click="table.pagination.page == page ? false : goTo(page) " >{{ $toKhmer( page ) }}</div>
           <!-- Previous -->          
           <div v-if="table.pagination.page > 1 " class="vcb-pagination-page " v-html='"<"' @click="previous()" ></div>
           <n-tooltip v-if="table.pagination.page <= 1 " trigger="hover">
@@ -416,7 +416,6 @@ export default {
       /**
        * Functions
        */
-      getKhmer ,
       rootOrganization ,
       currentOrganizationId ,
       organizationTitle ,

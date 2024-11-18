@@ -1,5 +1,5 @@
 <template>
-  <n-modal v-model:show="show" :on-esc="maskOrEscClick" :on-mask-click="maskOrEscClick"  :on-after-enter="initial" transform-origin="center" class="relative" >
+  <n-modal v-bind:show="show" :on-esc="maskOrEscClick" :on-mask-click="maskOrEscClick"  :on-after-enter="initial" transform-origin="center" class="relative" >
     <div class="w-11/12 font-pvh min-h-screen text-xl bg-white" >
       <!-- Form edit account -->
       <div class="w-full relative ">
@@ -395,7 +395,6 @@
 import { reactive , ref , computed } from 'vue'
 import { useStore } from 'vuex'
 import { useMessage, useNotification } from 'naive-ui'
-import { ReceiptAdd20Regular, Save20Regular } from '@vicons/fluent'
 import QrcodeVue from 'qrcode.vue'
 import KuntyCreateForm from './kunty/create.vue'
 import KuntyUpdateForm from './kunty/update.vue'
@@ -413,7 +412,6 @@ import MatraCreateForm from './matra/create.vue'
 
 export default {
   components: {
-    Save20Regular ,
     QrcodeVue ,
     // Form 
     KuntyCreateForm ,

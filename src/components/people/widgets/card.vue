@@ -1,7 +1,7 @@
 <template>
   <!-- Form edit account -->
     <div class="vcb-pop-create font-ktr ">
-      <n-modal v-model:show="show" :on-esc="maskOrEscClick" :on-mask-click="maskOrEscClick"  :on-after-enter="initial" transform-origin="center" class=" bg-white p-8" >
+      <n-modal v-bind:show="show" :on-esc="maskOrEscClick" :on-mask-click="maskOrEscClick"  :on-after-enter="initial" transform-origin="center" class=" bg-white p-8" >
         <!-- Form edit account -->
         <div class="card relative border border-gray-300 rounded mx-auto w-96 bg-center bg-cover bg-no-repeat " style="background-image: url('/src/assets/logo.svg'); background-size: 70% 70%;" >
           <div class="absolute left-0 top-0 right-0 bottom-0 bg-white bg-opacity-90" ></div>
@@ -21,6 +21,7 @@
               <div class="w-full h-6 text-center mx-auto my-2 font-bold " >OCM-ORG-{{ record.id }}</div>
               <div class="font-moul text-left " >
                 <table>
+                  <tbody>
                   <tr v-if="userCountesies!=''" >
                     <td class="w-24 p-1  font-moul leading-6" style="vertical-align: top; text-align: left;" >ងារ</td>
                     <td class="font-moul p-1 text-md leading-6" style="vertical-align: top; text-align: left;"  >{{ userCountesies }}</td>
@@ -37,6 +38,7 @@
                     <td class="w-24 p-1 font-moul leading-6" style="vertical-align: top; text-align: left;"  >តួនាទី</td>
                     <td class="font-moul p-1 leading-6" style="vertical-align: top; text-align: left;"  >{{ record.positions.map( (o) => o.name ).join( ', ' )}}</td>
                   </tr>
+                </tbody>
                 </table>
               </div>
               <!-- QR CODE -->                
@@ -59,14 +61,14 @@ import { reactive , ref , computed } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter, useRoute } from 'vue-router'
 import { useMessage, useNotification } from 'naive-ui'
-import { Save20Regular } from '@vicons/fluent'
+
 import Frame4Corner from './../../widgets/frame/corner4.vue'
 import QrcodeVue from 'qrcode.vue'
 import ocmLogoUrl from './../../../assets/logo.svg'
 
 export default {
   components: {
-    Save20Regular ,
+    
     Frame4Corner ,
     QrcodeVue
   },

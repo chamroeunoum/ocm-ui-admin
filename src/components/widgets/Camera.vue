@@ -6,7 +6,7 @@
                 <canvas id="photoTaken" v-show="isPhotoTaken" class="canvas-photo mx-auto p-1 rounded-md my-2 w-full " :width="640" :height="480" ref="canvas" ></canvas>
             </div>
             <!-- Actions -->
-            <div class="bg-white bg-opacity-90 p-2 rounded-tl-lg flex flex-wrap justify-center w-full" >
+            <div class="bg-white bg-opacity-90 p-2 rounded-tl-lg flex flex-wrap justify-center w-full hidden" >
                 <n-tooltip trigger="hover" placement="top" >
                     <template #trigger>
                         <div class="" >
@@ -119,10 +119,10 @@ export default {
             photoDataUrlJpeg.value = canvas.value.toDataURL("image/jpeg")
             photoDataUrlStream.value = photoDataUrlJpeg.value.replace("image/jpeg", "image/octet-stream")
             props.getSnapshot( photoDataUrlStream.value )  
-            const link = document.createElement("a")
-            link.href = photoDataUrlStream.value 
-            link.download = 'photo.jpeg'
-            link.click()          
+            // const link = document.createElement("a")
+            // link.href = photoDataUrlStream.value 
+            // link.download = 'photo.jpeg'
+            // link.click()          
         }
 
         function downloadImage() {

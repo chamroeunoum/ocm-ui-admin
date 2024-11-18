@@ -1,7 +1,7 @@
 <template>
   <!-- Form edit account -->
     <div class="vcb-pop-create font-ktr">
-      <n-modal v-model:show="show" :on-esc="maskOrEscClick" :on-mask-click="maskOrEscClick" :on-after-enter="initial" transform-origin="center">
+      <n-modal v-bind:show="show" :on-esc="maskOrEscClick" :on-mask-click="maskOrEscClick" :on-after-enter="initial" transform-origin="center">
         <n-card class="w-10/12 sm:w-3/4 md:w-8/12 lg:w-3/5 xl:w-7/12" :title="'កែប្រែ ' + model.title" :bordered="false" size="small">
           <template #header-extra>
             <n-button type="success" @click="update()" >
@@ -23,52 +23,15 @@
                   size="large"
                   ref="formRef"
                 >
-                <n-form-item label="ងារ" path="countesy" class="w-full p-1" >
-                    <n-select
-                      v-model:value="selectedCountesies"
-                      filterable
-                      placeholder="សូមជ្រើសរើសងារ"
-                      :options="countesies"
-                      multiple
-                    />
-                  </n-form-item>
-                <n-form-item label="ត្រកូល" path="lastname" class="w-1/2 p-1" >
-                    <n-input v-model:value="record.lastname" placeholder="នាមត្រកូល" />
-                  </n-form-item>
-                  <n-form-item label="ឈ្មោះ" path="firstname" class="w-1/2 p-1" >
-                    <n-input v-model:value="record.firstname" placeholder="នាមខ្លួន" />
-                  </n-form-item>
-                  <n-form-item label="អ៊ីមែល" path="email" class="w-1/2 p-1" >
-                    <n-input v-model:value="record.email" placeholder="អ៊ីមែល" />
-                  </n-form-item>
-                  <n-form-item label="ទូរស័ព្ទ" path="phone" class="w-1/2 p-1" >
-                    <n-input v-model:value="record.phone" placeholder="ទូរស័ព្ទ" />
-                  </n-form-item>
-                  <n-form-item label="ឈ្មោះក្នុងប្រព័ន្ធ" path="username" class="w-1/2 p-1" >
+                  <n-form-item label="ឈ្មោះក្នុងប្រព័ន្ធ" path="username" class="w-full p-1" >
                     <n-input v-model:value="record.username" placeholder="ឈ្មោះក្នុងប្រព័ន្ធ" />
                   </n-form-item>
-                  <!-- <n-form-item label="ពាក្យសម្ងាត់" path="password" class="w-1/2 p-1" >
-                    <n-input type="password" show-password-on="mousedown" v-model:value="record.password" placeholder="ពាក្យសម្ងាត់" />
-                  </n-form-item> -->
-                  <n-form-item label="អង្គភាព" path="organization" class="w-full p-1" >
-                    <n-select
-                      v-model:value="selectedOrganizations"
-                      filterable
-                      placeholder="សូមជ្រើសរើសអង្គភាព"
-                      :options="organizations"
-                      multiple
-                    />
+                  <n-form-item label="ទូរស័ព្ទ" path="phone" class="w-full p-1" >
+                    <n-input v-model:value="record.phone" placeholder="ទូរស័ព្ទ" />
                   </n-form-item>
-                  <n-form-item label="តួនាទី" path="position" class="w-full p-1" >
-                    <n-select
-                      v-model:value="selectedPositions"
-                      filterable
-                      placeholder="សូមជ្រើសរើសតួនាទី"
-                      :options="positions"
-                      multiple
-                    />
+                  <n-form-item label="អ៊ីមែល" path="email" class="w-full p-1" >
+                    <n-input v-model:value="record.email" placeholder="អ៊ីមែល" />
                   </n-form-item>
-                  
                 </n-form>
                 <div class="w-1/2 h-8"></div>  
               </div>
@@ -85,12 +48,10 @@
 import { reactive , ref , computed } from 'vue'
 import { useStore } from 'vuex'
 import { useMessage, useNotification } from 'naive-ui'
-import { Save20Regular } from '@vicons/fluent'
+
 
 export default {
-  components: {
-    Save20Regular
-  },
+
   props: {
     model: {
       type: Object ,
@@ -143,8 +104,8 @@ export default {
     const message = useMessage()
     const notify = useNotification()
 
-    const selectedOrganizations = ref([])
-    const selectedPositions = ref([])
+    const selectedOrganization = ref(null)
+    const selectedPosition = ref(null)
     const selectedCountesies = ref([])
 
     const organizations = computed( () => 
@@ -186,8 +147,8 @@ export default {
       // props.record.person = null ,
       // props.record.organizations = [] 
       // props.record.positions = []
-      // selectedPositions.value = []
-      // selectedOrganizations.value = []
+      // selectedPosition.value = []
+      // selectedOrganization.value = []
       props.onClose( actionStatus )
     }
 
@@ -216,13 +177,8 @@ export default {
       store.dispatch( props.model.name+'/update',{
         id: props.record.id ,
         username: props.record.username ,
-        firstname: props.record.firstname ,
-        lastname: props.record.lastname ,
         phone: props.record.phone ,
-        email: props.record.email.toLowerCase() ,
-        organizations: selectedOrganizations.value ,
-        positions: selectedPositions.value ,
-        countesies: selectedCountesies.value
+        email: props.record.email.toLowerCase()
       }).then( res => {
         if( res.data.ok ){
           notify.success({
@@ -245,10 +201,10 @@ export default {
     }
   
     function initial(){
-      // selectedOrganizations.value = [463]
-      selectedOrganizations.value = props.record.person != undefined && Array.isArray( props.record.person.organizations ) ? props.record.person.organizations.map( o => o.id ) : []
-      selectedPositions.value = props.record.person != undefined && Array.isArray( props.record.person.positions ) ? props.record.person.positions.map( o => o.id ) : []
-      selectedCountesies.value = props.record.person != undefined && Array.isArray( props.record.person.countesies ) ? props.record.person.countesies.map( o => o.id ) : []
+      // selectedOrganization.value = [463]
+      selectedOrganization.value = props.record.officer.organization != undefined && props.record.officer.organization != null ? props.record.officer.organization.id : []
+      selectedPosition.value = props.record.officer.position != undefined && props.record.officer.position != null ? props.record.officer.position.id : []
+      selectedCountesies.value = props.record.officer.countesy != undefined && props.record.officer.countesy != null ? props.record.officer.countesy.id : []
     }
 
     return {
@@ -256,9 +212,9 @@ export default {
        * Variables
        */
       rules ,
-      selectedOrganizations ,
+      selectedOrganization ,
       organizations ,
-      selectedPositions ,
+      selectedPosition ,
       selectedCountesies ,
       positions ,
       countesies ,

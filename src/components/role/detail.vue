@@ -52,12 +52,8 @@ import { useStore } from 'vuex'
 import { useRouter, useRoute } from 'vue-router'
 import QrcodeVue from 'qrcode.vue'
 import Vue3Barcode from 'vue3-barcode'
-import { Switcher } from '@vicons/carbon'
-import { Icon } from '@vicons/utils'
-import { IosCheckmarkCircleOutline, IosRefresh } from '@vicons/ionicons4'
-import { TrashOutline, CloseCircleOutline, ArrowBackCircleOutline } from '@vicons/ionicons5'
+
 import { useDialog, useMessage, useNotification } from 'naive-ui'
-import { Edit20Regular, Key16Regular, Save20Regular, Add20Regular, Search20Regular , ContactCard28Regular } from '@vicons/fluent'
 /**
  * CRUD component form
  */
@@ -68,21 +64,10 @@ export default {
   components: {
     QrcodeVue ,
     Vue3Barcode,
-    Switcher,
-    Add20Regular ,
-    Icon,
-    IosCheckmarkCircleOutline,
+  
     CreateForm,
-    IosRefresh ,
-    CloseCircleOutline ,
+
     UpdateForm,
-    Search20Regular ,
-    Edit20Regular,
-    Key16Regular,
-    Save20Regular ,
-    TrashOutline ,
-    ContactCard28Regular,
-    ArrowBackCircleOutline
   },
   setup(){
     const store = useStore()

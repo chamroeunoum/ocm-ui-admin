@@ -1,5 +1,5 @@
 <template>
-  <div class="flex justify-center">
+  <div class="flex justify-center min-h-screen "  >
     <div class="w-full mx-8 sm:w-1/2 md:w-96 lg:w-96 xl:96 p-8 ">
       <div class="w-20 mx-auto mt-6">
         <img :src="ocmLogoUrl" class="w-full" >
@@ -21,9 +21,7 @@
           @keyup.enter="funcLogin"
         >
           <template #prefix>
-            <n-icon size="12" class='text-gray-600 ' >
-              <component :is="AlternateEmailOutlined" />
-            </n-icon>
+            <svg class="w-4 h-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24"><path d="M12 1.95c-5.52 0-10 4.48-10 10s4.48 10 10 10h5v-2h-5c-4.34 0-8-3.66-8-8s3.66-8 8-8s8 3.66 8 8v1.43c0 .79-.71 1.57-1.5 1.57s-1.5-.78-1.5-1.57v-1.43c0-2.76-2.24-5-5-5s-5 2.24-5 5s2.24 5 5 5c1.38 0 2.64-.56 3.54-1.47c.65.89 1.77 1.47 2.96 1.47c1.97 0 3.5-1.6 3.5-3.57v-1.43c0-5.52-4.48-10-10-10zm0 13c-1.66 0-3-1.34-3-3s1.34-3 3-3s3 1.34 3 3s-1.34 3-3 3z" fill="currentColor"></path></svg>
           </template>
         </n-input>
         <n-input round 
@@ -34,9 +32,7 @@
           @keyup.enter="funcLogin"
         >
           <template #prefix>
-            <n-icon size="12" class='text-gray-600 ' >
-              <component :is="Key20Regular" />
-            </n-icon>
+            <svg class="w-4 h-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 20 20"><g fill="none"><path d="M15 6a1 1 0 1 1-2 0a1 1 0 0 1 2 0zm-2.5-4C9.424 2 7 4.424 7 7.5c0 .397.04.796.122 1.175c.058.27-.008.504-.142.638l-4.54 4.54A1.5 1.5 0 0 0 2 14.915V16.5A1.5 1.5 0 0 0 3.5 18h2A1.5 1.5 0 0 0 7 16.5V16h1a1 1 0 0 0 1-1v-1h1a1 1 0 0 0 1-1v-.18c.493.134 1.007.18 1.5.18c3.076 0 5.5-2.424 5.5-5.5S15.576 2 12.5 2zM8 7.5C8 4.976 9.976 3 12.5 3S17 4.976 17 7.5S15.024 12 12.5 12c-.66 0-1.273-.095-1.776-.347A.5.5 0 0 0 10 12.1v.9H9a1 1 0 0 0-1 1v1H7a1 1 0 0 0-1 1v.5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-1.586a.5.5 0 0 1 .146-.353l4.541-4.541c.432-.432.522-1.044.412-1.556A4.619 4.619 0 0 1 8 7.5z" fill="currentColor"></path></g></svg>
           </template>
         </n-input>
       </n-space>
@@ -44,9 +40,7 @@
         <n-button :loading="loading" @click="funcLogin" type="success" class="w-48"  >
           ចូល
           <template #icon>
-            <n-icon size="12" class='text-white ' >
-              <login />
-            </n-icon>
+            <svg class="w-4 h-4 text-white" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1024 1024"><defs></defs><path d="M521.7 82c-152.5-.4-286.7 78.5-363.4 197.7c-3.4 5.3.4 12.3 6.7 12.3h70.3c4.8 0 9.3-2.1 12.3-5.8c7-8.5 14.5-16.7 22.4-24.5c32.6-32.5 70.5-58.1 112.7-75.9c43.6-18.4 90-27.8 137.9-27.8c47.9 0 94.3 9.3 137.9 27.8c42.2 17.8 80.1 43.4 112.7 75.9c32.6 32.5 58.1 70.4 76 112.5C865.7 417.8 875 464.1 875 512c0 47.9-9.4 94.2-27.8 137.8c-17.8 42.1-43.4 80-76 112.5s-70.5 58.1-112.7 75.9A352.8 352.8 0 0 1 520.6 866c-47.9 0-94.3-9.4-137.9-27.8A353.84 353.84 0 0 1 270 762.3c-7.9-7.9-15.3-16.1-22.4-24.5c-3-3.7-7.6-5.8-12.3-5.8H165c-6.3 0-10.2 7-6.7 12.3C234.9 863.2 368.5 942 520.6 942c236.2 0 428-190.1 430.4-425.6C953.4 277.1 761.3 82.6 521.7 82zM395.02 624v-76h-314c-4.4 0-8-3.6-8-8v-56c0-4.4 3.6-8 8-8h314v-76c0-6.7 7.8-10.5 13-6.3l141.9 112a8 8 0 0 1 0 12.6l-141.9 112c-5.2 4.1-13 .4-13-6.3z" fill="currentColor"></path></svg>
           </template>
         </n-button>
       </div>
@@ -61,12 +55,9 @@
 import './../../plugins/authentication'
 import FooterComponent from './../../components/footer/copyright.vue'
 import Frame4Corner from './../../components/widgets/frame/corner4.vue'
-import { Key20Regular } from "@vicons/fluent";
 import { setMaxUploadFilesize } from './../../plugins/file'
 import { getRoutes } from './../../plugins/route'
 import { getUser } from './../../plugins/authentication'
-import { AlternateEmailOutlined } from '@vicons/material'
-import { Login } from '@vicons/carbon'
 import { ref, reactive } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
@@ -76,7 +67,6 @@ import ocmLogoUrl from './../../assets/logo.svg'
 export default {
   name: 'LoginTemplate' ,
   components: {
-    Login ,
     FooterComponent ,
     Frame4Corner
   },
@@ -197,8 +187,6 @@ export default {
       /**
        * Components
        */
-      Key20Regular ,
-      AlternateEmailOutlined ,
       store ,
       ocmLogoUrl
     }

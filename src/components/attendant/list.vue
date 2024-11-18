@@ -22,11 +22,7 @@
         </div> -->
         <div class="w-1/5 relative" >
           <input type="text" @keypress.enter="filterRecords(false)" v-model="table.search" class="bg-gray-100 px-2 h-9 my-1 w-full rounded border border-gray-200 focus:border-blue-600 hover:border-blue-600 " placeholder="ស្វែងរក" />
-          <Icon size="27" class="absolute right-1 top-2 text-gray-400 hover:text-blue-700 cursor-pointer" @click="filterRecords(false)" >
-            <n-icon>
-              <Search20Regular />
-            </n-icon>
-          </Icon>
+          <svg class="absolute w-6 h-6 right-1 top-2 text-gray-400 hover:text-blue-700 cursor-pointer" @click="filterRecords(false)" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 20 20"><g fill="none"><path d="M8.5 3a5.5 5.5 0 0 1 4.227 9.02l4.127 4.126a.5.5 0 0 1-.638.765l-.07-.057l-4.126-4.127A5.5 5.5 0 1 1 8.5 3zm0 1a4.5 4.5 0 1 0 0 9a4.5 4.5 0 0 0 0-9z" fill="currentColor"></path></g></svg>
         </div>
         <div class="mt-1 mr-2">
           <n-date-picker v-model:value="attendantDate" type="date" @update:value="filterRecords(false)"/>
@@ -39,43 +35,6 @@
     <div class="mt-4 mb-24 relative">
       <Transition name="fade" >
         <div v-if="Array.isArray( table.records.matched ) && table.records.matched.length > 0 " class="w-full flex flex-wrap justify-between" >
-          <!-- <div v-for="(record, index) in table.records.matched" :key='index' class="w-1/4 p-1"  >
-            <div class="p-2 w-full leading-5 flex relative cursor-pointer hover:shadow border border-gray-200" @click="$router.push('/attendant/'+record.date+'/month/'+record.user.id+'/user')" >
-              <div class="w-4/12 mr-2" >
-                <img v-if="record.user.avatar_url==null||record.user.avatar_url==undefined||record.user.avatar_url==''" src="./../../assets/logo.svg" class="w-24 h-24 mx-auto rounded-full" />
-                <img v-if="record.user.avatar_url!=null&&record.user.avatar_url!=undefined&&record.user.avatar_url!=''" :src="record.user.avatar_url" class="w-24 h-24 mx-auto rounded-full" />
-                <div class="py-4 px-2 leading-5  text-xs text-center font-moul w-full" >{{ record.user.lastname }}&ensp;{{ record.user.firstname }}</div>
-              </div>
-              <div class="w-8/12 text-md " >
-                <table class="w-full" >
-                  <tr >
-                    <td class=" py-1 pb-2 text-left  text-xs" colspan="1" >កាលបរិច្ឆែទ ៖ </td>
-                    <td class=" py-1 pb-2 text-right font-bold  text-xs" colspan="3"  >{{ record.date }}</td>
-                  </tr>
-                  <tr class="bg-gray-100" >
-                    <td class="font-moul py-1 text-left  text-xs">វេន</td>
-                    <td class="font-moul py-1 text-left  text-xs">ចូល</td>
-                    <td class="font-moul py-1 text-left  text-xs">ចេញ</td>
-                    <td class="font-moul py-1 text-right  text-xs">សរុប</td>
-                  </tr>
-                  <tr class="" v-for="(ct , ctIndex) in record.calculateTime.checktimes" :key="ctIndex">
-                    <td class=" py-1 text-left  text-xs" >{{ ct.timeslot.start +'-'+ct.timeslot.end }}</td>
-                    <td class=" py-1 text-left  text-xs" >{{ ct.checkin }}</td>
-                    <td class=" py-1 text-left  text-xs" >{{ ct.checkout }}</td>
-                    <td class=" py-1 text-right font-bold text-xs" >{{ ct.workedTime }}</td>
-                  </tr>
-                  <tr class="" >
-                    <td class=" py-1 text-left  text-xs pt-2" colspan="2" >រយះពេលបំពេញការងារ</td>
-                    <td class=" py-1 text-right font-bold text-xs pt-2" colspan="2"  >{{ record.calculateTime.total.workedTime }}</td>
-                  </tr>
-                  <tr >
-                    <td class=" py-1 text-left  text-xs" colspan="2" >រយះពេលដែល{{ ( record.calculateTime.total.lateOrEarly > 0 ? 'លើស' : 'ខ្វះ' ) }}</td>
-                    <td :class="'pb-2 text-right font-bold text-md' + ( ( record.calculateTime.total.workedTime - record.calculateTime.total.duration ) > 0 ? ' text-green-600 ' : ' text-red-600 ' )" colspan="2"  >{{  record.calculateTime.total.workedTime - record.calculateTime.total.duration  }}</td>
-                  </tr>
-                </table>
-              </div>
-            </div>
-          </div> -->
           <div v-for="(record, index) in table.records.matched" :key='index' class="w-1/4 p-1"  >
             <div class="flex flex-wrap p-2 w-full leading-5 relative cursor-pointer hover:shadow border border-gray-200" @click="$router.push('/attendant/'+record.date+'/month/'+record.user.id+'/user')" >
               <div class="w-full" >
@@ -85,18 +44,20 @@
               </div>
               <div class="w-full" >
                 <table class="w-full" >
-                  <tr >
-                    <td class=" py-1 pb-2 text-left  text-xs" colspan="1" >កាលបរិច្ឆែទ ៖ </td>
-                    <td class=" py-1 pb-2 text-right font-bold  text-xs" colspan="3"  >{{ record.date }}</td>
-                  </tr>
-                  <tr class="" >
-                    <td class=" py-1 text-left  text-xs pt-2" colspan="2" >រយះពេលបានបំពេញការងារ</td>
-                    <td class=" py-1 text-right font-bold text-xs pt-2 text-blue-500" colspan="2"  >{{ record.calculateTime.total.workedTime }}</td>
-                  </tr>
-                  <tr >
-                    <td class=" py-1 text-left  text-xs " colspan="2" >រយះពេលដែល{{ ( record.calculateTime.total.lateOrEarly > 0 ? 'លើស' : 'ខ្វះ' ) }}</td>
-                    <td :class="'pb-2 text-right font-bold text-md' + ( ( record.calculateTime.total.workedTime - record.calculateTime.total.duration ) > 0 ? ' text-green-600 ' : ' text-red-600 ' )" colspan="2"  >{{  record.calculateTime.total.workedTime - record.calculateTime.total.duration  }}</td>
-                  </tr>
+                  <tbody>
+                    <tr >
+                      <td class=" py-1 pb-2 text-left  text-xs" colspan="1" >កាលបរិច្ឆែទ ៖ </td>
+                      <td class=" py-1 pb-2 text-right font-bold  text-xs" colspan="3"  >{{ record.date }}</td>
+                    </tr>
+                    <tr class="" >
+                      <td class=" py-1 text-left  text-xs pt-2" colspan="2" >រយះពេលបានបំពេញការងារ</td>
+                      <td class=" py-1 text-right font-bold text-xs pt-2 text-blue-500" colspan="2"  >{{ record.calculateTime.total.workedTime }}</td>
+                    </tr>
+                    <tr >
+                      <td class=" py-1 text-left  text-xs " colspan="2" >រយះពេលដែល{{ ( record.calculateTime.total.lateOrEarly > 0 ? 'លើស' : 'ខ្វះ' ) }}</td>
+                      <td :class="'pb-2 text-right font-bold text-md' + ( ( record.calculateTime.total.workedTime - record.calculateTime.total.duration ) > 0 ? ' text-green-600 ' : ' text-red-600 ' )" colspan="2"  >{{  record.calculateTime.total.workedTime - record.calculateTime.total.duration  }}</td>
+                    </tr>
+                  </tbody>
                 </table>
               </div>
             </div>
@@ -158,12 +119,7 @@ import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 import QrcodeVue from 'qrcode.vue'
 import Vue3Barcode from 'vue3-barcode'
-import { Switcher } from '@vicons/carbon'
-import { Icon } from '@vicons/utils'
-import { IosCheckmarkCircleOutline, IosRefresh } from '@vicons/ionicons4'
-import { TrashOutline, CloseCircleOutline } from '@vicons/ionicons5'
 import { useDialog, useMessage, useNotification } from 'naive-ui'
-import { Edit20Regular, Key16Regular, Save20Regular, Add20Regular, Search20Regular , ContactCard28Regular } from '@vicons/fluent'
 import dateFormat from "dateformat";
 /**
  * CRUD component form
@@ -172,19 +128,7 @@ export default {
   name: "User" ,
   components: {
     QrcodeVue ,
-    Vue3Barcode,
-    Switcher,
-    Add20Regular ,
-    Icon,
-    IosCheckmarkCircleOutline,
-    IosRefresh ,
-    CloseCircleOutline ,
-    Search20Regular ,
-    Edit20Regular,
-    Key16Regular,
-    Save20Regular ,
-    TrashOutline ,
-    ContactCard28Regular
+    Vue3Barcode
   },
   setup(){
     var store = useStore()

@@ -4,7 +4,7 @@
       <Transition name="fade" >
         <div class="w-full flex flex-wrap justify-between" >
           <div class="w-full p-1 mx-auto" >
-            <div v-if="organization != null && organization != undefined" class="p-2 w-full leading-5 flex flex-wrap relative cursor-pointer" >
+            <div v-if="organization != null && organization != undefined && checkAttendantStatus == false " class="p-2 w-full leading-5 flex flex-wrap relative cursor-pointer" >
               <div class="identification-checking-panel mx-auto w-full mb-4" >
                 <div class="w-full text-center m-2 relative" >
                   <div class="w-20 h-20 mx-auto bg-contain bg-no-repeat bg-center" :style="' background-image: url(' + ocmLogoUrl + '); '" ></div>
@@ -26,7 +26,7 @@
                               class="m-2 mx-auto "
                               >
                               <template #prefix>
-                                <svg class="w-6 h-6"  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 32 32"><path d="M10 9h2v2h-2z" fill="currentColor"></path><path d="M18 23h-4V9h4a4 4 0 0 1 4 4v6a4 4 0 0 1-4 4zm-2-2h2a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2h-2z" fill="currentColor"></path><path d="M10 13h2v10h-2z" fill="currentColor"></path></svg>
+                                <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 32 32"><path d="M10 9h2v2h-2z" fill="currentColor"></path><path d="M18 23h-4V9h4a4 4 0 0 1 4 4v6a4 4 0 0 1-4 4zm-2-2h2a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2h-2z" fill="currentColor"></path><path d="M10 13h2v10h-2z" fill="currentColor"></path></svg>
                               </template>
                             </n-input>
                           </template> 
@@ -85,8 +85,8 @@
               </div>
               <!-- User current location in the map -->
               <Transition name="slide-fade" >
-                <div class="w-full p-1 my-4 mx-auto" 
-                  v-if="currentGeolocation.lat != null && currentGeolocation.lat != undefined && currentGeolocation.lng != null && currentGeolocation.lng != undefined && false "
+                <div class="hidden w-full p-1 my-4 mx-auto" 
+                  v-if="currentGeolocation.lat != null && currentGeolocation.lat != undefined && currentGeolocation.lng != null && currentGeolocation.lng != undefined "
                   >
                   <div 
                     class="google-map border border-gray-200 p-1" >
@@ -107,7 +107,7 @@
       </Transition>
     </div>
     <Transition name="slide-fade" >
-      <div v-if="identification!=null" class="z-50 fixed left-0 top-0 right-0 bottom-0 bg-opacity-90 bg-white flex flex-wrap overflow-y-auto" >
+      <div v-if="identification!=null" class="z-50 fixed left-0 top-0 right-0 bottom-0 bg-white flex flex-wrap overflow-y-auto" >
         <div class="relative w-11/12 sm:w-10/12 md:w-8/12 lg:w-6/12 xl:w-6/12 2xl:w-6/12 m-4 p-8 mx-auto" >
           <div class="font-moul w-full mb-0" ><img :src="ocmLogoUrl" class="w-16 mx-auto" /></div>
           <div class="w-full font-moul mb-0 text-yellow-600 leading-8 text-xs" >ទីស្ដីការគណៈរដ្ឋមន្ត្រី</div>
@@ -115,11 +115,11 @@
           <div class="font-moul w-full mb-4" >ការពិនិត្យវត្តមានមន្ត្រី និងថ្នាក់ដឹកនាំ</div>
           <div class=" w-full mb-4" >
             <div class="welcome_message leading-7 hidden" >គោរពជំរាបសួរ និង សួស្ដីបាទ</div>
-            <div class="countesies leading-7" >{{ identification.countesies != null && identification.countesies != undefined && Array.isArray( identification.countesies ) && identification.countesies.length > 0 ? identification.countesies.map((c)=>{ return c.name }).join(' ') : '' }}</div>
-            <div class="name leading-7" >{{ identification.lastname + ' ' + identification.firstname }}</div>
+            <div class="countesies leading-7 font-pvh" >{{ identification.officer.countesy != null && identification.officer.countesy != undefined ? identification.officer.countesy.name : '' }}</div>
+            <div class="name leading-7 font-moul" >{{ identification.officer.people.lastname + ' ' + identification.officer.people.firstname }}</div>
             <div class="countesies leading-7" >
-              {{ identification.positions != null && identification.positions != undefined && Array.isArray( identification.positions ) && identification.positions.length > 0 ? identification.positions.map((p)=>{ return p.name }).join(' ') : '' }}
-              {{ identification.organizations != null && identification.organizations != undefined && Array.isArray( identification.organizations ) && identification.organizations.length > 0 ? identification.organizations.map((o)=>{ return o.name }).join(' ') : '' }}
+              {{ identification.officer.position != null && identification.position != undefined ? identification.officer.position.name : '' }}
+              {{ identification.officer.organization != null && identification.organization != undefined ? identification.officer.organization.name : '' }}
             </div>
           </div>
           <div class="w-full mb-4 mx-auto bg-contain bg-no-repeat bg-center" >
@@ -128,27 +128,35 @@
           <div class="w-full p-4" >
             <digital-clock type="time" dgClass=" w-full my-2 p-2 rounded-md text-gray-800 shadow:md font-moul text-lg" />
             <!-- Check whether the attenant has been checked -->
-            <div v-if="attendant==null" >
+            <div v-if="attendant==null || ( attendant != null && checkStatus == -1 )" >
               <div @click="checkAttendant" class="cursor-pointer w-1/2 mx-auto" ><div class="border border-green-300 bg-green-100 rounded-md p-4 w-full mx-auto" >ចុះវត្តមាន ចូល</div></div>
             </div>
             <Transition name="slide-fade" >
-              <div v-if="attendant!=null" >
-                <div @click="checkAttendant" class="cursor-pointer w-1/2 mx-auto" ><div class="border border-green-300 bg-green-100 rounded-md p-4 w-full mx-auto" >ចុះវត្តមាន ចេញ</div></div>
-                <div class="mt-8" v-if="attendant.checktimes!=null&&attendant.checktimes.length>0" >
+              <div v-if="attendant!=null && ( checkStatus == 0 || checkStatus == 1 ) " >
+                <div @click="checkAttendant" class="cursor-pointer w-1/2 mx-auto" ><div class="border border-green-300 bg-green-100 rounded-md p-4 w-full mx-auto" >
+                  {{ checkStatus == 0 ? "ចុះវត្តមានចេញ" : "ចុះវត្តមាន ចូល" }}
+                </div></div>
+                <div class="mt-8" v-if="checktimes!=null&&checktimes.length>0" >
                   <table class="w-full border border-gray-200 " >
+                    <thead>
                     <tr>
                       <td colspan="3" class="p-1 leading-6 text-center bg-gray-200 align-text-top" >តារាងពិនិត្យវត្តមាន</td>
                     </tr>
                     <tr>
+                      <td class="p-1 leading-6 text-left align-text-top border-b border-gray-200 " >ល.រ</td>
                       <td class="p-1 leading-6 text-left align-text-top border-b border-gray-200 " >អង្គភាព</td>
                       <td class="p-1 leading-6 text-center align-text-top border-b border-gray-200 " >ម៉ោង</td>
                       <td class="p-1 leading-6 text-center align-text-top border-b border-gray-200 " >ប្រភេទ</td>
                     </tr>
-                    <tr v-for="(checktime,index) in attendant.checktimes" >
-                      <td class="p-1 leading-6 text-left align-text-top" v-if="checktime.organization != undefined && checktime.organization != null" >{{ checktime.organization.name }}</td>
-                      <td class="p-1 leading-6 text-center align-text-top" >{{ getKhmer( attendant.date + " " + checktime.checktime ) }}</td>
-                      <td class="p-1 leading-6 text-center align-text-top" >{{ checktime.check_status }}</td>
+                  </thead>
+                  <tbody>
+                    <tr v-for="(checktime,index) in checktimes" :key='index' >
+                      <td class="p-1 leading-6 text-center align-text-top" >{{  $toKhmer( index + 1 ) }}</td>
+                      <td class="p-1 leading-6 text-left align-text-top" >{{ checktime.organization != undefined && checktime.organization != null ? checktime.organization.name : "ក្នុងប្រព័ន្ធ" }}</td>
+                      <td class="p-1 leading-6 text-center align-text-top" >{{  $toKhmer( checktime.checktime ) }}</td>
+                      <td class="p-1 leading-6 text-center align-text-top" >{{ parseInt( checktime.check_status ) == 0 ? "ចេញ" : "ចូល" }}</td>
                     </tr>
+                  </tbody>
                   </table>
                 </div>
               </div>
@@ -157,7 +165,7 @@
         </div>
         <n-tooltip trigger="hover">
           <template #trigger>
-            <svg @click="identification = null" class="absolute right-2 top-2 w-12 h-12 text-red-500" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512"><path d="M448 256c0-106-86-192-192-192S64 150 64 256s86 192 192 192s192-86 192-192z" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"></path><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M320 320L192 192"></path><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M192 320l128-128"></path></svg>
+            <svg @click="identification = null" class="fixed right-2 top-2 w-12 h-12 text-red-500" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512"><path d="M448 256c0-106-86-192-192-192S64 150 64 256s86 192 192 192s192-86 192-192z" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"></path><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M320 320L192 192"></path><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M192 320l128-128"></path></svg>
           </template> 
           បិទផ្ទាំងពិនិតវត្តមាន
         </n-tooltip>
@@ -211,6 +219,9 @@ export default {
     const identification = ref(null)
     const identificationType = ref('phone')
     const attendant = ref(null)
+    const checkStatus = ref(-1)
+    const checkAttendantStatus = ref(false)
+    const checktimes = ref([])
     /**
      * Variables
      */    
@@ -302,6 +313,8 @@ export default {
           if( res.data.ok ){
             // Attendant has been checked at less once
             attendant.value = res.data.attendant
+            checktimes.value = res.data.checktimes
+            checkStatus.value = res.data.check_status
           }else{
             // Attehdant has not been checked
             attendant.value = null
@@ -374,20 +387,32 @@ export default {
     }
 
     function showError(error) {
-        switch(error.code) {
-            case error.PERMISSION_DENIED:
-                notify.error( "ការស្នើរសុំទីតាំង ត្រូវបានបដិសេធ៏ដោយអ្នកប្រើប្រាស់។" )
-                break;
-            case error.POSITION_UNAVAILABLE:
-                notify.error( "ព័ត៌មានពីទីតាំអ្នកប្រើប្រាស់មិនមានឡើយ។")
-                break;
-            case error.TIMEOUT:
-                notify.error( "អស់ពេលស្នើរសុំព័ត៌មានទីតាំងរបស់អ្នកប្រើប្រាស់។")
-                break;
-            case error.UNKNOWN_ERROR:
-                notify.error( "មានកំហុសដែលមិនបានរំពឹងទុកកើតឡើង។")
-                break;
-        }
+      switch(error.code) {
+          case error.PERMISSION_DENIED:
+              notify.error( {
+                title: 'ចាប់ទីតាំង' ,
+                content: "ការស្នើរសុំទីតាំង ត្រូវបានបដិសេធ៏ដោយអ្នកប្រើប្រាស់។"
+              } )
+              break;
+          case error.POSITION_UNAVAILABLE:
+              notify.error( {
+                title: 'ចាប់ទីតាំង' ,
+                content: "ព័ត៌មានពីទីតាំអ្នកប្រើប្រាស់មិនមានឡើយ។"
+              } )
+              break;
+          case error.TIMEOUT:
+              notify.error( {
+                title: 'ចាប់ទីតាំង' ,
+                content: "អស់ពេលស្នើរសុំព័ត៌មានទីតាំងរបស់អ្នកប្រើប្រាស់។"
+              } )
+              break;
+          case error.UNKNOWN_ERROR:
+          notify.error( {
+                title: 'ចាប់ទីតាំង' ,
+                content: "មានកំហុសដែលមិនបានរំពឹងទុកកើតឡើង។"
+              } )
+              break;
+      }
     }
 
     /**
@@ -423,13 +448,16 @@ export default {
       checkAttendant ,
       tabChange ,
       tabValueChange ,
-      getKhmer ,
+      toKhmer ,
       currentGeolocation ,
       /**
        * Camera Moduls
        */
       onSnap ,
-      refCamera
+      refCamera ,
+      checkAttendantStatus ,
+      checkStatus ,
+      checktimes
     }
   }
 }

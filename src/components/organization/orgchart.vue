@@ -231,7 +231,7 @@ export default {
             console.log( node )
               return `<div class="border border-gray-300 bg-white rounded-md flex flex-row h-6 font-bold text-blue-500" >
                 <svg class="w-4" style="margin: 2px 10px auto 10px; " xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 20 20"><g fill="none"><path d="M9 2.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5H10v1a5 5 0 0 1 5 5v1h1a2 2 0 0 1 2 2v4a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-4a2 2 0 0 1 2-2h1v-1a5.002 5.002 0 0 1 4-4.9V2.5zm7 9.5h-1.5a.5.5 0 0 1-.5-.5V10a4 4 0 0 0-8 0v1.5a.5.5 0 0 1-.5.5H4a1 1 0 0 0-1 1v4h5v-2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2h5v-4a1 1 0 0 0-1-1zM6 13.5a.5.5 0 0 0-1 0v2a.5.5 0 0 0 1 0v-2zm9 0a.5.5 0 0 0-1 0v2a.5.5 0 0 0 1 0v-2zM8.5 9a.5.5 0 0 0-.5.5v2a.5.5 0 0 0 1 0v-2a.5.5 0 0 0-.5-.5zm3.5.5a.5.5 0 0 0-1 0v2a.5.5 0 0 0 1 0v-2zM9 17h2v-2H9v2z" fill="currentColor"></path></g></svg>
-                <div class="" style="margin: 3px 5px auto 5px; " >${ getKhmer( node.data._directSubordinates ) }</div>
+                <div class="" style="margin: 3px 5px auto 5px; " >${ $toKhmer( node.data._directSubordinates ) }</div>
                 </div>`
           })
           .linkUpdate(function (d, i, arr) {
@@ -269,7 +269,7 @@ export default {
                         <!-- Total staffs within the organization -->
                         <div style="width: 40px; position: absolute; right: 5px; bottom: -4px; border: 1px solid #CCC; background-color: #FFF; color:#716E7B; border-radius: 5px; height: 22px; padding: 2px; float: left;" >
                           <svg class="text-blue-600" style=" float: left; width: 12px; height: 12px; margin: 1px auto auto 2px; display: inline-block; font-size: 12px ;" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 448 512"><path d="M224 256c70.7 0 128-57.3 128-128S294.7 0 224 0S96 57.3 96 128s57.3 128 128 128zm95.8 32.6L272 480l-32-136l32-56h-96l32 56l-32 136l-47.8-191.4C56.9 292 0 350.3 0 422.4V464c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48v-41.6c0-72.1-56.9-130.4-128.2-133.8z" fill="currentColor"></path></svg>
-                          <div class="text-blue-600" style=" float: right; font-size: 12px ; " >${ getKhmer( d.data.staffs != null && d.data.staffs.length > 0 ? d.data.staffs.length : 0 ) }</div>
+                          <div class="text-blue-600" style=" float: right; font-size: 12px ; " >${ $toKhmer( d.data.staffs != null && d.data.staffs.length > 0 ? d.data.staffs.length : 0 ) }</div>
                         </div>
                       </div>
                       `;

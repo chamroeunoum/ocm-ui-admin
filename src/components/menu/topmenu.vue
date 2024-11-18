@@ -26,7 +26,7 @@
 import { computed, ref } from 'vue'
 import { useStore } from 'vuex'
 import { getUser } from './../../plugins/authentication'
-import Dock from './../widgets/dock.vue'
+import Dock from '../widgets/Dock.vue'
 import ocmLogoUrl from './../../assets/logo.svg'
 
 export default {
@@ -39,8 +39,8 @@ export default {
     const show = ref(false)
     const username = computed(() => {
       let user = getUser()
-      return user !== null 
-        ? ( user.lastname + " " + user.firstname 
+      return user !== null && user.people != null && user.people != undefined
+        ? ( user.people.lastname + " " + user.people.firstname 
           // + ( user.roles != undefined && user.roles != null ? ' (' + user.roles[0].name + ')' : '' ) 
           )
         : "មិនមាន" 

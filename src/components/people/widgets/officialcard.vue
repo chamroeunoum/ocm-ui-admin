@@ -2,7 +2,7 @@
   <!-- Form edit account -->
     <div class="vcb-pop-create font-ktr ">
       <n-modal 
-      v-model:show="show" :on-esc="maskOrEscClick" :on-mask-click="maskOrEscClick"  :on-after-enter="initial" transform-origin="center" 
+      v-bind:show="show" :on-esc="maskOrEscClick" :on-mask-click="maskOrEscClick"  :on-after-enter="initial" transform-origin="center" 
       class=" bg-white" >
         <!-- Form edit account -->
         <div class="card relative border border-gray-300 rounded mx-auto overflow-hidden" >
@@ -16,6 +16,7 @@
           <div v-if="record != undefined " class="flex relative official-card" >
             <div class="flex flex-wrap" style="height: 5.5cm; width: 8.5cm; padding: 6px; " > 
               <table class="w-full " >
+                <tbody>
                 <tr >
                   <td style="width: 2.8cm; vertical-align: middle;" >
                     <img :src="(record.image!=''? record.image:ocmLogoUrl)" class="mx-auto rounded border-gray-100 mb-1 " />
@@ -28,6 +29,7 @@
                   </td>
                   <td style="width: 5.7cm; padding: 0.2cm; vertical-align: top;" colspan="2" >
                     <table style="width: 6cm;">
+                      <tbody>
                       <tr>
                         <td class="text-left font-moul align-top" style="width: 2cm; " >គោត្តនាម / នាម</td>
                         <td class="font-moul" style="font-size: 0.6rem; " >{{ record.lastname + " " + record.firstname }}<br/><span class="font-bold leading-4" style="font-size: 0.5rem;">SOTH Thy</span></td>
@@ -48,6 +50,7 @@
                         <td class="text-left font-moul align-top" style="width: 2cm; "  >មុខងារ</td>
                         <td class="leading-4">{{ record.positions.map( (o) => o.name ).join( ', ' )}}</td>
                       </tr>
+                    </tbody>
                     </table>
                   </td>
                 </tr>
@@ -69,57 +72,9 @@
                     </div>
                   </td>
                 </tr>
+              </tbody>
               </table>
             </div> 
-
-            <!-- <div class="mx-auto p-4 w-full flex flex-wrap" >
-              <div class="w-full mb-2" >
-                <div class="w-12 h-12 mx-auto bg-center bg-no-repeat bg-contain border-gray-200 " :style="'background-image: url('+ocmLogoUrl+')'" ></div>
-                <div class="w-full font-moul text-xs text-center text-yellow-500 my-2 " >ទីស្ដីការគណៈរដ្ឋមន្ត្រី</div>
-                <div class="w-full text-xs text-center text-yellow-500 " >Office of the Council of Ministers</div>
-              </div>
-              
-              <div class="w-full" >
-                <img :src="(record.image!=''? record.image:ocmLogoUrl)" class="w-24 mx-auto rounded-md border border-gray-100 p-1 bg-white" />
-              </div>
-              
-              <div 
-                v-if="record.organizationPeople != null && record.organizationPeople != undefined && record.organizationPeople.length > 0 "
-                class="w-full"
-                >
-                <div class="w-full" v-for="(organizationPivot, index) in record.organizationPeople" >
-                  <div class="w-full h-6 text-center mx-auto my-2 font-bold " >{{ organizationPivot.organization.code != "" && organizationPivot.organization.code != undefined && organizationPivot.organization.code.length > 0 ? organizationPivot.organization.code : 'OCM' }}{{ organizationPivot.code != "" && organizationPivot.code != undefined && organizationPivot.code.length > 0 ? "-" + organizationPivot.code : '-' + record.id }}</div>
-                </div>
-              </div>
-              <div class="font-moul text-left mx-auto" >
-                <table class="" >
-                  <tr v-if="userCountesies!=''" >
-                    <td class="w-24 p-1  font-moul leading-6" style="vertical-align: top; text-align: left;" >ងារ</td>
-                    <td class="font-moul p-1 text-md leading-6" style="vertical-align: top; text-align: left;"  >{{ userCountesies }}</td>
-                  </tr>
-                  <tr>
-                    <td class="w-24 p-1 font-moul leading-6" style="vertical-align: top; text-align: left;" >ឈ្មោះ</td>
-                    <td class="font-moul p-1 text-xl leading-6" style="vertical-align: top; text-align: left;"  >{{ record.lastname + " " + record.firstname }}</td>
-                  </tr>
-                  <tr v-if="record != null && record.organizations != null " >
-                    <td class="w-24 p-1 font-moul leading-6" style="vertical-align: top; text-align: left;"  >អង្គភាព</td>
-                    <td class="font-moul p-1 leading-6" style="vertical-align: top; text-align: left;"  >{{ record.organizations.map( (o) => o.name ).join( ', ' )}}</td>
-                  </tr>
-                  <tr v-if="record != null && record.positions != null ">
-                    <td class="w-24 p-1 font-moul leading-6" style="vertical-align: top; text-align: left;"  >តួនាទី</td>
-                    <td class="font-moul p-1 leading-6" style="vertical-align: top; text-align: left;"  >{{ record.positions.map( (o) => o.name ).join( ', ' )}}</td>
-                  </tr>
-                </table>
-              </div>
-              
-              <div class="w-full my-2" >
-                <a :href="getPublicCardUrl(record)" target="_blank_" >
-                  <qrcode-vue :value="getPublicCardUrl(record)" :size="100" level="H" class=" mx-auto" :render-as="'svg'" />
-                </a>
-              </div>
-
-            </div> -->
-
           </div>
           <!-- <Frame4Corner /> -->
         </div>
@@ -132,7 +87,7 @@ import { reactive , ref , computed } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter, useRoute } from 'vue-router'
 import { useMessage, useNotification } from 'naive-ui'
-import { Save20Regular } from '@vicons/fluent'
+
 import Frame4Corner from './../../widgets/frame/corner4.vue'
 import QrcodeVue from 'qrcode.vue'
 import ocmLogoUrl from './../../../assets/logo.svg'
@@ -142,7 +97,7 @@ import { getKhmer } from '../../../plugins/kh/number.js'
 
 export default {
   components: {
-    Save20Regular ,
+    
     Frame4Corner ,
     QrcodeVue
   },
@@ -269,8 +224,7 @@ export default {
       maskOrEscClick ,
       ocmLogoUrl ,
       blurBackground ,
-      blurBackgroundZ ,
-      getKhmer
+      blurBackgroundZ 
     }
   }
 }

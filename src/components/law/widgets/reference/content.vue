@@ -20,18 +20,18 @@
                       <div v-if="record.image == false || record.image == null || record.image == undefined " class="image bg-contain bg-center bg-no-repeat " :style=" 'background-image: url('+ocmLogoUrl+');' " ></div> -->
                       <div class="flex flex-wrap " >
                         <div class="w-full py-2 mx-auto" >
-                          <div class="font-moul text-center" >{{ ( Array.isArray( record.types ) && record.types.length > 0 ? prefixOfTypes[ record.types[0].id ] + ' / ' : '' ) + getKhmer( record.fid ) }}</div>
-                          <div class="text-center" >{{ getKhmer( record.year.slice(0,10) ) }}</div>
+                          <div class="font-moul text-center" >{{ ( Array.isArray( record.types ) && record.types.length > 0 ? prefixOfTypes[ record.types[0].id ] + ' / ' : '' ) + $toKhmer( record.fid ) }}</div>
+                          <div class="text-center" >{{ $toKhmer( record.year.slice(0,10) ) }}</div>
                         </div>
                         <div class="w-full py-2" >
-                          <div class="w-full pb-1 mb-1 leading-6 break-all text-justify" v-html="applyTagMark( getKhmer( record.objective ))" ></div>
+                          <div class="w-full pb-1 mb-1 leading-6 break-all text-justify" v-html="applyTagMark( $toKhmer( record.objective ))" ></div>
                         </div>
                         <div class="w-full flex " >
                           <div v-if="Array.isArray( record.signatures ) && record.signatures.length > 0 " class="w-1/2 text-left text-xs my-1 text-gray-500 mr-2 leading-5 tracking-wider" >{{ record.signatures.map( o => o.name ).join( ' , ' ) }}</div>
                           <div v-if="Array.isArray( record.organizations ) && record.organizations.length > 0 " class="w-1/2 text-right text-xs my-1 text-gray-500 leading-5 tracking-wide" >{{ record.organizations.map( o => o.name ).join( ' , ' ) }}</div>
                         </div>
                       </div>
-                      <div class="absolute top-0 left-0 p-1 border-l-0 border-t-0 border border-gray-200 font-moul rounded-br-lg shadow-sm" >{{ getKhmer( ( table.pagination.perPage * ( table.pagination.page - 1 ) ) + index + 1 ) }}</div>
+                      <div class="absolute top-0 left-0 p-1 border-l-0 border-t-0 border border-gray-200 font-moul rounded-br-lg shadow-sm" >{{ $toKhmer( ( table.pagination.perPage * ( table.pagination.page - 1 ) ) + index + 1 ) }}</div>
                       
                       <n-tooltip trigger="hover">
                         <template #trigger>
@@ -43,7 +43,7 @@
 
                           </div>
                         </template>
-                        <div class="text-center leading-7" v-html=" 'បញ្ចូល ' +  ( Array.isArray( record.books ) && record.books.length > 0 ? prefixOfTypes[ record.types[0].id ] + ' / ' : '' ) + getKhmer( record.fid ) + ' ជាឯកសារយោងនៃ ' + ( book != null && book != undefined ? '<br/>' + book.title : '' ) " ></div>
+                        <div class="text-center leading-7" v-html=" 'បញ្ចូល ' +  ( Array.isArray( record.books ) && record.books.length > 0 ? prefixOfTypes[ record.types[0].id ] + ' / ' : '' ) + $toKhmer( record.fid ) + ' ជាឯកសារយោងនៃ ' + ( book != null && book != undefined ? '<br/>' + book.title : '' ) " ></div>
                       </n-tooltip>
                       
                       <div 
@@ -117,7 +117,6 @@
 import { reactive , ref , computed } from 'vue'
 import { useStore } from 'vuex'
 import { useMessage, useNotification } from 'naive-ui'
-import { ReceiptAdd20Regular, Save20Regular } from '@vicons/fluent'
 import QrcodeVue from 'qrcode.vue'
 import { getKhmer } from './../../../../plugins/kh/number.js'
 import VuePdfEmbed from 'vue-pdf-embed'
@@ -125,7 +124,6 @@ import VuePdfEmbed from 'vue-pdf-embed'
 
 export default {
   components: {
-    Save20Regular ,
     QrcodeVue ,
     VuePdfEmbed
   },
@@ -424,8 +422,7 @@ export default {
       previous ,
       last ,
       next ,
-      updatePerpage ,
-      getKhmer ,
+      updatePerpage  ,
       applyTagMark ,
       addAsReference ,
       pdf ,

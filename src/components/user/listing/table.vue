@@ -24,11 +24,7 @@
         
         class="w-2/5 relative" >
           <input type="text" @keypress.enter="filterRecords(false)" v-model="table.search" class="bg-gray-100 px-2 h-9 my-1 w-full rounded border border-gray-200 focus:border-blue-600 hover:border-blue-600 " placeholder="ស្វែងរក" />
-          <Icon size="27" class="absolute right-1 top-2 text-gray-400 hover:text-blue-700 cursor-pointer" @click="filterRecords(false)" >
-            <n-icon>
-              <Search20Regular />
-            </n-icon>
-          </Icon>
+          <svg class="absolute right-1 top-2 text-gray-400 hover:text-blue-700 cursor-pointer" @click="filterRecords(false)" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 20 20"><g fill="none"><path d="M8.5 3a5.5 5.5 0 0 1 4.227 9.02l4.127 4.126a.5.5 0 0 1-.638.765l-.07-.057l-4.126-4.127A5.5 5.5 0 1 1 8.5 3zm0 1a4.5 4.5 0 1 0 0 9a4.5 4.5 0 0 0 0-9z" fill="currentColor"></path></g></svg>
         </div>
         
       </div>
@@ -39,42 +35,46 @@
     <div class="vcb-table-panel relative">
       <Transition name="fade" >
         <table v-if="Array.isArray( table.records.matched ) && table.records.matched.length > 0 " class="vcb-table" >
-          <tr class="vcb-table-headers" >
-            <th class="vcb-table-header" >ល.រ</th>
-            <th class="vcb-table-header">ឈ្មោះ</th>
-            <th class="vcb-table-header">អ៊ីមែល</th>
-            <th class="vcb-table-header">ឈ្មោះក្នុងប្រព័ន្ធ</th>
-            <th class="vcb-table-header">លេខទូរស័ព្ទ</th>
-            <th class="vcb-table-header">ប្រភេទគណនី</th>
-            <th class="vcb-table-header text-right w-40" >ប្រតិបត្តិការ</th>
-          </tr>
-          <tr v-for="(record, index) in table.records.matched" :key='index' class="vcb-table-row" >
-            <td class="vcb-table-cell font-bold w-12" >{{ ( ( table.pagination.perPage * ( table.pagination.page - 1 ) ) + index + 1 ) }}</td>
-            <td class="vcb-table-cell flex flex-wrap " >
-              <div class="w-full flex" >
-                <div v-if="Array.isArray( record.person.countesies ) && record.person.countesies.length > 0" class="flex-none font-moul mr-2" >{{  record.person.countesies.map( o => o.name ).join( ' , ' )  }}</div>
-                <div class="flex-grow font-moul" >{{ record.lastname + " " + record.firstname }}<br/></div>
-              </div>
-              <div class="w-full flex flex-wrap" >
-                <div v-if=" Array.isArray( record.person.positions ) && record.person.positions.length > 0 " class="text-xs mt-1 text-gray-500 mr-2" >{{ record.person.positions.map( o => o.name ).join( ' , ' ) }}</div>
-                <div v-if=" Array.isArray( record.person.organizations ) && record.person.organizations.length > 0 " class="text-xs mt-1 text-gray-500" >{{ record.person.organizations.map( o => o.name ).join( ' , ' ) }}</div>
-              </div>
-              <div v-if="record.person" class="w-full flex flex-wrap" >
-                {{ record.person.lastname + " " + record.person.firstname }}
-              </div>
-            </td>
-            <td class="vcb-table-cell" >{{ record.email }}</td>
-            <td  class="vcb-table-cell w-40" >{{ record.username }}</td>
-            <td  class="vcb-table-cell w-40" >{{ record.phone }}</td>
-            <td class="vcb-table-cell w-40" >{{ Array.isArray( record.roles ) && record.roles.length > 0 ? record.roles[0].name : "គ្មាន"  }}</td>
-            <td class="vcb-table-actions-panel text-right w-40" >
-              <svg class="cursor-pointer text-blue-500 w-6 " @click="$router.push('/'+model.name+'/'+record.id+'/detail')" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 28 28"><g fill="none"><path d="M15 11.75a.75.75 0 0 1 .75-.75h5.5a.75.75 0 0 1 0 1.5h-5.5a.75.75 0 0 1-.75-.75zm.75 3.25a.75.75 0 0 0 0 1.5h5.5a.75.75 0 0 0 0-1.5h-5.5zm-4.5-3.25a1.75 1.75 0 1 1-3.5 0a1.75 1.75 0 0 1 3.5 0zM7 14.5h5a1 1 0 0 1 1 1v.5s-.5 2.5-3.5 2.5S6 16 6 16v-.5a1 1 0 0 1 1-1zM2.004 6.75A2.75 2.75 0 0 1 4.754 4H23.25A2.75 2.75 0 0 1 26 6.75v14.5A2.75 2.75 0 0 1 23.25 24H4.755a2.75 2.75 0 0 1-2.75-2.75V6.75zm2.75-1.25c-.69 0-1.25.56-1.25 1.25v14.5c0 .69.56 1.25 1.25 1.25H23.25c.69 0 1.25-.56 1.25-1.25V6.75c0-.69-.56-1.25-1.25-1.25H4.755z" fill="currentColor"></path></g></svg>
-              <svg class="cursor-pointer text-blue-500 w-6 " @click="showEditModal(record)" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 20 20"><g fill="none"><path d="M4 15h5.986c-.227.3-.4.639-.51 1H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v5.232c-.326.14-.631.343-.897.609L15 9.944V4a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1zm8-9.5a.5.5 0 0 1 1 0v6.444l-.88.88A.498.498 0 0 1 12 12.5v-7zm-7 2a.5.5 0 0 1 1 0v5a.5.5 0 0 1-1 0v-5zM9 9a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 1 0v-3A.5.5 0 0 0 9 9zm1.98 6.377l4.83-4.83a1.87 1.87 0 1 1 2.645 2.646l-4.83 4.829a2.197 2.197 0 0 1-1.02.578l-1.498.374a.89.89 0 0 1-1.079-1.078l.375-1.498c.096-.386.296-.74.578-1.02z" fill="currentColor"></path></g></svg>
-              <svg class="cursor-pointer text-yellow-500 w-6 " @click="inputPassword(record)" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 16 16"><g fill="none"><path d="M11 6a1 1 0 1 0 0-2a1 1 0 0 0 0 2z" fill="currentColor"></path><path d="M7.5 12v-.5h1A.5.5 0 0 0 9 11v-1h1a4 4 0 1 0-3.838-2.87L2.292 11a1 1 0 0 0-.292.707V13a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1v-.5h1a.5.5 0 0 0 .5-.5zM7 6a3 3 0 1 1 3 3H8.5a.5.5 0 0 0-.5.5v1H7a.5.5 0 0 0-.5.5v.5h-1a.5.5 0 0 0-.5.5v1H3v-1.293l4.089-4.089a.5.5 0 0 0 .113-.534C7.072 6.748 7 6.384 7 6z" fill="currentColor"></path></g></svg>
-              <svg class="cursor-pointer text-red-500 w-6 " @click="deleteAccount(record)" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512"><path d="M112 112l20 320c.95 18.49 14.4 32 32 32h184c17.67 0 30.87-13.51 32-32l20-320" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"></path><path stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="32" d="M80 112h352" fill="currentColor"></path><path d="M192 112V72h0a23.93 23.93 0 0 1 24-24h80a23.93 23.93 0 0 1 24 24h0v40" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"></path><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M256 176v224"></path><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M184 176l8 224"></path><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M328 176l-8 224"></path></svg>              
-              <svg :class="'w-6 cursor-pointer ' + ( parseInt( record.active ) == 1 ? ' text-green-500 ' : ' text-gray-500 ') " @click="activateAccount(record)" :title="record.active == 1 ? 'គណនីនេះកំពុងបើកតំណើរការ' : 'គណនីនេះកំពុងត្រូវបានបិទមិនអាចប្រើប្រាស់បាន' "  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10s10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8s8 3.59 8 8s-3.59 8-8 8zm3.88-11.71L10 14.17l-1.88-1.88a.996.996 0 1 0-1.41 1.41l2.59 2.59c.39.39 1.02.39 1.41 0L17.3 9.7a.996.996 0 0 0 0-1.41c-.39-.39-1.03-.39-1.42 0z" fill="currentColor"></path></svg>
-            </td>
-          </tr>
+          <thead>
+            <tr class="vcb-table-headers" >
+              <th class="vcb-table-header" >ល.រ</th>
+              <th class="vcb-table-header">ឈ្មោះ</th>
+              <th class="vcb-table-header">អ៊ីមែល</th>
+              <th class="vcb-table-header">ឈ្មោះក្នុងប្រព័ន្ធ</th>
+              <th class="vcb-table-header">លេខទូរស័ព្ទ</th>
+              <th class="vcb-table-header">ប្រភេទគណនី</th>
+              <th class="vcb-table-header text-right w-40" >ប្រតិបត្តិការ</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(record, index) in table.records.matched" :key='index' class="vcb-table-row" >
+              <td class="vcb-table-cell font-bold w-12" >{{ ( ( table.pagination.perPage * ( table.pagination.page - 1 ) ) + index + 1 ) }}</td>
+              <td class="vcb-table-cell flex flex-wrap " >
+                <div class="w-full flex" >
+                  <div v-if="Array.isArray( record.person.countesies ) && record.person.countesies.length > 0" class="flex-none font-moul mr-2" >{{  record.person.countesies.map( o => o.name ).join( ' , ' )  }}</div>
+                  <div class="flex-grow font-moul" >{{ record.lastname + " " + record.firstname }}<br/></div>
+                </div>
+                <div class="w-full flex flex-wrap" >
+                  <div v-if=" Array.isArray( record.person.positions ) && record.person.positions.length > 0 " class="text-xs mt-1 text-gray-500 mr-2" >{{ record.person.positions.map( o => o.name ).join( ' , ' ) }}</div>
+                  <div v-if=" Array.isArray( record.person.organizations ) && record.person.organizations.length > 0 " class="text-xs mt-1 text-gray-500" >{{ record.person.organizations.map( o => o.name ).join( ' , ' ) }}</div>
+                </div>
+                <div v-if="record.person" class="w-full flex flex-wrap" >
+                  {{ record.person.lastname + " " + record.person.firstname }}
+                </div>
+              </td>
+              <td class="vcb-table-cell" >{{ record.email }}</td>
+              <td  class="vcb-table-cell w-40" >{{ record.username }}</td>
+              <td  class="vcb-table-cell w-40" >{{ record.phone }}</td>
+              <td class="vcb-table-cell w-40" >{{ Array.isArray( record.roles ) && record.roles.length > 0 ? record.roles[0].name : "គ្មាន"  }}</td>
+              <td class="vcb-table-actions-panel text-right w-40" >
+                <svg class="cursor-pointer text-blue-500 w-6 " @click="$router.push('/'+model.name+'/'+record.id+'/detail')" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 28 28"><g fill="none"><path d="M15 11.75a.75.75 0 0 1 .75-.75h5.5a.75.75 0 0 1 0 1.5h-5.5a.75.75 0 0 1-.75-.75zm.75 3.25a.75.75 0 0 0 0 1.5h5.5a.75.75 0 0 0 0-1.5h-5.5zm-4.5-3.25a1.75 1.75 0 1 1-3.5 0a1.75 1.75 0 0 1 3.5 0zM7 14.5h5a1 1 0 0 1 1 1v.5s-.5 2.5-3.5 2.5S6 16 6 16v-.5a1 1 0 0 1 1-1zM2.004 6.75A2.75 2.75 0 0 1 4.754 4H23.25A2.75 2.75 0 0 1 26 6.75v14.5A2.75 2.75 0 0 1 23.25 24H4.755a2.75 2.75 0 0 1-2.75-2.75V6.75zm2.75-1.25c-.69 0-1.25.56-1.25 1.25v14.5c0 .69.56 1.25 1.25 1.25H23.25c.69 0 1.25-.56 1.25-1.25V6.75c0-.69-.56-1.25-1.25-1.25H4.755z" fill="currentColor"></path></g></svg>
+                <svg class="cursor-pointer text-blue-500 w-6 " @click="showEditModal(record)" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 20 20"><g fill="none"><path d="M4 15h5.986c-.227.3-.4.639-.51 1H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v5.232c-.326.14-.631.343-.897.609L15 9.944V4a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1zm8-9.5a.5.5 0 0 1 1 0v6.444l-.88.88A.498.498 0 0 1 12 12.5v-7zm-7 2a.5.5 0 0 1 1 0v5a.5.5 0 0 1-1 0v-5zM9 9a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 1 0v-3A.5.5 0 0 0 9 9zm1.98 6.377l4.83-4.83a1.87 1.87 0 1 1 2.645 2.646l-4.83 4.829a2.197 2.197 0 0 1-1.02.578l-1.498.374a.89.89 0 0 1-1.079-1.078l.375-1.498c.096-.386.296-.74.578-1.02z" fill="currentColor"></path></g></svg>
+                <svg class="cursor-pointer text-yellow-500 w-6 " @click="inputPassword(record)" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 16 16"><g fill="none"><path d="M11 6a1 1 0 1 0 0-2a1 1 0 0 0 0 2z" fill="currentColor"></path><path d="M7.5 12v-.5h1A.5.5 0 0 0 9 11v-1h1a4 4 0 1 0-3.838-2.87L2.292 11a1 1 0 0 0-.292.707V13a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1v-.5h1a.5.5 0 0 0 .5-.5zM7 6a3 3 0 1 1 3 3H8.5a.5.5 0 0 0-.5.5v1H7a.5.5 0 0 0-.5.5v.5h-1a.5.5 0 0 0-.5.5v1H3v-1.293l4.089-4.089a.5.5 0 0 0 .113-.534C7.072 6.748 7 6.384 7 6z" fill="currentColor"></path></g></svg>
+                <svg class="cursor-pointer text-red-500 w-6 " @click="deleteAccount(record)" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512"><path d="M112 112l20 320c.95 18.49 14.4 32 32 32h184c17.67 0 30.87-13.51 32-32l20-320" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"></path><path stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="32" d="M80 112h352" fill="currentColor"></path><path d="M192 112V72h0a23.93 23.93 0 0 1 24-24h80a23.93 23.93 0 0 1 24 24h0v40" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"></path><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M256 176v224"></path><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M184 176l8 224"></path><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M328 176l-8 224"></path></svg>              
+                <svg :class="'w-6 cursor-pointer ' + ( parseInt( record.active ) == 1 ? ' text-green-500 ' : ' text-gray-500 ') " @click="activateAccount(record)" :title="record.active == 1 ? 'គណនីនេះកំពុងបើកតំណើរការ' : 'គណនីនេះកំពុងត្រូវបានបិទមិនអាចប្រើប្រាស់បាន' "  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10s10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8s8 3.59 8 8s-3.59 8-8 8zm3.88-11.71L10 14.17l-1.88-1.88a.996.996 0 1 0-1.41 1.41l2.59 2.59c.39.39 1.02.39 1.41 0L17.3 9.7a.996.996 0 0 0 0-1.41c-.39-.39-1.03-.39-1.42 0z" fill="currentColor"></path></svg>
+              </td>
+            </tr>
+          </tbody>
         </table>
       </Transition>
       <!-- Loading -->
@@ -93,23 +93,63 @@
       </Transition>
     </div>
     <!-- Pagination of crud -->
-    <div class="fixed left-0 right-0 bottom-1 flex flex-wrap" >
-      <!-- This pagination is for the media side with from Medium up -->
-      <div class="vcb-table-pagination bg-blue-300 mx-auto">
-        <!-- First -->
-        <!-- Previous -->
-        <div class="vcb-pagination-page " v-html='"<"' @click="previous()" ></div>
-        <!-- Pages (7) -->
-        <div v-for="(page, index) in table.pagination.buttons" :key="index" :class="'vcb-pagination-page pages h-8 mx-2 font-bold' + (table.pagination.page == page ? ' text-blue-500 text-lg border-none rounded-full' : '' )" @click="table.pagination.page == page ? false : goTo(page) " >
-          <div class="page">{{ page }}</div>
+    <Transition name="slide-fade" >
+        <div v-if="table.pagination.totalPages > 1 " class="fixed left-0 right-0 bottom-1 flex flex-wrap" >
+          <div class="vcb-table-pagination bg-blue-300 mx-auto">
+            <n-tooltip trigger="hover">
+              <template #trigger>
+                <n-popselect 
+                  trigger="click"
+                  v-model:value="table.pagination.perPage"
+                  :options="[
+                    { label: 5 , value: 5 } ,
+                    { label: 10 , value: 10 } ,
+                    { label: 20 , value: 20 } ,
+                    { label: 30 , value: 30 } ,
+                    { label: 40 , value: 40 } ,
+                    { label: 50 , value: 50 } ,
+                    { label: 100 , value: 100 } ,
+                    { label: 200 , value: 200 } ,
+                    { label: 500 , value: 500 } ,
+                  ]"
+                  size="small"
+                  scrollable
+                  @update:value="goTo(1)"
+                >
+                  <div class="cursor-pointer font-pvh rounded-full p-2 px-4 border border-gray-200 text-blue-600" >{{ $toKhmer( table.pagination.perPage ) }}</div>
+                </n-popselect>
+              </template>
+              ចំនួនព័ត៌មានបង្ហាញម្ដង
+            </n-tooltip>
+            <!-- <n-tooltip trigger="hover">
+              <template #trigger>
+                <div class="vcb-table-pagination-info font-pvh " >{{ table.pagination.totalRecords > 0 ? $toKhmer( table.pagination.totalRecords ) + " ព័ត៌មាន" : "" }}</div>
+              </template>
+              ចំនួនព័ត៌មានសរុប
+            </n-tooltip> -->
+            <n-tooltip trigger="hover">
+              <template #trigger>
+                <div class="vcb-table-pagination-info font-pvh " >{{ table.pagination.totalPages > 0 ? $toKhmer( table.pagination.totalPages ) + " ទំព័រ" : "" }}</div>
+              </template>
+              ចំនួនទំព័រសរុប
+            </n-tooltip>
+            <div v-for="(page, index) in table.pagination.buttons" :key="index" :class=" (table.pagination.page == page ? ' vcb-pagination-page-active ' : ' vcb-pagination-page ' )" @click="table.pagination.page == page ? false : goTo(page) " >
+              <n-tooltip trigger="hover">
+                <template #trigger>
+                  <div class="leading-8 text-md font-pvh " >{{ $toKhmer( page ) }} </div>
+                </template>
+                ទំព័រទី {{ $toKhmer( page ) }}
+              </n-tooltip>
+            </div>
+            <Transition name="slide-fade" >
+              <div v-if="table.pagination.page > 1 " class="vcb-pagination-page " v-html='"<"' @click="previous()" ></div>
+            </Transition>
+            <Transition name="slide-fade" >
+              <div v-if="table.pagination.page < table.pagination.totalPages " class="vcb-pagination-page " v-html='">"' @click="next()" ></div>
+            </Transition>
+          </div>
         </div>
-        <!-- Next -->
-        <div class="vcb-pagination-page " v-html='">"' @click="next()" ></div>
-        <!-- Last -->
-        <!-- Go to -->
-        <!-- Total per page -->
-      </div>
-    </div>
+      </Transition>
     <!-- Form change password -->
     <div class="vcb-pop-edit font-ktr">
       <n-modal v-model:show="changePasswordModal.show" transform-origin="center">
@@ -118,7 +158,7 @@
             <n-button type="success" @click="changePassword(changePasswordModal.form)" >
               <template #icon>
                 <n-icon>
-                  <Save20Regular />
+                  <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 20 20"><g fill="none"><path d="M3 5a2 2 0 0 1 2-2h8.379a2 2 0 0 1 1.414.586l1.621 1.621A2 2 0 0 1 17 6.621V15a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5zm2-1a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1v-4.5A1.5 1.5 0 0 1 6.5 10h7a1.5 1.5 0 0 1 1.5 1.5V16a1 1 0 0 0 1-1V6.621a1 1 0 0 0-.293-.707l-1.621-1.621A1 1 0 0 0 13.379 4H13v2.5A1.5 1.5 0 0 1 11.5 8h-4A1.5 1.5 0 0 1 6 6.5V4H5zm2 0v2.5a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5V4H7zm7 12v-4.5a.5.5 0 0 0-.5-.5h-7a.5.5 0 0 0-.5.5V16h8z" fill="currentColor"></path></g></svg>
                 </n-icon>
               </template>
               រក្សារទុក
@@ -162,12 +202,7 @@ import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 import QrcodeVue from 'qrcode.vue'
 import Vue3Barcode from 'vue3-barcode'
-import { Switcher } from '@vicons/carbon'
-import { Icon } from '@vicons/utils'
-import { IosCheckmarkCircleOutline, IosRefresh } from '@vicons/ionicons4'
-import { TrashOutline, CloseCircleOutline } from '@vicons/ionicons5'
 import { useDialog, useMessage, useNotification } from 'naive-ui'
-import { Edit20Regular, Key16Regular, Save20Regular, Add20Regular, Search20Regular , ContactCard28Regular } from '@vicons/fluent'
 /**
  * CRUD component form
  */
@@ -178,20 +213,8 @@ export default {
   components: {
     QrcodeVue ,
     Vue3Barcode,
-    Switcher,
-    Add20Regular ,
-    Icon,
-    IosCheckmarkCircleOutline,
     CreateForm,
-    IosRefresh ,
-    CloseCircleOutline ,
-    UpdateForm,
-    Search20Regular ,
-    Edit20Regular,
-    Key16Regular,
-    Save20Regular ,
-    TrashOutline ,
-    ContactCard28Regular
+    UpdateForm
   },
   setup(){
     var store = useStore()

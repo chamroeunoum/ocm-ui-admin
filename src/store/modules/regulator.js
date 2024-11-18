@@ -24,7 +24,7 @@ const getters = {
 // actions
 const actions = {
   async list ({ state, commit, rootState },params) {
-    return await crud.list(rootState.apiServer+"/"+state.model.name + "?" + new URLSearchParams({
+    return await crud.list(import.meta.env.VITE_API_SERVER+"/"+state.model.name + "?" + new URLSearchParams({
         search: params.search ,
         perPage: params.perPage ,
         page: params.page ,
@@ -35,7 +35,7 @@ const actions = {
     )
   },
   async childList ({ state, commit, rootState },params) {
-    return await crud.list(rootState.apiServer+"/"+state.model.name + "/child?" + new URLSearchParams({
+    return await crud.list(import.meta.env.VITE_API_SERVER+"/"+state.model.name + "/child?" + new URLSearchParams({
         // unit: params.unit ,
         // date: params.date ,
         // number: params.number ,
@@ -48,69 +48,69 @@ const actions = {
     )
   },
   async matras ({ state, commit, rootState },params) {
-    return await crud.list(rootState.apiServer+"/"+state.model.name +"/"+params.regulator_id + "/matras?" + new URLSearchParams(params).toString()
+    return await crud.list(import.meta.env.VITE_API_SERVER+"/"+state.model.name +"/"+params.regulator_id + "/matras?" + new URLSearchParams(params).toString()
     )
   },
   async read ({ state, commit, rootState },params) {
-    return await crud.read(rootState.apiServer+"/"+state.model.name+"/"+params.id)
+    return await crud.read(import.meta.env.VITE_API_SERVER+"/"+state.model.name+"/"+params.id)
   },
   async kunty ({ state, commit, rootState },params) {
-    return await crud.read(rootState.apiServer+"/"+state.model.name+"/"+params.id+"/kunties")
+    return await crud.read(import.meta.env.VITE_API_SERVER+"/"+state.model.name+"/"+params.id+"/kunties")
   },
   async matika ({ state, commit, rootState },params) {
-    return await crud.read(rootState.apiServer+"/"+state.model.name+"/"+params.id+"/matikas")
+    return await crud.read(import.meta.env.VITE_API_SERVER+"/"+state.model.name+"/"+params.id+"/matikas")
   },
   async matikasByKunty ({ state, commit, rootState },params) {
-    return await crud.read(rootState.apiServer+"/"+state.model.name+"/kunties/"+params.id+"/matikas")
+    return await crud.read(import.meta.env.VITE_API_SERVER+"/"+state.model.name+"/kunties/"+params.id+"/matikas")
   },
   async chaptersByMatika ({ state, commit, rootState },params) {
-    return await crud.read(rootState.apiServer+"/"+state.model.name+"/matikas/"+params.id+"/chapters")
+    return await crud.read(import.meta.env.VITE_API_SERVER+"/"+state.model.name+"/matikas/"+params.id+"/chapters")
   },
   async chaptersByKunty ({ state, commit, rootState },params) {
-    return await crud.read(rootState.apiServer+"/"+state.model.name+"/kunties/"+params.id+"/chapters")
+    return await crud.read(import.meta.env.VITE_API_SERVER+"/"+state.model.name+"/kunties/"+params.id+"/chapters")
   },
   async partsByChapter ({ state, commit, rootState },params) {
-    return await crud.read(rootState.apiServer+"/"+state.model.name+"/chapters/"+params.id+"/parts")
+    return await crud.read(import.meta.env.VITE_API_SERVER+"/"+state.model.name+"/chapters/"+params.id+"/parts")
   },
   async sectionsByPart ({ state, commit, rootState },params) {
-    return await crud.read(rootState.apiServer+"/"+state.model.name+"/parts/"+params.id+"/sections")
+    return await crud.read(import.meta.env.VITE_API_SERVER+"/"+state.model.name+"/parts/"+params.id+"/sections")
   },
   async structure ({ state, commit, rootState },params) {
-    return await crud.read(rootState.apiServer+"/"+state.model.name+"/"+params.id+"/structure")
+    return await crud.read(import.meta.env.VITE_API_SERVER+"/"+state.model.name+"/"+params.id+"/structure")
   },
   async compact ({ state, commit, rootState },params) {
-    return await crud.list(rootState.apiServer+"/"+state.model.name + "/compact" + ( params !== undefined ? "?" + new URLSearchParams({
+    return await crud.list(import.meta.env.VITE_API_SERVER+"/"+state.model.name + "/compact" + ( params !== undefined ? "?" + new URLSearchParams({
       page: params.page ,
       perPage : params.perPage ,
       search: params.search ,
     }).toString(): ""))
   },
   async create ({ state, commit, rootState },params) {
-    return await crud.create(rootState.apiServer+"/"+state.model.name,params)
+    return await crud.create(import.meta.env.VITE_API_SERVER+"/"+state.model.name,params)
   },
   async update ({ state, commit, rootState },params) {
-    return await crud.update(rootState.apiServer+"/"+state.model.name,params)
+    return await crud.update(import.meta.env.VITE_API_SERVER+"/"+state.model.name,params)
   },
   async delete ({ state, commit, rootState },params) {
-    return await crud.delete(rootState.apiServer+"/"+state.model.name,params)
+    return await crud.delete(import.meta.env.VITE_API_SERVER+"/"+state.model.name,params)
   },
   async activate ({ state, commit, rootState },params) {
-    return await crud.update(rootState.apiServer+"/"+state.model.name+'/'+params.id+'/activate',{})
+    return await crud.update(import.meta.env.VITE_API_SERVER+"/"+state.model.name+'/'+params.id+'/activate',{})
   },
   async deactivate ({ state, commit, rootState },params) {
-    return await crud.update(rootState.apiServer+"/"+state.model.name+'/'+params.id+'/deactivate',{})
+    return await crud.update(import.meta.env.VITE_API_SERVER+"/"+state.model.name+'/'+params.id+'/deactivate',{})
   },
   async publish ({ state, commit, rootState },params) {
-    return await crud.update(rootState.apiServer+"/"+state.model.name+'/'+params.id+'/publish',{})
+    return await crud.update(import.meta.env.VITE_API_SERVER+"/"+state.model.name+'/'+params.id+'/publish',{})
   },
   async unpublish ({ state, commit, rootState },params) {
-    return await crud.update(rootState.apiServer+"/"+state.model.name+'/'+params.id+'/unpublish',{})
+    return await crud.update(import.meta.env.VITE_API_SERVER+"/"+state.model.name+'/'+params.id+'/unpublish',{})
   },
   async updateAccessibility ({ state, commit, rootState },params) {
-    return await crud.update(rootState.apiServer+"/"+state.model.name+'/'+params.id+'/accessibility',{mode: params.mode})
+    return await crud.update(import.meta.env.VITE_API_SERVER+"/"+state.model.name+'/'+params.id+'/accessibility',{mode: params.mode})
   },
   async childDocument ({ state, commit, rootState },params) {
-    return await crud.create(rootState.apiServer+"/orgchart",{
+    return await crud.create(import.meta.env.VITE_API_SERVER+"/orgchart",{
       parent_id : params.parent_id ,
       document_id : params.document_id ,
       name: params.name ,
@@ -120,10 +120,10 @@ const actions = {
     })
   },
   async getChildDocument ({ state, commit, rootState },params) {
-    return await crud.read(rootState.apiServer+"/orgchart")
+    return await crud.read(import.meta.env.VITE_API_SERVER+"/orgchart")
   },
   async updateDocument ({ state, commit, rootState },params) {
-    return await crud.update(rootState.apiServer+"/orgchart",{
+    return await crud.update(import.meta.env.VITE_API_SERVER+"/orgchart",{
       id : params.id ,
       parent_id : params.parent_id ,
       document_id : params.document_id ,
@@ -134,26 +134,26 @@ const actions = {
     })
   },
   // async updateDocument ({ state, commit, rootState },params) {
-  //   return await crud.update(rootState.apiServer+"/orgchart/linkdocument",{
+  //   return await crud.update(import.meta.env.VITE_API_SERVER+"/orgchart/linkdocument",{
   //     id : params.id ,
   //     document_id : params.document_id 
   //   })
   // },
   async pdf ({ state, commit, rootState },params) {
-    return await crud.read(rootState.apiServer+"/"+state.model.name+"/pdf?id="+params.id)
+    return await crud.read(import.meta.env.VITE_API_SERVER+"/"+state.model.name+"/pdf?id="+params.id)
   },
   async upload({ state, commit, rootState },formData) {
-    // return await crud.upload(rootState.apiServer+"/"+state.model.name+"/"+params.id+"/upload",{pdfs: params.pdfs})
-    return await crud.upload(rootState.apiServer+"/"+state.model.name+"/upload",formData)
+    // return await crud.upload(import.meta.env.VITE_API_SERVER+"/"+state.model.name+"/"+params.id+"/upload",{pdfs: params.pdfs})
+    return await crud.upload(import.meta.env.VITE_API_SERVER+"/"+state.model.name+"/upload",formData)
   },
   async addReader ({ state, commit, rootState },params) {
-    return await crud.update(rootState.apiServer+"/"+state.model.name+"/addreader",{
+    return await crud.update(import.meta.env.VITE_API_SERVER+"/"+state.model.name+"/addreader",{
       user_id : params.user_id ,
       document_id : params.document_id 
     })
   },
   async removeReader ({ state, commit, rootState },params) {
-    return await crud.update(rootState.apiServer+"/"+state.model.name+"/removereader",{
+    return await crud.update(import.meta.env.VITE_API_SERVER+"/"+state.model.name+"/removereader",{
       user_id : params.user_id ,
       document_id : params.document_id 
     })

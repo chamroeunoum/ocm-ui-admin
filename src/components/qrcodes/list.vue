@@ -71,11 +71,11 @@
       <!-- This pagination is for the media side with from Medium up -->
       <div class="vcb-table-pagination bg-blue-300 mx-auto">
         <!-- Information -->
-        <div class="vcb-table-pagination-info" >{{ table.pagination.totalRecords > 0 ? getKhmer( table.pagination.totalRecords ) : "" }}</div>
-          <div class="vcb-table-pagination-info" >{{ table.pagination.totalPages > 0 ? " ចែកជា " + getKhmer( table.pagination.totalPages ) + " ទំព័រ" : "" }}</div>
+        <div class="vcb-table-pagination-info" >{{ table.pagination.totalRecords > 0 ? $toKhmer( table.pagination.totalRecords ) : "" }}</div>
+          <div class="vcb-table-pagination-info" >{{ table.pagination.totalPages > 0 ? " ចែកជា " + $toKhmer( table.pagination.totalPages ) + " ទំព័រ" : "" }}</div>
         <!-- First -->
         <!-- Pages (7) -->
-        <div v-for="(page, index) in table.pagination.buttons" :key="index" :class=" (table.pagination.page == page ? ' vcb-pagination-page-active ' : ' vcb-pagination-page ' )" @click="table.pagination.page == page ? false : goTo(page) " >{{ getKhmer( page ) }}</div>
+        <div v-for="(page, index) in table.pagination.buttons" :key="index" :class=" (table.pagination.page == page ? ' vcb-pagination-page-active ' : ' vcb-pagination-page ' )" @click="table.pagination.page == page ? false : goTo(page) " >{{ $toKhmer( page ) }}</div>
         <!-- Previous -->          
         <div v-if="table.pagination.page > 1 " class="vcb-pagination-page " v-html='"<"' @click="previous()" ></div>
         <n-tooltip v-if="table.pagination.page <= 1 "  trigger="hover">
@@ -277,7 +277,6 @@ export default {
       /**
        * Functions
        */
-      getKhmer ,
       getPublicCardUrl
     }
   }

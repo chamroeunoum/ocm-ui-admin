@@ -13,7 +13,7 @@
 </template>
 <script >
 import Topmenu from './../menu/topmenu.vue'
-import Dock from './../widgets/dock.vue'
+import Dock from '../widgets/Dock.vue'
 export default {
     components: { 
       Topmenu ,

@@ -28,7 +28,7 @@ const getters = {
 // actions
 const actions = {
   async list ({ state, commit, rootState },params) {
-    return await crud.list(rootState.apiServer+"/"+(state.model.prefix != "" ? state.model.prefix + '/' : '' )+state.model.name + "?" + new URLSearchParams({
+    return await crud.list(import.meta.env.VITE_API_SERVER+"/"+(state.model.prefix != "" ? state.model.prefix + '/' : '' )+state.model.name + "?" + new URLSearchParams({
         book_id: params.book_id ,
         kunty_id: params.kunty_id ,
         matika_id: params.matika_id ,
@@ -42,33 +42,33 @@ const actions = {
     )
   },
   async read ({ state, commit, rootState },params) {
-    return await crud.read(rootState.apiServer+"/"+(state.model.prefix != "" ? state.model.prefix + '/' : '' )+state.model.name+"/"+params.id+'/read')
+    return await crud.read(import.meta.env.VITE_API_SERVER+"/"+(state.model.prefix != "" ? state.model.prefix + '/' : '' )+state.model.name+"/"+params.id+'/read')
   },
   async compact ({ state, commit, rootState },params) {
-    return await crud.list(rootState.apiServer+"/"+(state.model.prefix != "" ? state.model.prefix + '/' : '' )+state.model.name+ "/compact" + ( params !== undefined ? "?" + new URLSearchParams({
+    return await crud.list(import.meta.env.VITE_API_SERVER+"/"+(state.model.prefix != "" ? state.model.prefix + '/' : '' )+state.model.name+ "/compact" + ( params !== undefined ? "?" + new URLSearchParams({
       page: params.page ,
       perPage : params.perPage ,
       search: params.search ,
     }).toString(): ""))
   },
   async create ({ state, commit, rootState },params) {
-    return await crud.create(rootState.apiServer+"/"+(state.model.prefix != "" ? state.model.prefix + '/' : '' )+state.model.name,params)
+    return await crud.create(import.meta.env.VITE_API_SERVER+"/"+(state.model.prefix != "" ? state.model.prefix + '/' : '' )+state.model.name,params)
   },
   async update ({ state, commit, rootState },params) {
-    return await crud.update(rootState.apiServer+"/"+(state.model.prefix != "" ? state.model.prefix + '/' : '' )+state.model.name,params)
+    return await crud.update(import.meta.env.VITE_API_SERVER+"/"+(state.model.prefix != "" ? state.model.prefix + '/' : '' )+state.model.name,params)
   },
   async delete ({ state, commit, rootState },params) {
-    return await crud.delete(rootState.apiServer+"/"+(state.model.prefix != "" ? state.model.prefix + '/' : '' )+state.model.name+"/"+params.id)
+    return await crud.delete(import.meta.env.VITE_API_SERVER+"/"+(state.model.prefix != "" ? state.model.prefix + '/' : '' )+state.model.name+"/"+params.id)
   },
   async upload({ state, commit, rootState },formData) {
-    // return await crud.upload(rootState.apiServer+"/"+state.model.name+"/"+params.id+"/upload",{pdfs: params.pdfs})
-    return await crud.upload(rootState.apiServer+"/"+(state.model.prefix != "" ? state.model.prefix + '/' : '' )+state.model.name+"/upload",formData)
+    // return await crud.upload(import.meta.env.VITE_API_SERVER+"/"+state.model.name+"/"+params.id+"/upload",{pdfs: params.pdfs})
+    return await crud.upload(import.meta.env.VITE_API_SERVER+"/"+(state.model.prefix != "" ? state.model.prefix + '/' : '' )+state.model.name+"/upload",formData)
   },
   async activate ({ state, commit, rootState },params) {
-    return await crud.update(rootState.apiServer+"/"+(state.model.prefix != "" ? state.model.prefix + '/' : '' )+state.model.name+'/'+params.id+'/activate',{})
+    return await crud.update(import.meta.env.VITE_API_SERVER+"/"+(state.model.prefix != "" ? state.model.prefix + '/' : '' )+state.model.name+'/'+params.id+'/activate',{})
   },
   async deactivate ({ state, commit, rootState },params) {
-    return await crud.update(rootState.apiServer+"/"+(state.model.prefix != "" ? state.model.prefix + '/' : '' )+state.model.name+'/'+params.id+'/deactivate',{})
+    return await crud.update(import.meta.env.VITE_API_SERVER+"/"+(state.model.prefix != "" ? state.model.prefix + '/' : '' )+state.model.name+'/'+params.id+'/deactivate',{})
   },
 }
 

@@ -24,7 +24,7 @@ const getters = {
 // actions
 const actions = {
   async list ({ state, commit, rootState },params) {
-    return await crud.list(rootState.apiServer+"/"+state.model.name 
+    return await crud.list(import.meta.env.VITE_API_SERVER+"/"+state.model.name 
     + "?" + new URLSearchParams({
         search: params.search ,
         perPage: params.perPage ,
@@ -34,24 +34,24 @@ const actions = {
     )
   },
   async compact ({ state, commit, rootState },params) {
-    return await crud.list(rootState.apiServer+"/"+state.model.name + "/compact" + ( params !== undefined ? "?" + new URLSearchParams({
+    return await crud.list(import.meta.env.VITE_API_SERVER+"/"+state.model.name + "/compact" + ( params !== undefined ? "?" + new URLSearchParams({
       search: params.search ,
     }).toString(): ""))
   },
   async read ({ state, commit, rootState },params) {
-    return await crud.read(rootState.apiServer+"/"+state.model.name+"/"+params.id+'/read')
+    return await crud.read(import.meta.env.VITE_API_SERVER+"/"+state.model.name+"/"+params.id+'/read')
   },
   async create ({ state, commit, rootState },params) {
-    return await crud.create(rootState.apiServer+"/"+state.model.name+"/create",params)
+    return await crud.create(import.meta.env.VITE_API_SERVER+"/"+state.model.name+"/create",params)
   },
   async update ({ state, commit, rootState },params) {
-    return await crud.update(rootState.apiServer+"/"+state.model.name+"/update",params)
+    return await crud.update(import.meta.env.VITE_API_SERVER+"/"+state.model.name+"/update",params)
   },
   async delete ({ state, commit, rootState },params) {
-    return await crud.delete(rootState.apiServer+"/"+state.model.name+"/"+params.id+"/delete")
+    return await crud.delete(import.meta.env.VITE_API_SERVER+"/"+state.model.name+"/"+params.id+"/delete")
   },
   async activate({state, commit, rootState}, params){
-    return await crud.update(rootState.apiServer+"/"+state.model.name+"/activate",params)
+    return await crud.update(import.meta.env.VITE_API_SERVER+"/"+state.model.name+"/activate",params)
   },
   
 }

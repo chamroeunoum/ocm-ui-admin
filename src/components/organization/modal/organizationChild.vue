@@ -14,12 +14,15 @@
           />
         </div>
         <table class="w-full bg-gray-50" >
+          <thead>
           <tr class="bg-gray-300" >
             <th class="text-left p-2" >ល.រ</th>
             <th class="text-left p-2" >ឈ្មោះ</th>
             <th class="text-left p-2" >ផ្សេងៗ</th>
             <th class="text-center p-2 w-40" >ប្រតិបត្តិការ</th>
           </tr>
+        </thead>
+        <tbody>
           <tr v-for="(organization,index) in childOrganizations" :key="index" :class="'hover:bg-gray-200 duration-300 ' + ( index % 2 ? ' bg-gray-50 ' : ' bg-gray-100' ) " >
             <td class="text-left p-2" >{{ index + 1 }}</td>
             <td class="text-left p-2" >{{ organization.name }}</td>
@@ -33,6 +36,7 @@
               </n-tooltip>
             </td>
           </tr>
+        </tbody>
         </table>
       </div>
     </div>

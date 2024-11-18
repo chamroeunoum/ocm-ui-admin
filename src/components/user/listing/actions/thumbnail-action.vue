@@ -209,30 +209,30 @@ export default {
       positions: []
     })
     function showEditModal(record){
-      editRecord.id = record.id
-      editRecord.username = record.username
-      editRecord.firstname = record.firstname
-      editRecord.lastname = record.lastname
-      editRecord.phone = record.phone
-      editRecord.email = record.email
-      editRecord.person = record.person
-      editRecord.organizations = record.organizations
-      editRecord.positions = record.positions
+      // editRecord.id = record.id
+      // editRecord.username = record.username
+      // editRecord.firstname = record.firstname
+      // editRecord.lastname = record.lastname
+      // editRecord.phone = record.phone
+      // editRecord.email = record.email
+      // editRecord.person = record.person
+      // editRecord.organizations = record.organizations
+      // editRecord.positions = record.positions
       editModal.show = true
       show.value = false
     }
 
     var detailModal = reactive({show:false})
     function showDetailModal(record){
-      editRecord.id = record.id
-      editRecord.username = record.username
-      editRecord.firstname = record.firstname
-      editRecord.lastname = record.lastname
-      editRecord.phone = record.phone
-      editRecord.email = record.email
-      editRecord.person = record.person
-      editRecord.organizations = record.organizations
-      editRecord.positions = record.positions
+      // editRecord.id = record.id
+      // editRecord.username = record.username
+      // editRecord.firstname = record.firstname
+      // editRecord.lastname = record.lastname
+      // editRecord.phone = record.phone
+      // editRecord.email = record.email
+      // editRecord.person = record.person
+      // editRecord.organizations = record.organizations
+      // editRecord.positions = record.positions
       detailModal.show = true
       show.value = false
     }

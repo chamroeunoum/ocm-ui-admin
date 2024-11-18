@@ -81,11 +81,11 @@
         <!-- This pagination is for the media side with from Medium up -->
         <div class="vcb-table-pagination bg-blue-300 mx-auto">
           <!-- Information -->
-          <div class="vcb-table-pagination-info font-pvh text-blue-600 leading-7 p-1 mx-2" >{{ table.pagination.totalRecords > 0 ? getKhmer( table.pagination.totalRecords ) + " គណនី" : "" }}</div>
-          <div class="vcb-table-pagination-info font-pvh text-blue-600 leading-7 p-1 mx-2" >{{ table.pagination.totalPages > 0 ? getKhmer( table.pagination.totalPages ) + " ទំព័រ" : "" }}</div>
+          <div class="vcb-table-pagination-info font-pvh text-blue-600 leading-7 p-1 mx-2" >{{ table.pagination.totalRecords > 0 ? $toKhmer( table.pagination.totalRecords ) + " គណនី" : "" }}</div>
+          <div class="vcb-table-pagination-info font-pvh text-blue-600 leading-7 p-1 mx-2" >{{ table.pagination.totalPages > 0 ? $toKhmer( table.pagination.totalPages ) + " ទំព័រ" : "" }}</div>
           <!-- First -->
           <!-- Pages (7) -->
-          <div v-for="(page, index) in table.pagination.buttons" :key="index" :class=" (table.pagination.page == page ? ' vcb-pagination-page-active ' : ' vcb-pagination-page ' )" @click="table.pagination.page == page ? false : goTo(page) " >{{ getKhmer( page ) }}</div>
+          <div v-for="(page, index) in table.pagination.buttons" :key="index" :class=" (table.pagination.page == page ? ' vcb-pagination-page-active ' : ' vcb-pagination-page ' )" @click="table.pagination.page == page ? false : goTo(page) " >{{ $toKhmer( page ) }}</div>
           <!-- Previous -->
           <Transition name="slide-fade" >
             <div v-if="table.pagination.page > 1 " class="vcb-pagination-page " v-html='"<"' @click="previous()" ></div>
@@ -127,13 +127,7 @@ import { useStore } from 'vuex'
 import { useRouter, useRoute } from 'vue-router'
 import QrcodeVue from 'qrcode.vue'
 import Vue3Barcode from 'vue3-barcode'
-import { Switcher } from '@vicons/carbon'
-import { Icon } from '@vicons/utils'
-import { getKhmer } from './../../../plugins/kh/number.js'
-import { IosCheckmarkCircleOutline, IosRefresh } from '@vicons/ionicons4'
-import { TrashOutline, CloseCircleOutline } from '@vicons/ionicons5'
 import { useDialog, useMessage, useNotification } from 'naive-ui'
-import { Edit20Regular, Key16Regular, Save20Regular, Add20Regular, Search20Regular , ContactCard28Regular } from '@vicons/fluent'
 import ocmLogoUrl from './../../../assets/logo.svg'
 /**
  * CRUD component form
@@ -145,18 +139,6 @@ export default {
   components: {
     QrcodeVue ,
     Vue3Barcode,
-    Switcher,
-    Add20Regular ,
-    Icon,
-    IosCheckmarkCircleOutline,
-    IosRefresh ,
-    CloseCircleOutline ,
-    Search20Regular ,
-    Edit20Regular,
-    Key16Regular,
-    Save20Regular ,
-    TrashOutline ,
-    ContactCard28Regular ,
     CreateForm ,
     ThumbnailActionsForm
   },
@@ -453,8 +435,7 @@ export default {
       selectedPositions ,
       selectedCountesies ,
       optionOrganizations ,
-      selectedOrganizations ,
-      getKhmer
+      selectedOrganizations 
     }
   }
 }

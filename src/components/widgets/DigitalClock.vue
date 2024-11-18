@@ -1,8 +1,8 @@
 <template>
     <!-- Start Widget -->
-    <div v-if="type=='datetime'" :class="dgClass!=undefined && dgClass.length > 0 ? dgClass : 'time' " v-html=" getKhmer( clock.date + ' ' + clock.time ) " ></div>
-    <div v-if="type=='date'" :class="dgClass!=undefined && dgClass.length > 0 ? dgClass : 'time' " v-html=" getKhmer( clock.date ) " ></div>
-    <div v-if="type=='time'" :class="dgClass!=undefined && dgClass.length > 0 ? dgClass : 'time' " v-html="getKhmer( clock.time )" ></div>
+    <div v-if="type=='datetime'" :class="dgClass!=undefined && dgClass.length > 0 ? dgClass : 'time' " v-html=" $toKhmer( clock.date + ' ' + clock.time ) " ></div>
+    <div v-if="type=='date'" :class="dgClass!=undefined && dgClass.length > 0 ? dgClass : 'time' " v-html=" $toKhmer( clock.date ) " ></div>
+    <div v-if="type=='time'" :class="dgClass!=undefined && dgClass.length > 0 ? dgClass : 'time' " v-html="$toKhmer( clock.time )" ></div>
     <!-- End widget -->
 </template>
 <script>
@@ -47,7 +47,7 @@ export default {
             clock ,
             updateTime ,
             zeroPadding ,
-            getKhmer
+            $toKhmer
         };
     },
     data() {

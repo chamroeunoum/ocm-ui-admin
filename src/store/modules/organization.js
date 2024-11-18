@@ -24,7 +24,7 @@ const getters = {
 // actions
 const actions = {
   async list ({ state, commit, rootState },params) {
-    return await crud.list(rootState.apiServer+"/"+state.model.name 
+    return await crud.list(import.meta.env.VITE_API_SERVER+"/"+state.model.name 
     + "?" + new URLSearchParams({
         search: params.search ,
         perPage: params.perPage ,
@@ -34,7 +34,7 @@ const actions = {
     )
   },
   async listByParent ({ state, commit, rootState },params) {
-    return await crud.list(rootState.apiServer+"/"+state.model.name + "/listbyparent" 
+    return await crud.list(import.meta.env.VITE_API_SERVER+"/"+state.model.name + "/listbyparent" 
     + "?" + new URLSearchParams({
         search: params.search ,
         perPage: params.perPage ,
@@ -44,42 +44,42 @@ const actions = {
     )
   },
   async compact ({ state, commit, rootState },params) {
-    return await crud.list(rootState.apiServer+"/"+state.model.name + "/compact" + ( params !== undefined ? "?" + new URLSearchParams({
+    return await crud.list(import.meta.env.VITE_API_SERVER+"/"+state.model.name + "/compact" + ( params !== undefined ? "?" + new URLSearchParams({
       search: params.search ,
     }).toString(): ""))
   },
   async read ({ state, commit, rootState },params) {
-    return await crud.read(rootState.apiServer+"/"+state.model.name+"/"+params.id+'/read')
+    return await crud.read(import.meta.env.VITE_API_SERVER+"/"+state.model.name+"/"+params.id+'/read')
   },
   async people ({ state, commit, rootState },params) {
-    return await crud.read(rootState.apiServer+"/"+state.model.name+"/"+params.id+'/people')
+    return await crud.read(import.meta.env.VITE_API_SERVER+"/"+state.model.name+"/"+params.id+'/people')
   },
   async create ({ state, commit, rootState },params) {
-    return await crud.create(rootState.apiServer+"/"+state.model.name+"/create",params)
+    return await crud.create(import.meta.env.VITE_API_SERVER+"/"+state.model.name+"/create",params)
   },
   async addchild ({ state, commit, rootState },params) {
-    return await crud.create(rootState.apiServer+"/"+state.model.name+"/addchild",params)
+    return await crud.create(import.meta.env.VITE_API_SERVER+"/"+state.model.name+"/addchild",params)
   },
   async update ({ state, commit, rootState },params) {
-    return await crud.update(rootState.apiServer+"/"+state.model.name+"/update",params)
+    return await crud.update(import.meta.env.VITE_API_SERVER+"/"+state.model.name+"/update",params)
   },
   async delete ({ state, commit, rootState },params) {
-    return await crud.delete(rootState.apiServer+"/"+state.model.name+"/"+params.id+"/delete")
+    return await crud.delete(import.meta.env.VITE_API_SERVER+"/"+state.model.name+"/"+params.id+"/delete")
   },
   async activate({state, commit, rootState}, params){
-    return await crud.update(rootState.apiServer+"/"+state.model.name+"/activate",params)
+    return await crud.update(import.meta.env.VITE_API_SERVER+"/"+state.model.name+"/activate",params)
   },
   async deactivate({state, commit, rootState}, params){
-    return await crud.update(rootState.apiServer+"/"+state.model.name+"/deactivate",params)
+    return await crud.update(import.meta.env.VITE_API_SERVER+"/"+state.model.name+"/deactivate",params)
   },
   async setLeader ({ state, commit, rootState },params) {
-    return await crud.update(rootState.apiServer+"/"+state.model.name+"/setleader",params)
+    return await crud.update(import.meta.env.VITE_API_SERVER+"/"+state.model.name+"/setleader",params)
   },
   async addPeople ({ state, commit, rootState },params) {
-    return await crud.update(rootState.apiServer+"/"+state.model.name+"/addstaff",params)
+    return await crud.update(import.meta.env.VITE_API_SERVER+"/"+state.model.name+"/addstaff",params)
   },
   async regulators ({ state, commit, rootState },params) {
-    return await crud.read(rootState.apiServer+"/"+state.model.name+"/regulators"+ "?" + new URLSearchParams({
+    return await crud.read(import.meta.env.VITE_API_SERVER+"/"+state.model.name+"/regulators"+ "?" + new URLSearchParams({
       folder_id: params.id ,
       search: params.search ,
       perPage: params.perPage ,
@@ -89,7 +89,7 @@ const actions = {
     true
   )},
   async users ({ state, commit, rootState },params) {
-    return await crud.read(rootState.apiServer+"/"+state.model.name+"/staffs"+ "?" + new URLSearchParams({
+    return await crud.read(import.meta.env.VITE_API_SERVER+"/"+state.model.name+"/staffs"+ "?" + new URLSearchParams({
       folder_id: params.id ,
       search: params.search ,
       perPage: params.perPage ,

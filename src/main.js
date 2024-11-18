@@ -5,8 +5,12 @@ import axios from 'axios'
 import VueAxios from 'vue-axios'
 
 import VueQrcodeReader from "vue3-qrcode-reader";
+import VueExcelEditor from 'vue3-excel-editor'
 
 import NaiveUI from 'naive-ui'
+
+import KhmerNumber from './plugins/KhmerNumber.js'
+import Assets from './plugins/Assets.js'
 
 import App from './App.vue'
 
@@ -57,5 +61,8 @@ app.provide('axios', app.config.globalProperties.axios)
 app.use(VueQrcodeReader)
 app.use(router)
 app.use(NaiveUI)
+app.use(KhmerNumber)
+app.use(Assets)
+app.use(VueExcelEditor)
 app.use(HtmlToPaper)
 app.mount('#app')

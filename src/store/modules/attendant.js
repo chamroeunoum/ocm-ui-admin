@@ -25,7 +25,7 @@ const getters = {
 // actions
 const actions = {
   async list ({ state, commit, rootState },params) {
-    return await crud.list(rootState.apiServer+"/"+state.model.name + "?" + new URLSearchParams({
+    return await crud.list(import.meta.env.VITE_API_SERVER+"/"+state.model.name + "?" + new URLSearchParams({
         search: params.search ,
         date: params.date ,
         perPage: params.perPage ,
@@ -34,41 +34,45 @@ const actions = {
     )
   },
   async read ({ state, commit, rootState },params) {
-    return await crud.read(rootState.apiServer+"/"+state.model.name+"/"+params.id+'/read')
+    return await crud.read(import.meta.env.VITE_API_SERVER+"/"+state.model.name+"/"+params.id+'/read')
+  },
+  async readPhoto ({ state, commit, rootState },params) {
+    // id is the checktime id
+    return await crud.read(import.meta.env.VITE_API_SERVER+"/"+state.model.name+"/checktime/"+params.id+'/readphoto')
   },
   async update ({ state, commit, rootState },params) {
-    return await crud.update(rootState.apiServer+"/"+state.model.name+"/update",params)
+    return await crud.update(import.meta.env.VITE_API_SERVER+"/"+state.model.name+"/update",params)
   },
   async delete ({ state, commit, rootState },params) {
-    return await crud.delete(rootState.apiServer+"/"+state.model.name+"/"+params.id+"/delete")
+    return await crud.delete(import.meta.env.VITE_API_SERVER+"/"+state.model.name+"/"+params.id+"/delete")
   },
   async checkinwithfinger ({ state, commit, rootState },params) {
-    return await crud.create(rootState.apiServer+"/"+state.model.name+"/checkin/finter",params)
+    return await crud.create(import.meta.env.VITE_API_SERVER+"/"+state.model.name+"/checkin/finter",params)
   },
   async checkinwithface ({ state, commit, rootState },params) {
-    return await crud.create(rootState.apiServer+"/"+state.model.name+"/checkin/face",params)
+    return await crud.create(import.meta.env.VITE_API_SERVER+"/"+state.model.name+"/checkin/face",params)
   },
   async checkinwithsystem ({ state, commit, rootState },params) {
-    return await crud.create(rootState.apiServer+"/"+state.model.name+"/checkin/system",params)
+    return await crud.create(import.meta.env.VITE_API_SERVER+"/"+state.model.name+"/checkin/system",params)
   },
   async checkoutwithfinger ({ state, commit, rootState },params) {
-    return await crud.create(rootState.apiServer+"/"+state.model.name+"/checkout/finget",params)
+    return await crud.create(import.meta.env.VITE_API_SERVER+"/"+state.model.name+"/checkout/finget",params)
   },
   async checkoutwithface ({ state, commit, rootState },params) {
-    return await crud.create(rootState.apiServer+"/"+state.model.name+"/checkout/face",params)
+    return await crud.create(import.meta.env.VITE_API_SERVER+"/"+state.model.name+"/checkout/face",params)
   },
   async checkoutwithsystem ({ state, commit, rootState },params) {
-    return await crud.create(rootState.apiServer+"/"+state.model.name+"/checkout/system",params)
+    return await crud.create(import.meta.env.VITE_API_SERVER+"/"+state.model.name+"/checkout/system",params)
   },
   async userAttendants({ state, commit, rootState },params) {
-    return await crud.list(rootState.apiServer+"/"+state.model.name + '/' + params.date + '/month/' + params.userId + '/user'
+    return await crud.list(import.meta.env.VITE_API_SERVER+"/"+state.model.name + '/' + params.date + '/month/' + params.userId + '/user'
     )
   },
   async checkAttendant({ state, commit, rootState },params) {
-    return await crud.create(rootState.apiServer+"/"+state.model.name+"/checkattendantbyemailorphone",params)
+    return await crud.create(import.meta.env.VITE_API_SERVER+"/"+state.model.name+"/checkattendantbyemailorphone",params)
   },
   async getAttendant({ state, commit, rootState },params) {
-    return await crud.read(rootState.apiServer+"/"+state.model.name+"/getattendantbyemailorphone/"+params.term+'/'+params.type)
+    return await crud.read(import.meta.env.VITE_API_SERVER+"/"+state.model.name+"/getattendantbyemailorphone/"+params.term+'/'+params.type)
   }
   // async requestFengshui({ state, commit, rootState },params) {
   //   return await axios({

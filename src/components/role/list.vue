@@ -22,11 +22,7 @@
         </div>
         <div v-if="Array.isArray( table.records.matched ) && table.records.matched.length > 0 " class="w-2/5 relative" >
           <input type="text" @keypress.enter="filterRecords(false)" v-model="table.search" class="bg-gray-100 px-2 h-9 my-1 w-full rounded border border-gray-200 focus:border-blue-600 hover:border-blue-600 " placeholder="ស្វែងរក" />
-          <Icon size="27" class="absolute right-1 top-2 text-gray-400 hover:text-blue-700 cursor-pointer" @click="filterRecords(false)" >
-            <n-icon>
-              <Search20Regular />
-            </n-icon>
-          </Icon>
+          <svg class="absolute right-1 top-2 text-gray-400 hover:text-blue-700 cursor-pointer" @click="filterRecords(false)" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 20 20"><g fill="none"><path d="M8.5 3a5.5 5.5 0 0 1 4.227 9.02l4.127 4.126a.5.5 0 0 1-.638.765l-.07-.057l-4.126-4.127A5.5 5.5 0 1 1 8.5 3zm0 1a4.5 4.5 0 1 0 0 9a4.5 4.5 0 0 0 0-9z" fill="currentColor"></path></g></svg>
         </div>
         
       </div>
@@ -37,11 +33,14 @@
     <div class="vcb-table-panel relative">
       <Transition name="fade" >
         <table v-if="Array.isArray( table.records.matched ) && table.records.matched.length > 0 " class="vcb-table" >
+          <thead>
           <tr class="vcb-table-headers" >
             <th class="vcb-table-header w-20" >ល.រ</th>
             <th class="vcb-table-header">ឈ្មោះ</th>
             <th class="vcb-table-header text-right w-40" >ប្រតិបត្តិការ</th>
           </tr>
+        </thead>
+        <tbody>
           <tr v-for="(record, index) in table.records.matched" :key='index' class="vcb-table-row" >
             <td class="vcb-table-cell font-bold" >{{ index + 1 }}</td>
             <td class="vcb-table-cell" >{{ record.name }}</td>
@@ -60,6 +59,7 @@
               </n-icon> -->
             </td>
           </tr>
+        </tbody>
         </table>
       </Transition>
       <!-- Loading -->
@@ -102,12 +102,7 @@ import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 import QrcodeVue from 'qrcode.vue'
 import Vue3Barcode from 'vue3-barcode'
-import { Switcher } from '@vicons/carbon'
-import { Icon } from '@vicons/utils'
-import { IosCheckmarkCircleOutline, IosRefresh } from '@vicons/ionicons4'
-import { TrashOutline, CloseCircleOutline } from '@vicons/ionicons5'
 import { useDialog, useMessage, useNotification } from 'naive-ui'
-import { Edit20Regular, Key16Regular, Save20Regular, Add20Regular, Search20Regular , ContactCard28Regular } from '@vicons/fluent'
 /**
  * CRUD component form
  */
@@ -118,20 +113,10 @@ export default {
   components: {
     QrcodeVue ,
     Vue3Barcode,
-    Switcher,
-    Add20Regular ,
-    Icon,
-    IosCheckmarkCircleOutline,
+    
     CreateForm,
-    IosRefresh ,
-    CloseCircleOutline ,
+    
     UpdateForm,
-    Search20Regular ,
-    Edit20Regular,
-    Key16Regular,
-    Save20Regular ,
-    TrashOutline ,
-    ContactCard28Regular
   },
   setup(){
     var store = useStore()

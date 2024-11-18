@@ -52,12 +52,12 @@
                   <div class="w-full text-center leading-6 tracking-wider" >{{ record.title }}</div>
                 </div>
                 <div v-if="record.total_kunties!=undefined || record.total_matikas!=undefined || record.total_chapters!=undefined || record.total_matras!=undefined " class="w-full pb-2 flex flex-wrap justify-center" >
-                  <div v-if="record.total_kunties>0" class=" text-center leading-5 tracking-wider font-bold text-blue-600 p-2" ><pre>{{ getKhmer( record.total_kunties ) +"\nគន្ថី" }}</pre></div>
-                  <div v-if="record.total_matikas>0" class="text-center leading-5 tracking-wider font-bold text-blue-600 p-2" ><pre>{{ getKhmer( record.total_matikas ) +"\nមាតិកា" }}</pre></div>
-                  <div v-if="record.total_chapters>0" class="text-center leading-5 tracking-wider font-bold text-blue-600 p-2" ><pre>{{ getKhmer( record.total_chapters ) +"\nជំពូក" }}</pre></div>
-                  <div v-if="record.total_parts>0" class="text-center leading-5 tracking-wider font-bold text-blue-600 p-2" ><pre>{{ getKhmer( record.total_parts ) +"\nផ្នែក" }}</pre></div>
-                  <div v-if="record.total_sections>0" class="text-center leading-5 tracking-wider font-bold text-blue-600 p-2" ><pre>{{ getKhmer( record.total_sections ) +"\nកថាភាគ" }}</pre></div>
-                  <div v-if="record.total_matras>0" class="text-center leading-5 tracking-wider font-bold text-blue-600 p-2" ><pre>{{ getKhmer( record.total_matras ) +"\nមាត្រា"}}</pre></div>
+                  <div v-if="record.total_kunties>0" class=" text-center leading-5 tracking-wider font-bold text-blue-600 p-2" ><pre>{{ $toKhmer( record.total_kunties ) +"\nគន្ថី" }}</pre></div>
+                  <div v-if="record.total_matikas>0" class="text-center leading-5 tracking-wider font-bold text-blue-600 p-2" ><pre>{{ $toKhmer( record.total_matikas ) +"\nមាតិកា" }}</pre></div>
+                  <div v-if="record.total_chapters>0" class="text-center leading-5 tracking-wider font-bold text-blue-600 p-2" ><pre>{{ $toKhmer( record.total_chapters ) +"\nជំពូក" }}</pre></div>
+                  <div v-if="record.total_parts>0" class="text-center leading-5 tracking-wider font-bold text-blue-600 p-2" ><pre>{{ $toKhmer( record.total_parts ) +"\nផ្នែក" }}</pre></div>
+                  <div v-if="record.total_sections>0" class="text-center leading-5 tracking-wider font-bold text-blue-600 p-2" ><pre>{{ $toKhmer( record.total_sections ) +"\nកថាភាគ" }}</pre></div>
+                  <div v-if="record.total_matras>0" class="text-center leading-5 tracking-wider font-bold text-blue-600 p-2" ><pre>{{ $toKhmer( record.total_matras ) +"\nមាត្រា"}}</pre></div>
                 </div>
               </div>
               <thumbnail-actions-form v-bind:model="model" v-bind:record="record" :onClose="closeActions" />
@@ -108,11 +108,11 @@
         <!-- This pagination is for the media side with from Medium up -->
         <div class="vcb-table-pagination bg-blue-300 mx-auto">
           <!-- Information -->
-          <div class="vcb-table-pagination-info" >{{ table.pagination.totalRecords > 0 ? getKhmer( table.pagination.totalRecords ) + " ឯកសារ" : "" }}</div>
-          <div class="vcb-table-pagination-info" >{{ table.pagination.totalPages > 0 ? " ចែកជា " + getKhmer ( table.pagination.totalPages ) + " ទំព័រ" : "" }}</div>
+          <div class="vcb-table-pagination-info" >{{ table.pagination.totalRecords > 0 ? $toKhmer( table.pagination.totalRecords ) + " ឯកសារ" : "" }}</div>
+          <div class="vcb-table-pagination-info" >{{ table.pagination.totalPages > 0 ? " ចែកជា " + $toKhmer ( table.pagination.totalPages ) + " ទំព័រ" : "" }}</div>
           <!-- First -->
           <!-- Pages (7) -->
-          <div v-for="(page, index) in table.pagination.buttons" :key="index" :class=" (table.pagination.page == page ? ' vcb-pagination-page-active ' : ' vcb-pagination-page ' )" @click="table.pagination.page == page ? false : goTo(page) " >{{ getKhmer( page ) }}</div>
+          <div v-for="(page, index) in table.pagination.buttons" :key="index" :class=" (table.pagination.page == page ? ' vcb-pagination-page-active ' : ' vcb-pagination-page ' )" @click="table.pagination.page == page ? false : goTo(page) " >{{ $toKhmer( page ) }}</div>
           <!-- Previous -->          
           <div v-if="table.pagination.page > 1 " class="vcb-pagination-page " v-html='"<"' @click="previous()" ></div>
           <n-tooltip v-if="table.pagination.page <= 1 " trigger="hover">
@@ -172,12 +172,6 @@ import { useRouter } from 'vue-router'
 import { getKhmer } from './../../../plugins/kh/number.js';
 import QrcodeVue from 'qrcode.vue'
 import Vue3Barcode from 'vue3-barcode'
-import { Switcher } from '@vicons/carbon'
-import { Icon } from '@vicons/utils'
-import { IosCheckmarkCircleOutline, IosRefresh } from '@vicons/ionicons4'
-import { TrashOutline, CloseCircleOutline } from '@vicons/ionicons5'
-import { useDialog, useMessage, useNotification } from 'naive-ui'
-import { Edit20Regular, Key16Regular, Save20Regular, Add20Regular, Search20Regular , ContactCard28Regular } from '@vicons/fluent'
 import ocmLogoUrl from './../../../assets/logo.svg'
 import VuePdfEmbed from 'vue-pdf-embed'
 /**
@@ -191,18 +185,6 @@ export default {
     QrcodeVue ,
     Vue3Barcode,
     VuePdfEmbed ,
-    Switcher,
-    Add20Regular ,
-    Icon,
-    IosCheckmarkCircleOutline,
-    IosRefresh ,
-    CloseCircleOutline ,
-    Search20Regular ,
-    Edit20Regular,
-    Key16Regular,
-    Save20Regular ,
-    TrashOutline ,
-    ContactCard28Regular ,
     CreateForm ,
     ThumbnailActionsForm
   },
@@ -441,7 +423,7 @@ export default {
       /**
       * Filters
       */
-      getKhmer ,
+      $toKhmer ,
       ocmLogoUrl ,
       /**
        * PDF Section

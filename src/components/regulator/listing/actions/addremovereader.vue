@@ -1,18 +1,14 @@
 <template>
   <!-- Form edit account -->
     <div class="vcb-pop-create font-ktr">
-      <n-modal v-model:show="show" :on-after-leave="onClose" :on-before-leave="tableClearBeforeLeave" transform-origin="center" :on-after-enter="initial" >
-        <n-card class="w-4/5 font-pvh text-xl relative" :title="'ប្រតិបត្តិការផ្សេងទៀតរបស់ ' + model.title" :bordered="false" size="small">
+      <n-modal v-bind:show="show" :on-esc="onClose" :on-mask-click="onClose" transform-origin="center" :on-after-enter="initial" >
+        <n-card class="w-4/5 font-pvh text-xl relative" :title="model.title" :bordered="false" size="small">
           <div class="flex title-bar border-b border-gray-200">
             <!-- Actions button of the crud -->
             <div class="flex-grow action-buttons flex-row-reverse flex">
               <div class="w-2/5 relative" >
                 <input type="text" @keypress.enter="filterRecords(false)" v-model="table.search" class="bg-gray-100 px-2 h-9 my-1 w-full rounded border border-gray-200 focus:border-blue-600 hover:border-blue-600 " placeholder="ស្វែងរក" />
-                <Icon size="27" class="absolute right-1 top-2 text-gray-400 hover:text-blue-700 cursor-pointer" @click="filterRecords(false)" >
-                  <n-icon>
-                    <Search20Regular />
-                  </n-icon>
-                </Icon>
+                <svg class="absolute w-6 h-6 right-1 top-2 text-gray-400 hover:text-blue-700 cursor-pointer" @click="filterRecords(false)" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 20 20"><g fill="none"><path d="M8.5 3a5.5 5.5 0 0 1 4.227 9.02l4.127 4.126a.5.5 0 0 1-.638.765l-.07-.057l-4.126-4.127A5.5 5.5 0 1 1 8.5 3zm0 1a4.5 4.5 0 1 0 0 9a4.5 4.5 0 0 0 0-9z" fill="currentColor"></path></g></svg>
               </div>
             </div>
             <!-- Filter panel of crud -->
@@ -61,25 +57,12 @@
 import { reactive, computed, ref } from 'vue'
 import { useStore } from 'vuex'
 import { useMessage, useNotification } from 'naive-ui'
-import { Switcher } from '@vicons/carbon'
-import { Icon } from '@vicons/utils'
-import { IosCheckmarkCircleOutline, IosRefresh } from '@vicons/ionicons4'
-import { CloseCircleOutline } from '@vicons/ionicons5'
-import { Save20Regular, Search20Regular , ContactCard28Regular, DocumentPdf24Regular, AppsList20Regular } from '@vicons/fluent'
+
 import ocmLogoUrl from './../../../../assets/logo.svg'
 
 export default {
   components: {
-    Save20Regular ,
-    DocumentPdf24Regular ,
-    AppsList20Regular ,
-    Switcher,
-    Icon,
-    IosCheckmarkCircleOutline,
-    IosRefresh ,
-    CloseCircleOutline ,
-    Search20Regular ,
-    ContactCard28Regular
+    
   },
   props: {
     model: {

@@ -10,7 +10,7 @@
                 <!-- <qrcode-vue :value="'OCM-ORG-'+organization.id+','+organization.name" :size="150" level="H" class="mx-auto" :render-as="'svg'" /> -->
                   <qrcode-vue :value="getPublicCardUrl(organization)" :size="150" level="H" class="mx-auto" :render-as="'svg'" />
                 </a>
-                <div class="w-full font-moul mt-4 leading-8" >OCM-ORG-{{ getKhmer( organization.id ) }}</div>
+                <div class="w-full font-moul mt-4 leading-8" >OCM-ORG-{{ $toKhmer( organization.id ) }}</div>
               </div>
               <div class="w-full font-moul mb-8 leading-8" >{{ organization.name }}</div>
               <Frame4Corner />
@@ -87,7 +87,7 @@ export default {
       organization ,
       staffId ,
       getPublicCardUrl , 
-      getKhmer ,
+      $toKhmer ,
       staffEmail ,
       staffPhone ,
       /**
