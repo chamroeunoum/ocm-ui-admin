@@ -64,7 +64,7 @@
         <div v-if="Array.isArray( table.records.matched ) && table.records.matched.length > 0 " class="vcb-thumbnail mb-12" >
           <div v-for="(record, index) in table.records.matched" :key='index' class="item" >
             <div class="content" >
-              <div v-if="record.image != false && record.image != null && record.image != undefined " class="image bg-80% bg-cover bg-center bg-no-repeat " :style=" 'background-image: url(' + record.image +');' " ></div>
+              <div v-if="record.image != false && record.image != null && record.image != undefined " class="image bg-cover bg-no-repeat " :style=" 'background-image: url(' + record.image +');' " ></div>
               <div v-if="record.image == false || record.image == null || record.image == undefined " class="image bg-contain bg-center bg-no-repeat " :style=" 'background-image: url('+ocmLogoUrl+');' " ></div>
               <div class="flex flex-wrap " >
                 <div class="w-full py-2" >

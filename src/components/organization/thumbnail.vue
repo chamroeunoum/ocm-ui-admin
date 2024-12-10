@@ -187,7 +187,7 @@ export default {
     const currentOrganizationId = ref(
       route.params.rootId != undefined && parseInt( route.params.rootId ) > 0
         ? parseInt( route.params.rootId )
-        : 163
+        : null // 163
     )
     /**
      * Variables
@@ -342,7 +342,7 @@ export default {
       id: 0 ,
       name : "" ,
       desp : '' ,
-      code: '' ,
+      prefix: '' ,
       pid: null
     })
     const editModal = reactive({show:false})
@@ -350,7 +350,7 @@ export default {
       editRecord.id = record.id
       editRecord.name = record.name
       editRecord.desp = record.desp
-      editRecord.code = record.code
+      editRecord.prefix = record.prefix
       editRecord.pid = record.pid
       editModal.show = true
     }

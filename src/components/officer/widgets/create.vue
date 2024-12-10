@@ -274,10 +274,32 @@ export default {
      * Functions
      */
      function clearRecord( actionStatus ){
+
       props.onClose( actionStatus )
     }
 
     function maskOrEscClick(){
+      props.record.id = 0
+      props.record.people = {
+        firstname: '' ,
+        lastname: '' ,
+        email: '' ,
+        gender: '' ,
+        mobile_phone: '' ,
+        office_phone: '' ,
+        dob: null ,
+        nid: '' ,
+        marry_status: null ,
+      }
+      props.record.code = '' ,
+      props.record.orgainzation_id = null ,
+      props.record.position_id = null ,
+      props.record.countesy_id = null ,
+      props.record.officer_dob = null ,
+      props.record.phone = '' ,
+      props.record.email = '' ,
+      props.record.passport = ''
+
       props.onClose( 0 )
     }
 

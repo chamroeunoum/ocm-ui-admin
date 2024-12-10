@@ -38,7 +38,7 @@
                     <n-input v-model:value="currentRecord.name" placeholder="ឈ្មោះអង្គភាព" />
                   </n-form-item>
                   <n-form-item label="ទំម្រង់កូដសម្គាល់អង្គភាព" class="w-1/2 mr-8" >
-                    <n-input v-model:value="currentRecord.code" placeholder="ទំម្រង់កូដសម្គាល់អង្គភាព" />
+                    <n-input v-model:value="currentRecord.prefix" placeholder="ទំម្រង់កូដសម្គាល់អង្គភាព" />
                   </n-form-item>
                   <n-form-item label="ព័ត៌មានផ្សេងៗ" path="desp" class="w-1/2 p-1" >
                     <n-input v-model:value="currentRecord.desp" placeholder="ព័ត៌មានផ្សេងៗ" />
@@ -84,7 +84,7 @@ export default {
           id: 0 ,
           name: '' ,
           desp: '' ,
-          code: '' ,
+          prefix: '' ,
           pid: null
         })
       },
@@ -114,7 +114,7 @@ export default {
       id: 0 ,
       name: '' ,
       desp: '' ,
-      code: '' ,
+      prefix: '' ,
       pid: null
     })
 
@@ -135,7 +135,7 @@ export default {
     const helpers = reactive({
       name: false ,
       desp: false ,
-      code: false ,
+      prefix: false ,
       pid: false ,
     })
     /**
@@ -146,7 +146,7 @@ export default {
         id : 0 ,
         name: '' ,
         desp: '' ,
-        code: '' ,
+        prefix: '' ,
         pid: null
       }
     }
@@ -171,8 +171,8 @@ export default {
       //     // The organization parent does not change
       //     if( currentRecord.value.desp != null && currentRecord.value.desp.trim() == props.record.desp.trim() ){
       //       // The organization description does not change
-      //       if( currentRecord.value.code != null && currentRecord.value.code.trim() == props.record.code.trim() ){
-      //         // The description code does not change
+      //       if( currentRecord.value.prefix != null && currentRecord.value.prefix.trim() == props.record.prefix.trim() ){
+      //         // The description prefix does not change
       //         notify.warning({
       //           'title' : 'ពិនិត្យព័ត៌មាន' ,
       //           'description' : 'អ្នកមិនបានកែប្រែអ្វីឡើយ។' ,
@@ -197,7 +197,7 @@ export default {
         name: currentRecord.value.name ,
         desp: currentRecord.value.desp ,
         pid: currentRecord.value.pid ,
-        code: currentRecord.value.code 
+        prefix: currentRecord.value.prefix 
       }).then( res => {
         switch( res.status ){
           case 200 : 
@@ -226,7 +226,7 @@ export default {
     function initial(){
       currentRecord.value.id = parseInt( props.record.id )
       currentRecord.value.name = props.record.name
-      currentRecord.value.code = props.record.code
+      currentRecord.value.prefix = props.record.prefix
       currentRecord.value.desp = props.record.desp
       currentRecord.value.pid = parseInt( props.record.pid )
     }

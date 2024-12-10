@@ -251,9 +251,6 @@ export default {
     ) 
     
     const dob = ref( null )
-    dob.value = props.record.people.dob != '' && props.record.people.dob != undefined
-    ? (new Date( props.record.people.dob )).getTime()
-    : (new Date()).getTime()
 
     const officer_dob = ref( null )
     officer_dob.value = props.record.dob != '' && props.record.dob != undefined
@@ -295,9 +292,6 @@ export default {
         })
         return false
       }
-      
-      props.record.dob = dob.value != null && parseInt( dob.value ) > 0 ? dateFormat( new Date(dob.value) , "yyyy-mm-dd" ) : dateFormat( new Date() , "yyyy-mm-dd" ) ,
-
       store.dispatch( props.model.name+'/update',
         {
           'id' : props.record.id ,
@@ -308,7 +302,7 @@ export default {
           'passport' : props.record.passport ,
           'email' : props.record.email ,
           'phone' : props.record.phone ,
-          'officer_dob' : officer_dob.value != null && parseInt( officer_dob.value ) > 0 ? dateFormat( new Date(officer_dob.value) , "yyyy-mm-dd" ) : dateFormat( new Date() , "yyyy-mm-dd" ) ,
+          'officer_dob' : officer_dob.value != null ? dateFormat( new Date(officer_dob.value) , "yyyy-mm-dd" ) : dateFormat( new Date() , "yyyy-mm-dd" ) ,
           'people' : {
             'firstname' : props.record.people.firstname ,
             'lastname' : props.record.people.lastname ,
@@ -318,7 +312,7 @@ export default {
             'email' : props.record.people.email ,
             'mobile_phone' : props.record.people.mobile_phone ,
             'office_phone' : props.record.people.office_phone ,
-            'dob' : props.record.people.dob ,
+            'dob' : dob.value != null ? dateFormat( new Date(dob.value) , "yyyy-mm-dd" ) : dateFormat( new Date() , "yyyy-mm-dd" ) ,
             'nid' : props.record.people.nid ,
             'passport' : props.record.people.passport ,
             'marry_status' : props.record.people.marry_status ,
@@ -397,6 +391,9 @@ export default {
     }
   
     function initial(){
+      dob.value = props.record.people.dob != '' && props.record.people.dob != undefined
+        ? (new Date( props.record.people.dob )).getTime()
+        : (new Date()).getTime()
       selectedOrganization.value = props.record.organization != null && props.record.organization != undefined ? props.record.organization.id : null
       selectedPosition.value = props.record.position != null && props.record.position != undefined ? props.record.position.id : null
       selectedCountesies.value = props.record.countesy != null && props.record.countesy != undefined ? [props.record.countesy.id] : null

@@ -213,7 +213,7 @@ export default {
       document.getElementById('referenceDocument').click()
     }
     function uploadFiles(){
-      console.log( files.value )
+      // console.log( files.value )
       if( files.value.length < 0 ) {
         notify.info({
           title: "រក្សារទុករូបភាពគណនី" ,
@@ -228,7 +228,7 @@ export default {
         duration: 1000
       })
 
-      console.log( files.value )
+      // console.log( files.value )
       let formData = new FormData()
       formData.append('id', user.value.id )
       formData.append('files',files.value[0],files.value[0].name)
@@ -247,6 +247,7 @@ export default {
           // base64Avatar.value = props.record.avatar_url
           formData = new FormData()
           files.value = []
+          base64Avatar.value = null
           clearRecord( 1 )
         }
       }).catch( err => {
