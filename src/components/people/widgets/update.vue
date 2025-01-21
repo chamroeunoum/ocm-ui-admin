@@ -140,7 +140,6 @@ import { useStore } from 'vuex'
 import { useMessage, useNotification } from 'naive-ui'
 
 import dateFormat from "dateformat";
-import { getKhmer } from '../../../plugins/kh/number.js'
 
 export default {
 

@@ -186,7 +186,6 @@ import Frame4Corner from './../../components/widgets/frame/corner4.vue'
 import Footer from './../../components/footer/copyright.vue'
 import ocmLogoUrl from './../../assets/logo.svg'
 import DigitalClock from './../../components/widgets/DigitalClock.vue'
-import { getKhmer } from './../../plugins/kh/number.js'
 import { GoogleMap, Marker } from 'vue3-google-map'
 import Camera from './../../components/widgets/Camera.vue'
 

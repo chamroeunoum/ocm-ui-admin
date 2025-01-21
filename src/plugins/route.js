@@ -7,6 +7,7 @@ import DashboardWidget from './../components/main/dashboard.vue'
  * Card Officer
  */
 import DetailCardComponent from './../layouts/staff/card.vue'
+import PrintOfficerCardComponent from './../layouts/staff/printcard.vue'
 /**
  * Check in and out
  */
@@ -544,6 +545,14 @@ export const getRoutes = () => {
                 name: 'OfficerCard',
                 path: '/officer/card/:id',
                 component: DetailCardComponent ,
+                meta: {
+                    // transition: 'fade'
+                }
+            },
+            {
+                name: 'PrintOfficerCard',
+                path: '/officer/print/card/:id',
+                component: PrintOfficerCardComponent ,
                 meta: {
                     // transition: 'fade'
                 }

@@ -103,7 +103,6 @@ import { useMessage, useNotification } from 'naive-ui'
 
 import Frame4Corner from './../../widgets/frame/corner4.vue'
 import QrcodeVue from 'qrcode.vue'
-import { getKhmer } from '../../../plugins/kh/number.js'
 import ocmLogoUrl from './../../../assets/logo.svg'
 
 export default {

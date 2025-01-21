@@ -29,7 +29,6 @@ import QrcodeVue from 'qrcode.vue'
 import Vue3Barcode from 'vue3-barcode'
 import { useDialog, useMessage, useNotification } from 'naive-ui'
 import dateFormat from "dateformat";
-import { getKhmer } from './../../plugins/kh/number.js'
 import Frame4Corner from './../../components/widgets/frame/corner4.vue'
 /**
  * CRUD component form

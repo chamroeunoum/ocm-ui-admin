@@ -66,7 +66,6 @@ import { reactive ,ref } from 'vue'
 import { useStore } from 'vuex'
 import { useNotification , useDialog, selectDark } from 'naive-ui'
 import Frame4Corner from './../widgets/frame/corner4.vue'
-import { getKhmer } from './../../plugins/kh/number.js'
 import ActionForm from './modal/actions.vue'
 import AddChildOrganizationForm from './modal/addChild.vue'
 import ocmLogoUrl from './../../assets/logo.svg'
@@ -128,26 +127,15 @@ export default {
         search: '' ,
         perPage: 1000 , 
         page: 1 ,
-        id: 163
+        id: 2
       }).then( res => {
-        console.log( res.data.records[0] )
-        // console.log( res.data.columns )
-        // return false 
-        // d3
-        // .csv( d3.csv.parse('id,name,imageUrl,parentId,desp') )
-        // // .json( res.data.records )
-        // .then(dataFlattened => {
-          // console.log( dataFlattened)
+          let _this = this 
           this.dataFlattened = res.data.records
-          this.dataFlattened.columns = 'id,name,imageUrl,parentId,desp,staffs,leader'
+          this.dataFlattened.columns = 'id,name,image,parentId,desp'
           this.chart = new OrgChart()
           .container('.chart-container')
           .data( 
             this.dataFlattened
-          //   [
-          //   res.data.records[0] ,
-          //   res.data.columns
-          // ]
           )
           .svgHeight(window.innerHeight - 55)
           .initialZoom(0.8)
@@ -165,7 +153,7 @@ export default {
           })
           .siblingsMargin(d3Node => 0)
           .childrenMargin(d3Node => 50)
-          .neightbourMargin((n1, n2) => 50)
+          // .neightbourMargin((n1, n2) => 50)
           .compactMarginPair(d3Node => 70)
           .compactMarginBetween(d3Node => 30)
           .setActiveNodeCentered(true)
@@ -226,13 +214,12 @@ export default {
           })
           .compactMarginBetween(d => 35)
           .compactMarginPair(d => 30)
-          .neightbourMargin((a, b) => 20)
+          // .neightbourMargin((a, b) => 20)
           .buttonContent(({ node, state }) => {
-            console.log( node )
-              return `<div class="border border-gray-300 bg-white rounded-md flex flex-row h-6 font-bold text-blue-500" >
-                <svg class="w-4" style="margin: 2px 10px auto 10px; " xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 20 20"><g fill="none"><path d="M9 2.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5H10v1a5 5 0 0 1 5 5v1h1a2 2 0 0 1 2 2v4a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-4a2 2 0 0 1 2-2h1v-1a5.002 5.002 0 0 1 4-4.9V2.5zm7 9.5h-1.5a.5.5 0 0 1-.5-.5V10a4 4 0 0 0-8 0v1.5a.5.5 0 0 1-.5.5H4a1 1 0 0 0-1 1v4h5v-2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2h5v-4a1 1 0 0 0-1-1zM6 13.5a.5.5 0 0 0-1 0v2a.5.5 0 0 0 1 0v-2zm9 0a.5.5 0 0 0-1 0v2a.5.5 0 0 0 1 0v-2zM8.5 9a.5.5 0 0 0-.5.5v2a.5.5 0 0 0 1 0v-2a.5.5 0 0 0-.5-.5zm3.5.5a.5.5 0 0 0-1 0v2a.5.5 0 0 0 1 0v-2zM9 17h2v-2H9v2z" fill="currentColor"></path></g></svg>
-                <div class="" style="margin: 3px 5px auto 5px; " >${ $toKhmer( node.data._directSubordinates ) }</div>
-                </div>`
+            return `<div class="border border-gray-300 bg-white rounded-md flex flex-row h-6 font-bold text-blue-500" >
+              <svg class="w-4" style="margin: 2px 5px auto 5px; " xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 20 20"><g fill="none"><path d="M9 2.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5H10v1a5 5 0 0 1 5 5v1h1a2 2 0 0 1 2 2v4a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-4a2 2 0 0 1 2-2h1v-1a5.002 5.002 0 0 1 4-4.9V2.5zm7 9.5h-1.5a.5.5 0 0 1-.5-.5V10a4 4 0 0 0-8 0v1.5a.5.5 0 0 1-.5.5H4a1 1 0 0 0-1 1v4h5v-2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2h5v-4a1 1 0 0 0-1-1zM6 13.5a.5.5 0 0 0-1 0v2a.5.5 0 0 0 1 0v-2zm9 0a.5.5 0 0 0-1 0v2a.5.5 0 0 0 1 0v-2zM8.5 9a.5.5 0 0 0-.5.5v2a.5.5 0 0 0 1 0v-2a.5.5 0 0 0-.5-.5zm3.5.5a.5.5 0 0 0-1 0v2a.5.5 0 0 0 1 0v-2zM9 17h2v-2H9v2z" fill="currentColor"></path></g></svg>
+              <div class="" style="margin: 3px 5px auto 5px; " >${ _this.$toKhmer( node.data._directSubordinates ) }</div>
+              </div>`
           })
           .linkUpdate(function (d, i, arr) {
               d3.select(this)
@@ -250,26 +237,22 @@ export default {
                         <div class="border overflow-hidden border-gray-200" style="background-color:${color};position:absolute;margin-top:-25px;margin-left:${15}px;border-radius:100px;width:50px;height:50px;" >
                         <!-- Picture -->` +
                         (
-                          d.data.image==null
+                          d.data.image==null || d.data.image==undefined
                           ? `<img src="`+ocmLogoUrl+`" class="w-8 mt-1 mx-auto" />`
                           : `<svg class='w-8 h-8 m-2' xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 20 20"><g fill="none"><path d="M9 2.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5H10v1a5 5 0 0 1 5 5v1h1a2 2 0 0 1 2 2v4a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-4a2 2 0 0 1 2-2h1v-1a5.002 5.002 0 0 1 4-4.9V2.5zm7 9.5h-1.5a.5.5 0 0 1-.5-.5V10a4 4 0 0 0-8 0v1.5a.5.5 0 0 1-.5.5H4a1 1 0 0 0-1 1v4h5v-2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2h5v-4a1 1 0 0 0-1-1zM6 13.5a.5.5 0 0 0-1 0v2a.5.5 0 0 0 1 0v-2zm9 0a.5.5 0 0 0-1 0v2a.5.5 0 0 0 1 0v-2zM8.5 9a.5.5 0 0 0-.5.5v2a.5.5 0 0 0 1 0v-2a.5.5 0 0 0-.5-.5zm3.5.5a.5.5 0 0 0-1 0v2a.5.5 0 0 0 1 0v-2zM9 17h2v-2H9v2z" fill="currentColor"></path></g></svg>`
                         )
                         + `</div><!-- Menu icon -->
                         <!-- <div style="color:#08011E;position:absolute;right:20px;top:17px;font-size:10px;"><i class="fas fa-ellipsis-h"></i></div> -->
                         <!-- Name of the shape -->
-                        <div style="font-size:12px;color:#08011E;margin: 32px 10px 5px 10px ;white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: center; "> ${d.data.name} </div>
+                        <div style="" class="text-center text-gray-600 p-4 pt-6 font-moul leading-7" > ${d.data.name} </div>
                         <!-- Position of the shape -->
-                        <div style="color:#716E7B;margin: 3px 10px 5px 10px;font-size:12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;  text-align: center; "> ${ d.data.leader != undefined && d.data.leader.length > 0 ? ( 
-                          d.data.leader[0].countesies.map( (c) => c.name ).join(' , ') 
-                          + " " + 
-                          d.data.leader[0].lastname + " " + d.data.leader[0].firstname 
-                          + " " + 
-                          d.data.leader[0].positions.map( (p) => p.name ).join(' , ') 
-                        ) : 'មិនមានអ្នកគ្រប់គ្រង' } </div>
+                        <div style="color:#716E7B;margin: 3px 10px 5px 10px;font-size:12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;  text-align: center; ">${ 
+                          '' // d.data.leader != undefined && d.data.leader.length > 0 ? ( d.data.leader[0].countesies.map( (c) => c.name ).join(' , ') + "" + d.data.leader[0].lastname + " " + d.data.leader[0].firstname + " " + d.data.leader[0].positions.map( (p) => p.name ).join(' , ') ) : 'មិនមានអ្នកគ្រប់គ្រង' 
+                        }</div>
                         <!-- Total staffs within the organization -->
-                        <div style="width: 40px; position: absolute; right: 5px; bottom: -4px; border: 1px solid #CCC; background-color: #FFF; color:#716E7B; border-radius: 5px; height: 22px; padding: 2px; float: left;" >
-                          <svg class="text-blue-600" style=" float: left; width: 12px; height: 12px; margin: 1px auto auto 2px; display: inline-block; font-size: 12px ;" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 448 512"><path d="M224 256c70.7 0 128-57.3 128-128S294.7 0 224 0S96 57.3 96 128s57.3 128 128 128zm95.8 32.6L272 480l-32-136l32-56h-96l32 56l-32 136l-47.8-191.4C56.9 292 0 350.3 0 422.4V464c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48v-41.6c0-72.1-56.9-130.4-128.2-133.8z" fill="currentColor"></path></svg>
-                          <div class="text-blue-600" style=" float: right; font-size: 12px ; " >${ $toKhmer( d.data.staffs != null && d.data.staffs.length > 0 ? d.data.staffs.length : 0 ) }</div>
+                        <div style="position: absolute; right: 5px; bottom: -4px; border: 1px solid #CCC; background-color: #FFF; color:#716E7B; border-radius: 5px; height: 22px; padding: 2px; float: left;" >
+                          <svg class="text-blue-600" style=" float: left; width: 12px; height: 12px; margin: 1px 5px auto 5px; display: inline-block; font-size: 12px ;" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 448 512"><path d="M224 256c70.7 0 128-57.3 128-128S294.7 0 224 0S96 57.3 96 128s57.3 128 128 128zm95.8 32.6L272 480l-32-136l32-56h-96l32 56l-32 136l-47.8-191.4C56.9 292 0 350.3 0 422.4V464c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48v-41.6c0-72.1-56.9-130.4-128.2-133.8z" fill="currentColor"></path></svg>
+                          <div class="text-blue-600" style=" float: right; font-size: 12px ; margin: auto 5px; " >` + _this.$toKhmer( d.data.staffs != null && d.data.staffs.length > 0 ? d.data.staffs.length : 0 ) + `</div>
                         </div>
                       </div>
                       `;
@@ -377,7 +360,7 @@ export default {
     },
     onCloseOrganizationModel(record){
       // this.dataFlattened = res.data.records
-      // this.dataFlattened.columns = 'id,name,imageUrl,parentId,desp,staffs,leader'
+      // this.dataFlattened.columns = 'id,name,image,parentId,desp,staffs,leader'
 
       // console.log( this.dataFlattened.find( node => node.id == record.id ) )
       // this.selectedNode = record

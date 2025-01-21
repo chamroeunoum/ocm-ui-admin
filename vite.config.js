@@ -14,7 +14,8 @@ export default defineConfig({
             '@classes': path.resolve(__dirname, './src/classes'),
             '@layouts': path.resolve(__dirname, './src/layouts'),
             '@utils': path.resolve(__dirname, './src/utils'),
-            '@plugins': path.resolve(__dirname, './src/plugins')
+            '@plugins': path.resolve(__dirname, './src/plugins') ,
+            '@utils': path.resolve(__dirname, './src/utils')
         }
     },
     server: {

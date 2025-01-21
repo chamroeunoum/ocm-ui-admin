@@ -7,7 +7,6 @@
 </template>
 <script>
 import { ref, reactive, computed } from 'vue'
-import { getKhmer } from './../../plugins/kh/number.js'
 export default {
     props: [
         'type' ,

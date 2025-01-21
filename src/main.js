@@ -10,6 +10,9 @@ import VueExcelEditor from 'vue3-excel-editor'
 import NaiveUI from 'naive-ui'
 
 import KhmerNumber from './plugins/KhmerNumber.js'
+import KhmerMonth from './plugins/kh/month.js'
+import KhmerDay from './plugins/kh/day.js'
+
 import Assets from './plugins/Assets.js'
 
 import App from './App.vue'
@@ -21,8 +24,6 @@ import "./app.css"
 import store from './store'
 
 import router from './router.js'
-
-import HtmlToPaper from "./plugins/htmltopeper.js";
 
 const pinia = createPinia()
 const app = createApp(App)
@@ -62,7 +63,8 @@ app.use(VueQrcodeReader)
 app.use(router)
 app.use(NaiveUI)
 app.use(KhmerNumber)
+app.use(KhmerMonth)
+app.use(KhmerDay)
 app.use(Assets)
 app.use(VueExcelEditor)
-app.use(HtmlToPaper)
 app.mount('#app')
