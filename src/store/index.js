@@ -2,7 +2,13 @@ import { createStore, createLogger } from 'vuex'
 import auth from './modules/authentication'
 import countesy from './modules/countesy'
 import user from './modules/user'
-import people from './modules/people'
+
+import people from './modules/people/people'
+import certificate from './modules/people/certificate'
+import niccertificate from './modules/people/niccertificate'
+import birthcertificate from './modules/people/birthcertificate'
+import weddingcertificate from './modules/people/weddingcertificate'
+
 import officer from './modules/officer'
 import room from './modules/room'
 import folder from './modules/folder'
@@ -28,6 +34,12 @@ import part from './modules/law/part'
 import section from './modules/law/section'
 import matra from './modules/law/matra'
 
+// Location
+import province from './modules/location/province'
+import district from './modules/location/district'
+import commune from './modules/location/commune'
+import village from './modules/location/village'
+
 const debug = process.env.NODE_ENV !== 'production'
 
 export default createStore({
@@ -35,13 +47,13 @@ export default createStore({
     // apiServer: 'http://127.0.0.1:8000/api/admin' ,
     // apiServer: 'https://apis.ocm.gov.kh/api/admin' ,
     organization: {
-      name: 'អគ្គនាយកដ្ឋានសម្របសម្រួលកិច្ចការទូទៅ'
+      name: 'អគ្គនាយកដ្ឋានបដិវត្តកម្មឌីជីថល'
     },
     system: {
       name: 'អង្គភាពចំណុះទីស្ដីការគណៈរដ្ឋមន្ត្រី'
     },
     company: {
-      name: 'អគ្គនាយកដ្ឋានសម្របសម្រួលកិច្ចការទូទៅ'
+      name: 'អគ្គនាយកដ្ឋានបដិវត្តកម្មឌីជីថល'
     }
   },
   modules: {
@@ -58,7 +70,13 @@ export default createStore({
     // End law modules
     countesy ,
     user,
+    // People
     people,
+    certificate ,
+    niccertificate ,
+    birthcertificate ,
+    weddingcertificate ,
+    // 
     officer,
     room ,
     folder ,
@@ -68,6 +86,11 @@ export default createStore({
     position ,
     attendant ,
     task ,
+    // Province , District , Commune , Village
+    province ,
+    district ,
+    commune ,
+    village ,
     /**
      * Regulator Section
      */

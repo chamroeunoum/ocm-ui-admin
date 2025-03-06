@@ -98,7 +98,16 @@ const actions = {
     null,
     true
   )},
-  
+  async positions ({ state, commit, rootState },params) {
+    return await crud.read(import.meta.env.VITE_API_SERVER+"/"+state.model.name+"/positions"+ "?" + new URLSearchParams({
+      search: params.id ,
+      perPage: params.search ,
+      page: params.perPage ,
+      organization_id : parseInt( params.id ) > 0 ? parseInt( params.id ) > 0 : null
+    }).toString(),
+    null,
+    true
+  )},
 }
 // mutations
 const mutations = {

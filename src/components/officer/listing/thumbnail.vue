@@ -79,8 +79,8 @@
                   <div v-if="record.organization != undefined && record.organization != null " class="w-1/2 text-right text-vcb-xs my-1  leading-5 tracking-wide" v-html=" record.organization.name " ></div>
                 </div>
                 <div v-if="record.card != null && record.card != undefined && record.card.id > 0" class="absolute left-1 top-1 text-vcb-xs text-left font-bold leading-6 tracking-wider" >{{ $toKhmer( record.card.number ) }}</div>
-                <div v-if="record.card == null || record.card == undefined && ( record.organization != undefined && record.organization != null ) " class="absolute left-1 top-1 text-vcb-xs text-left font-bold leading-6 tracking-wider" v-html=" $toKhmer( record.organization.prefix + '-' + ( record.id + '' ).padStart( 4 , '0' ) )" ></div>
-                <div v-if="record.code != null && record.code != undefined " class="absolute left-1 top-5 text-vcb-xs text-left font-bold leading-6 tracking-wider" v-html=" $toKhmer( record.code )" ></div>
+                <div v-if="record.organization != undefined && record.organization != null " class="absolute left-1 top-1 text-vcb-xs text-left font-bold leading-6 tracking-wider" v-html=" $toKhmer( ( record.organization.prefix != null && record.organization.prefix != '' ? record.organization.prefix + '-' : 'OCM-' ) + ( record.id + '' ).padStart( 4 , '0' ) )" ></div>
+                <!-- <div v-if="record.code != null && record.code != undefined " class="absolute left-1 top-5 text-vcb-xs text-left font-bold leading-6 tracking-wider" v-html=" $toKhmer( record.code )" ></div> -->
               </div>
               <thumbnail-actions-form v-bind:model="model" v-bind:record="record" :onClose="closeActions" />
             </div>

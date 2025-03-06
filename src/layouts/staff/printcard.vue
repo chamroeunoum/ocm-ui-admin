@@ -8,8 +8,9 @@
               <tr >
                 <td style="width: 2.8cm; vertical-align: top; padding: 0px 5px 2px 2px; font-size: 0.45rem; text-align: center; " >
                   <div style="position: relative; float: left; ">
+                    <!-- :src=" ( savedOfficialCardBase64  != null ?  'data:image/jpg;base64,' + savedOfficialCardBase64 : ocmLogoUrl ) " -->
                     <img
-                      :src=" ( savedOfficialCardBase64  != null ?  'data:image/jpg;base64,' + savedOfficialCardBase64 : ocmLogoUrl ) "
+                      :src=" officer.image != '' ? officer.image : ocmLogoUrl "
                       style="border-radius: 2px;" />
                       <div style="float: left; text-align: center ; width: 100%; font-family: btb-black ; color: #000000; " >លេខ <span class="font-moul h-4" style="color: #000000; " >{{ $toKhmer( officer.id ) }}</span>-គរម</div>
                   </div>
@@ -29,7 +30,7 @@
                       </tr>
                       <tr>
                         <td class="text-left font-moul align-top" style="width: 2cm;  vertical-align: top; color: #000000; "  >ថ្ងៃខែឆ្នាំកំណើត<span style="float: right; font-size: 0.55rem; color: #000000; " >៖</span></td>
-                        <td class="leading-3  font-btb-black " style=" font-size: 0.55rem; font-weight: 900; color: #000000; "  >{{ getDate( officer.people.dob ) }}</td>
+                        <td class="leading-3  font-btb-black text-left" style=" font-size: 0.55rem; font-weight: 900; color: #000000; "  >{{ getDate( officer.people.dob ) }}</td>
                         <td class="leading-3  font-btb-black " style=" font-size: 0.55rem; color: #000000; " ><span style="font-size: 0.55rem; color: #000000; " class="font-moul" >ភេទ</span>&nbsp;៖&nbsp;{{ officer.people.gender == 1 ? "ប្រុស" : "ស្រី" }}</td>
                       </tr>
                       <tr>
@@ -127,9 +128,9 @@ import { getDate } from '@utils/khmer.js'
               if( res.data.record != undefined && res.data.record.public_key != undefined && res.data.record.public_key.length > 0 ){
                 // window.location.replace( 'https://hr.ocm.gov.kh/#/officer/card/'+res.data.record.public_key )
                 officer.value = res.data.record
-                if( officer.value != null && parseInt( officer.value.id ) > 0 ){
-                  readRecord()
-                }
+                // if( officer.value != null && parseInt( officer.value.id ) > 0 ){
+                //   readRecord()
+                // }
               }else{
                 officerNotFound.value = true
               }
@@ -187,6 +188,13 @@ import { getDate } from '@utils/khmer.js'
         getDate ,
         savedOfficialCardBase64
       } 
+    },
+    updated(){
+      setTimeout(function(){
+        window.print()
+        window.close()
+        clearTimeout()
+      },500)
     }
   }
 </script>

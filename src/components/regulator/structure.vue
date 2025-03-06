@@ -110,7 +110,7 @@ import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 import QrcodeVue from 'qrcode.vue'
 import Vue3Barcode from 'vue3-barcode'
-
+import { OrgChart } from 'd3-org-chart'
 import { useDialog, useMessage, useNotification } from 'naive-ui'
 /**
  * CRUD component form
@@ -122,11 +122,9 @@ export default {
   components: {
     QrcodeVue ,
     Vue3Barcode,
-    
+    OrgChart ,
     CreateForm,
-    
-    UpdateForm,
-    
+    UpdateForm
   },
   setup(){
     var store = useStore()

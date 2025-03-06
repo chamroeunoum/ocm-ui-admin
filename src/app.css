@@ -163,7 +163,7 @@ font-family: "sr";
 }
 
 body * {
-  font-family: Arial, Helvetica, sans-serif, kantumruy;
+  font-family: Arial, Helvetica, sans-serif, btb;
   @apply text-xs;
   /* Disabled user from select anything */
   -webkit-touch-callout: none;

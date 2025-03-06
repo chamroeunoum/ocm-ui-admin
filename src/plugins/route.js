@@ -3,6 +3,7 @@ import LoginComponent from './../layouts/login/index.vue'
 import DashboardComponent from './../components/main/index.vue'
 import DashboardWidget from './../components/main/dashboard.vue'
 
+
 /**
  * Card Officer
  */
@@ -13,6 +14,8 @@ import PrintOfficerCardComponent from './../layouts/staff/printcard.vue'
  */
 import QrCheckinAndCheckoutComponent from './../layouts/checkinout/check.vue'
 import QrCheckinAndCheckoutCameraComponent from './../layouts/checkinout/qrcheck.vue'
+
+import AnimatedFanComponent from './../components/widgets/custom/AnimatedFan.vue'
 
 /**
  * User Components
@@ -45,11 +48,11 @@ import RoomThumbnailCrud from './../components/room/listing/thumbnail.vue'
 /**
  * Folder Components
  */
-// import RoleCrud from './../components/role/index.vue'
-// import RoleListCrud from './../components/role/list.vue'
-// import RoleCreateCrud from './../components/role/create.vue'
-// import RoleUpdateCrud from './../components/role/update.vue'
-// import RoleDetail from './../components/role/detail.vue'
+import RoleCrud from './../components/role/index.vue'
+import RoleListCrud from './../components/role/list.vue'
+import RoleCreateCrud from './../components/role/create.vue'
+import RoleUpdateCrud from './../components/role/update.vue'
+import RoleDetail from './../components/role/detail.vue'
 
 /**
  * Regulator Components
@@ -68,6 +71,7 @@ import OrganizationCrud from './../components/organization/index.vue'
 import OrganizationThumbnailCrud from './../components/organization/thumbnail.vue'
 import OrganizationOrgchart from './../components/organization/orgchart.vue'
 import OrganizationDetails from './../components/organization/details.vue'
+import OrganizationStructure from './../components/organization/structure.vue'
 
 /**
  * Positions
@@ -76,6 +80,7 @@ import PositionCrud from './../components/position/index.vue'
 import PositionThumbnailCrud from './../components/position/thumbnail.vue'
 import PositionOrgchart from './../components/position/orgchart.vue'
 import PositionDetails from './../components/position/details.vue'
+import PositionStructure from './../components/position/structure.vue'
 
 /**
  * Attendant Components
@@ -373,38 +378,38 @@ export const getRoutes = () => {
                 ]
             },
             // Role
-            // {
-            //     name: 'Role' ,
-            //     path: '/role',
-            //     component: RoleCrud ,
-            //     meta: { 
-            //         transition: 'slide-right' ,
-            //         requiresAuth: true,
-            //         is_admin : true 
-            //     },
-            //     children: [
-            //         {
-            //             name: "RoleList" ,
-            //             path: '' ,
-            //             component: RoleListCrud
-            //         },
-            //         {
-            //             name: "RoleDetail" ,
-            //             path: ':id/detail' ,
-            //             component: RoleDetail
-            //         },
-            //         {
-            //             name: "RoleCreate" ,
-            //             path: 'create' ,
-            //             component: RoleCreateCrud
-            //         },
-            //         {
-            //             name: "RoleUpdate" ,
-            //             path: 'update' ,
-            //             component: RoleUpdateCrud
-            //         }
-            //     ]
-            // },
+            {
+                name: 'Role' ,
+                path: '/role',
+                component: RoleCrud ,
+                meta: { 
+                    transition: 'slide-right' ,
+                    requiresAuth: true,
+                    is_admin : true 
+                },
+                children: [
+                    {
+                        name: "RoleList" ,
+                        path: '' ,
+                        component: RoleListCrud
+                    },
+                    {
+                        name: "RoleDetail" ,
+                        path: ':id/detail' ,
+                        component: RoleDetail
+                    },
+                    {
+                        name: "RoleCreate" ,
+                        path: 'create' ,
+                        component: RoleCreateCrud
+                    },
+                    {
+                        name: "RoleUpdate" ,
+                        path: 'update' ,
+                        component: RoleUpdateCrud
+                    }
+                ]
+            },
             {
                 name: 'Regulator' ,
                 path: '/regulator',
@@ -475,6 +480,16 @@ export const getRoutes = () => {
                         }
                     },
                     {
+                        name: 'OrganizationStructure' ,
+                        path: 'structure' ,
+                        component: OrganizationStructure ,
+                        meta: { 
+                            transition: 'slide-right' ,
+                            requiresAuth: true,
+                            is_admin : true
+                        }
+                    },
+                    {
                         name: 'OrganizationDetails' ,
                         path: ':id/details' ,
                         component: OrganizationDetails ,
@@ -522,6 +537,16 @@ export const getRoutes = () => {
                         name: 'PositionOrgchart' ,
                         path: 'orgchart' ,
                         component: PositionOrgchart ,
+                        meta: { 
+                            transition: 'slide-right' ,
+                            requiresAuth: true,
+                            is_admin : true
+                        }
+                    },
+                    {
+                        name: 'PositionStructure' ,
+                        path: ':id/structure' ,
+                        component: PositionStructure ,
                         meta: { 
                             transition: 'slide-right' ,
                             requiresAuth: true,
@@ -583,6 +608,122 @@ export const getRoutes = () => {
             //         is_admin : true
             //     }
             // },
+            /**
+             * Widget Components
+             */
+            {
+                name: 'Widgets',
+                path: '/widgets',
+                component: DashboardComponent,
+                meta: {
+                    transition: 'slide-right',
+                    requiresAuth: true,
+                    is_admin: true
+                },
+                children: [
+                    {
+                        name: 'StyleEditor',
+                        path: 'style-editor',
+                        component: () => import('./../components/widgets/custom/StyleEditor.vue'),
+                        meta: {
+                            transition: 'slide-right',
+                            requiresAuth: true,
+                            is_admin: true
+                        }
+                    },
+                    {
+                        name: 'GrantChat',
+                        path: 'grant-chat',
+                        component: () => import('./../components/widgets/custom/GrantChat.vue'),
+                        meta: {
+                            transition: 'slide-right',
+                            requiresAuth: true,
+                            is_admin: true
+                        }
+                    },
+                    {
+                        name: 'GanttChart',
+                        path: 'gantt-chart',
+                        component: () => import('./../components/widgets/custom/GanttChart.vue'),
+                        meta: {
+                            transition: 'slide-right',
+                            requiresAuth: true,
+                            is_admin: true
+                        }
+                    },
+                    {
+                        name: 'Calendar',
+                        path: 'calendar',
+                        component: () => import('./../components/widgets/custom/Calendar.vue'),
+                        meta: {
+                            transition: 'slide-right',
+                            requiresAuth: true,
+                            is_admin: true
+                        }
+                    },
+                    {
+                        name: 'DataTable',
+                        path: 'datatable',
+                        component: () => import('./../components/widgets/custom/DataTable.vue'),
+                        meta: {
+                            transition: 'slide-right',
+                            requiresAuth: true,
+                            is_admin: true
+                        }
+                    },
+                    {
+                        name: 'TableTemplate',
+                        path: 'tabletemplate',
+                        component: () => import('./../components/widgets/custom/TableTemplate.vue'),
+                        meta: {
+                            transition: 'slide-right',
+                            requiresAuth: true,
+                            is_admin: true
+                        }
+                    },
+                    {
+                        name: 'ThumbnailGrid',
+                        path: 'thumbnailgrid',
+                        component: () => import('./../components/widgets/custom/ThumbnailGrid.vue'),
+                        meta: {
+                            transition: 'slide-right',
+                            requiresAuth: true,
+                            is_admin: true
+                        }
+                    },
+                    {
+                        name: 'UserProfile',
+                        path: 'userprofile',
+                        component: () => import('./../components/widgets/custom/UserProfile.vue'),
+                        meta: {
+                            transition: 'slide-right',
+                            requiresAuth: true,
+                            is_admin: true
+                        }
+                    },
+                    {
+                        name: 'VegetablesList',
+                        path: 'vegetableslist',
+                        component: () => import('./../components/widgets/custom/VegetablesList.vue'),
+                        meta: {
+                            transition: 'slide-right',
+                            requiresAuth: true,
+                            is_admin: true
+                        }
+                    },
+                    {
+                        name: 'AnimatedFanComponent',
+                        path: 'fan',
+                        component: () => AnimatedFanComponent ,
+                        meta: {
+                            transition: 'slide-right',
+                            requiresAuth: true,
+                            is_admin: true
+                        }
+                    },
+                    
+                ]
+            },
             // will match everything and put it under `$route.params.pathMatch`
             { path: '/:pathMatch(.*)*', name: 'NotFound', component: Page404 }
         ]

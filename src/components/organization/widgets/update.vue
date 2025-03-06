@@ -110,7 +110,7 @@ export default {
     const store = useStore()
     const message = useMessage()
     const notify = useNotification()
-    const currentRecord = ref({
+    const currentRecord = reactive({
       id: 0 ,
       name: '' ,
       desp: '' ,
@@ -152,7 +152,7 @@ export default {
     }
 
     function update(){
-      if( currentRecord.value.name.trim() == "" ){
+      if( currentRecord.name.trim() == "" ){
         notify.warning({
           'title' : 'ពិនិត្យព័ត៌មាន' ,
           'description' : 'សូមបំពេញ ឈ្មោះអង្គភាព' ,
@@ -162,16 +162,16 @@ export default {
       }
       // Check whether the name is already
       var result = organizations.value.find( (o) => {
-          return o.label.trim() == currentRecord.value.name.trim()
+          return o.label.trim() == currentRecord.name.trim()
       })
 
       // if( result != undefined ){
       //   // The name is already exist, let check the parent organization
-      //   if( currentRecord.value.pid != null && parseInt( currentRecord.value.pid ) == parseInt( props.record.pid ) ){
+      //   if( currentRecord.pid != null && parseInt( currentRecord.pid ) == parseInt( props.record.pid ) ){
       //     // The organization parent does not change
-      //     if( currentRecord.value.desp != null && currentRecord.value.desp.trim() == props.record.desp.trim() ){
+      //     if( currentRecord.desp != null && currentRecord.desp.trim() == props.record.desp.trim() ){
       //       // The organization description does not change
-      //       if( currentRecord.value.prefix != null && currentRecord.value.prefix.trim() == props.record.prefix.trim() ){
+      //       if( currentRecord.prefix != null && currentRecord.prefix.trim() == props.record.prefix.trim() ){
       //         // The description prefix does not change
       //         notify.warning({
       //           'title' : 'ពិនិត្យព័ត៌មាន' ,
@@ -193,11 +193,11 @@ export default {
         return false
       }
       store.dispatch( props.model.name+'/update',{
-        id: currentRecord.value.id ,
-        name: currentRecord.value.name ,
-        desp: currentRecord.value.desp ,
-        pid: currentRecord.value.pid ,
-        prefix: currentRecord.value.prefix 
+        id: currentRecord.id ,
+        name: currentRecord.name ,
+        desp: currentRecord.desp ,
+        pid: currentRecord.pid ,
+        prefix: currentRecord.prefix 
       }).then( res => {
         switch( res.status ){
           case 200 : 
@@ -224,11 +224,11 @@ export default {
       props.onClose( 0 )
     }
     function initial(){
-      currentRecord.value.id = parseInt( props.record.id )
-      currentRecord.value.name = props.record.name
-      currentRecord.value.prefix = props.record.prefix
-      currentRecord.value.desp = props.record.desp
-      currentRecord.value.pid = parseInt( props.record.pid )
+      currentRecord.id = parseInt( props.record.id )
+      currentRecord.name = props.record.name
+      currentRecord.prefix = props.record.prefix
+      currentRecord.desp = props.record.desp
+      currentRecord.pid = parseInt( props.record.pid )
     }
 
     return {

@@ -14,6 +14,7 @@ import KhmerMonth from './plugins/kh/month.js'
 import KhmerDay from './plugins/kh/day.js'
 
 import Assets from './plugins/Assets.js'
+import ImageUrl from './plugins/ImageUrl.js'
 
 import App from './App.vue'
 
@@ -66,5 +67,6 @@ app.use(KhmerNumber)
 app.use(KhmerMonth)
 app.use(KhmerDay)
 app.use(Assets)
+app.use(ImageUrl)
 app.use(VueExcelEditor)
 app.mount('#app')

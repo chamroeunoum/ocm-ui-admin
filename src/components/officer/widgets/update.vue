@@ -112,8 +112,11 @@
                       <n-form-item label="អត្តលេខ" path="code" class="w-6/12 p-1" >
                         <n-input v-model:value="record.code" placeholder="អត្តលេខ" />
                       </n-form-item>
-                      <n-form-item label="ថ្ងៃ ខែ ឆ្នាំ ចូលពេញសិទ្ធិ (តាំងស៊ុប)" path="officer_dob" class="w-6/12 p-1" >
-                        <n-date-picker v-model:value="officer_dob" type="date" format="dd-MM-yyyy" placeholder="ថ្ងៃ ខែ ឆ្នាំ កំណើត" class="w-full" />
+                      <n-form-item label="ថ្ងៃ ខែ ឆ្នាំ ចូលបម្រើការកម្មសិក្សារ" class="w-6/12 p-1" >
+                        <n-date-picker v-model:value="unofficial_date" format="dd-MM-yyyy" type="date" placeholder="ថ្ងៃខែឆ្នាំ ចូលបម្រើការ" class="w-full" />
+                      </n-form-item>
+                      <n-form-item label="ថ្ងៃ ខែ ឆ្នាំ ចូលពេញសិទ្ធិ (តាំងស៊ុប)" class="w-6/12 p-1" >
+                        <n-date-picker v-model:value="official_date" format="dd-MM-yyyy" type="date" placeholder="ថ្ងៃ ខែ ឆ្នាំ តាំងស៊ុប" class="w-full" />
                       </n-form-item>
                       <n-form-item label="ទូរស័ព្ទ" path="phone" class="w-1/2 p-1" >
                         <n-input v-model:value="record.phone" placeholder="ទូរស័ព្ទ" />
@@ -155,7 +158,7 @@
                         class="w-full border border-gray-200 rounded p-4"
                         >
                           <div class="w-full mb-4" >លេខសម្កាល់មន្ត្រីក្នុងស្ថាប័នស្ថិតនៅ</div>
-                          <div class="w-full mb-4" v-for="(organizationPivot, index) in record.organizationPeople" >
+                          <div class="w-full mb-4" v-for="(organizationPivot, index) in record.organizationPeople" :key="index" >
                             <div class="w-full " >{{ $toKhmer( index + 1 ) + '. ' +organizationPivot.organization.name }}{{ organizationPivot.organization.code != "" && organizationPivot.organization.code != undefined && organizationPivot.organization.code.length > 0 ? ' - ' + organizationPivot.organization.code : '' }}</div>
                             <div class="w-1/2 p-4" >
                               <n-input v-model:value="organizationPivot.code" placeholder="លេខកូដ" @blur="updatePeopleCodeWithinOrganization(organizationPivot)" />
@@ -251,9 +254,14 @@ export default {
     
     const dob = ref( null )
 
-    const officer_dob = ref( null )
-    officer_dob.value = props.record.dob != '' && props.record.dob != undefined
-    ? (new Date( props.record.dob )).getTime()
+    const official_date = ref( null )
+    official_date.value = props.record.official_date != '' && props.record.official_date != undefined
+    ? (new Date( props.record.official_date )).getTime()
+    : (new Date()).getTime()
+
+    const unofficial_date = ref( null )
+    unofficial_date.value = props.record.unofficial_date != '' && props.record.unofficial_date != undefined
+    ? (new Date( props.record.unofficial_date )).getTime()
     : (new Date()).getTime()
 
     /**
@@ -301,7 +309,8 @@ export default {
           'passport' : props.record.passport ,
           'email' : props.record.email ,
           'phone' : props.record.phone ,
-          'officer_dob' : officer_dob.value != null ? dateFormat( new Date(officer_dob.value) , "yyyy-mm-dd" ) : dateFormat( new Date() , "yyyy-mm-dd" ) ,
+          'official_date' : official_date.value != null ? dateFormat( new Date(official_date.value) , "yyyy-mm-dd" ) : dateFormat( new Date() , "yyyy-mm-dd" ) ,
+          'unofficial_date' : unofficial_date.value != null ? dateFormat( new Date(unofficial_date.value) , "yyyy-mm-dd" ) : dateFormat( new Date() , "yyyy-mm-dd" ) ,
           'people' : {
             'firstname' : props.record.people.firstname ,
             'lastname' : props.record.people.lastname ,
@@ -410,7 +419,8 @@ export default {
       selectedCountesies ,
       countesies ,
       dob ,
-      officer_dob ,
+      official_date ,
+      unofficial_date ,
       /**
        * Functions
        */

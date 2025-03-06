@@ -1,4 +1,4 @@
-import crud from '../../api/crud'
+import crud from '../../../api/crud'
 
 // initial state
 const state = () => ({

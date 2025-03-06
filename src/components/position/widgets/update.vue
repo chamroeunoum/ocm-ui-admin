@@ -106,7 +106,7 @@ export default {
     const store = useStore()
     const message = useMessage()
     const notify = useNotification()
-    const currentRecord = ref({
+    const currentRecord = reactive({
       id: 0 ,
       name: '' ,
       desp: '' ,
@@ -136,16 +136,14 @@ export default {
      * Functions
      */
     function clearRecord(){
-      props.record = {
-        id : 0 ,
-        name: '' ,
-        desp: '' ,
-        pid: null
-      }
+      currentRecord.id = 0 
+      currentRecord.name = 0 
+      currentRecord.desp = ''
+      currentRecord.pid = 0
     }
 
     function update(){
-      if( currentRecord.value.name.trim() == "" ){
+      if( currentRecord.name.trim() == "" ){
         notify.warning({
           'title' : 'ពិនិត្យព័ត៌មាន' ,
           'description' : 'សូមបំពេញ ឈ្មោះអង្គភាព' ,
@@ -155,14 +153,14 @@ export default {
       }
       // Check whether the name is already
       var result = positions.value.find( (o) => {
-          return o.label.trim() == currentRecord.value.name.trim()
+          return o.label.trim() == currentRecord.name.trim()
       })
 
       if( result != undefined ){
         // The name is already exist, let check the parent organization
-        if( parseInt( currentRecord.value.pid ) == parseInt( props.record.pid ) ){
+        if( parseInt( currentRecord.pid ) == parseInt( props.record.pid ) ){
           // The organization does not change
-          if( currentRecord.value.desp.trim() == props.record.desp.trim() ){
+          if( currentRecord.desp != null && props.record.desp !== null && currentRecord.desp.trim() == props.record.desp.trim() ){
             // The description does not change
             notify.warning({
               'title' : 'ពិនិត្យព័ត៌មាន' ,
@@ -183,10 +181,10 @@ export default {
         return false
       }
       store.dispatch( props.model.name+'/update',{
-        id: currentRecord.value.id ,
-        name: currentRecord.value.name ,
-        desp: currentRecord.value.desp ,
-        pid: currentRecord.value.pid
+        id: currentRecord.id ,
+        name: currentRecord.name ,
+        desp: currentRecord.desp ,
+        pid: currentRecord.pid
       }).then( res => {
         switch( res.status ){
           case 200 : 
@@ -213,10 +211,10 @@ export default {
       props.onClose( 0 )
     }
     function initial(){
-      currentRecord.value.id = parseInt( props.record.id )
-      currentRecord.value.name = props.record.name
-      currentRecord.value.desp = props.record.desp
-      currentRecord.value.pid = parseInt( props.record.pid )
+      currentRecord.id = parseInt( props.record.id )
+      currentRecord.name = props.record.name
+      currentRecord.desp = props.record.desp
+      currentRecord.pid = parseInt( props.record.pid )
     }
 
     return {
