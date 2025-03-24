@@ -453,6 +453,14 @@ export default {
     const dataFlattened = ref([])
     const chart = ref(null)
     const chartNodeFunctionsToggler = ref( false )
+    const rootNode = ref({
+      id: 0 ,
+      parentId: "" ,
+      name: "" ,
+      image: "https://picsum.photos/200/300" ,
+      desp: "" ,
+      leader: []
+    })
     const selectedNode = ref({
       id: 0 ,
       parentId: "" ,
@@ -483,11 +491,11 @@ export default {
         if (i && i == d3Node.parent.children.length - 1) { return 300; }
         return (!i || i == d3Node.parent.children.length - 1) ? 200 : 100
       })
-      .siblingsMargin(d3Node => 0)
+      .siblingsMargin(d3Node => 50)
       .childrenMargin(d3Node => 50)
       // .neightbourMargin((n1, n2) => 50)
       .compactMarginPair(d3Node => 70)
-      .compactMarginBetween(d3Node => 30)
+      .compactMarginBetween(d3Node => 50)
       .setActiveNodeCentered(true)
       // .layout(new URLSearchParams(new URL(document.location.href).search).get('layout') || "top")
       .layout("top")
@@ -539,9 +547,9 @@ export default {
       })
       .childrenMargin(d => 50)
       .onNodeClick( d => {})
-      .compactMarginBetween(d => 35)
-      .compactMarginPair(d => 30)
-      // .neightbourMargin((a, b) => 20)
+      .compactMarginBetween(d => 50)
+      .compactMarginPair(d => 50)
+      // .neightbourMargin((a, b) => 50 )
       .buttonContent(({ node, state }) => {
         return `<div class="border border-gray-300 bg-white rounded-md flex flex-row h-6 font-bold text-blue-500" >
           <svg class="w-4" style="margin: 2px 5px auto 5px; " xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 20 20"><g fill="none"><path d="M9 2.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5H10v1a5 5 0 0 1 5 5v1h1a2 2 0 0 1 2 2v4a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-4a2 2 0 0 1 2-2h1v-1a5.002 5.002 0 0 1 4-4.9V2.5zm7 9.5h-1.5a.5.5 0 0 1-.5-.5V10a4 4 0 0 0-8 0v1.5a.5.5 0 0 1-.5.5H4a1 1 0 0 0-1 1v4h5v-2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2h5v-4a1 1 0 0 0-1-1zM6 13.5a.5.5 0 0 0-1 0v2a.5.5 0 0 0 1 0v-2zm9 0a.5.5 0 0 0-1 0v2a.5.5 0 0 0 1 0v-2zM8.5 9a.5.5 0 0 0-.5.5v2a.5.5 0 0 0 1 0v-2a.5.5 0 0 0-.5-.5zm3.5.5a.5.5 0 0 0-1 0v2a.5.5 0 0 0 1 0v-2zM9 17h2v-2H9v2z" fill="currentColor"></path></g></svg>
@@ -590,51 +598,94 @@ export default {
     }
 
     function addChild(o){
+      // Add Root Organization
       if( dataFlattened.value.length <= 0 ){
-        selectedNode.value.id = o.id
-        selectedNode.value.parentId = o.parentId
-        selectedNode.value.name = o.name
-        selectedNode.value.image = o.image
-        selectedNode.value.desp = o.desp
-        chart.value = null
-        drawingOrgchart([{
-          id: o.id,
-          parentId: null ,
-          name: o.name ,
-          image: o.image != "" && o.image != undefined ? o.image : ocmLogoUrl ,
-          desp: o.desp ,
-          _centered: true  
-        }])
-        if( dataFlattened.value.length ){
-          table.records.matched = []
-          table.records.matched = table.records.all.filter( ( o ) => dataFlattened.value.find( ( dfItem ) => dfItem.id == o.id ) == undefined )
-          table.search = ''
-          getRecords()
-        }
-      }else{
-        if( chart.value != null && selectedNode.value != null && selectedNode.value.id > 0 ){
-          chart.value.addNode({
-            id: o.id,
-            parentId: selectedNode.value.id ,
-            name: o.name ,
-            image: o.image != "" && o.image != undefined ? o.image : ocmLogoUrl ,
-            desp: o.desp ,
-            _centered: true
-          })
-          if( dataFlattened.value.length ){
-            table.records.matched = []
-            table.records.matched = table.records.all.filter( ( o ) => dataFlattened.value.find( ( dfItem ) => dfItem.id == o.id ) == undefined )
-            table.search = ''
-            getRecords()
-          }
-          store.dispatch(model.name + "/addChild",{
-            pid: selectedNode.value.id ,
-            cid: o.id
-          }).then( res => {
-            
-          }).catch( err => {
+        // rootNode.value.id = o.id
+        // rootNode.value.parentId = o.parentId
+        // rootNode.value.name = o.name
+        // rootNode.value.image = o.image
+        // rootNode.value.desp = o.desp
 
+        // selectedNode.value.id = o.id
+        // selectedNode.value.parentId = o.parentId
+        // selectedNode.value.name = o.name
+        // selectedNode.value.image = o.image
+        // selectedNode.value.desp = o.desp
+
+        store.dispatch( model.name+'/addStructure' , {
+          pid: 0 ,
+          organization_id : o.id
+        }).then( res => {
+          console.log( res.data.record )
+          rootNode.value.id = res.data.record.id
+          rootNode.value.parentId = parseInt( res.data.record.pid ) > 0 ? parseInt( res.data.record.pid ) : null
+          rootNode.value.name = res.data.record.organization.name
+          rootNode.value.image = res.data.record.organization.image
+          rootNode.value.desp = res.data.record.organization.desp
+
+          selectedNode.value.id = rootNode.value.id
+          selectedNode.value.parentId = rootNode.value.parentId
+          selectedNode.value.name = rootNode.value.name
+          selectedNode.value.image = rootNode.value.image
+          selectedNode.value.desp = rootNode.value.desp
+          
+          getStructure(rootNode.value.id)
+
+          // chart.value = null
+          // drawingOrgchart([{
+          //   id: rootNode.value.id ,
+          //   parentId: rootNode.value.parentId ,
+          //   name: rootNode.value.name ,
+          //   image: rootNode.value.image != "" && rootNode.value.image != undefined ? rootNode.value.image : ocmLogoUrl ,
+          //   desp: rootNode.value.desp ,
+          //   _centered: true  
+          // }])
+          // if( dataFlattened.value.length ){
+          //   // table.records.matched = []
+          //   // table.records.matched = table.records.all.filter( ( o ) => dataFlattened.value.find( ( dfItem ) => dfItem.id == o.id ) == undefined )
+          //   // table.search = ''
+          //   getRecords()
+          // }
+          
+        }).catch( err => {
+          console.log( err )
+        })
+      }
+      // Add child to the current organization
+      else{
+      
+        if( chart.value != null && selectedNode.value != null && selectedNode.value.id > 0 ){
+          
+          store.dispatch( model.name+'/addStructure' , {
+            pid: selectedNode.value.id ,
+            organization_id : o.id 
+          }).then( res => {
+            console.log( res.data )
+            chart.value.addNode({
+              id: res.data.record.id,
+              parentId: parseInt( res.data.record.pid ) > 0 ? parseInt( res.data.record.pid ) : null ,
+              name: res.data.record.organization.name ,
+              image: res.data.record.organization.image != "" && res.data.record.organization.image != undefined ? res.data.record.organization.image : ocmLogoUrl ,
+              desp: res.data.record.organization.desp ,
+              _centered: true
+            })
+            if( dataFlattened.value.length ){
+              // table.records.matched = []
+              // table.records.matched = table.records.all.filter( ( o ) => dataFlattened.value.find( ( dfItem ) => dfItem.id == o.id ) == undefined )
+              // table.search = ''
+              getRecords()
+            }
+          }).catch( err => {
+            console.log( err )
           })
+          // store.dispatch(model.name + "/addChild",{
+          //   pid: selectedNode.value.id ,
+          //   cid: o.id
+          // }).then( res => {
+          //   console.log( res.data )  
+          // }).catch( err => {
+          //   console.log( err )  
+          // })
         }else{
           notify.warning({
             title: 'ឋានានុក្រុមស្ថាប័ន' , 
@@ -666,21 +717,97 @@ export default {
       }
       // Case the deleting node is the not the root
       else if( parseInt( node.parentId ) > 0 ){
-        let temp = []
-        for(let i in dataFlattened.value ){
-          if( parseInt( i ) >= 0 && dataFlattened.value[i].id != node.id ) temp.push(dataFlattened.value[i])
-        }
-        dataFlattened.value = []
-        dataFlattened.value = temp 
-        dataFlattened.value.columns = columns.value
-        console.log( dataFlattened.value )
-        chart.value.removeNode(node.id+'')
-        console.log( dataFlattened.value )
-        if( dataFlattened.value.length ){
-          table.records.matched = []
-          table.records.matched = table.records.all.filter( ( o ) => dataFlattened.value.find( ( dfItem ) => dfItem.id == o.id ) == undefined )
-        }
+        
+        store.dispatch( model.name + '/deleteStructure',{id: node.id }).then( res => {
+          if( res.data.ok ){
+
+            let temp = []
+            for(let i in dataFlattened.value ){
+              if( parseInt( i ) >= 0 && dataFlattened.value[i].id != node.id ) temp.push(dataFlattened.value[i])
+            }
+            dataFlattened.value = []
+            dataFlattened.value = temp 
+            dataFlattened.value.columns = columns.value
+            console.log( dataFlattened.value )
+            chart.value.removeNode(node.id+'')
+            console.log( dataFlattened.value )
+            if( dataFlattened.value.length ){
+              table.records.matched = []
+              table.records.matched = table.records.all.filter( ( o ) => dataFlattened.value.find( ( dfItem ) => dfItem.id == o.id ) == undefined )
+            }
+            
+            notify.info({
+              title: 'លុបអង្គភាព' ,
+              content: res.data.message
+            })
+          }else{
+            notify.info({
+              title: 'លុបអង្គភាព' ,
+              content: res.data.message
+            })
+          }
+        }).catch( err => {
+          console.log( err )
+          notify.info({
+              title: 'លុបអង្គភាព' ,
+              content: err.response.data.message
+            })
+        })
       }
+    }
+
+    function getStructure( id ){
+      store.dispatch( model.name + '/getStructure',{
+        organization_structure_id : id
+      } ).then( res => {
+        console.log( res.data )
+        rootNode.value.id = res.data.record.id
+        rootNode.value.parentId = parseInt( res.data.record.pid ) > 0 ? parseInt( res.data.record.pid ) : null
+        rootNode.value.name = res.data.record.organization.name
+        rootNode.value.image = res.data.record.organization.image
+        rootNode.value.desp = res.data.record.organization.desp
+
+        selectedNode.value.id = rootNode.value.id
+        selectedNode.value.parentId = rootNode.value.parentId
+        selectedNode.value.name = rootNode.value.name
+        selectedNode.value.image = rootNode.value.image
+        selectedNode.value.desp = rootNode.value.desp
+        
+        const nodes = ref([])
+        nodes.value.push( {
+          id: rootNode.value.id ,
+          parentId: rootNode.value.parentId ,
+          name: rootNode.value.name ,
+          image: rootNode.value.image != "" && rootNode.value.image != undefined ? rootNode.value.image : ocmLogoUrl ,
+          desp: rootNode.value.desp ,
+          _centered: true  
+        } )
+
+        if( res.data.records != undefined && res.data.records.length > 0 ){
+          for(const e of res.data.records ){
+            nodes.value.push({
+              id: e.id ,
+              parentId: parseInt( e.pid ) > 0 ? parseInt( e.pid ) : null ,
+              name: e.organization.name ,
+              image: e.organization.image != "" && e.organization.image != undefined ? e.organization.image : ocmLogoUrl ,
+              desp: e.organization.desp
+            })
+          }
+        }
+        console.log( nodes.value )
+        chart.value = null
+        drawingOrgchart(nodes.value)
+
+        if( dataFlattened.value.length ){
+          // table.records.matched = []
+          // table.records.matched = table.records.all.filter( ( o ) => dataFlattened.value.find( ( dfItem ) => dfItem.id == o.id ) == undefined )
+          // table.search = ''
+          getRecords()
+        }
+
+      }).catch( err => {
+        console.log( err )
+      })
     }
 
     onMounted(() => {

@@ -108,6 +108,38 @@ const actions = {
     null,
     true
   )},
+  /**
+   * Structure
+   */
+  async getStructure ({ state, commit, rootState },params) {
+    return await crud.list(import.meta.env.VITE_API_SERVER+"/"+state.model.name + "/structure"
+      + "?" + new URLSearchParams({
+        organization_structure_id: params.organization_structure_id 
+      }).toString()
+    )
+  },
+  async addStructure ({ state, commit, rootState },params) {
+    return await crud.create(import.meta.env.VITE_API_SERVER+"/"+state.model.name+"/structure/add",params)
+  },
+  async deleteStructure ({ state, commit, rootState },params) {
+    return await crud.delete(import.meta.env.VITE_API_SERVER+"/"+state.model.name+"/structure/"+params.id+"/delete")
+  },
+  /**
+   * Position
+   */
+  async getPosition ({ state, commit, rootState },params) {
+    return await crud.list(import.meta.env.VITE_API_SERVER+"/"+state.model.name + "/position"
+      + "?" + new URLSearchParams({
+        organization_structure_position_id: params.organization_structure_position_id 
+      }).toString()
+    )
+  },
+  async addPosition ({ state, commit, rootState },params) {
+    return await crud.create(import.meta.env.VITE_API_SERVER+"/"+state.model.name+"/position/add",params)
+  },
+  async deletePosition ({ state, commit, rootState },params) {
+    return await crud.delete(import.meta.env.VITE_API_SERVER+"/"+state.model.name+"/position/"+params.id+"/delete")
+  },
 }
 // mutations
 const mutations = {
