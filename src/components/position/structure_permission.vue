@@ -1,89 +1,14 @@
 <template>
   <div class="absolute left-0 top-0 right-0 bottom-0">
-    <!-- Organization -->
-    <div class="absolute left-0 top-0 bottom-0 w-72 bg-gray-800 abslute border-r border-gray-600" >
-      <div class="relative w-full h-12 p-1 border-b border-gray-300 " >
-        <input type="text" 
-          @keypress.enter="filterRecords(false)" 
-          v-model="table.search" 
-          class="absolute left-1 top-2 right-10 bottom-1 h-8 bg-gray-800 px-2 rounded-full text-gray-50 border border-gray-300 focus:border-blue-600 hover:border-blue-600 " 
-          placeholder="ស្វែងរក" />
-        <svg 
-          class="absolute w-6 right-11 top-3 text-gray-400 hover:text-blue-700 cursor-pointer" 
-          @click="filterRecords(false)" 
-          xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 20 20"><g fill="none"><path d="M8.5 3a5.5 5.5 0 0 1 4.227 9.02l4.127 4.126a.5.5 0 0 1-.638.765l-.07-.057l-4.126-4.127A5.5 5.5 0 1 1 8.5 3zm0 1a4.5 4.5 0 1 0 0 9a4.5 4.5 0 0 0 0-9z" fill="currentColor"></path></g></svg>
-        <svg class="absolute w-6 h-6 right-2 top-3 text-white cursor-pointer" 
-          xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M9 12h6"></path><path d="M12 9v6"></path></g></svg>
-      </div>
-      <div class="absolute left-0 top-14 bottom-12 w-full overflow-auto " >
-        <n-scrollbar >
-          <div v-for="(o,oIndex) in table.records.matched" :key="oIndex" 
-            class="relative w-full text-left h-14 p-1 border-b border-gray-600 my-1 flex text-gray-50 cursor-pointer hover:bg-gray-700 duration-300 " 
-            >
-            <!-- <div 
-              @click="addChild(o)"
-              class="flex-none min-w-6 p-1 h-8 leading-7 text-center text-md font-btb-black">{{ o.id }}</div> -->
-            <div 
-              @click="addChild(o)"
-              class="flex-grow truncate h-8 leading-7 relative" >
-              <n-tooltip trigger="hover" >
-                <template #trigger>
-                  <div class=" h-8 leading-7 truncate" style="font-size: 0.9rem; " >{{  o.name }}</div>
-                </template>
-                {{  o.name }}
-              </n-tooltip>
-            </div>
-            <svg 
-              class="absolute bottom-0 right-10 p-1 w-6 rounded-full text-gray-400 hover:bg-gray-600 duration-500 cursor-pointer" 
-              xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24"><g fill="none"><path d="M21.03 2.97a3.578 3.578 0 0 1 0 5.06L9.062 20a2.25 2.25 0 0 1-.999.58l-5.116 1.395a.75.75 0 0 1-.92-.921l1.395-5.116a2.25 2.25 0 0 1 .58-.999L15.97 2.97a3.578 3.578 0 0 1 5.06 0zM15 6.06L5.062 16a.75.75 0 0 0-.193.333l-1.05 3.85l3.85-1.05A.75.75 0 0 0 8 18.938L17.94 9L15 6.06zm2.03-2.03l-.97.97L19 7.94l.97-.97a2.079 2.079 0 0 0-2.94-2.94z" fill="currentColor"></path></g></svg>
-            <svg 
-              class="absolute bottom-0 right-2 p-1 w-6 rounded-full text-gray-400 hover:bg-gray-600 duration-500 cursor-pointer" 
-              xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 32 32"><path d="M12 12h2v12h-2z" fill="currentColor"></path><path d="M18 12h2v12h-2z" fill="currentColor"></path><path d="M4 6v2h2v20a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8h2V6zm4 22V8h16v20z" fill="currentColor"></path><path d="M12 2h8v2h-8z" fill="currentColor"></path></svg>
-          </div>
-        </n-scrollbar>
-      </div>
-      <!-- Pagination of crud -->
-      <div class="absolute left-0 right-0 bottom-1 flex flex-wrap" >
-        <!-- This pagination is for the media side with from Medium up -->
-        <div class="vcb-table-pagination mx-auto " >
-          <!-- Information -->
-          <!-- <div class="vcb-table-pagination-info" >{{ table.pagination.totalRecords > 0 ? $toKhmer( table.pagination.totalRecords ) + " អង្គភាព" : "" }}</div>
-          <div class="vcb-table-pagination-info" >{{ table.pagination.totalPages > 0 ? " ចែកជា " + $toKhmer ( table.pagination.totalPages ) + " ទំព័រ" : "" }}</div> -->
-          <!-- First -->
-          <!-- Pages (7) -->
-          <div v-for="(page, index) in table.pagination.buttons" :key="index" :class=" (table.pagination.page == page ? ' vcb-pagination-page-active ' : ' vcb-pagination-page ' )" @click="table.pagination.page == page ? false : goTo(page) " >{{ $toKhmer( page ) }}</div>
-          <!-- Previous -->          
-          <div v-if="table.pagination.page > 1 " class="vcb-pagination-page " v-html='"<"' @click="previous()" ></div>
-          <n-tooltip v-if="table.pagination.page <= 1 " trigger="hover">
-            <template #trigger>
-              <div class="vcb-pagination-page border-gray-200 text-gray-200 " v-html='"<"' ></div>
-            </template>
-           ទំព័រដើម
-          </n-tooltip>
-          <!-- Next -->
-          <div v-if="table.pagination.page < table.pagination.totalPages " class="vcb-pagination-page " v-html='">"' @click="next()" ></div>
-          <n-tooltip v-if="table.pagination.page >= table.pagination.totalPages " trigger="hover">
-            <template #trigger>
-              <div class="vcb-pagination-page border-gray-200 text-gray-200 " v-html='">"' ></div>
-            </template>
-            ទំព័រចុងក្រោយ
-          </n-tooltip>
-          <!-- Last -->
-          <!-- Go to -->
-          <!-- Total per page -->
-        </div>
-      </div>
-    </div>
-    <!-- Organization list -->
-    <div class="absolute left-72 top-0 right-0 bottom-0 bg-gray-800" >
+    <div class="absolute left-0 top-0 right-0 bottom-0 bg-gray-800" >
       <Transition name="slide-fade" >
         <div v-if="dataFlattened" class="chart-container" > </div>
       </Transition>
-      <div v-show="selectedNode != null && chartNodeFunctionsToggler" class="absolute right-14 top-0 p-2 bg-gray-100/25 rounded-bl-lg text-white" >កំពុងស្ថិតនៅ ៖ {{ selectedNode != null ? selectedNode.name : '' }}</div>
-      <div v-if="currentOrganizationStructure != undefined " @click="$router.push('/organization/structure/'+currentOrganizationStructure.id)" class="absolute left-0 top-10 p-2 bg-gray-100/25 rounded-r-lg cursor-pointer text-white" >
+      <div v-show="selectedNode != null && chartNodeFunctionsToggler" class="absolute right-0 top-0 p-2 bg-gray-100/25 rounded-bl-lg text-white" >កំពុងស្ថិតនៅ ៖ {{ selectedNode != null ? selectedNode.name : '' }}</div>
+      <div v-if="currentOrganizationStructure != undefined " @click="$router.push('/position/'+currentOrganizationStructure.id+'/structure')" class="absolute left-0 top-10 p-2 bg-gray-100/25 rounded-r-lg cursor-pointer text-white" >
         <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24"><path d="M16.62 2.99a1.25 1.25 0 0 0-1.77 0L6.54 11.3a.996.996 0 0 0 0 1.41l8.31 8.31c.49.49 1.28.49 1.77 0s.49-1.28 0-1.77L9.38 12l7.25-7.25c.48-.48.48-1.28-.01-1.76z" fill="currentColor"></path></svg>
       </div>
-      <div v-if="currentOrganizationStructure != undefined " class="absolute left-0 top-0 p-2 bg-gray-100/25 rounded-br-lg text-white" >អង្គភាព ៖ {{ currentOrganizationStructure.name }}</div>
+      <div v-if="currentOrganizationStructure != undefined " class="absolute left-0 top-0 p-2 bg-gray-100/25 rounded-br-lg text-white" >អង្គភាព ៖ {{ currentOrganizationStructure.name + ( currentOrganizationStructurePosition != undefined && currentOrganizationStructurePosition.position != undefined ? ' , តួនាទី ៖ ' + currentOrganizationStructurePosition.position.name : '' ) }}</div>
       <Transition name="slide-fade" >
         <div
           v-show="selectedNode != null && chartNodeFunctionsToggler"
@@ -91,8 +16,8 @@
           class=" absolute top-0 right-0 bottom-0 bg-gray-200/25 w-14 "
         >
           <n-scrollbar >
-            <!-- Set center -->
-            <n-tooltip trigger="hover" placement="left" >
+            
+            <!-- <n-tooltip trigger="hover" placement="left" >
               <template #trigger >
                 <svg 
                   @click="chart.setCentered(selectedNode.id+'').render()"
@@ -100,30 +25,9 @@
                   xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24"><path d="M4 15c-.55 0-1 .45-1 1v3c0 1.1.9 2 2 2h3c.55 0 1-.45 1-1s-.45-1-1-1H6c-.55 0-1-.45-1-1v-2c0-.55-.45-1-1-1zm1-9c0-.55.45-1 1-1h2c.55 0 1-.45 1-1s-.45-1-1-1H5c-1.1 0-2 .9-2 2v3c0 .55.45 1 1 1s1-.45 1-1V6zm14-3h-3c-.55 0-1 .45-1 1s.45 1 1 1h2c.55 0 1 .45 1 1v2c0 .55.45 1 1 1s1-.45 1-1V5c0-1.1-.9-2-2-2zm0 15c0 .55-.45 1-1 1h-2c-.55 0-1 .45-1 1s.45 1 1 1h3c1.1 0 2-.9 2-2v-3c0-.55-.45-1-1-1s-1 .45-1 1v2zM12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4s4-1.79 4-4s-1.79-4-4-4zm0 6c-1.1 0-2-.9-2-2s.9-2 2-2s2 .9 2 2s-.9 2-2 2z" fill="currentColor"></path></svg>
               </template>
               ផ្ដោតទៅ<br/>{{ selectedNode.name }}
-            </n-tooltip>
-            <!-- Set center -->
-             <!-- Align bottom -->
-            <n-tooltip trigger="hover" placement="left" >
-              <template #trigger >
-                <svg 
-                  @click="getStructurePosition( selectedNode.pid )"
-                  class="text-gray-100 m-2 w-10 h-10 p-1 cursor-pointer" 
-                  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 32 32"><path d="M16 14L6 24l1.4 1.4l8.6-8.6l8.6 8.6L26 24z" fill="currentColor"></path><path d="M4 8h24v2H4z" fill="currentColor"></path></svg>
-              </template>
-              រចនាសម្ព័ន្ធមេ
-            </n-tooltip>
-            <!-- Align bottom -->
-            <n-tooltip trigger="hover" placement="left" >
-              <template #trigger >
-                <svg 
-                  @click="getStructurePosition( selectedNode.id )"
-                  class="text-gray-100 m-2 w-10 h-10 p-1 cursor-pointer" 
-                  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 32 32"><path d="M16 18L6 8l1.4-1.4l8.6 8.6l8.6-8.6L26 8z" fill="currentColor"></path><path d="M4 22h24v2H4z" fill="currentColor"></path></svg>
-              </template>
-              រចនាសម្ព័ន្ធក្រោមបង្គាប់
-            </n-tooltip>
-            <!-- Remove -->
-            <n-tooltip trigger="hover" placement="left" >
+            </n-tooltip> -->
+            
+            <!-- <n-tooltip trigger="hover" placement="left" >
               <template #trigger >
                 <svg 
                   @click="removeNode(selectedNode)"
@@ -131,10 +35,9 @@
                   xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512"><path d="M448 256c0-106-86-192-192-192S64 150 64 256s86 192 192 192s192-86 192-192z" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"></path><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M336 256H176"></path></svg>
               </template>
               លុបស្ថាប័ន<br/>{{ selectedNode.name }}
-            </n-tooltip>
-            <!-- Remove -->
-            <!-- Move -->
-            <n-tooltip trigger="hover" placement="left" >
+            </n-tooltip> -->
+            
+            <!-- <n-tooltip trigger="hover" placement="left" >
               <template #trigger >
                 <svg 
                   @click="moveNode(selectedNode)"
@@ -142,9 +45,8 @@
                   xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="5" cy="18" r="2"></circle><circle cx="19" cy="6" r="2"></circle><path d="M19 8v5a5 5 0 0 1-5 5h-3l3-3m0 6l-3-3"></path><path d="M5 16v-5a5 5 0 0 1 5-5h3l-3-3m0 6l3-3"></path></g></svg>
               </template>
               ផ្លាស់ប្ដូរស្ថាប័នមេរបស់<br/>{{ selectedNode.name }}
-            </n-tooltip>
-            <!-- Move -->
-            <!-- Align left -->
+            </n-tooltip> -->
+            
             <n-tooltip trigger="hover" placement="left" >
               <template #trigger >
                 <svg 
@@ -154,8 +56,7 @@
               </template>
               ឋនានុក្រុមពីឆ្វេងទៅស្ដាំ
             </n-tooltip>
-            <!-- Align left -->
-            <!-- Align top -->
+            
             <n-tooltip trigger="hover" placement="left" >
               <template #trigger >
                 <svg 
@@ -165,8 +66,7 @@
               </template>
               ឋនានុក្រុមពីលើមកក្រោម
             </n-tooltip>
-            <!-- Align top -->
-            <!-- Align right -->
+            
             <n-tooltip trigger="hover" placement="left" >
               <template #trigger >
                 <svg 
@@ -176,8 +76,7 @@
               </template>
               ឋនានុក្រុមពីស្ដាំទៅឆ្វេង
             </n-tooltip>
-            <!-- Align right -->
-            <!-- Align bottom -->
+            
             <n-tooltip trigger="hover" placement="left" >
               <template #trigger >
                 <svg 
@@ -187,8 +86,7 @@
               </template>
               ឋនានុក្រុមពីក្រោមទៅលើ
             </n-tooltip>
-            <!-- Aligh bottom -->
-            <!-- Stregth to screen -->
+            
             <n-tooltip trigger="hover" placement="left" >
               <template #trigger >
                 <svg 
@@ -198,18 +96,8 @@
               </template>
               បង្រួមអោយពេញអេក្រង់
             </n-tooltip>
-            <!-- Stregth to screen -->
-            <n-tooltip trigger="hover" placement="left" >
-              <template #trigger >
-                <svg 
-                  @click="chart.render().expandAll().fit()"
-                  class="text-gray-100 m-2 w-10 h-10 p-1 cursor-pointer" 
-                  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 32 32"><path d="M11 10l1.41 1.41L15 8.83v14.34l-2.59-2.58L11 22l5 5l5-5l-1.41-1.41L17 23.17V8.83l2.59 2.58L21 10l-5-5l-5 5z" fill="currentColor"></path><path d="M28 30H4a2.002 2.002 0 0 1-2-2V4a2.002 2.002 0 0 1 2-2h24a2.002 2.002 0 0 1 2 2v24a2.002 2.002 0 0 1-2 2zM4 4v24h24V4z" fill="currentColor"></path></svg>
-              </template>
-              ពន្លាតរចនាសម្ព័ន្ធ
-            </n-tooltip>
-            <!-- Stregth to screen -->
-            <n-tooltip trigger="hover" placement="left" >
+            
+            <!-- <n-tooltip trigger="hover" placement="left" >
               <template #trigger >
                 <svg 
                   @click="chart.setUpToTheRootHighlighted( selectedNode.id + '' ).render()"
@@ -217,10 +105,9 @@
                   xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 32 32"><path d="M16 14L6 24l1.4 1.4l8.6-8.6l8.6 8.6L26 24z" fill="currentColor"></path><path d="M4 8h24v2H4z" fill="currentColor"></path></svg>
               </template>
               បង្ហាញផ្លូវទៅថ្នាក់កំពូល
-            </n-tooltip>
-            <!-- Streght to screen -->
-            <!-- Fullscreen -->
-            <n-tooltip trigger="hover" placement="left" >
+            </n-tooltip> -->
+            
+            <!-- <n-tooltip trigger="hover" placement="left" >
               <template #trigger >
                 <svg 
                   @click="chart.fullscreen()"
@@ -228,9 +115,8 @@
                   xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 20 20"><g fill="none"><path d="M3 5.25A2.25 2.25 0 0 1 5.25 3h1.865a.75.75 0 1 1 0 1.5H5.25a.75.75 0 0 0-.75.75v1.865a.75.75 0 1 1-1.5 0V5.25zm9.135-1.5a.75.75 0 0 1 .75-.75h1.865A2.25 2.25 0 0 1 17 5.25v1.865a.75.75 0 0 1-1.5 0V5.25a.75.75 0 0 0-.75-.75h-1.865a.75.75 0 0 1-.75-.75zM3.75 12.135a.75.75 0 0 1 .75.75v1.865c0 .414.336.75.75.75h1.865a.75.75 0 0 1 0 1.5H5.25A2.25 2.25 0 0 1 3 14.75v-1.865a.75.75 0 0 1 .75-.75zm12.5 0a.75.75 0 0 1 .75.75v1.865A2.25 2.25 0 0 1 14.75 17h-1.865a.75.75 0 0 1 0-1.5h1.865a.75.75 0 0 0 .75-.75v-1.865a.75.75 0 0 1 .75-.75z" fill="currentColor"></path></g></svg>
               </template>
               បង្ហាញពេញអេក្រង់
-            </n-tooltip>
-            <!-- Fullscreen -->
-            <!-- Zoom in -->
+            </n-tooltip> -->
+            
             <n-tooltip trigger="hover" placement="left" >
               <template #trigger >
                 <svg 
@@ -240,8 +126,7 @@
               </template>
               ពង្រីកឋនានុក្រម
             </n-tooltip>
-            <!-- Zoom in -->
-            <!-- Zoom out -->
+            
             <n-tooltip trigger="hover" placement="left" >
               <template #trigger >
                 <svg 
@@ -251,9 +136,8 @@
               </template>
               បង្រួមឋនានុក្រម
             </n-tooltip>
-            <!-- Zoom out -->
-            <!-- Export Image -->
-            <n-tooltip trigger="hover" placement="left" >
+            
+            <!-- <n-tooltip trigger="hover" placement="left" >
               <template #trigger >
                 <svg 
                   @click="chart.exportImg()"
@@ -262,8 +146,7 @@
               </template>
               រក្សារទុកជារូបភាព
             </n-tooltip>
-            <!-- Export Image -->
-            <!-- Export SVG -->
+            
             <n-tooltip trigger="hover" placement="left" >
               <template #trigger >
                 <svg 
@@ -273,8 +156,7 @@
               </template>
               រក្សារទុកជា SVG
             </n-tooltip>
-            <!-- Export SVG -->
-            <!-- Export PDF -->
+            
             <n-tooltip trigger="hover" placement="left" >
               <template #trigger >
                 <svg 
@@ -284,9 +166,7 @@
               </template>
               រក្សារទុកជា PDF
             </n-tooltip>
-            <!-- Export PDF -->
-            <!-- Connector -->
-            <!-- <n-tooltip trigger="hover" placement="left" >
+            <n-tooltip trigger="hover" placement="left" >
               <template #trigger >
                 <svg 
                   @click="chart.connections([{from:'401',to:'2',label:'ខ្សែទំនាក់ទំនង'}]).render()"
@@ -294,19 +174,16 @@
                   xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 32 32"><path d="M24 10l-1.414 1.414L26.172 15H11.899A5.014 5.014 0 0 0 8 11.101V2H6v9.101A5 5 0 0 0 6 20.9V30h2v-9.101A5.014 5.014 0 0 0 11.899 17h14.273l-3.586 3.586L24 22l6-6zM7 19a3 3 0 1 1 3-3a3.003 3.003 0 0 1-3 3z" fill="currentColor"></path></svg>
               </template>
               រក្សារទុកជា PDF
-            </n-tooltip> -->
-            <!-- Connector -->
-            <!-- Attach Position -->
+            </n-tooltip>
             <n-tooltip trigger="hover" placement="left" >
               <template #trigger >
                 <svg 
-                  @click="assignPermissions()"
+                  @click="assignPermissions"
                   class="m-2 w-10 h-10 p-1 cursor-pointer text-gray-100" 
                   xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 20 20"><g fill="none"><path d="M8.658 4.527a.5.5 0 0 0-.316.948l1.158.386v1.14a.5.5 0 0 0 1 0V5.86l1.158-.386a.5.5 0 1 0-.316-.948L10 4.974l-1.342-.447zm1.77-2.46a1.5 1.5 0 0 0-.855 0l-2.865.85a.99.99 0 0 0-.708.95v4.26a1 1 0 0 0 .715.96l2.792.829A.503.503 0 0 0 9.5 10v1H8a2 2 0 0 0-2 2v.05a2.5 2.5 0 1 0 1 0V13a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v.05a2.5 2.5 0 1 0 1 0V13a2 2 0 0 0-2-2h-1.5v-1a.506.506 0 0 0-.007-.085l2.792-.83A1 1 0 0 0 14 8.128V3.874a1 1 0 0 0-.715-.959l-2.858-.849zm-.57.958a.5.5 0 0 1 .284 0L13 3.874v4.254l-2.858.849a.5.5 0 0 1-.284 0L7 8.127V3.875l2.858-.85zM5 15.5a1.5 1.5 0 1 1 3 0a1.5 1.5 0 0 1-3 0zm8.5-1.5a1.5 1.5 0 1 1 0 3a1.5 1.5 0 0 1 0-3z" fill="currentColor"></path></g></svg>
               </template>
               ភ្ជាប់សិទ្ធិប្រើមុខងារក្នុងប្រព័ន្ធ
-            </n-tooltip>
-            <!-- Attach Position -->
+            </n-tooltip> -->
           </n-scrollbar>
         </div>
       </Transition>
@@ -354,7 +231,6 @@ export default {
     const router = useRouter()
     const route = useRoute()
     const notify = useNotification()
-    console.log( route.params.id )
     const currentOrganizationStructure = reactive({
       id : 0 ,
       parentId : null ,
@@ -363,149 +239,28 @@ export default {
       desp : '' ,
       organization: null
     })
-    const currentOrganizationStructureList = ref([])
-    const currentOrganizationStructureId = ref(
+    const parentOrganizationStructureList = ref([])
+    const parentOrganizationStructureId = ref(
+      route.params.pid != undefined && parseInt( route.params.pid ) > 0
+        ? parseInt( route.params.pid )
+        : null 
+    )
+
+    const currentOrganizationStructurePosition = reactive({
+      id : 0 ,
+      parentId : null ,
+      name : '' ,
+      image : '' ,
+      desp : '' ,
+      position: null ,
+      permissions: []
+    })
+    const currentOrganizationStructurePositionList = ref([])
+    const currentOrganizationStructurePositionId = ref(
       route.params.id != undefined && parseInt( route.params.id ) > 0
         ? parseInt( route.params.id )
-        : null // 163
+        : null 
     )
-    const organization = ref( null )
-    
-    console.log( currentOrganizationStructureId.value )
-    // watch(currentOrganizationStructureId, async ( newVal , oldVal ) => {
-    //   console.log( parseInt( newVal ) )
-    //   if ( parseInt( newVal ) > 0 ) {
-    //     getRecords()
-    //   }
-    // })
-
-    /**
-     * Variables
-     */    
-    var model = reactive({
-      name: "position" ,
-      title: "តួនាទី"
-    })
-
-    var table = reactive( {
-      loading: false ,
-      search: '' ,
-      records: {
-        all: [] ,
-        matched: []
-      },
-      columns: {
-        searchable: {
-          name: '' ,
-          desp : ''
-        },
-        format: {
-          name: '' ,
-          deap: ''
-        }
-      } ,
-      pagination: {
-        perPage: 100 ,
-        page: 1 ,
-        totalPages: 0 ,
-        totalRecords: 0 ,
-        start: 0 ,
-        end: 0 ,
-        buttons: []
-      }
-    })
-
-    function filterRecords(helper=true){
-      if( helper ){
-        table.records.matched = []
-        if( table.search != "" ) {
-          for(var index in table.records.all ){
-            for(var field in table.records.all[index] ){
-              if( (""+table.records.all[index][field]).includes( table.search ) !== false ) {
-                table.records.matched.push( table.records.all[index] )
-                break;
-              }
-            }
-          }
-        }
-        if( table.records.matched.length <= 0 ) {
-          table.records.matched = table.records.all
-        }
-      }else{
-        setTimeout( goTo(1) , 500 )
-      }
-    }
-
-    /**
-     * Functions
-     */
-    function getRecords(){
-
-      /**
-       * Clear time interval after calling
-       */
-      window.clearTimeout()
-      table.loading = true
-      store.dispatch('position/list',{
-        search: table.search ,
-        perPage: table.pagination.perPage ,
-        page: table.pagination.page ,
-        // id: parseInt( currentOrganizationStructureId.value ) > 0 ? parseInt( currentOrganizationStructureId.value ) : null
-      }).then(res => {
-        table.records.all = table.records.matched = res.data.records
-
-        // if( dataFlattened.value.length ){
-        //   table.records.matched = []
-        //   table.records.matched = table.records.all.filter( ( o ) => dataFlattened.value.find( ( dfItem ) => dfItem.position.id == o.id ) == undefined )
-        //   table.search = ''
-        // }
-        
-        table.pagination = res.data.pagination
-
-        var paginationNumberList = 5
-        if( ( table.pagination.page - ( paginationNumberList - 1 ) ) < 1 ){
-          table.pagination.start = 1
-          table.pagination.end = table.pagination.totalPages > 9 ? 9 : table.pagination.totalPages
-        }
-        else{
-          table.pagination.start = table.pagination.page  - ( paginationNumberList - 1 )
-          table.pagination.end = table.pagination.page + 4 >= table.pagination.totalPages ? table.pagination.totalPages : table.pagination.page + 4
-        }
-        /**
-         * Create pagination buttons
-         */
-        table.pagination.buttons = []
-        for(var i=table.pagination.start;i<=table.pagination.end;i++){
-          table.pagination.buttons.push(i)
-        }
-
-        closeTableLoading()
-      }).catch( err => {
-        console.log( err )
-      })
-    }
-
-    function closeTableLoading(){
-      table.loading = false
-    }
-    /**
-     * Pagination functions
-     */
-    function previous(){
-      goTo( table.pagination.page <= 1 ? 1 : table.pagination.page - 1 )
-    }
-    function next(){
-      goTo( table.pagination.page >= table.pagination.totalPages ? table.pagination.totalPages : table.pagination.page + 1 )
-    }
-    function goTo(page){
-      table.pagination.page = page > table.pagination.totalPages ? table.pagination.totalPages : ( page < 1 ? 1 : page)
-      getRecords()
-    }
-    function updatePerpage(perPage){
-      table.pagination.perPage = perPage < 5 ? 5 : ( perPage > 100 ? 100 : perPgae )
-      table.pagination.page = 1
-      getRecords()
-    }
 
     const columns = ref('id,name,image,parentId,desp')
     const dataFlattened = ref([])
@@ -517,11 +272,7 @@ export default {
       name: "" ,
       image: "https://picsum.photos/200/300" ,
       desp: "" ,
-      leader: [] ,
-      pid: 0 ,
-      organization_structure_id : 0 ,
-      organization_structure : null ,
-      position: null 
+      pid: 0
     })
     const rootNode = ref({
       id: 0 ,
@@ -529,11 +280,7 @@ export default {
       name: "" ,
       image: "https://picsum.photos/200/300" ,
       desp: "" ,
-      leader: [] ,
-      pid: 0 ,
-      organization_structure_id : 0 ,
-      organization_structure : null ,
-      position: null 
+      pid: 0
     })
     function drawingOrgchart(data){
       dataFlattened.value = Array.isArray( data ) ? data : []
@@ -562,7 +309,7 @@ export default {
       // .neightbourMargin((n1, n2) => 50)
       .compactMarginPair(d3Node => 70)
       .compactMarginBetween(d3Node => 30)
-      .setActiveNodeCentered(true)
+      // .setActiveNodeCentered(true)
       // .layout(new URLSearchParams(new URL(document.location.href).search).get('layout') || "top")
       .layout("top")
       .linkUpdate(function (d3Node, i, arr) {
@@ -579,13 +326,10 @@ export default {
             selectedNode.value.image = d.data.image
             selectedNode.value.desp = d.data.desp
             selectedNode.value.pid = d.data.pid
-            selectedNode.value.organization_structure_id = d.data.organization_structure_id
-            selectedNode.value.organization_structure = d.data.organization_structure
-            selectedNode.value.position = d.data.position
             chartNodeFunctionsToggler.value = true
-            chart.value.setCentered( d.data.id +'' ).render()
-            // table.search = ''
-            // getRecords()
+            // chart.value.setCentered( d.data.id +'' ).render()
+
+            togglePermissionOfPosition(selectedNode.value.id)
           })
       })
       // .connections(
@@ -650,15 +394,23 @@ export default {
             width:${d.width}px;
             height:${d.height}px;`
 
-          nodeContent.className = 'text-white bg-blue-500 text-center text-lg place-content-center rounded-lg border border-gray-100 '
+          nodeContent.className = 'text-gray-800 bg-white text-center text-lg place-content-center rounded-lg border border-gray-100 '
           nodeContent.innerText = d.data.name
 
-          let img = document.createElement('img');
-          img.className = ' absolute left-0 top-0 bottom-0 w-auto rounded-l-lg'
-          img.style = `height:${d.height}px;`
-          img.src = d.data.image==null || d.data.image==undefined ? ocmLogoUrl : 'https://marketplace.canva.com/EAFXS8-cvyQ/1/0/100w/canva-B-A8A3LCS0Y.jpg'
+          // let img = document.createElement('img');
+          // img.className = ' absolute left-0 top-0 bottom-0 w-auto rounded-l-lg'
+          // img.style = `height:${d.height}px;`
+          // img.src = d.data.image==null || d.data.image==undefined ? ocmLogoUrl : 'https://marketplace.canva.com/EAFXS8-cvyQ/1/0/100w/canva-B-A8A3LCS0Y.jpg'
+          // nodeContent.appendChild( img )
 
-          nodeContent.appendChild( img )
+          if( currentOrganizationStructurePosition.permissions != undefined && currentOrganizationStructurePosition.permissions.length > 0 ){
+            if( currentOrganizationStructurePosition.permissions.find( (p) => p.id == d.data.id ) != undefined ){
+              let divIcon = document.createElement('div')
+              divIcon.className = 'absolute right-1 top-1 w-10 h-10 ' 
+              divIcon.innerHTML = '<svg class="text-green-600" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10s10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8s8 3.59 8 8s-3.59 8-8 8zm3.88-11.71L10 14.17l-1.88-1.88a.996.996 0 1 0-1.41 1.41l2.59 2.59c.39.39 1.02.39 1.41 0L17.3 9.7a.996.996 0 0 0 0-1.41c-.39-.39-1.03-.39-1.42 0z" fill="currentColor"></path></svg>'
+              nodeContent.appendChild( divIcon )
+            }
+          }
 
           return nodeContent.outerHTML
 
@@ -689,161 +441,70 @@ export default {
           //         </div>
           //         `;
       })
-      .render()
-    }
-
-    function addChild(o){
-
-      if( dataFlattened.value.length <= 0 ){
-          store.dispatch( 'organizations/addPosition' , {
-            organization_structure_id : currentOrganizationStructure.id ,
-            position_id: o.id ,
-            pid: 0 ,
-          }).then( res => {
-
-            selectedNode.value.id = res.data.record.id
-            selectedNode.value.parentId = res.data.record.parentId
-            selectedNode.value.name = res.data.record.name
-            selectedNode.value.image = res.data.record.image
-            selectedNode.value.desp = res.data.record.desp
-            selectedNode.value.pid = res.data.record.pid
-            selectedNode.value.organization_structure_id = res.data.record.organization_structure_id
-            selectedNode.value.organization_structure = res.data.record.organization_structure
-            selectedNode.value.position = res.data.record.position
-            
-            getStructurePosition(res.data.record.id)
-
-          }).catch( err => {
-            console.log( err )
-          })
-      }else{
-        if( chart.value != null && selectedNode.value != null && selectedNode.value.id > 0 ){
-
-          store.dispatch( 'organizations/addPosition' , {
-            organization_structure_id : currentOrganizationStructure.id ,
-            position_id: o.id ,
-            pid: selectedNode.value.id ,
-          }).then( res => {       
-
-            chart.value.addNode({
-              id: res.data.record.id,
-              parentId: parseInt( res.data.record.pid ) > 0 ? parseInt( res.data.record.pid ) : null ,
-              name: res.data.record.position.name ,
-              image: res.data.record.position.image != "" && res.data.record.position.image != undefined ? res.data.record.position.image : ocmLogoUrl ,
-              desp: res.data.record.position.desp ,
-              pid: res.data.record.pid ,
-              organization_structure_id : res.data.record.organization_structure_id ,
-              organization_structure : res.data.record.organization_structure ,
-              position : res.data.record.position ,
-              _centered: true
-            })
-            // if( dataFlattened.value.length ){
-            //   table.records.matched = []
-            //   table.records.matched = table.records.all.filter( ( o ) => dataFlattened.value.find( ( dfItem ) => dfItem.position.id == o.id ) == undefined )
-            //   table.search = ''
-            //   getRecords()
-            // }
-
-          }).catch( err => {
-            console.log( err )
-          })
-          
-        }else{
-          notify.warning({
-            title: 'ឋានានុក្រុមស្ថាប័ន' , 
-            content: 'សូមជ្រើសអង្គភាពមេជាមុនសិន'
-          })
-        }
-      }
-    }
-
-    function removeNode(node){ 
-      // Case the deleting node is the root
-      if( node.parentId == null ){
-        dialog.warning({
-          title: 'ឋានានុក្រម',
-          content: 'អ្នកនឹងលុបស្ថាប័នមេកំពូលដែលនិងធ្វើអោយរាល់ស្ថាប័នក្រោមទាំងអស់ត្រូវបាត់បងដែរ។ តើអ្នកប្រាកដដែរ ឬ ទេ?',
-          positiveText: 'ខ្ញុំច្បាស់ហើយ',
-          negativeText: 'ទេ',
-          draggable: true,
-          onPositiveClick: () => {
-            dataFlattened.value = []
-            table.records.matched = table.records.all
-            drawingOrgchart()
-            message.warning('ឋានុក្រមត្រូវបានលុបរួចរាល់។')
-          },
-          onNegativeClick: () => {
-            message.warning('')
-          }
-        })
-      }
-      // Case the deleting node is the not the root
-      else if( parseInt( node.parentId ) > 0 ){
-
-        store.dispatch( 'organizations/deletePosition',{id: node.id }).then( res => {
-          if( res.data.ok ){
-            let temp = []
-            for(let i in dataFlattened.value ){
-              if( parseInt( i ) >= 0 && dataFlattened.value[i].id != node.id ) temp.push(dataFlattened.value[i])
-            }
-            dataFlattened.value = []
-            dataFlattened.value = temp 
-            dataFlattened.value.columns = columns.value
-            chart.value.removeNode(node.id+'')
-            // if( dataFlattened.value.length ){
-            //   table.records.matched = []
-            //   table.records.matched = table.records.all.filter( ( o ) => dataFlattened.value.find( ( dfItem ) => dfItem.id == o.id ) == undefined )
-            // }
-            
-            notify.info({
-              title: 'លុបអង្គភាព' ,
-              duration: 3000 ,
-              content: res.data.message
-            })
-          }else{
-            notify.info({
-              title: 'លុបអង្គភាព' ,
-              duration: 3000 ,
-              content: res.data.message
-            })
-          }
-        }).catch( err => {
-          console.log( err )
-          notify.info({
-              title: 'លុបអង្គភាព' ,
-              duration: 3000 ,
-              content: err.response.data.message
-            })
-        })
-
-
-        // let temp = []
-        // for(let i in dataFlattened.value ){
-        //   if( parseInt( i ) >= 0 && dataFlattened.value[i].id != node.id ) temp.push(dataFlattened.value[i])
-        // }
-        // dataFlattened.value = []
-        // dataFlattened.value = temp 
-        // dataFlattened.value.columns = columns.value
-        // console.log( dataFlattened.value )
-        // chart.value.removeNode(node.id+'')
-        // console.log( dataFlattened.value )
-        // if( dataFlattened.value.length ){
-        //   table.records.matched = []
-        //   table.records.matched = table.records.all.filter( ( o ) => dataFlattened.value.find( ( dfItem ) => dfItem.position.id == o.id ) == undefined )
-        // }
-      }
+      .render().expandAll().fit()
     }
 
     onMounted(() => {
       drawingOrgchart()
     })
 
+    function getStructurePositionPermission(id){
+      store.dispatch( 'organizations/getPosition',{
+        organization_structure_position_id : id
+      } ).then( res => {
+
+        selectedNode.value.id = res.data.permission.id
+        selectedNode.value.parentId = res.data.permission.parentId
+        selectedNode.value.name = res.data.permission.name
+        selectedNode.value.image = res.data.permission.image
+        selectedNode.value.desp = res.data.permission.desp
+        selectedNode.value.pid = res.data.permission.pid
+        
+        currentOrganizationStructurePosition.id = res.data.record.id
+        currentOrganizationStructurePosition.name = res.data.record.name
+        currentOrganizationStructurePosition.desp = res.data.record.desp
+        currentOrganizationStructurePosition.image = res.data.record.image
+        currentOrganizationStructurePosition.permissions = res.data.record.permissions
+        currentOrganizationStructurePosition.position = res.data.record.position
+        currentOrganizationStructurePosition.pid = res.data.record.pid
+        
+        console.log( currentOrganizationStructurePosition )
+
+        const nodes = ref([])
+        nodes.value.push( {
+          id: res.data.permission.id ,
+          parentId: res.data.permission.parentId ,
+          name: res.data.permission.name ,
+          image: res.data.permission.image != "" && res.data.permission.image != undefined ? res.data.permission.image : ocmLogoUrl ,
+          desp: res.data.permission.desp ,
+          pid: res.data.permission.pid ,
+        } )
+
+        if( res.data.permissions != undefined && res.data.permissions.length > 0 ){
+          for(const e of res.data.permissions ){
+            nodes.value.push({
+              id: e.id ,
+              parentId: parseInt( e.pid ) > 0 ? parseInt( e.pid ) : null ,
+              name: e.name ,
+              image: e.image != "" && e.image != undefined ? e.image : ocmLogoUrl ,
+              desp: e.desp ,
+              pid: e.pid
+            })
+          }
+        }
+        chart.value = null
+        drawingOrgchart(nodes.value)
+        chartNodeFunctionsToggler.value = true
+      }).catch( err => {
+        console.log( err )
+      })
+    }
+
     function getStructure( id ){
       store.dispatch( 'organizations/getStructure',{
         organization_structure_id : id
       } ).then( res => {
         if( res.data.ok ){
-          console.log( res.data )
           currentOrganizationStructure.id = res.data.record.id
           currentOrganizationStructure.parentId = parseInt( res.data.record.pid ) > 0 ? parseInt( res.data.record.pid ) : null
           currentOrganizationStructure.name = res.data.record.organization.name
@@ -852,20 +513,19 @@ export default {
           currentOrganizationStructure.pid = res.data.record.pid
           currentOrganizationStructure.organization = res.data.record.organization
           
-          currentOrganizationStructureList.value = []
-          currentOrganizationStructureList.value.push( {
+          parentOrganizationStructureList.value = []
+          parentOrganizationStructureList.value.push( {
             id: currentOrganizationStructure.id ,
             parentId: currentOrganizationStructure.parentId ,
             pid: currentOrganizationStructure.pid ,
             name: currentOrganizationStructure.name ,
             image: currentOrganizationStructure.image != "" && currentOrganizationStructure.image != undefined ? currentOrganizationStructure.image : ocmLogoUrl ,
             desp: currentOrganizationStructure.desp ,
-            _centered: true  
           } )
 
           if( res.data.records != undefined && res.data.records.length > 0 ){
             for(const e of res.data.records ){
-              currentOrganizationStructureList.value.push({
+              parentOrganizationStructureList.value.push({
                 id: e.id ,
                 parentId: parseInt( e.pid ) > 0 ? parseInt( e.pid ) : null ,
                 name: e.organization.name ,
@@ -876,14 +536,6 @@ export default {
             }
           }
 
-          if( res.data.root_position != undefined && res.data.root_position.id > 0 ){
-            getStructurePosition( res.data.root_position.id )
-          }else{
-            notify.info({
-              title: 'រចនាសម្ព័ន្ធតួនាទី' ,
-              content: 'មិនទាន់មាន រចនាសម្ព័ន្ធតួនាទី' 
-            })
-          }
         }else{
           notify.warning({
             title: 'អានឋានានុក្រម' ,
@@ -895,103 +547,72 @@ export default {
         console.log( err )
       })
     }
+    function togglePermissionOfPosition(id){
+      store.dispatch( 'organizations/togglePermissionOfPosition',{
+        permission_id : id ,
+        organization_structure_position_id : currentOrganizationStructurePositionId.value 
+      }).then( res => {
 
-    function getStructurePosition(id){
-      store.dispatch( 'organizations/getPosition',{
-        organization_structure_position_id : id
-      } ).then( res => {
-
-        selectedNode.value.id = res.data.record.id
-        selectedNode.value.parentId = res.data.record.parentId
-        selectedNode.value.name = res.data.record.position.name
-        selectedNode.value.image = res.data.record.position.image
-        selectedNode.value.desp = res.data.record.position.desp
-        selectedNode.value.pid = res.data.record.pid
-        selectedNode.value.organization_structure_id = res.data.record.organization_structure_id
-        selectedNode.value.organization_structure = res.data.record.organization_structure
-        selectedNode.value.position = res.data.record.position
+        currentOrganizationStructurePosition.id = res.data.record.id
+        currentOrganizationStructurePosition.name = res.data.record.name
+        currentOrganizationStructurePosition.desp = res.data.record.desp
+        currentOrganizationStructurePosition.image = res.data.record.image
+        currentOrganizationStructurePosition.permissions = res.data.record.permissions
+        currentOrganizationStructurePosition.position = res.data.record.position
+        currentOrganizationStructurePosition.pid = res.data.record.pid
+        
+        selectedNode.value.id = res.data.permission.id
+        selectedNode.value.parentId = res.data.permission.parentId
+        selectedNode.value.name = res.data.permission.name
+        selectedNode.value.image = res.data.permission.image
+        selectedNode.value.desp = res.data.permission.desp
+        selectedNode.value.pid = res.data.permission.pid
         
         const nodes = ref([])
         nodes.value.push( {
-          id: res.data.record.id ,
-          parentId: res.data.record.position.parentId ,
-          name: res.data.record.position.name ,
-          image: res.data.record.position.image != "" && res.data.record.position.image != undefined ? res.data.record.position.image : ocmLogoUrl ,
-          desp: res.data.record.position.desp ,
-          pid: res.data.record.pid ,
-          organization_structure_id : res.data.record.organization_structure_id ,
-          organization_structure : res.data.record.organization_structure ,
-          position : res.data.record.position ,
-          _centered: true  
+          id: res.data.permission.id ,
+          parentId: res.data.permission.parentId ,
+          name: res.data.permission.name ,
+          image: res.data.permission.image != "" && res.data.permission.image != undefined ? res.data.permission.image : ocmLogoUrl ,
+          desp: res.data.permission.desp ,
+          pid: res.data.permission.pid ,
         } )
 
-        if( res.data.records != undefined && res.data.records.length > 0 ){
-          for(const e of res.data.records ){
+        if( res.data.permissions != undefined && res.data.permissions.length > 0 ){
+          for(const e of res.data.permissions ){
             nodes.value.push({
               id: e.id ,
               parentId: parseInt( e.pid ) > 0 ? parseInt( e.pid ) : null ,
-              name: e.position.name ,
-              image: e.position.image != "" && e.position.image != undefined ? e.position.image : ocmLogoUrl ,
-              desp: e.position.desp ,
-              pid: e.pid ,
-              organization_structure_id : e.organization_structure_id ,
-              organization_structure : e.organization_structure ,
-              position : e.position
+              name: e.name ,
+              image: e.image != "" && e.image != undefined ? e.image : ocmLogoUrl ,
+              desp: e.desp ,
+              pid: e.pid
             })
           }
         }
-        console.log( nodes.value )
         chart.value = null
         drawingOrgchart(nodes.value)
         chartNodeFunctionsToggler.value = true
-      }).catch( err => {
+
+      })
+      .catch( err => {
         console.log( err )
       })
     }
 
-    function assignPermissions(){
-      if( 
-          ( currentOrganizationStructureId.value != undefined && currentOrganizationStructureId.value > 0 ) &&
-          ( selectedNode.value != undefined && selectedNode.value.id > 0 )
-      ){
-        router.push('/permissions/'+ selectedNode.value.id +'/position/'+ currentOrganizationStructureId.value )
-      }
-    }
-
-    getStructure( currentOrganizationStructureId.value )
-    getRecords()
-    // getOrganizationPositions()
+    getStructure( parentOrganizationStructureId.value )
+    getStructurePositionPermission( currentOrganizationStructurePositionId.value )
 
     return {
       /**
        * Variables
        */
-      model ,
-      table ,
-      /**
-       * Table
-       */
-      filterRecords ,
-      /**
-       * Pagination functions
-       */
-      updatePerpage ,
-      goTo ,
-      previous ,
-      next ,
-      /**
-       * Loading overlay
-       */
-      currentOrganizationStructure ,
-      closeTableLoading ,
-      addChild ,
       dataFlattened ,
       selectedNode ,
       chartNodeFunctionsToggler ,
       chart ,
-      removeNode ,
-      getStructurePosition ,
-      assignPermissions
+      currentOrganizationStructure ,
+      currentOrganizationStructurePosition
     }
   }
 }

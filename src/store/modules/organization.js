@@ -140,6 +140,16 @@ const actions = {
   async deletePosition ({ state, commit, rootState },params) {
     return await crud.delete(import.meta.env.VITE_API_SERVER+"/"+state.model.name+"/position/"+params.id+"/delete")
   },
+  async togglePermissionOfPosition ({ state, commit, rootState },params) {
+    return await crud.update(import.meta.env.VITE_API_SERVER+"/"+state.model.name+"/position/permission/toggle",params)
+  },
+  async getOrganizationStructurePosition ({ state, commit, rootState },params) {
+    return await crud.list(import.meta.env.VITE_API_SERVER+"/organization_structures_position"
+      + "?" + new URLSearchParams({
+        organization_structure_id: params.organization_structure_id
+      }).toString()
+    )
+  }
 }
 // mutations
 const mutations = {

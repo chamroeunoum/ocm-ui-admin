@@ -81,6 +81,7 @@ import PositionThumbnailCrud from './../components/position/thumbnail.vue'
 import PositionOrgchart from './../components/position/orgchart.vue'
 import PositionDetails from './../components/position/details.vue'
 import PositionStructure from './../components/position/structure.vue'
+import PositionStructurePermission from './../components/position/structure_permission.vue'
 
 /**
  * Attendant Components
@@ -490,6 +491,16 @@ export const getRoutes = () => {
                         }
                     },
                     {
+                        name: 'OrganizationStructureBaseId' ,
+                        path: 'structure/:id' ,
+                        component: OrganizationStructure ,
+                        meta: { 
+                            transition: 'slide-right' ,
+                            requiresAuth: true,
+                            is_admin : true
+                        }
+                    },
+                    {
                         name: 'OrganizationDetails' ,
                         path: ':id/details' ,
                         component: OrganizationDetails ,
@@ -551,7 +562,7 @@ export const getRoutes = () => {
                             transition: 'slide-right' ,
                             requiresAuth: true,
                             is_admin : true
-                        }
+                        },
                     },
                     {
                         name: 'PositionDetails' ,
@@ -565,6 +576,16 @@ export const getRoutes = () => {
                     },
                     
                 ]
+            },
+            {
+                name: 'PositionStructurePermission' ,
+                path: '/permissions/:id/position/:pid' ,
+                component: PositionStructurePermission ,
+                meta: { 
+                    transition: 'slide-right' ,
+                    requiresAuth: true,
+                    is_admin : true
+                }
             },
             {
                 name: 'OfficerCard',

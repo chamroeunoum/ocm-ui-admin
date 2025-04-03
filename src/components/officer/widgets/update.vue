@@ -27,22 +27,22 @@
                         size="large"
                         ref="formRef"
                       >
-                        <n-form-item label="ត្រកូល" path="lastname" class="w-6/12 p-1" >
+                        <n-form-item label="ត្រកូល" class="w-6/12 p-1" >
                           <n-input v-model:value="record.people.lastname" placeholder="នាមត្រកូល" />
                         </n-form-item>
-                        <n-form-item label="ឈ្មោះ" path="firstname" class="w-6/12 p-1" >
+                        <n-form-item label="ឈ្មោះ" class="w-6/12 p-1" >
                           <n-input v-model:value="record.people.firstname" placeholder="នាមខ្លួន" />
                         </n-form-item>
-                        <n-form-item label="ត្រកូល (អង់គ្លេស)" path="enlastname" class="w-6/12 p-1" >
+                        <n-form-item label="ត្រកូល (អង់គ្លេស)" class="w-6/12 p-1" >
                           <n-input v-model:value="record.people.enlastname" placeholder="នាមត្រកូល" />
                         </n-form-item>
-                        <n-form-item label="ឈ្មោះ (អង់គ្លេស)" path="enfirstname" class="w-6/12 p-1" >
+                        <n-form-item label="ឈ្មោះ (អង់គ្លេស)" class="w-6/12 p-1" >
                           <n-input v-model:value="record.people.enfirstname" placeholder="នាមខ្លួន" />
                         </n-form-item>
-                        <n-form-item label="ថ្ងៃ ខែ ឆ្នាំ កំណើត" path="dob" class="w-4/12 p-1" >
+                        <n-form-item label="ថ្ងៃ ខែ ឆ្នាំ កំណើត" class="w-4/12 p-1" >
                           <n-date-picker v-model:value="dob" type="date" format="dd-MM-yyyy"  placeholder="ថ្ងៃ ខែ ឆ្នាំ កំណើត" class="w-full" />
                         </n-form-item>
-                        <n-form-item label="" path="gender" class="w-3/12 p-1 " >
+                        <n-form-item label="" class="w-3/12 p-1 " >
                           <n-radio-group v-model:value="record.people.gender" class="mx-auto" >
                             <n-space>
                               <n-radio
@@ -54,7 +54,7 @@
                             </n-space>
                           </n-radio-group>
                         </n-form-item>
-                        <n-form-item label="" path="marry" class="w-5/12 p-1" >
+                        <n-form-item label="" class="w-5/12 p-1" >
                           <n-radio-group v-model:value="record.people.marry_status" class="mx-auto" >
                             <n-space>
                               <n-radio
@@ -68,16 +68,16 @@
 
                         </n-form-item>
                         
-                        <n-form-item label="លេខអត្តសញ្ញាណបណ្ណ" path="nid" class="w-1/2 p-1" >
+                        <n-form-item label="លេខអត្តសញ្ញាណបណ្ណ" class="w-1/2 p-1" >
                           <n-input v-model:value="record.people.nid" placeholder="លេខអត្តសញ្ញាណបណ្ណ" />
                         </n-form-item>
-                        <n-form-item label="អ៊ីមែល" path="email" class="w-1/2 p-1" >
+                        <n-form-item label="អ៊ីមែល" class="w-1/2 p-1" >
                           <n-input v-model:value="record.people.email" placeholder="អ៊ីមែល" />
                         </n-form-item>
-                        <n-form-item label="ទូរស័ព្ទផ្ទាល់ខ្លួន" path="mobile_phone" class="w-1/2 p-1" >
+                        <n-form-item label="ទូរស័ព្ទផ្ទាល់ខ្លួន" class="w-1/2 p-1" >
                           <n-input v-model:value="record.people.mobile_phone" placeholder="ទូរស័ព្ទផ្ទាល់ខ្លួន" />
                         </n-form-item>
-                        <n-form-item label="ទូរស័ព្ទការិយាល័យ" path="phone" class="w-1/2 p-1" >
+                        <n-form-item label="ទូរស័ព្ទការិយាល័យ" class="w-1/2 p-1" >
                           <n-input v-model:value="record.people.office_phone" placeholder="ទូរស័ព្ទការិយាល័យ" />
                         </n-form-item>
                         <n-form-item-row label="អសយដ្ឋានបច្ចុប្បន្ន" >
@@ -109,7 +109,7 @@
                       size="large"
                       ref="formRef"
                     >
-                      <n-form-item label="អត្តលេខ" path="code" class="w-6/12 p-1" >
+                      <n-form-item label="អត្តលេខ" class="w-6/12 p-1" >
                         <n-input v-model:value="record.code" placeholder="អត្តលេខ" />
                       </n-form-item>
                       <n-form-item label="ថ្ងៃ ខែ ឆ្នាំ ចូលបម្រើការកម្មសិក្សារ" class="w-6/12 p-1" >
@@ -118,16 +118,16 @@
                       <n-form-item label="ថ្ងៃ ខែ ឆ្នាំ ចូលពេញសិទ្ធិ (តាំងស៊ុប)" class="w-6/12 p-1" >
                         <n-date-picker v-model:value="official_date" format="dd-MM-yyyy" type="date" placeholder="ថ្ងៃ ខែ ឆ្នាំ តាំងស៊ុប" class="w-full" />
                       </n-form-item>
-                      <n-form-item label="ទូរស័ព្ទ" path="phone" class="w-1/2 p-1" >
+                      <n-form-item label="ទូរស័ព្ទ" class="w-1/2 p-1" >
                         <n-input v-model:value="record.phone" placeholder="ទូរស័ព្ទ" />
                       </n-form-item>
-                      <n-form-item label="លេខិតឆ្លងដែន" path="passport" class="w-1/2 p-1" >
+                      <n-form-item label="លេខិតឆ្លងដែន" class="w-1/2 p-1" >
                         <n-input v-model:value="record.passport" placeholder="លេខិតឆ្លងដែន" />
                       </n-form-item>
-                      <n-form-item label="អ៊ីមែល" path="email" class="w-full p-1" >
+                      <n-form-item label="អ៊ីមែល" class="w-full p-1" >
                         <n-input v-model:value="record.email" placeholder="អ៊ីមែល" />
                       </n-form-item>
-                      <n-form-item label="ងារ" path="countesy" class="w-full mb-4" >
+                      <n-form-item label="ងារ" class="w-full mb-4" >
                         <n-select
                           v-model:value="selectedCountesies"
                           filterable
@@ -136,7 +136,7 @@
                           multiple
                         />
                       </n-form-item>
-                      <n-form-item label="អង្គភាព" path="organization" class="w-full mb-4" >
+                      <!-- <n-form-item label="អង្គភាព" path="organization" class="w-full mb-4" >
                         <n-select
                           v-model:value="selectedOrganization"
                           filterable
@@ -150,6 +150,14 @@
                           filterable
                           placeholder="សូមជ្រើសរើសតួនាទី"
                           :options="positions"
+                        />
+                      </n-form-item> -->
+                      <n-form-item label="តួនាទី" class="w-full mb-4" >
+                        <n-select
+                          v-model:value="selectedOrganizationStructurePosition"
+                          filterable
+                          placeholder="សូមជ្រើសរើសតួនាទី"
+                          :options="organizationStructurePositions"
                         />
                       </n-form-item>
                       <Transition name="slide-fade" >
@@ -239,9 +247,11 @@ export default {
     const notify = useNotification()
 
     const selectedOrganization = ref(null)
+    const selectedOrganizationStructurePosition = ref(null)
     const selectedPosition = ref(null)
     const selectedCountesies = ref([])
 
+    const organizationStructurePositions = ref([])
     const organizations = computed( () => 
       store.getters['organizations/getRecords'].map( o => ( { label: o.name , value : o.id } ) )
     )
@@ -303,6 +313,7 @@ export default {
         {
           'id' : props.record.id ,
           'code' : props.record.code ,
+          'organization_structure_position_id' : selectedOrganizationStructurePosition.value != null ? selectedOrganizationStructurePosition.value : 0 ,
           'organization_id' : selectedOrganization.value != null ? selectedOrganization.value : 0 ,
           'position_id' : selectedPosition.value != null ? selectedPosition.value : 0 ,
           'countesy_id' : selectedCountesies.value != null ? selectedCountesies.value[0] : 0 ,
@@ -398,13 +409,70 @@ export default {
       }
     }
   
+    // function getRecord(){
+    //   if( props.model === undefined || props.model.name == "" ){
+    //     notify.warning({
+    //       title: 'ពិនិត្យព័ត៌មាន' ,
+    //       description: 'ទម្រង់នៃព័ត៌មានមិនទាន់បានកំណត់។' ,
+    //       duration: 2000
+    //     })
+    //     return false
+    //   }
+    //   store.dispatch( props.model.name+'/read',{ id : props.record.id }).then( res => {
+    //     if( res.data.ok ){
+    //       notify.success({
+    //         title: 'អានព័ត៌មាន' ,
+    //         description: res.data.message ,
+    //         duration: 2000
+    //       })
+    //     }else{
+    //       notify.error({
+    //         title: 'អានព័ត៌មាន' ,
+    //         description: 'មានបញ្ហាក្នុងពេលអានព័ត៌មាន។' ,
+    //         duration: 2000
+    //       })
+    //     }
+    //   }).catch( err => {
+    //     message.error( err )
+    //   })
+    // }
+
+    function getPositionStructures(){
+      store.dispatch('organizations/getOrganizationStructurePosition',{
+        organization_structure_id : false
+      }).then( 
+        res => {
+          if( res.data.ok ){
+            organizationStructurePositions.value = res.data.records.map( p => {
+              return {
+                label : p.organizationStructure.organization.name + ' - ' + p.position.name ,
+                value : p.id
+              }
+            })
+          }else{
+            notify.info({
+              title: 'អានព័ត៌មានតួនាទី' ,
+              content: res.data.message
+            })
+          }
+        }
+      ).catch( err => {
+        console.log( err )
+      })
+    }
+
     function initial(){
+      getPositionStructures( false )
+      // getRecord()
       dob.value = props.record.people.dob != '' && props.record.people.dob != undefined
         ? (new Date( props.record.people.dob )).getTime()
         : (new Date()).getTime()
       selectedOrganization.value = props.record.organization != null && props.record.organization != undefined ? props.record.organization.id : null
       selectedPosition.value = props.record.position != null && props.record.position != undefined ? props.record.position.id : null
       selectedCountesies.value = props.record.countesy != null && props.record.countesy != undefined ? [props.record.countesy.id] : null
+      selectedOrganizationStructurePosition.value = props.record.current_job != null && props.record.current_job != undefined
+        ? props.record.current_job.organization_structure_position_id 
+        : null
     }
 
     return {
@@ -428,7 +496,9 @@ export default {
       initial ,
       clearRecord ,
       maskOrEscClick ,
-      updatePeopleCodeWithinOrganization 
+      updatePeopleCodeWithinOrganization  ,
+      selectedOrganizationStructurePosition ,
+      organizationStructurePositions 
     }
   }
 }

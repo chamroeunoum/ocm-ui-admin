@@ -34,9 +34,11 @@
               </n-tooltip>
             </div>
             <svg 
+              @click="editRecord( o )"
               class="absolute bottom-0 right-10 p-1 w-6 rounded-full text-gray-400 hover:bg-gray-600 duration-500 cursor-pointer" 
               xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24"><g fill="none"><path d="M21.03 2.97a3.578 3.578 0 0 1 0 5.06L9.062 20a2.25 2.25 0 0 1-.999.58l-5.116 1.395a.75.75 0 0 1-.92-.921l1.395-5.116a2.25 2.25 0 0 1 .58-.999L15.97 2.97a3.578 3.578 0 0 1 5.06 0zM15 6.06L5.062 16a.75.75 0 0 0-.193.333l-1.05 3.85l3.85-1.05A.75.75 0 0 0 8 18.938L17.94 9L15 6.06zm2.03-2.03l-.97.97L19 7.94l.97-.97a2.079 2.079 0 0 0-2.94-2.94z" fill="currentColor"></path></g></svg>
             <svg 
+              @click="deleteRecord( o )"
               class="absolute bottom-0 right-2 p-1 w-6 rounded-full text-gray-400 hover:bg-gray-600 duration-500 cursor-pointer" 
               xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 32 32"><path d="M12 12h2v12h-2z" fill="currentColor"></path><path d="M18 12h2v12h-2z" fill="currentColor"></path><path d="M4 6v2h2v20a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8h2V6zm4 22V8h16v20z" fill="currentColor"></path><path d="M12 2h8v2h-8z" fill="currentColor"></path></svg>
           </div>
@@ -98,6 +100,26 @@
               ផ្ដោតទៅ<br/>{{ selectedNode.name }}
             </n-tooltip>
             <!-- Set center -->
+            <!-- Align bottom -->
+            <n-tooltip trigger="hover" placement="left" >
+              <template #trigger >
+                <svg 
+                  @click="getStructure( selectedNode.pid )"
+                  class="text-gray-100 m-2 w-10 h-10 p-1 cursor-pointer" 
+                  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 32 32"><path d="M16 14L6 24l1.4 1.4l8.6-8.6l8.6 8.6L26 24z" fill="currentColor"></path><path d="M4 8h24v2H4z" fill="currentColor"></path></svg>
+              </template>
+              រចនាសម្ព័ន្ធមេ
+            </n-tooltip>
+            <!-- Align bottom -->
+            <n-tooltip trigger="hover" placement="left" >
+              <template #trigger >
+                <svg 
+                  @click="getStructure( selectedNode.id )"
+                  class="text-gray-100 m-2 w-10 h-10 p-1 cursor-pointer" 
+                  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 32 32"><path d="M16 18L6 8l1.4-1.4l8.6 8.6l8.6-8.6L26 8z" fill="currentColor"></path><path d="M4 22h24v2H4z" fill="currentColor"></path></svg>
+              </template>
+              រចនាសម្ព័ន្ធក្រោមបង្គាប់
+            </n-tooltip>
             <!-- Remove -->
             <n-tooltip trigger="hover" placement="left" >
               <template #trigger >
@@ -181,7 +203,7 @@
                 <svg 
                   @click="chart.setUpToTheRootHighlighted( selectedNode.id + '' ).render()"
                   class="text-gray-100 m-2 w-10 h-10 p-1 cursor-pointer" 
-                  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 32 32"><path d="M16 14L6 24l1.4 1.4l8.6-8.6l8.6 8.6L26 24z" fill="currentColor"></path><path d="M4 8h24v2H4z" fill="currentColor"></path></svg>
+                  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 20 20"><g fill="none"><path d="M5 2a3 3 0 0 1 .5 5.959V10H11a1.5 1.5 0 0 0 1.5-1.5v-.541a3 3 0 1 1 1 0V8.5A2.5 2.5 0 0 1 11 11H5.5v1.041a3 3 0 1 1-1 0V7.96A3 3 0 0 1 5 2zM3 5a2 2 0 1 0 4 0a2 2 0 0 0-4 0zm0 10a2 2 0 1 0 4 0a2 2 0 0 0-4 0zm10-8a2 2 0 1 0 0-4a2 2 0 0 0 0 4zm-.5 6a2.5 2.5 0 0 0 0 5h.5a.5.5 0 0 0 0-1h-.5a1.5 1.5 0 0 1 0-3h.5a.5.5 0 0 0 0-1h-.5zm3.5 0a.5.5 0 0 0 0 1h.5a1.5 1.5 0 0 1 0 3H16a.5.5 0 0 0 0 1h.5a2.5 2.5 0 0 0 0-5H16zm-4 2.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5z" fill="currentColor"></path></g></svg>
               </template>
               បង្ហាញផ្លូវទៅថ្នាក់កំពូល
             </n-tooltip>
@@ -299,7 +321,7 @@ import { useNotification , useDialog, selectDark, useMessage } from 'naive-ui'
 import * as d3 from 'd3'
 import { jsPDF } from 'jspdf'
 import { OrgChart } from 'd3-org-chart'
-import { reactive ,ref , onMounted } from 'vue'
+import { reactive ,ref , onMounted , watch, computed } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter, useRoute } from 'vue-router'
 import ocmLogoUrl from './../../assets/logo.svg'
@@ -321,11 +343,18 @@ export default {
     const router = useRouter()
     const route = useRoute()
     const notify = useNotification()
-    const currentOrganizationId = ref(
-      route.params.rootId != undefined && parseInt( route.params.rootId ) > 0
-        ? parseInt( route.params.rootId )
-        : null // 163
-    )
+    const currentOrganizationId = computed( () => {
+      return route.params.id != undefined && parseInt( route.params.id ) > 0
+        ? parseInt( route.params.id )
+        : null
+    })
+
+    watch( () => route.params.id, (newValue, oldValue) => {
+      if( currentOrganizationId.value != null && parseInt( currentOrganizationId.value ) > 0 ){
+        getStructure( currentOrganizationId.value )
+      }
+    })
+
     /**
      * Variables
      */    
@@ -389,6 +418,10 @@ export default {
     function getRecords(){
 
       /**
+       * Need to add organization attribute to the canvas org chart
+       */
+      
+      /**
        * Clear time interval after calling
        */
       window.clearTimeout()
@@ -397,7 +430,7 @@ export default {
         search: table.search ,
         perPage: table.pagination.perPage ,
         page: table.pagination.page ,
-        id: parseInt( currentOrganizationId.value ) > 0 ? parseInt( currentOrganizationId.value ) : null
+        // id: parseInt( currentOrganizationId.value ) > 0 ? parseInt( currentOrganizationId.value ) : null
       }).then(res => {
         table.records.all = table.records.matched = res.data.records
         if( dataFlattened.value.length ){
@@ -422,6 +455,12 @@ export default {
         for(var i=table.pagination.start;i<=table.pagination.end;i++){
           table.pagination.buttons.push(i)
         }
+
+        if( dataFlattened.value.length ){
+          // table.records.matched = []
+          table.records.matched = table.records.all.filter( ( o ) => dataFlattened.value.find( ( dfItem ) => dfItem.organization.id == o.id ) == undefined )
+        }
+
         closeTableLoading()
       }).catch( err => {
         console.log( err )
@@ -456,17 +495,21 @@ export default {
     const rootNode = ref({
       id: 0 ,
       parentId: "" ,
+      pid: 0 ,
       name: "" ,
       image: "https://picsum.photos/200/300" ,
       desp: "" ,
+      organization: null ,
       leader: []
     })
     const selectedNode = ref({
       id: 0 ,
       parentId: "" ,
+      pid: 0 ,
       name: "" ,
       image: "https://picsum.photos/200/300" ,
       desp: "" ,
+      organization: null ,
       leader: []
     })
     function drawingOrgchart(data){
@@ -509,13 +552,16 @@ export default {
           d3.select(this).on('click.node', (event, d, i) => {
             selectedNode.value.id = d.data.id
             selectedNode.value.parentId = d.data.parentId
+            selectedNode.value.pid = d.data.pid
             selectedNode.value.name = d.data.name
             selectedNode.value.image = d.data.image
             selectedNode.value.desp = d.data.desp
+            selectedNode.value.organization = d.data.organization
+
             chartNodeFunctionsToggler.value = true
             chart.value.setCentered( d.data.id +'' ).render()
-            table.search = ''
-            getRecords()
+            // table.search = ''
+            // getRecords()
           })
       })
       // .connections(
@@ -568,33 +614,48 @@ export default {
       .nodeContent(function (d, i, arr, state) {
           const colors = ['#278B8D', '#404040', '#0C5C73', '#33C6CB'];
           const color = "#FFFFFF"
+          // return `<div style="font-family: 'Inter', sans-serif;background-color:${color}; position:absolute;margin-top:-1px; margin-left:-1px;width:${d.width}px;height:${d.height}px;border-radius:10px;border: 1px solid #E4E2E9;">
+          //           <div class="border overflow-hidden border-gray-200" style="background-color:${color};position:absolute;margin-top:-25px;margin-left:${15}px;border-radius:100px;width:50px;height:50px;" >
+          //           <!-- Picture -->` 
+          //           +
+          //           (
+          //             d.data.image==null || d.data.image==undefined
+          //             ? `<img src="`+ocmLogoUrl+`" class="w-8 mt-1 mx-auto" />`
+          //             : `<svg class='w-8 h-8 m-2' xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 20 20"><g fill="none"><path d="M9 2.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5H10v1a5 5 0 0 1 5 5v1h1a2 2 0 0 1 2 2v4a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-4a2 2 0 0 1 2-2h1v-1a5.002 5.002 0 0 1 4-4.9V2.5zm7 9.5h-1.5a.5.5 0 0 1-.5-.5V10a4 4 0 0 0-8 0v1.5a.5.5 0 0 1-.5.5H4a1 1 0 0 0-1 1v4h5v-2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2h5v-4a1 1 0 0 0-1-1zM6 13.5a.5.5 0 0 0-1 0v2a.5.5 0 0 0 1 0v-2zm9 0a.5.5 0 0 0-1 0v2a.5.5 0 0 0 1 0v-2zM8.5 9a.5.5 0 0 0-.5.5v2a.5.5 0 0 0 1 0v-2a.5.5 0 0 0-.5-.5zm3.5.5a.5.5 0 0 0-1 0v2a.5.5 0 0 0 1 0v-2zM9 17h2v-2H9v2z" fill="currentColor"></path></g></svg>`
+          //           )
+          //           + 
+          //           `</div><!-- Menu icon -->
+          //           <!-- <div style="color:#08011E;position:absolute;right:20px;top:17px;font-size:10px;"><i class="fas fa-ellipsis-h"></i></div> -->
+          //           <!-- Name of the shape -->
+          //           <div style="" class="text-center text-gray-600 p-4 pt-6 font-moul leading-7" > ${d.data.name} </div>
+          //           <!-- Position of the shape -->
+          //           <div style="color:#716E7B;margin: 3px 10px 5px 10px;font-size:12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;  text-align: center; ">${ 
+          //             '' // d.data.leader != undefined && d.data.leader.length > 0 ? ( d.data.leader[0].countesies.map( (c) => c.name ).join(' , ') + "" + d.data.leader[0].lastname + " " + d.data.leader[0].firstname + " " + d.data.leader[0].positions.map( (p) => p.name ).join(' , ') ) : 'មិនមានអ្នកគ្រប់គ្រង' 
+          //           }</div>
+          //           <!-- Total staffs within the organization -->
+          //           <!-- 
+          //           <div style="position: absolute; right: 5px; bottom: -4px; border: 1px solid #CCC; background-color: #FFF; color:#716E7B; border-radius: 5px; height: 22px; padding: 2px; float: left;" >
+          //             <svg class="text-blue-600" style=" float: left; width: 12px; height: 12px; margin: 1px 5px auto 5px; display: inline-block; font-size: 12px ;" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 448 512"><path d="M224 256c70.7 0 128-57.3 128-128S294.7 0 224 0S96 57.3 96 128s57.3 128 128 128zm95.8 32.6L272 480l-32-136l32-56h-96l32 56l-32 136l-47.8-191.4C56.9 292 0 350.3 0 422.4V464c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48v-41.6c0-72.1-56.9-130.4-128.2-133.8z" fill="currentColor"></path></svg>
+          //             <div class="text-blue-600" style=" float: right; font-size: 12px ; margin: auto 5px; " >` + ( d.data.staffs != null && d.data.staffs.length > 0 ? d.data.staffs.length : 0 ) + `</div>
+          //           </div>
+          //           -->
+          //         </div>
+          //         `;
           return `<div style="font-family: 'Inter', sans-serif;background-color:${color}; position:absolute;margin-top:-1px; margin-left:-1px;width:${d.width}px;height:${d.height}px;border-radius:10px;border: 1px solid #E4E2E9;">
-                    <div class="border overflow-hidden border-gray-200" style="background-color:${color};position:absolute;margin-top:-25px;margin-left:${15}px;border-radius:100px;width:50px;height:50px;" >
-                    <!-- Picture -->` 
-                    +
-                    (
-                      d.data.image==null || d.data.image==undefined
-                      ? `<img src="`+ocmLogoUrl+`" class="w-8 mt-1 mx-auto" />`
-                      : `<svg class='w-8 h-8 m-2' xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 20 20"><g fill="none"><path d="M9 2.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5H10v1a5 5 0 0 1 5 5v1h1a2 2 0 0 1 2 2v4a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-4a2 2 0 0 1 2-2h1v-1a5.002 5.002 0 0 1 4-4.9V2.5zm7 9.5h-1.5a.5.5 0 0 1-.5-.5V10a4 4 0 0 0-8 0v1.5a.5.5 0 0 1-.5.5H4a1 1 0 0 0-1 1v4h5v-2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2h5v-4a1 1 0 0 0-1-1zM6 13.5a.5.5 0 0 0-1 0v2a.5.5 0 0 0 1 0v-2zm9 0a.5.5 0 0 0-1 0v2a.5.5 0 0 0 1 0v-2zM8.5 9a.5.5 0 0 0-.5.5v2a.5.5 0 0 0 1 0v-2a.5.5 0 0 0-.5-.5zm3.5.5a.5.5 0 0 0-1 0v2a.5.5 0 0 0 1 0v-2zM9 17h2v-2H9v2z" fill="currentColor"></path></g></svg>`
-                    )
-                    + 
-                    `</div><!-- Menu icon -->
-                    <!-- <div style="color:#08011E;position:absolute;right:20px;top:17px;font-size:10px;"><i class="fas fa-ellipsis-h"></i></div> -->
-                    <!-- Name of the shape -->
                     <div style="" class="text-center text-gray-600 p-4 pt-6 font-moul leading-7" > ${d.data.name} </div>
-                    <!-- Position of the shape -->
                     <div style="color:#716E7B;margin: 3px 10px 5px 10px;font-size:12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;  text-align: center; ">${ 
                       '' // d.data.leader != undefined && d.data.leader.length > 0 ? ( d.data.leader[0].countesies.map( (c) => c.name ).join(' , ') + "" + d.data.leader[0].lastname + " " + d.data.leader[0].firstname + " " + d.data.leader[0].positions.map( (p) => p.name ).join(' , ') ) : 'មិនមានអ្នកគ្រប់គ្រង' 
                     }</div>
-                    <!-- Total staffs within the organization -->
+                    <!-- 
                     <div style="position: absolute; right: 5px; bottom: -4px; border: 1px solid #CCC; background-color: #FFF; color:#716E7B; border-radius: 5px; height: 22px; padding: 2px; float: left;" >
                       <svg class="text-blue-600" style=" float: left; width: 12px; height: 12px; margin: 1px 5px auto 5px; display: inline-block; font-size: 12px ;" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 448 512"><path d="M224 256c70.7 0 128-57.3 128-128S294.7 0 224 0S96 57.3 96 128s57.3 128 128 128zm95.8 32.6L272 480l-32-136l32-56h-96l32 56l-32 136l-47.8-191.4C56.9 292 0 350.3 0 422.4V464c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48v-41.6c0-72.1-56.9-130.4-128.2-133.8z" fill="currentColor"></path></svg>
                       <div class="text-blue-600" style=" float: right; font-size: 12px ; margin: auto 5px; " >` + ( d.data.staffs != null && d.data.staffs.length > 0 ? d.data.staffs.length : 0 ) + `</div>
                     </div>
+                    -->
                   </div>
                   `;
       })
-      .render()
+      .render().fit()
     }
 
     function addChild(o){
@@ -603,12 +664,14 @@ export default {
         // rootNode.value.id = o.id
         // rootNode.value.parentId = o.parentId
         // rootNode.value.name = o.name
+        // rootNode.value.pid = o.pid
         // rootNode.value.image = o.image
         // rootNode.value.desp = o.desp
 
         // selectedNode.value.id = o.id
         // selectedNode.value.parentId = o.parentId
         // selectedNode.value.name = o.name
+        // selectedNode.value.pid = o.pid
         // selectedNode.value.image = o.image
         // selectedNode.value.desp = o.desp
 
@@ -616,18 +679,21 @@ export default {
           pid: 0 ,
           organization_id : o.id
         }).then( res => {
-          console.log( res.data.record )
           rootNode.value.id = res.data.record.id
           rootNode.value.parentId = parseInt( res.data.record.pid ) > 0 ? parseInt( res.data.record.pid ) : null
+          rootNode.value.pid = res.data.record.pid 
           rootNode.value.name = res.data.record.organization.name
           rootNode.value.image = res.data.record.organization.image
           rootNode.value.desp = res.data.record.organization.desp
+          rootNode.value.organization = res.data.record.organization
 
           selectedNode.value.id = rootNode.value.id
           selectedNode.value.parentId = rootNode.value.parentId
+          selectedNode.value.pid = rootNode.pid 
           selectedNode.value.name = rootNode.value.name
           selectedNode.value.image = rootNode.value.image
           selectedNode.value.desp = rootNode.value.desp
+          selectedNode.value.organization = rootNode.value.organization
           
           getStructure(rootNode.value.id)
 
@@ -635,6 +701,7 @@ export default {
           // drawingOrgchart([{
           //   id: rootNode.value.id ,
           //   parentId: rootNode.value.parentId ,
+          //   pid: rootNode.value.pid ,
           //   name: rootNode.value.name ,
           //   image: rootNode.value.image != "" && rootNode.value.image != undefined ? rootNode.value.image : ocmLogoUrl ,
           //   desp: rootNode.value.desp ,
@@ -654,27 +721,29 @@ export default {
       // Add child to the current organization
       else{
       
-        if( chart.value != null && selectedNode.value != null && selectedNode.value.id > 0 ){
+        if( selectedNode.value != null && selectedNode.value.id > 0 ){
           
           store.dispatch( model.name+'/addStructure' , {
             pid: selectedNode.value.id ,
             organization_id : o.id 
           }).then( res => {
-            console.log( res.data )
-            chart.value.addNode({
-              id: res.data.record.id,
-              parentId: parseInt( res.data.record.pid ) > 0 ? parseInt( res.data.record.pid ) : null ,
-              name: res.data.record.organization.name ,
-              image: res.data.record.organization.image != "" && res.data.record.organization.image != undefined ? res.data.record.organization.image : ocmLogoUrl ,
-              desp: res.data.record.organization.desp ,
-              _centered: true
-            })
-            if( dataFlattened.value.length ){
-              // table.records.matched = []
-              // table.records.matched = table.records.all.filter( ( o ) => dataFlattened.value.find( ( dfItem ) => dfItem.id == o.id ) == undefined )
-              // table.search = ''
-              getRecords()
-            }
+            rootNode.value.id = res.data.record.id
+            rootNode.value.parentId = parseInt( res.data.record.pid ) > 0 ? parseInt( res.data.record.pid ) : null
+            rootNode.value.pid = res.data.record.pid 
+            rootNode.value.name = res.data.record.organization.name
+            rootNode.value.image = res.data.record.organization.image
+            rootNode.value.desp = res.data.record.organization.desp
+            rootNode.value.organization = res.data.record.organization
+
+            selectedNode.value.id = rootNode.value.id
+            selectedNode.value.parentId = rootNode.value.parentId
+            selectedNode.value.pid = rootNode.pid 
+            selectedNode.value.name = rootNode.value.name
+            selectedNode.value.image = rootNode.value.image
+            selectedNode.value.desp = rootNode.value.desp
+            selectedNode.value.organization = rootNode.value.organization
+            
+            getStructure(rootNode.value.id)
           }).catch( err => {
             console.log( err )
           })
@@ -728,9 +797,7 @@ export default {
             dataFlattened.value = []
             dataFlattened.value = temp 
             dataFlattened.value.columns = columns.value
-            console.log( dataFlattened.value )
             chart.value.removeNode(node.id+'')
-            console.log( dataFlattened.value )
             if( dataFlattened.value.length ){
               table.records.matched = []
               table.records.matched = table.records.all.filter( ( o ) => dataFlattened.value.find( ( dfItem ) => dfItem.id == o.id ) == undefined )
@@ -760,24 +827,29 @@ export default {
       store.dispatch( model.name + '/getStructure',{
         organization_structure_id : id
       } ).then( res => {
-        console.log( res.data )
         rootNode.value.id = res.data.record.id
         rootNode.value.parentId = parseInt( res.data.record.pid ) > 0 ? parseInt( res.data.record.pid ) : null
         rootNode.value.name = res.data.record.organization.name
+        rootNode.value.pid = res.data.record.pid 
         rootNode.value.image = res.data.record.organization.image
         rootNode.value.desp = res.data.record.organization.desp
+        rootNode.value.organization = res.data.record.organization
 
         selectedNode.value.id = rootNode.value.id
         selectedNode.value.parentId = rootNode.value.parentId
+        selectedNode.value.pid = rootNode.value.pid
         selectedNode.value.name = rootNode.value.name
         selectedNode.value.image = rootNode.value.image
         selectedNode.value.desp = rootNode.value.desp
+        selectedNode.value.organization = rootNode.value.organization
         
         const nodes = ref([])
         nodes.value.push( {
           id: rootNode.value.id ,
-          parentId: rootNode.value.parentId ,
+          parentId: null ,
           name: rootNode.value.name ,
+          pid: rootNode.value.pid ,
+          organization: rootNode.value.organization ,
           image: rootNode.value.image != "" && rootNode.value.image != undefined ? rootNode.value.image : ocmLogoUrl ,
           desp: rootNode.value.desp ,
           _centered: true  
@@ -789,21 +861,16 @@ export default {
               id: e.id ,
               parentId: parseInt( e.pid ) > 0 ? parseInt( e.pid ) : null ,
               name: e.organization.name ,
+              pid: e.pid ,
+              organization: e.organization ,
               image: e.organization.image != "" && e.organization.image != undefined ? e.organization.image : ocmLogoUrl ,
               desp: e.organization.desp
             })
           }
         }
-        console.log( nodes.value )
         chart.value = null
         drawingOrgchart(nodes.value)
-
-        if( dataFlattened.value.length ){
-          // table.records.matched = []
-          // table.records.matched = table.records.all.filter( ( o ) => dataFlattened.value.find( ( dfItem ) => dfItem.id == o.id ) == undefined )
-          // table.search = ''
-          getRecords()
-        }
+        getRecords()
 
       }).catch( err => {
         console.log( err )
@@ -812,10 +879,22 @@ export default {
 
     onMounted(() => {
       drawingOrgchart()
-    }),
+    })
 
-    getRecords()
+    if( currentOrganizationId.value != null && parseInt( currentOrganizationId.value ) > 0 ){
+      getStructure( currentOrganizationId.value )
+    }else{
+      getRecords()
+    }
 
+    function editRecord( record ){
+      alert( 'edit' )
+    }
+
+    function deleteRecord( record ){
+      alert( 'delete' )
+    }
+    
     return {
       /**
        * Variables
@@ -842,7 +921,10 @@ export default {
       selectedNode ,
       chartNodeFunctionsToggler ,
       chart ,
-      removeNode
+      removeNode ,
+      getStructure ,
+      editRecord ,
+      deleteRecord
     }
   }
 }
