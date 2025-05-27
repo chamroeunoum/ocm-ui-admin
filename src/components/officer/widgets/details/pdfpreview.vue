@@ -152,7 +152,8 @@ export default {
     const showAllPages = ref( false )
     const viewMode = ref( false ) // false -> height : 100% , true -> width : 100%
     function handleDocumentLoad({numPages}) {
-      currentPage.value = parseInt( numPages ) > 5 ? 1 : null 
+      // currentPage.value = parseInt( numPages ) > 5 ? 1 : null 
+      currentPage.value = parseInt( numPages ) > 0 ? 1 : null 
       totalPages.value = numPages  
     }
 

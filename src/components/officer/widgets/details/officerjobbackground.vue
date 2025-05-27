@@ -1,8 +1,8 @@
 <template >
-    <div v-if="show" class="birth-information absolute left-0 right-0 bottom-0 top-0" >
+    <div v-if="show" class="birth-information absolute left-0 right-0 bottom-0 top-0 bg-white" >
         <Transition name="slide-fade" >
             <div v-if="record != undefined && record != null " class="absolute left-0 right-0 bottom-0 top-0 p-8 mb-0" >
-                <div class="font-moul border-b border-gray-200 w-full pb-2 mb-4 h-8 leading-6 relative" >ព័ត៌មានកម្រិតការសិក្សា
+                <div class="font-moul border-b border-gray-200 w-full pb-2 mb-4 h-8 leading-6 relative" >ប្រវត្តិការងារ
                     <div @click="formToggler" class="absolute right-0 top-0 w-32 text-center border border-gray-300 bg-gray-100 cursor-pointer p-1 rounded-full px-2 hover:bg-green-100 hover:border-green-500 duration-500" >បញ្ចូល</div>
                 </div>
                 <n-scrollbar >
@@ -11,94 +11,106 @@
                             <thead>
                                 <tr class="w-full " >
                                     <th class="px-1 py-2 bg-gray-200 font-btb-black " >ល.រ</th>
-                                    <th class="px-1 py-2 bg-gray-200 font-btb-black " >ជំនាញ</th>
-                                    <th class="px-1 py-2 bg-gray-200 font-btb-black " >កម្រិត</th>
-                                    <th class="px-1 py-2 bg-gray-200 font-btb-black " >ឆ្នាំសិក្សា</th>
-                                    <th class="px-1 py-2 bg-gray-200 font-btb-black " >គ្រឹះស្ថានសិក្សា</th>
-                                    <th class="px-1 py-2 bg-gray-200 font-btb-black " >ទីតាំងគ្រឹះស្ថានសិក្សា</th>
-                                    <th class="px-1 py-2 bg-gray-200 font-btb-black " >ប្រតិបត្តិការ</th>
+                                    <th class="px-1 py-2 bg-gray-200 font-btb-black " >ថ្ងៃខែឆ្នាំចូលបម្រើការងារ</th>
+                                    <th class="px-1 py-2 bg-gray-200 font-btb-black " >ថ្ងៃខែឆ្នាំបញ្ចប់ការងារ</th>
+                                    <th class="px-1 py-2 bg-gray-200 font-btb-black " >ក្រសួង-ស្ថាប័ន</th>
+                                    <th class="px-1 py-2 bg-gray-200 font-btb-black " >នាយកដ្ឋាន-អង្គភាព</th>
+                                    <th class="px-1 py-2 bg-gray-200 font-btb-black " >មុខតំណេង</th>
+                                    <th class="px-1 py-2 bg-gray-200 font-btb-black " >ជំនាញ/បច្ចេកទេសក្នុងមុខតំណែង</th>
+                                    <th class="px-1 py-2 bg-gray-200 font-btb-black " >វិស័យ</th>
+                                    <th class="px-1 py-2 bg-gray-200 font-btb-black w-28" >ប្រតិបត្តិការ</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="(cert , index) in certificates" :key="index" class="certificate relative w-full rounded-lg shadow bg-white p-4 mb-2 " >
-                                    <td class="w-12 index p-1 text-center font-bold" >{{ index + 1 }}</td>
-                                    <td class="p-1 " >{{ cert.field_name }}</td>
-                                    <td class="certificate_leverl p-1 " >{{ cert.group != undefined ? cert.group.name : '' }}</td>
-                                    <td class="p-1 " >{{ $toKhmer( dateFormat( new Date( cert.start ) , 'yyyy') + ' - ' + dateFormat( new Date( cert.end ) , 'yyyy') ) }}</td>
-                                    <td class="p-1 " >{{ cert.place_name }}</td>
-                                    <td class="p-1  " >{{ cert.location }}</td>
-                                    <td class="p-1 w-40 flex flex-row-reverse" >
+                                <tr v-for="(officerjobbackground , index) in officerjobbackgrounds" :key="index" class="certificate relative w-full rounded-lg shadow bg-white mb-2 " >
+                                    <td class="w-12 index p-1 text-center font-bold" >{{ $toKhmer( index + 1 ) }}</td>
+                                    <td class="w-24 p-1 " >{{ $toKhmer( officerjobbackground.start ) }}</td>
+                                    <td class="w-24 certificate_leverl p-1 uppercase text-center" >{{ $toKhmer( officerjobbackground.end ) }}</td>
+                                    <td class="w-48 uppercase text-center" >{{ ( officerjobbackground.organization ) }}</td>
+                                    <td class="w-48 uppercase text-center" >{{ ( officerjobbackground.sub_organization ) }}</td>
+                                    <td class="w-48 uppercase text-center" >{{ ( officerjobbackground.position ) }}</td>
+                                    <td class="w-48 uppercase text-center" >{{ ( officerjobbackground.skill_of_position ) }}</td>
+                                    <td class="w-48 uppercase text-center" >{{ ( parseInt( officerjobbackground.sector ) > 0 ? 'ឯកជន' : 'សាធារណៈ' ) }}</td>
+                                    <td class="flex w-28" >
                                         <svg 
-                                        @click="uploadToggler(cert)" 
-                                        class="w-6 h-6 m-2 text-blue-500 cursor-pointer"
+                                        @click="uploadToggler(officerjobbackground)" 
+                                        class="w-6 h-6 m-1 text-blue-500 cursor-pointer"
                                         xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24"><path d="M19.35 10.04A7.49 7.49 0 0 0 12 4C9.11 4 6.6 5.64 5.35 8.04A5.994 5.994 0 0 0 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5c0-2.64-2.05-4.78-4.65-4.96zM19 18H6c-2.21 0-4-1.79-4-4c0-2.05 1.53-3.76 3.56-3.97l1.07-.11l.5-.95A5.469 5.469 0 0 1 12 6c2.62 0 4.88 1.86 5.39 4.43l.3 1.5l1.53.11A2.98 2.98 0 0 1 22 15c0 1.65-1.35 3-3 3zM8 13h2.55v3h2.9v-3H16l-4-4z" fill="currentColor"></path></svg>
                                         <svg 
-                                        v-if="cert.pdf==true"
-                                        @click="togglePdfModal(cert)"
-                                        class="w-6 h-6 m-2 text-red-500 cursor-pointer"
+                                        v-if="officerjobbackground.pdf==true"
+                                        @click="togglePdfModal(officerjobbackground)"
+                                        class="w-6 h-6 m-1 text-red-500 cursor-pointer"
                                         xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1024 1024"><path d="M531.3 574.4l.3-1.4c5.8-23.9 13.1-53.7 7.4-80.7c-3.8-21.3-19.5-29.6-32.9-30.2c-15.8-.7-29.9 8.3-33.4 21.4c-6.6 24-.7 56.8 10.1 98.6c-13.6 32.4-35.3 79.5-51.2 107.5c-29.6 15.3-69.3 38.9-75.2 68.7c-1.2 5.5.2 12.5 3.5 18.8c3.7 7 9.6 12.4 16.5 15c3 1.1 6.6 2 10.8 2c17.6 0 46.1-14.2 84.1-79.4c5.8-1.9 11.8-3.9 17.6-5.9c27.2-9.2 55.4-18.8 80.9-23.1c28.2 15.1 60.3 24.8 82.1 24.8c21.6 0 30.1-12.8 33.3-20.5c5.6-13.5 2.9-30.5-6.2-39.6c-13.2-13-45.3-16.4-95.3-10.2c-24.6-15-40.7-35.4-52.4-65.8zM421.6 726.3c-13.9 20.2-24.4 30.3-30.1 34.7c6.7-12.3 19.8-25.3 30.1-34.7zm87.6-235.5c5.2 8.9 4.5 35.8.5 49.4c-4.9-19.9-5.6-48.1-2.7-51.4c.8.1 1.5.7 2.2 2zm-1.6 120.5c10.7 18.5 24.2 34.4 39.1 46.2c-21.6 4.9-41.3 13-58.9 20.2c-4.2 1.7-8.3 3.4-12.3 5c13.3-24.1 24.4-51.4 32.1-71.4zm155.6 65.5c.1.2.2.5-.4.9h-.2l-.2.3c-.8.5-9 5.3-44.3-8.6c40.6-1.9 45 7.3 45.1 7.4zm191.4-388.2L639.4 73.4c-6-6-14.1-9.4-22.6-9.4H192c-17.7 0-32 14.3-32 32v832c0 17.7 14.3 32 32 32h640c17.7 0 32-14.3 32-32V311.3c0-8.5-3.4-16.7-9.4-22.7zM790.2 326H602V137.8L790.2 326zm1.8 562H232V136h302v216a42 42 0 0 0 42 42h216v494z" fill="currentColor"></path></svg>
                                         <svg 
-                                        @click="edit(cert)"
-                                        class="w-6 h-6 m-2 text-blue-500 cursor-pointer"
+                                        @click="edit(officerjobbackground)"
+                                        class="w-6 h-6 m-1 text-blue-500 cursor-pointer"
                                         xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 20 20"><g fill="none"><path d="M4 15h5.986c-.227.3-.4.639-.51 1H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v5.232c-.326.14-.631.343-.897.609L15 9.944V4a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1zm8-9.5a.5.5 0 0 1 1 0v6.444l-.88.88A.498.498 0 0 1 12 12.5v-7zm-7 2a.5.5 0 0 1 1 0v5a.5.5 0 0 1-1 0v-5zM9 9a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 1 0v-3A.5.5 0 0 0 9 9zm1.98 6.377l4.83-4.83a1.87 1.87 0 1 1 2.645 2.646l-4.83 4.829a2.197 2.197 0 0 1-1.02.578l-1.498.374a.89.89 0 0 1-1.079-1.078l.375-1.498c.096-.386.296-.74.578-1.02z" fill="currentColor"></path></g></svg>
                                         <svg 
-                                        @click="destroy(cert)"
-                                        class="w-6 h-6 m-2 text-red-500 cursor-pointer"
+                                        @click="destroy(officerjobbackground)"
+                                        class="w-6 h-6 m-1 text-red-500 cursor-pointer"
                                         xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512"><path d="M112 112l20 320c.95 18.49 14.4 32 32 32h184c17.67 0 30.87-13.51 32-32l20-320" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"></path><path stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="32" d="M80 112h352" fill="currentColor"></path><path d="M192 112V72h0a23.93 23.93 0 0 1 24-24h80a23.93 23.93 0 0 1 24 24h0v40" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"></path><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M256 176v224"></path><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M184 176l8 224"></path><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M328 176l-8 224"></path></svg>
                                     </td>
                                 </tr>
                             </tbody>
                         </table>
-                        <div v-if="certificates == undefined || certificates == null || ( certificates.length <= 0 )" >
-                            មិនទាន់មានសញ្ញាបត្រនៅឡើយ
+                        <div v-if="officerjobbackgrounds == undefined || officerjobbackgrounds == null || ( officerjobbackgrounds.length <= 0 )" >
+                            មិនទាន់មានភាសាបរទេសនៅឡើយ
                         </div>
                     </div>
                 </n-scrollbar>
                 <!-- Create - update form -->
                 <Transition name="slide-fade" >
                     <div v-if="formHelper" class="form absolute top-0 right-0 bottom-0 left-0 bg-gray-100/80" >
-                        <div class="form-panel border border-gray-200 rounded-md m-4  bg-white shadow w-1/2 mx-auto " >
-                            <div class="w-full p-4 " >
-                                <div class="relative w-full mb-4 border-b border-gray-200 pb-2 font-moul " >ព័ត៌មានកម្រិតការសិក្សា
-                                    <svg 
-                                    class="w-7 h-7 text-green-500 absolute right-0 -top-2 cursor-pointer " 
-                                    @click="save"
-                                    xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 20 20"><g fill="none"><path d="M3 5a2 2 0 0 1 2-2h8.379a2 2 0 0 1 1.414.586l1.621 1.621A2 2 0 0 1 17 6.621V15a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5zm2-1a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1v-4.5A1.5 1.5 0 0 1 6.5 10h7a1.5 1.5 0 0 1 1.5 1.5V16a1 1 0 0 0 1-1V6.621a1 1 0 0 0-.293-.707l-1.621-1.621A1 1 0 0 0 13.379 4H13v2.5A1.5 1.5 0 0 1 11.5 8h-4A1.5 1.5 0 0 1 6 6.5V4H5zm2 0v2.5a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5V4H7zm7 12v-4.5a.5.5 0 0 0-.5-.5h-7a.5.5 0 0 0-.5.5V16h8z" fill="currentColor"></path></g></svg>
-                                    <svg 
-                                    class="w-7 h-7 text-red-500 absolute right-12 -top-2 cursor-pointer " 
-                                    @click="formToggler"
-                                    xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512"><path d="M448 256c0-106-86-192-192-192S64 150 64 256s86 192 192 192s192-86 192-192z" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"></path><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M320 320L192 192"></path><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M192 320l128-128"></path></svg>
-                                </div>
-                                <n-form class="flex flex-wrap w-full " >
-                                    <n-form-item label="កម្រិតសញ្ញាបត្រ" class="w-1/2 px-1" >
-                                        <n-select placeholder="សូមជ្រើសរើសកម្រិតសញ្ញាបត្រ" :options="educationLevelGroup" v-model:value="selectedEducationLevelKey" @update:value="updateEducationLevel" clearable filterable ></n-select>
-                                    </n-form-item>
-                                    <n-form-item v-if="selectedEducationLevel != null " label="សញ្ញាបត្រ" class="w-1/2 px-1" >
-                                        <n-select placeholder="សូមជ្រើសរើសសញ្ញាបត្រ" v-model:value="educationCertificate.certificate_group_id" :options="selectedEducationLevel.options" @update:value="updateEducationCertificate"  clearable filterable ></n-select>
-                                    </n-form-item>
-                                    <n-form-item v-if=" ( educationCertificate.certificate_group_id == 3 || educationCertificate.certificate_group_id == 8 ) && educationCertificate.certificate_group_id != null " label="សូមបំពេញឈ្មោះសញ្ញាបត្រ" class="w-full px-1" >
-                                        <n-input placeholder="សូមបំពេញឈ្មោះសញ្ញាបត្រ" v-model:value="educationCertificate.certificate_note" ></n-input>
-                                    </n-form-item>
-                                    <n-form-item label="ឈ្មោះជំនាញ" class="w-full" >
-                                        <n-input v-model:value="educationCertificate.field_name" placeholder="ឈ្មោះជំនាញ" />
-                                    </n-form-item>
-                                    <n-form-item label="ថ្ងៃខែឆ្នាំចាប់ផ្ដើម" class="w-1/2" >
-                                        <n-date-picker v-model:value="educationCertificateStart" type="date" clearable format="dd-MM-yyyy" placeholder="ថ្ងៃខែឆ្នាំចាប់ផ្ដើម" />
-                                    </n-form-item>
-                                    <n-form-item label="ថ្ងៃខែឆ្នាំបញ្ចប់" class="w-1/2" >
-                                        <n-date-picker v-model:value="educationCertificateEnd" type="date" clearable format="dd-MM-yyyy" placeholder="ថ្ងៃខែឆ្នាំបញ្ចប់" />
-                                    </n-form-item>
-                                    <n-form-item label="ឈ្មោះគ្រឹះស្ថានសិក្សា" class="w-full" >
-                                        <n-input v-model:value="educationCertificate.place_name" placeholder="ឈ្មោះគ្រឹះស្ថានសិក្សា" />
-                                    </n-form-item>
-                                    <n-form-item label="ទីតាំនៃគ្រឹះស្ថានសិក្សា" class="w-full" >
-                                        <n-input v-model:value="educationCertificate.location" placeholder="ទីតាំនៃគ្រឹះស្ថានសិក្សា" 
-                                            class="text-left" 
-                                            type="textarea" show-count maxlength="5000" />
-                                    </n-form-item>
-                                </n-form>
-                            </div> 
-                        </div>
+                        <n-scrollbar>
+                            <div class="form-panel border border-gray-200 rounded-md m-4  bg-white shadow w-2/3 mx-auto " >
+                                <div class="w-full p-4 " >
+                                    <div class="relative w-full mb-4 border-b border-gray-200 pb-2 font-moul " >ប្រវត្តិការងារក្នុងវិស័យសាធារណៈ/ឯកជន
+                                        <svg 
+                                        class="w-7 h-7 text-green-500 absolute right-0 -top-2 cursor-pointer " 
+                                        @click="save"
+                                        xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 20 20"><g fill="none"><path d="M3 5a2 2 0 0 1 2-2h8.379a2 2 0 0 1 1.414.586l1.621 1.621A2 2 0 0 1 17 6.621V15a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5zm2-1a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1v-4.5A1.5 1.5 0 0 1 6.5 10h7a1.5 1.5 0 0 1 1.5 1.5V16a1 1 0 0 0 1-1V6.621a1 1 0 0 0-.293-.707l-1.621-1.621A1 1 0 0 0 13.379 4H13v2.5A1.5 1.5 0 0 1 11.5 8h-4A1.5 1.5 0 0 1 6 6.5V4H5zm2 0v2.5a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5V4H7zm7 12v-4.5a.5.5 0 0 0-.5-.5h-7a.5.5 0 0 0-.5.5V16h8z" fill="currentColor"></path></g></svg>
+                                        <svg 
+                                        class="w-7 h-7 text-red-500 absolute right-12 -top-2 cursor-pointer " 
+                                        @click="formToggler"
+                                        xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512"><path d="M448 256c0-106-86-192-192-192S64 150 64 256s86 192 192 192s192-86 192-192z" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"></path><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M320 320L192 192"></path><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M192 320l128-128"></path></svg>
+                                    </div>
+                                    <n-form class="flex flex-wrap w-full " >
+                                        <n-form-item label="ថ្ងៃខែឆ្នាំចូលបម្រើការ" class="w-1/2 p-1" >
+                                            <n-date-picker type="date" v-model:value="start" placeholder="ថ្ងៃខែឆ្នាំចូលបម្រើការ" />
+                                        </n-form-item>
+                                        <n-form-item label="ថ្ងៃខែឆ្នាំបញ្ចប់ការងារ" class="w-1/2 p-1" >
+                                            <n-date-picker type="date" v-model:value="end" placeholder="ថ្ងៃខែឆ្នាំបញ្ចប់ការងារ" />
+                                        </n-form-item>
+                                        <n-form-item label="ក្រសួង-ស្ថាប័ន" class="w-1/2 p-1" >
+                                            <n-input v-model:value="officerjobbackground.organization" placeholder="ក្រសួង-ស្ថាប័ន" />
+                                        </n-form-item>
+                                        <n-form-item label="នាយកដ្ឋាន-អង្គភាព" class="w-1/2 p-1" >
+                                            <n-input v-model:value="officerjobbackground.sub_organization" placeholder="នាយកដ្ឋាន-អង្គភាព" />
+                                        </n-form-item>
+                                        <n-form-item label="មុខតំណែង" class="w-1/2 p-1" >
+                                            <n-input v-model:value="officerjobbackground.position" placeholder="មុខតំណែង" />
+                                        </n-form-item>
+                                        <n-form-item label="ជំនាញ/បច្ចេកទេសក្នុងមុខតំណែង" class="w-1/2 p-1" >
+                                            <n-input v-model:value="officerjobbackground.skill_of_position" placeholder="ជំនាញ/បច្ចេកទេសក្នុងមុខតំណែង" />
+                                        </n-form-item>
+                                        <n-form-item label="វិស័យ" class="w-1/3 p-1" >
+                                            <n-radio-group v-model:value="officerjobbackground.sector" name="sector">
+                                                <n-space>
+                                                    <n-radio
+                                                        :value="0"
+                                                        label="សាធារណៈ"
+                                                    />
+                                                    <n-radio
+                                                        :value="1"
+                                                        label="ឯកជន"
+                                                    />
+                                                </n-space>
+                                            </n-radio-group>
+                                        </n-form-item>
+                                    </n-form>
+                                </div> 
+                            </div>
+                        </n-scrollbar>
                     </div>
                 </Transition>
                 <!-- Upload Pdf-->
@@ -139,9 +151,9 @@
             </div>
         </Transition>
         <Transition name="slide-fade" >
-            <div v-if="record == undefined || record == null " >មានបញ្ហាក្នុងការបង្ហាញ កម្រិតការសិក្សារ</div>
+            <div v-if="record == undefined || record == null " >មានបញ្ហាក្នុងការបង្ហាញ ព័ត៌មានឯកសារអត្រានុកុលដ្ឋាន</div>
         </Transition>
-        <pdf-preview v-model:model="model" v-model:record="selectedCertificate" v-bind:show="pdfToggle" :onClose="togglePdfModal"/>
+        <pdf-preview v-model:model="model" v-model:record="selectedLanguage" v-bind:show="pdfToggle" :onClose="togglePdfModal"/>
     </div>  
 </template>
 <script >
@@ -165,18 +177,10 @@ import PdfPreview from './pdfpreview.vue'
                 default: () => {
                     return reactive({
                         id: 0 ,
-                        username: '' ,
-                        firstname: '' ,
-                        lastname: '' ,
-                        nid: '' ,
-                        dob: '' ,
-                        marry_status: '' ,
-                        email: '' ,
-                        phone: '' ,
-                        person: null ,
-                        orgainzations: [] ,
-                        positions: [] ,
-                        countesies: []
+                        name: 'ខ្មែរ' ,
+                        reading: 'b' ,
+                        speaking: 'b' ,
+                        writing: 'b'
                     })
                 },    
             },
@@ -189,131 +193,37 @@ import PdfPreview from './pdfpreview.vue'
             },
         },
         setup(props){
-
-            // console.log( props.record.people_id )
-
             const store = useStore()
             const message = useMessage()
             const notify = useNotification()
             const dialog = useDialog()
 
+            const start = ref( new Date().getTime() )
+            const end = ref( new Date().getTime() )
+
             const model = reactive({
-                name: 'certificate' ,
-                module: 'certificates' ,
-                title: 'កម្រិតការសិក្សា'
+                name: 'officerjobbackground' ,
+                module: 'officerjobbackgrounds' ,
+                title: 'ប្រវត្តិការងារ'
+            })
+            const officerjobbackgrounds = computed( () => {
+                return store.getters[model.name + '/getRecords']
             })
 
-            // const educationLevels = reactive({
-            //     elementary : {
-
-            //     },
-            //     secondary : {
-
-            //     },
-            //     high_school : {
-
-            //     },
-            //     graduate : {
-
-            //     },
-            //     post_graduate : {
-
-            //     },
-            // })
-
-            const educationLevelGroup = reactive([
-                { 
-                    value: 'general_knowledge' ,
-                    label: 'កម្រិតវប្បធម៌ទូទៅ' ,
-                    options : [
-                        {
-                            value: 1 ,
-                            label: 'បឋមភូមិ'
-                        },
-                        {
-                            value: 2 ,
-                            label: 'ទុតិយភូមិ'
-                        },
-                        {
-                            value: 3 ,
-                            label: 'ផ្សេងៗ'
-                        }
-                    ]
-                },
-                { 
-                    value : 'skill' ,
-                    label: 'កម្រិតបណ្ដុះបណ្ដាលវិជ្ជាជីវៈ' ,
-                    options : [
-                        {
-                            value: 4 ,
-                            label: 'បរិញ្ញាបត្ររង'
-                        },
-                        {
-                            value: 5 ,
-                            label: 'បរិញ្ញាបត្រ'
-                        },
-                        {
-                            value: 6 ,
-                            label: 'បរិញ្ញាបត្រជាន់ខ្ពស់'
-                        },
-                        {
-                            value: 7 ,
-                            label: 'បណ្ឌិត'
-                        },
-                        {
-                            value: 8 ,
-                            label: 'ផ្សេងៗ'
-                        }
-                    ]
-                },
-                { 
-                    value: 'additional' ,
-                    label: 'វគ្គបណ្ដុះបណ្ដាលបណ្ត (វគ្គសិក្សាថ្មី សំខាន់ ចាំបាច់)' ,
-                    options : [
-                        {
-                            value: 9 ,
-                            label: 'វិញ្ញាប័ណ្ណបត្រ'
-                        }
-                    ]
-                }
-            ])
-            const selectedEducationLevel = ref(null)
-            const selectedEducationLevelKey = ref(null)
-            function updateEducationLevel(){
-                selectedEducationLevel.value = educationLevelGroup.find( ( elg ) => selectedEducationLevelKey.value == elg.value )
-                selectedEducationLevel.value = selectedEducationLevel.value != undefined && selectedEducationLevel.value != null ? selectedEducationLevel.value : null 
-                educationCertificate.certificate_group_id = null
-            }
-
-            function updateEducationCertificate(){
-                console.log( educationCertificate.certificate_group_id )
-            }
-
-            const certificates = computed( () => {
-                return store.getters['certificate/getRecords']
-            })
-            
-
-            const selectedCertificate = ref(null)
-
-            const educationCertificateStart = ref( new Date().getTime() )
-            const educationCertificateEnd = ref( new Date().getTime() )
-            const educationCertificate = reactive({
-                people_id : props.record.people_id ,
-                field_name : '' ,
-                start_date : '' ,
-                end_date : '' ,
-                location : '' ,
-                place_name : '',
-                certificate_group_id : null ,
-                pdf: '' ,
-                certificate_note : '' 
+            const officerjobbackground = reactive({
+                'id' : 0 ,
+                'officer_id' : props.record.officer_id ,
+                'organization' : '' ,
+                'sub_organization' : '' , 
+                'position' : '' ,
+                'start' : '' ,
+                'end' : '' ,
+                'sector' : 0 ,
+                'skill_of_position' : '' ,
+                'pdf' : ''
             })
 
-            const certificate_levels = computed( () => {
-                return store.getters['certificate/getGroups'].map( ( g ) => { return { label : g.name , value : g.id } })
-            })
-            const selectedCertificateLevel = ref(0)
+            const selectedLanguage = ref(null)
 
             const formHelper = ref(false)
             function formToggler() {
@@ -321,83 +231,83 @@ import PdfPreview from './pdfpreview.vue'
                 if( formHelper.value == true ){
                     
                 }else{
-                    educationCertificateStart.value = ( new Date() ).getTime()
-                    educationCertificateEnd.value = ( new Date() ).getTime()
-                    educationCertificate.people_id = props.record.people_id
-                    educationCertificate.field_name = ''
-                    educationCertificate.start_date = ''
-                    educationCertificate.end_date = ''
-                    educationCertificate.location = ''
-                    educationCertificate.place_name = ''
-                    educationCertificate.certificate_group_id = null
-                    educationCertificate.pdf = '' 
-                    educationCertificate.certificate_note = ''
+                    officerjobbackground.id = props.record.id
+                    officerjobbackground.officer_id = props.record.officer_id
+                    officerjobbackground.organization = '' 
+                    officerjobbackground.sub_organization = '' 
+                    officerjobbackground.start = '' 
+                    officerjobbackground.end = '' 
+                    officerjobbackground.sector = 0 
+                    officerjobbackground.position = '' 
+                    officerjobbackground.skill_of_position = '' 
+                    officerjobbackground.pdf = '' 
+
+                    start.value = new Date().getTime()
+                    end.value = new Date().getTime()
                 }
             }
 
             const uploadHelper = ref(false)
-            function uploadToggler(certificate) {
+            function uploadToggler(officerjobbackground) {
                 uploadHelper.value = !uploadHelper.value
-                if( certificate == null || certificate == undefined ){
+                if( officerjobbackground == null || officerjobbackground == undefined ){
                     
                 }else{
-                    console.log( certificate )
-                    selectedCertificate.value = certificate
+                    selectedLanguage.value = officerjobbackground
                 }
             }
 
             const pdfToggle = ref(false)
             function togglePdfModal(cert) {
-                selectedCertificate.value = cert == undefined || cert == null ? null : cert 
+                selectedLanguage.value = cert == undefined || cert == null ? null : cert 
                 pdfToggle.value = !pdfToggle.value
             }
 
-            function getCertificates(){
-                store.dispatch('certificate/list',{
+            function getOfficerJobBackgrounds(){
+                store.dispatch(model.name + '/list',{
                 search : '' ,
                 page: 1 , 
                 perPage : 100 ,
-                people_id: props.record.people_id
+                officer_id: props.record.officer_id
                 }).then( res => {
-                    store.commit( 'certificate/setRecords', res.data.records );
+                    store.commit( model.name + '/setRecords', res.data.records );
                 }).catch( err => {
                     console.log( err )
                 })
             }
             
             function save(){
-                if( ( educationCertificate.certificate_group_id == 3 || educationCertificate.certificate_group_id == 8 ) && educationCertificate.certificate_note == '' ){
-                    notify.info({
-                        title: 'បំពេញព័ត៌មាន' ,
-                        content: 'សូមបញ្ជាក់ឈ្មោះសញ្ញាបត្រ'
-                    })
-                    return false
-                }
-                store.dispatch( model.name + '/' + ( selectedCertificate.value != null && selectedCertificate.value.id > 0 ? 'update' : 'create' ) , 
-                selectedCertificate.value != null && selectedCertificate.value.id > 0 
+                console.log( props.record )
+                // if( selectedLanguage.value == undefined || selectedLanguage.value == null ){
+                //     return false
+                // }
+                store.dispatch( model.name + '/' + ( selectedLanguage.value != undefined && selectedLanguage.value != null && selectedLanguage.value.id > 0 ? 'update' : 'create' ) , 
+                selectedLanguage.value != undefined && selectedLanguage.value != null && selectedLanguage.value.id > 0 
+                    // Update
                     ? {
-                        id: selectedCertificate.value.id ,
-                        people_id : props.record.people_id ,
-                        field_name : educationCertificate.field_name ,
-                        start_date : dateFormat( new Date( educationCertificateStart.value ) , 'dd-MM-yyyy' ) ,
-                        end_date : dateFormat( new Date( educationCertificateEnd.value ) , 'dd-MM-yyyy' ) ,
-                        location : educationCertificate.location ,
-                        place_name : educationCertificate.place_name ,
-                        certificate_group_id : educationCertificate.certificate_group_id ,
-                        certificate_note : parseInt( educationCertificate.certificate_group_id ) == 3 || parseInt( educationCertificate.certificate_group_id ) == 8 ? educationCertificate.certificate_note : '' 
+                        id: officerjobbackground.id ,
+                        officer_id : props.record.id ,
+                        start : start.value != undefined && start.value != null && start.value > 0 ? dateFormat( new Date( start.value ) , 'yyyy-mm-dd' ) : dateFormat( new Date( ) , 'yyyy-mm-dd' ) ,
+                        end : end.value != undefined && end.value != null && end.value > 0 ? dateFormat( new Date( end.value ) , 'yyyy-mm-dd' ) : dateFormat( new Date( ) , 'yyyy-mm-dd' ) ,
+                        organization : officerjobbackground.organization ,
+                        sub_organization : officerjobbackground.sub_organization ,
+                        position : officerjobbackground.position ,
+                        skill_of_position : officerjobbackground.skill_of_position ,
+                        sector : parseInt( officerjobbackground.sector ) > 0 ? parseInt( officerjobbackground.sector ) : 0
                     }
+                    // Create
                     : {
-                        people_id : props.record.people_id ,
-                        field_name : educationCertificate.field_name ,
-                        start_date : dateFormat( new Date( educationCertificateStart.value ) , 'dd-MM-yyyy' ) ,
-                        end_date : dateFormat( new Date( educationCertificateEnd.value ) , 'dd-MM-yyyy' ) ,
-                        location : educationCertificate.location ,
-                        place_name : educationCertificate.place_name ,
-                        certificate_group_id : educationCertificate.certificate_group_id ,
-                        certificate_note : parseInt( educationCertificate.certificate_group_id ) == 3 || parseInt( educationCertificate.certificate_group_id ) == 8 ? educationCertificate.certificate_note : '' 
+                        officer_id : props.record.id ,
+                        start : start.value != undefined && start.value != null && start.value > 0 ? dateFormat( new Date( start.value ) , 'yyyy-mm-dd' ) : dateFormat( new Date( ) , 'yyyy-mm-dd' ) ,
+                        end : end.value != undefined && end.value != null && end.value > 0 ? dateFormat( new Date( end.value ) , 'yyyy-mm-dd' ) : dateFormat( new Date( ) , 'yyyy-mm-dd' ) ,
+                        organization : officerjobbackground.organization ,
+                        sub_organization : officerjobbackground.sub_organization ,
+                        position : officerjobbackground.position ,
+                        skill_of_position : officerjobbackground.skill_of_position ,
+                        sector : parseInt( officerjobbackground.sector ) > 0 ? parseInt( officerjobbackground.sector ) : 0
                     }
                 ).then( res => {
-                    getCertificates()
+                    getOfficerJobBackgrounds()
                 }).catch( err => {
                     console.log( err )
                 })
@@ -405,23 +315,23 @@ import PdfPreview from './pdfpreview.vue'
                 uploadHelper.value = false
             }
 
-            function edit(cert){
-
-                for( let i in educationLevelGroup ){
-                    if( educationLevelGroup[i].options.find( ( o ) => o.value == cert.certificate_group_id ) != undefined ){
-                        selectedEducationLevel.value = educationLevelGroup[i]
-                        selectedEducationLevelKey.value = educationLevelGroup[i].value
-                    }
+            function edit(language){
+                selectedLanguage.value = language
+                if( selectedLanguage.value == undefined || selectedLanguage.value == null ){
+                    return false
                 }
 
-                selectedCertificate.value = cert                
-                educationCertificate.field_name = selectedCertificate.value.field_name
-                educationCertificate.location = selectedCertificate.value.location
-                educationCertificate.place_name = selectedCertificate.value.place_name
-                educationCertificate.certificate_group_id = selectedCertificate.value.certificate_group_id
-                educationCertificate.certificate_note = selectedCertificate.value.certificate_note
-                educationCertificateStart.value = ( new Date( selectedCertificate.value.start ) ).getTime()
-                educationCertificateEnd.value = ( new Date( selectedCertificate.value.end ) ).getTime()
+                officerjobbackground.id = selectedLanguage.value.id
+                officerjobbackground.officer_id = selectedLanguage.value.officer_id
+                officerjobbackground.organization = selectedLanguage.value.organization 
+                officerjobbackground.sub_organization = selectedLanguage.value.sub_organization
+                officerjobbackground.position = selectedLanguage.value.position
+                officerjobbackground.skill_of_position = selectedLanguage.value.skill_of_position
+                officerjobbackground.sector = parseInt( selectedLanguage.value.sector )
+
+                start.value = selectedLanguage.value.start != undefined && selectedLanguage.value.start != null && selectedLanguage.value.start.length > 0 ?( new Date( selectedLanguage.value.start ) ).getTime() : ( new Date( ) ).getTime()
+                end.value = selectedLanguage.value.end != undefined && selectedLanguage.value.end != null && selectedLanguage.value.end.length > 0 ? ( new Date( selectedLanguage.value.end ) ).getTime() : ( new Date( ) ).getTime()
+                
                 formHelper.value = true
             }
 
@@ -513,29 +423,22 @@ import PdfPreview from './pdfpreview.vue'
                 document.getElementById('referenceDocument').click()
             }
             function uploadFiles(){
-                if( pdfs.value.length <= 0 ){
-                    notify.info({
-                        title: 'ភ្ជាប់ឯកសារយោង' ,
-                        content: 'សូមជ្រើសរើសឯកសារយោង។'
-                    })
-                    return false
-                }
-                // console.log( props.record.pdfs )
                 let formData = new FormData();
-                formData.append('id', selectedCertificate.value.id )
+                formData.append('id', selectedLanguage.value.id )
                 formData.append('file', pdfs.value[0] )
                 notify.info({
                     title: 'រក្សារទុកព័ត៌មាន' ,
                     description: 'កំពុងបញ្ចូលឯកសារយោង។' ,
                     duration: 3000
                 })
-                store.dispatch('certificate/upload', formData ).then( res => {
+                store.dispatch(model.name + '/upload', formData ).then( res => {
                     notify.success({
                         title: 'រក្សារទុកព័ត៌មាន' ,
                         description: 'បានបញ្ចូលឯកសារយោងរួចរាល់។' ,
                         duration: 3000
                     })
                     pdfs.value = []
+                    getOfficerJobBackgrounds()
                 }).catch( err => {
                     console.log( err )
                     notify.error({
@@ -545,7 +448,6 @@ import PdfPreview from './pdfpreview.vue'
                     })
                 })
                 uploadHelper.value = false
-                getCertificates()
             }
             // End Upload
 
@@ -563,7 +465,7 @@ import PdfPreview from './pdfpreview.vue'
                             description: 'លុបបានរួចរាល់។' ,
                             duration: 3000
                         })
-                        getCertificates()
+                        getOfficerJobBackgrounds()
                         }else{
                         notify.success({
                             title: 'លុបកម្រិតសិក្សា' ,
@@ -583,10 +485,9 @@ import PdfPreview from './pdfpreview.vue'
             // certificates.value = store.getters['certificate/getRecords']
             return {
                 model ,
-                educationCertificateStart ,
-                educationCertificateEnd ,
-                educationCertificate ,
-                certificate_levels ,
+                officerjobbackground ,
+                start , 
+                end ,
                 /**
                  * Visible or invisible form
                  */
@@ -594,25 +495,17 @@ import PdfPreview from './pdfpreview.vue'
                 formToggler ,
                 pdfToggle ,
                 togglePdfModal ,
-                certificates ,
-                selectedCertificate ,
-                selectedCertificateLevel ,
+                officerjobbackgrounds ,
+                selectedLanguage ,
                 save ,
                 edit ,
-                selectedCertificate ,
                 dateFormat ,
                 uploadToggler ,
                 uploadHelper ,
                 fileChange ,
                 clickUpload ,
                 uploadFiles ,
-                destroy ,
-                // educationLevels ,
-                educationLevelGroup ,
-                selectedEducationLevel ,
-                selectedEducationLevelKey ,
-                updateEducationLevel ,
-                updateEducationCertificate
+                destroy
             }
         }
     }

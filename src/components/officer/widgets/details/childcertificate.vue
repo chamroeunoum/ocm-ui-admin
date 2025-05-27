@@ -2,7 +2,7 @@
     <div v-if="show" class="birth-information absolute left-0 right-0 bottom-0 top-0" >
         <Transition name="slide-fade" >
             <div v-if="record != undefined && record != null " class="absolute left-0 right-0 bottom-0 top-0 p-8 mb-0" >
-                <div class="font-moul border-b border-gray-200 w-full pb-2 mb-4 h-8 leading-6 relative" >អត្រានុកុលដ្ឋាន
+                <div class="font-moul border-b border-gray-200 w-full pb-2 mb-4 h-8 leading-6 relative" >អត្រានុកុលដ្ឋានរបស់កូន
                     <div @click="formToggler" class="absolute right-0 top-0 w-32 text-center border border-gray-300 bg-gray-100 cursor-pointer p-1 rounded-full px-2 hover:bg-green-100 hover:border-green-500 duration-500" >បញ្ចូល</div>
                 </div>
                 <n-scrollbar >
@@ -62,7 +62,7 @@
                         <n-scrollbar>
                             <div class="form-panel border border-gray-200 rounded-md m-4  bg-white shadow w-2/3 mx-auto " >
                                 <div class="w-full p-4 " >
-                                    <div class="relative w-full mb-4 border-b border-gray-200 pb-2 font-moul " >ព័ត៌មានអត្រានុកុលដ្ឋាន
+                                    <div class="relative w-full mb-4 border-b border-gray-200 pb-2 font-moul " >ព័ត៌មាន អត្រានុកុលដ្ឋាន
                                         <svg 
                                         class="w-7 h-7 text-green-500 absolute right-0 -top-2 cursor-pointer " 
                                         @click="save"
@@ -75,7 +75,7 @@
                                     <n-form class="flex flex-wrap w-full " >
                                         <div class="w-1/2 p-4 " >
                                             <div class=" border border-gray-200 bg-white shadow p-4 rounded-lg flex flex-wrap" >
-                                                <div class="w-full mb-4 border-b border-gray-200 pb-2 font-moul " >សំបុត្រកំណើត/បញ្ជាក់កំណើត</div>
+                                                <div class="w-full mb-4 border-b border-gray-200 pb-2 font-moul " >លេខសៀវភៅ អត្រានុកុលដ្ឋាន</div>
                                                 <n-form-item label="លេខសំបុត្រ" class="w-1/2 p-1" >
                                                     <n-input v-model:value="birthCertificate.birth_number" placeholder="លេខសំបុត្រ" />
                                                 </n-form-item>
@@ -97,7 +97,7 @@
 
                                         <div class="w-1/2 p-4 " >
                                             <div class=" border border-gray-200 bg-white shadow p-4 rounded-lg flex flex-wrap" >
-                                                <div class="w-full mb-4 border-b border-gray-200 pb-2 font-moul" >ទីតាំងផ្តល់សំបុត្រកំណើត/បញ្ជាក់កំណើត</div>
+                                                <div class="w-full mb-4 border-b border-gray-200 pb-2 font-moul" >ទីតាំងធ្វើ លិខិតអត្រានុកុលដ្ឋាន</div>
                                                 <n-form-item label="ខេត្ត ក្រុង" class="w-1/2 p-1" >
                                                     <n-select 
                                                         v-model:value="birthCertificate.province_id" 
@@ -137,7 +137,7 @@
                                             </div>
                                         </div>
 
-                                        <!-- <div class="w-full p-4 border border-gray-200 rounded-md m-4 flex flex-wrap bg-white shadow " >
+                                        <div class="w-full p-4 border border-gray-200 rounded-md m-4 flex flex-wrap bg-white shadow " >
                                             <div class="w-full mb-4 border-b border-gray-200 pb-2 font-moul" >ព័ត័មានសាមីខ្លួន</div>
                                             <n-form-item label="គោត្តនាម" class="w-1/2 p-1" >
                                                 <n-input v-model:value="birthCertificate.lastname" placeholder="គោត្តនាម ខ្មែរ" />
@@ -205,6 +205,13 @@
                                                 </n-radio-group>
                                             </n-form-item>
 
+                                            <n-form-item label="មុខរបរ" class="w-1/2 p-1" >
+                                                <n-input v-model:value="birthCertificate.profession" placeholder="មុខរបរ" />
+                                            </n-form-item>
+                                            <n-form-item label="អង្គភាព" class="w-1/2 p-1" >
+                                                <n-input v-model:value="birthCertificate.organization" placeholder="អង្គភាព" />
+                                            </n-form-item>
+
                                             <n-form-item-row label="ទីកន្លែងកំណើត" class="w-full p-4" >
                                                 <n-input placeholder="ទីកន្លែងកំណើត" class="text-left" 
                                                 v-model:value="birthCertificate.pob" 
@@ -212,10 +219,12 @@
                                             </n-form-item-row>
 
                                             <n-form-item label="លេខសំបុត្រអាពាហ៍ពិពាហ៍" class="w-full p-4" >
-                                                <n-input v-model:value="birthCertificate.wedding_number_id" placeholder="លេខសំបុត្រអាពាហ៍ពិពាហ៍" class="w-full" />
+                                                <!-- <n-input v-model:value="birthCertificate.wedding_certificate_id" placeholder="លេខសំបុត្រអាពាហ៍ពិពាហ៍" class="w-full" /> -->
+                                                <n-select :options="weddingCertificates" v-model:value="birthCertificate.wedding_certificate_id" placeholder="លេខសំបុត្រអាពាហ៍ពិពាហ៍" clearable filterable >
+                                                </n-select>
                                             </n-form-item>
                                             
-                                        </div> -->
+                                        </div>
                                         <!-- <div class="parent-panel w-full flex flex-wrap p-2" >
                                             
                                             <div class="w-1/2 p-2 " >
@@ -402,11 +411,18 @@ import PdfPreview from './pdfpreview.vue'
             const message = useMessage()
             const notify = useNotification()
             const dialog = useDialog()
+            const weddingCertificates = ref([])
+
+            weddingCertificates.value = ( props.record != undefined && props.record != null ) && 
+                ( props.record.people != undefined && props.record.people != null ) && 
+                ( props.record.people.weddingCertificates != undefined && props.record.people.weddingCertificates != null && props.record.people.weddingCertificates.length > 0 )
+                    ? props.record.people.weddingCertificates.map( ( wc ) => { return { label: "សៀវភៅ ៖ " + wc.book_number + " , ល.អា. " + wc.wedding_number + " : ប្ដី. " + wc.husband_lastname + " " + wc.husband_firstname + " , ប្រពន្ធ. " + wc.wife_lastname + " " + wc.wife_firstname , value : wc.id } } )
+                    : []
 
             const model = reactive({
-                name: 'birthcertificate' ,
-                module: 'birthcertificates' ,
-                title: 'អត្រានុកុលដ្ឋាន'
+                name: 'childcertificate' ,
+                module: 'childcertificates' ,
+                title: 'អត្រានុកុលដ្ឋានកូន'
             })
             const certificates = computed( () => {
                 return store.getters[model.name + '/getRecords']
@@ -430,13 +446,13 @@ import PdfPreview from './pdfpreview.vue'
             })
 
             const dateOfBirth = ref( new Date().getTime() )
-            const motherDateOfBirth = ref( new Date().getTime() )
-            const fatherDateOfBirth = ref( new Date().getTime() )
+            // const motherDateOfBirth = ref( new Date().getTime() )
+            // const fatherDateOfBirth = ref( new Date().getTime() )
             const issuedDate = ref( new Date().getTime() )
             const year = ref( new Date().getTime() )
 
             const birthCertificate = reactive({
-                'people_id' : props.record.id ,
+                'people_id' : props.record.peole_id ,
                 'birth_number' : '' ,
                 'book_number' : '' , 
                 'year' : '' ,
@@ -447,6 +463,8 @@ import PdfPreview from './pdfpreview.vue'
                 'lastname' : '' ,
                 'enfirstname' : '' ,
                 'enlastname' : '' ,
+                'profession' : '' ,
+                'organization' : '' ,
                 'dob' : '' ,
                 'gender' : '' ,
                 'nationality' : '' ,
@@ -457,22 +475,22 @@ import PdfPreview from './pdfpreview.vue'
                 'signed_name' : '' ,
                 'wedding_certificate_id' : '' ,
                 'pdf' : '' ,
-                // Father
-                'father_firstname' : '' ,
-                'father_lastname' : '' ,
-                'father_enfirstname' : '' ,
-                'father_enlastname' : '' ,
-                'father_dob' : '' ,
-                'father_nationality' : '' ,
-                'father_pob' : '' ,
-                // Mother
-                'mother_firstname' : '' ,
-                'mother_lastname' : '' ,
-                'mother_enfirstname' : '' ,
-                'mother_enlastname' : '' ,
-                'mother_dob' : '' ,
-                'mother_nationality' : '' ,
-                'mother_pob' : ''
+                // // Father
+                // 'father_firstname' : '' ,
+                // 'father_lastname' : '' ,
+                // 'father_enfirstname' : '' ,
+                // 'father_enlastname' : '' ,
+                // 'father_dob' : '' ,
+                // 'father_nationality' : '' ,
+                // 'father_pob' : '' ,
+                // // Mother
+                // 'mother_firstname' : '' ,
+                // 'mother_lastname' : '' ,
+                // 'mother_enfirstname' : '' ,
+                // 'mother_enlastname' : '' ,
+                // 'mother_dob' : '' ,
+                // 'mother_nationality' : '' ,
+                // 'mother_pob' : ''
             })
 
             const selectedCertificate = ref(null)
@@ -485,11 +503,11 @@ import PdfPreview from './pdfpreview.vue'
                     
                 }else{
                     dateOfBirth.value = ( new Date() ).getTime()
-                    fatherDateOfBirth.value = ( new Date() ).getTime()
-                    motherDateOfBirth.value = ( new Date() ).getTime()
-                    issuedDate.value = ( new Date() ).getTime()
                     year.value = ( new Date() ).getTime()
-                    birthCertificate.people_id = props.record.id ,
+                    // fatherDateOfBirth.value = ( new Date() ).getTime()
+                    // motherDateOfBirth.value = ( new Date() ).getTime()
+                    // issuedDate.value = ( new Date() ).getTime()
+                    birthCertificate.people_id = props.record.people_id ,
                     birthCertificate.birth_number = ''
                     birthCertificate.book_number = ''
                     birthCertificate.year = ''
@@ -500,32 +518,34 @@ import PdfPreview from './pdfpreview.vue'
                     birthCertificate.lastname = ''
                     birthCertificate.enfirstname = ''
                     birthCertificate.enlastname = ''
+                    birthCertificate.profession = ''
+                    birthCertificate.organization = ''
                     birthCertificate.dob = ''
                     birthCertificate.gender = ''
                     birthCertificate.nationality = ''
                     birthCertificate.national = ''
                     birthCertificate.pob = ''
                     birthCertificate.issued_date = ''
-                    birthCertificate.issued_location = ''
-                    birthCertificate.signed_name = ''
+                    // birthCertificate.issued_location = ''
+                    // birthCertificate.signed_name = ''
                     birthCertificate.wedding_certificate_id = ''
                     birthCertificate.pdf = ''
 
-                    birthCertificate.father_firstname = ''
-                    birthCertificate.father_lastname = ''
-                    birthCertificate.father_enfirstname = ''
-                    birthCertificate.father_enlastname = ''
-                    birthCertificate.father_dob = ''
-                    birthCertificate.father_nationality = ''
-                    birthCertificate.father_pob = ''
+                    // birthCertificate.father_firstname = ''
+                    // birthCertificate.father_lastname = ''
+                    // birthCertificate.father_enfirstname = ''
+                    // birthCertificate.father_enlastname = ''
+                    // birthCertificate.father_dob = ''
+                    // birthCertificate.father_nationality = ''
+                    // birthCertificate.father_pob = ''
 
-                    birthCertificate.mother_firstname = ''
-                    birthCertificate.mother_lastname = ''
-                    birthCertificate.mother_enfirstname = ''
-                    birthCertificate.mother_enlastname = ''
-                    birthCertificate.mother_dob = ''
-                    birthCertificate.mother_nationality = ''
-                    birthCertificate.mother_pob = ''
+                    // birthCertificate.mother_firstname = ''
+                    // birthCertificate.mother_lastname = ''
+                    // birthCertificate.mother_enfirstname = ''
+                    // birthCertificate.mother_enlastname = ''
+                    // birthCertificate.mother_dob = ''
+                    // birthCertificate.mother_nationality = ''
+                    // birthCertificate.mother_pob = ''
 
                 }
             }
@@ -564,11 +584,11 @@ import PdfPreview from './pdfpreview.vue'
 
             function getCertificates(){
                 store.dispatch(model.name + '/list',{
-                    search : '' ,
-                    page: 1 , 
-                    perPage : 100 ,
-                    people_id: props.record.people_id ,
-                    wedding_certificate_id : 0 
+                search : '' ,
+                page: 1 , 
+                perPage : 100 ,
+                people_id : props.record.people_id ,
+                wedding_certificate_id : parseInt( props.record.wedding_certificate_id )
                 }).then( res => {
                     store.commit( model.name + '/setRecords', res.data.records );
                 }).catch( err => {
@@ -596,35 +616,37 @@ import PdfPreview from './pdfpreview.vue'
                         'lastname' : birthCertificate.lastname ,
                         'enfirstname' : birthCertificate.enfirstname ,
                         'enlastname' : birthCertificate.enlastname ,
+                        'profession' : birthCertificate.profession ,
+                        'organization' : birthCertificate.organization ,
                         'dob' : dateOfBirth.value != undefined && dateOfBirth.value != null && dateOfBirth.value > 0 ? dateFormat( new Date( dateOfBirth.value ) , 'yyyy-mm-dd' ) : dateFormat( new Date( ) , 'yyyy-mm-dd' ) ,
                         'gender' : birthCertificate.gender ,
                         'nationality' : birthCertificate.nationality ,
                         'national' : birthCertificate.national ,
                         'pob' : birthCertificate.pob ,
                         'issued_date' : issuedDate.value != undefined && issuedDate.value != null && issuedDate.value > 0 ? dateFormat( new Date( issuedDate.value ) , 'yyyy-mm-dd' ) : dateFormat( new Date( ) , 'yyyy-mm-dd' ) ,
-                        'issued_location' : birthCertificate.issued_location ,
-                        'signed_name' : birthCertificate.signed_name ,
-                        'wedding_certificate_id' : parseInt( birthCertificate.wedding_certificate_id ) > 0 ? parseInt( birthCertificate.wedding_certificate_id ) : 0 ,
+                        // 'issued_location' : birthCertificate.issued_location ,
+                        // 'signed_name' : birthCertificate.signed_name ,
+                        'wedding_certificate_id' : parseInt( birthCertificate.wedding_certificate_id ) > 0 ? parseInt( birthCertificate.wedding_certificate_id ) : '' ,
                         // Father 
-                        'father_firstname' : birthCertificate.father_firstname ,
-                        'father_lastname' : birthCertificate.father_lastname ,
-                        'father_enfirstname' : birthCertificate.father_enfirstname ,
-                        'father_enlastname' : birthCertificate.father_enlastname ,
-                        'father_dob' : fatherDateOfBirth.value != undefined && fatherDateOfBirth.value != null && fatherDateOfBirth.value > 0 ? dateFormat( new Date( fatherDateOfBirth.value ) , 'yyyy-mm-dd' ) : dateFormat( new Date( ) , 'yyyy-mm-dd' ) ,
-                        'father_nationality' : birthCertificate.father_nationality ,
-                        'father_pob' : birthCertificate.father_pob ,
+                        // 'father_firstname' : birthCertificate.father_firstname ,
+                        // 'father_lastname' : birthCertificate.father_lastname ,
+                        // 'father_enfirstname' : birthCertificate.father_enfirstname ,
+                        // 'father_enlastname' : birthCertificate.father_enlastname ,
+                        // 'father_dob' : fatherDateOfBirth.value != undefined && fatherDateOfBirth.value != null && fatherDateOfBirth.value > 0 ? dateFormat( new Date( fatherDateOfBirth.value ) , 'yyyy-mm-dd' ) : dateFormat( new Date( ) , 'yyyy-mm-dd' ) ,
+                        // 'father_nationality' : birthCertificate.father_nationality ,
+                        // 'father_pob' : birthCertificate.father_pob ,
                         // Mother 
-                        'mother_firstname' : birthCertificate.mother_firstname ,
-                        'mother_lastname' : birthCertificate.mother_lastname ,
-                        'mother_enfirstname' : birthCertificate.mother_enfirstname ,
-                        'mother_enlastname' : birthCertificate.mother_enlastname ,
-                        'mother_dob' : motherDateOfBirth.value != undefined && motherDateOfBirth.value != null && motherDateOfBirth.value > 0 ? dateFormat( new Date( motherDateOfBirth.value ) , 'yyyy-mm-dd' ) : dateFormat( new Date( ) , 'yyyy-mm-dd' ) ,
-                        'mother_nationality' : birthCertificate.mother_nationality ,
-                        'mother_pob' : birthCertificate.mother_pob
+                        // 'mother_firstname' : birthCertificate.mother_firstname ,
+                        // 'mother_lastname' : birthCertificate.mother_lastname ,
+                        // 'mother_enfirstname' : birthCertificate.mother_enfirstname ,
+                        // 'mother_enlastname' : birthCertificate.mother_enlastname ,
+                        // 'mother_dob' : motherDateOfBirth.value != undefined && motherDateOfBirth.value != null && motherDateOfBirth.value > 0 ? dateFormat( new Date( motherDateOfBirth.value ) , 'yyyy-mm-dd' ) : dateFormat( new Date( ) , 'yyyy-mm-dd' ) ,
+                        // 'mother_nationality' : birthCertificate.mother_nationality ,
+                        // 'mother_pob' : birthCertificate.mother_pob
                     }
                     // Create
                     : {
-                        'people_id' : props.record.id ,
+                        'people_id' : props.record.people_id ,
                         'birth_number' : birthCertificate.birth_number ,
                         'book_number' : birthCertificate.book_number ,
                         'year' : year.value != undefined && year.value != null && year.value > 0 ? dateFormat( new Date( year.value ) , 'yyyy-mm-dd' ) : dateFormat( new Date( ) , 'yyyy-mm-dd' ) ,
@@ -635,31 +657,33 @@ import PdfPreview from './pdfpreview.vue'
                         'lastname' : birthCertificate.lastname ,
                         'enfirstname' : birthCertificate.enfirstname ,
                         'enlastname' : birthCertificate.enlastname ,
+                        'profession' : birthCertificate.profession ,
+                        'organization' : birthCertificate.organization ,
                         'dob' : dateOfBirth.value != undefined && dateOfBirth.value != null && dateOfBirth.length > 0 ? dateFormat( new Date( dateOfBirth.value ) , 'yyyy-mm-dd' ) : dateFormat( new Date( ) , 'yyyy-mm-dd' ) ,
                         'gender' : birthCertificate.gender ,
                         'nationality' : birthCertificate.nationality ,
                         'national' : birthCertificate.national ,
                         'pob' : birthCertificate.pob ,
                         'issued_date' : issuedDate.value != undefined && issuedDate.value != null && issuedDate.value > 0 ? dateFormat( new Date( issuedDate.value ) , 'yyyy-mm-dd' ) : dateFormat( new Date( ) , 'yyyy-mm-dd' ) ,
-                        'issued_location' : birthCertificate.issued_location ,
-                        'signed_name' : birthCertificate.signed_name ,
-                        'wedding_certificate_id' : parseInt( birthCertificate.wedding_certificate_id ) > 0 ? parseInt( birthCertificate.wedding_certificate_id ) : 0 ,
+                        // 'issued_location' : birthCertificate.issued_location ,
+                        // 'signed_name' : birthCertificate.signed_name ,
+                        'wedding_certificate_id' : parseInt( birthCertificate.wedding_certificate_id ) > 0 ? parseInt( birthCertificate.wedding_certificate_id ) : '' ,
                         // Father 
-                        'father_firstname' : birthCertificate.father_firstname ,
-                        'father_lastname' : birthCertificate.father_lastname ,
-                        'father_enfirstname' : birthCertificate.father_enfirstname ,
-                        'father_enlastname' : birthCertificate.father_enlastname ,
-                        'father_dob' : fatherDateOfBirth.value != undefined && fatherDateOfBirth.value != null && fatherDateOfBirth.value > 0 ? dateFormat( new Date( fatherDateOfBirth.value ) , 'yyyy-mm-dd' ) : dateFormat( new Date( ) , 'yyyy-mm-dd' ) ,
-                        'father_nationality' : birthCertificate.father_nationality ,
-                        'father_pob' : birthCertificate.father_pob ,
+                        // 'father_firstname' : birthCertificate.father_firstname ,
+                        // 'father_lastname' : birthCertificate.father_lastname ,
+                        // 'father_enfirstname' : birthCertificate.father_enfirstname ,
+                        // 'father_enlastname' : birthCertificate.father_enlastname ,
+                        // 'father_dob' : fatherDateOfBirth.value != undefined && fatherDateOfBirth.value != null && fatherDateOfBirth.value > 0 ? dateFormat( new Date( fatherDateOfBirth.value ) , 'yyyy-mm-dd' ) : dateFormat( new Date( ) , 'yyyy-mm-dd' ) ,
+                        // 'father_nationality' : birthCertificate.father_nationality ,
+                        // 'father_pob' : birthCertificate.father_pob ,
                         // Mother 
-                        'mother_firstname' : birthCertificate.mother_firstname ,
-                        'mother_lastname' : birthCertificate.mother_lastname ,
-                        'mother_enfirstname' : birthCertificate.mother_enfirstname ,
-                        'mother_enlastname' : birthCertificate.mother_enlastname ,
-                        'mother_dob' : motherDateOfBirth.value != undefined && motherDateOfBirth.value != null && motherDateOfBirth.value > 0 ? dateFormat( new Date( motherDateOfBirth.value ) , 'yyyy-mm-dd' ) : dateFormat( new Date( ) , 'yyyy-mm-dd' ) ,
-                        'mother_nationality' : birthCertificate.mother_nationality ,
-                        'mother_pob' : birthCertificate.mother_pob
+                        // 'mother_firstname' : birthCertificate.mother_firstname ,
+                        // 'mother_lastname' : birthCertificate.mother_lastname ,
+                        // 'mother_enfirstname' : birthCertificate.mother_enfirstname ,
+                        // 'mother_enlastname' : birthCertificate.mother_enlastname ,
+                        // 'mother_dob' : motherDateOfBirth.value != undefined && motherDateOfBirth.value != null && motherDateOfBirth.value > 0 ? dateFormat( new Date( motherDateOfBirth.value ) , 'yyyy-mm-dd' ) : dateFormat( new Date( ) , 'yyyy-mm-dd' ) ,
+                        // 'mother_nationality' : birthCertificate.mother_nationality ,
+                        // 'mother_pob' : birthCertificate.mother_pob
                     }
                 ).then( res => {
                     getCertificates()
@@ -681,14 +705,13 @@ import PdfPreview from './pdfpreview.vue'
                 }
 
                 dateOfBirth.value = selectedCertificate.value.dob != undefined && selectedCertificate.value.dob != null && selectedCertificate.value.dob.length >0 ? ( new Date( selectedCertificate.value.dob ) ).getTime() : ( new Date() ).getTime()
-                fatherDateOfBirth.value = selectedCertificate.value.father_dob != undefined && selectedCertificate.value.father_dob != null && selectedCertificate.value.father_dob.length >0 ? ( new Date( selectedCertificate.value.father_dob ) ).getTime() : ( new Date() ).getTime()
-                motherDateOfBirth.value = selectedCertificate.value.mother_dob != undefined && selectedCertificate.value.mother_dob != null && selectedCertificate.value.mother_dob.length >0 ? ( new Date( selectedCertificate.value.mother_dob ) ).getTime() : ( new Date() ).getTime()
+                // fatherDateOfBirth.value = selectedCertificate.value.father_dob != undefined && selectedCertificate.value.father_dob != null && selectedCertificate.value.father_dob.length >0 ? ( new Date( selectedCertificate.value.father_dob ) ).getTime() : ( new Date() ).getTime()
+                // motherDateOfBirth.value = selectedCertificate.value.mother_dob != undefined && selectedCertificate.value.mother_dob != null && selectedCertificate.value.mother_dob.length >0 ? ( new Date( selectedCertificate.value.mother_dob ) ).getTime() : ( new Date() ).getTime()
                 issuedDate.value = selectedCertificate.value.issued_date != undefined && selectedCertificate.value.issued_date != null && selectedCertificate.value.issued_date.length >0 ? ( new Date( selectedCertificate.value.issued_date ) ).getTime() : ( new Date() ).getTime()
-                year.value = selectedCertificate.value.year != undefined && selectedCertificate.value.year != null && selectedCertificate.value.year.length >0 ? ( new Date( selectedCertificate.value.year ) ).getTime() : ( new Date() ).getTime()
                 birthCertificate.people_id = props.record.id ,
                 birthCertificate.birth_number = selectedCertificate.value.birth_number
                 birthCertificate.book_number = selectedCertificate.value.book_number
-                birthCertificate.year = selectedCertificate.value.year
+                year.value = selectedCertificate.value.year != undefined && selectedCertificate.value.year != null && selectedCertificate.value.year.length >0 ? ( new Date( selectedCertificate.value.year ) ).getTime() : ( new Date() ).getTime()
                 birthCertificate.province_id = parseInt( selectedCertificate.value.province_id ) > 0 ? selectedCertificate.value.province_id : null
                 birthCertificate.district_id = parseInt( selectedCertificate.value.district_id ) > 0 ? selectedCertificate.value.district_id : null
                 birthCertificate.commune_id = parseInt( selectedCertificate.value.commune_id ) > 0 ? selectedCertificate.value.commune_id : null
@@ -696,28 +719,30 @@ import PdfPreview from './pdfpreview.vue'
                 birthCertificate.lastname = selectedCertificate.value.lastname
                 birthCertificate.enfirstname = selectedCertificate.value.enfirstname
                 birthCertificate.enlastname = selectedCertificate.value.enlastname
+                birthCertificate.profession = selectedCertificate.value.profession
+                birthCertificate.organization = selectedCertificate.value.organization
                 birthCertificate.gender = selectedCertificate.value.gender
                 birthCertificate.nationality = selectedCertificate.value.nationality
                 birthCertificate.national = selectedCertificate.value.national
                 birthCertificate.pob = selectedCertificate.value.pob
-                birthCertificate.issued_location = selectedCertificate.value.issued_location
-                birthCertificate.signed_name = selectedCertificate.value.signed_name
-                birthCertificate.wedding_certificate_id = selectedCertificate.value.wedding_certificate_id
+                // birthCertificate.issued_location = selectedCertificate.value.issued_location
+                // birthCertificate.signed_name = selectedCertificate.value.signed_name
+                birthCertificate.wedding_certificate_id = parseInt( selectedCertificate.value.wedding_certificate_id )
                 birthCertificate.pdf = selectedCertificate.value.pdf
 
-                birthCertificate.father_firstname = selectedCertificate.value.father_firstname
-                birthCertificate.father_lastname = selectedCertificate.value.father_lastname
-                birthCertificate.father_enfirstname = selectedCertificate.value.father_enfirstname
-                birthCertificate.father_enlastname = selectedCertificate.value.father_enlastname
-                birthCertificate.father_nationality = selectedCertificate.value.father_nationality
-                birthCertificate.father_pob = selectedCertificate.value.father_pob
+                // birthCertificate.father_firstname = selectedCertificate.value.father_firstname
+                // birthCertificate.father_lastname = selectedCertificate.value.father_lastname
+                // birthCertificate.father_enfirstname = selectedCertificate.value.father_enfirstname
+                // birthCertificate.father_enlastname = selectedCertificate.value.father_enlastname
+                // birthCertificate.father_nationality = selectedCertificate.value.father_nationality
+                // birthCertificate.father_pob = selectedCertificate.value.father_pob
 
-                birthCertificate.mother_firstname = selectedCertificate.value.mother_firstname
-                birthCertificate.mother_lastname = selectedCertificate.value.mother_lastname
-                birthCertificate.mother_enfirstname = selectedCertificate.value.mother_enfirstname
-                birthCertificate.mother_enlastname = selectedCertificate.value.mother_enlastname
-                birthCertificate.mother_nationality = selectedCertificate.value.mother_nationality
-                birthCertificate.mother_pob = selectedCertificate.value.mother_pob
+                // birthCertificate.mother_firstname = selectedCertificate.value.mother_firstname
+                // birthCertificate.mother_lastname = selectedCertificate.value.mother_lastname
+                // birthCertificate.mother_enfirstname = selectedCertificate.value.mother_enfirstname
+                // birthCertificate.mother_enlastname = selectedCertificate.value.mother_enlastname
+                // birthCertificate.mother_nationality = selectedCertificate.value.mother_nationality
+                // birthCertificate.mother_pob = selectedCertificate.value.mother_pob
             
                 selectedProvince.value = store.getters['province/records'].all.find( p => p.id == birthCertificate.province_id )
                 selectedDistrict.value = selectedProvince.value.districts.find( d => d.id == birthCertificate.district_id )
@@ -905,8 +930,9 @@ import PdfPreview from './pdfpreview.vue'
                 setProvince ,
                 setDistrict ,
                 setCommune ,
-                fatherDateOfBirth ,
-                motherDateOfBirth
+                // fatherDateOfBirth ,
+                // motherDateOfBirth ,
+                weddingCertificates
             }
         }
     }

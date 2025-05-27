@@ -6,10 +6,22 @@ import user from './modules/user'
 import people from './modules/people/people'
 import certificate from './modules/people/certificate'
 import niccertificate from './modules/people/niccertificate'
+import passport from './modules/people/passport'
 import birthcertificate from './modules/people/birthcertificate'
+import achievement from './modules/people/achievement'
 import weddingcertificate from './modules/people/weddingcertificate'
+import childcertificate from './modules/people/childcertificate'
+import spokenlanguage from './modules/people/spokenlanguage'
 
 import officer from './modules/officer'
+import officerjobbackground from './modules/officer/officerjobbackground'
+import officerrankbycertificate from './modules/officer/officerrankbycertificate'
+import officerrankbyworking from './modules/officer/officerrankbyworking'
+import officerpendingwork from './modules/officer/officerpendingwork'
+import officermedalhistory from './modules/officer/officermedalhistory'
+import officerpenaltyhistory from './modules/officer/officerpaneltyhistory'
+import rank from './modules/officer/rank'
+
 import room from './modules/room'
 import folder from './modules/folder'
 import error from './modules/error'
@@ -75,9 +87,21 @@ export default createStore({
     certificate ,
     niccertificate ,
     birthcertificate ,
+    achievement ,
+    passport,
     weddingcertificate ,
+    childcertificate ,
+    spokenlanguage ,
     // 
     officer,
+    officerjobbackground ,
+    officerrankbycertificate ,
+    officerrankbyworking ,
+    officerpendingwork ,
+    officermedalhistory ,
+    officerpenaltyhistory ,
+    rank ,
+    // 
     room ,
     folder ,
     role ,

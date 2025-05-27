@@ -67,7 +67,7 @@ import dateFormat from 'dateformat'
             const educationCertificateStart = ref( new Date().getTime() )
             const educationCertificateEnd = ref( new Date().getTime() )
             const educationCertificate = reactive({
-                people_id : props.record.id ,
+                people_id : props.record.people_id ,
                 field_name : '' ,
                 certificate_group_id : 0 ,
                 start_date : '' ,

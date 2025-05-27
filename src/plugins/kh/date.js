@@ -4,12 +4,18 @@ var khmer = {
   },
   days : {
     0 : "អាទិត្យ",1 : "ច័ន្ទ",2 : "អង្គារ៍",3 : "ពុធ",4 : "ព្រហស្បត៍",5 : "សុក្រ",6 : "សៅរ៍"
+  },
+  current: {
+    today: new Date()
   }
 };
 export default {
   install(app, options = {}) {
-    app.config.globalProperties.$getKhMonth = ( month )=>{
-      return parseInt( month ) >= 1 && parseInt( month ) <= 12 ? khmer.months[ parseInt( month ) ] : '' 
+    app.config.globalProperties.$getKhMonth = ( month )=>{   
+      return parseInt( month ) >= 1 && parseInt( month ) <= 12 ? khmer.months[ parseInt( month ) ] : khmer.months[ khmer.current.today.getMonth() ]
+    }
+    app.config.globalProperties.$getKhDay = ( day )=>{
+      return parseInt( day ) >= 0 && parseInt( day ) <= 6 ? khmer.days[ parseInt( day ) ] : khmer.days[ khmer.current.today.getDay() ]
     }
   }
 }

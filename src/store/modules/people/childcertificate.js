@@ -4,7 +4,7 @@ import crud from '../../../api/crud'
 const state = () => ({
   model: {
     name: "birthcertificates" ,
-    title: "ឯកសារអត្រានុកុលដ្ឋាន" 
+    title: "សំបុត្រកំណើតកូន" 
   },
   groups: [] ,
   records: [] ,
@@ -28,12 +28,11 @@ const getters = {
 // actions
 const actions = {
   async list ({ state, commit, rootState },params) {
-    return await crud.list(import.meta.env.VITE_API_SERVER+"/"+state.model.name + "?" + new URLSearchParams({
+    return await crud.list(import.meta.env.VITE_API_SERVER+"/"+state.model.name + "/listchildren?" + new URLSearchParams({
         search: params.search ,
         perPage: params.perPage ,
         page: params.page ,
-        people_id : params.people_id ,
-        wedding_certificate_id : params.wedding_certificate_id != undefined && parseInt( params.wedding_certificate_id ) > 0 ? params.wedding_certificate_id : 0
+        people_id : params.people_id
       }).toString()
     )
   },

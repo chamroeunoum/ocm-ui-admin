@@ -2,7 +2,7 @@
   <!-- Form edit account -->
     <div class="vcb-pop-create font-ktr">
       <n-modal v-bind:show="show" :on-esc="maskOrEscClick" :on-mask-click="maskOrEscClick" :on-after-enter="initial" transform-origin="center">
-        <n-card class="w-10/12 sm:w-3/4 md:w-8/12 lg:w-3/5 xl:w-7/12" :title="'កែប្រែ ' + model.title" :bordered="false" size="small">
+        <n-card class="w-10/12 sm:w-3/4 md:w-8/12 lg:w-3/5 xl:w-7/12" :title="'កែប្រែព័ត៌មាន' + model.title" :bordered="false" size="small">
           <template #header-extra>
             <n-button type="success" @click="update" >
               <template #icon>
@@ -39,10 +39,38 @@
                         <n-form-item label="ឈ្មោះ (អង់គ្លេស)" class="w-6/12 p-1" >
                           <n-input v-model:value="record.people.enfirstname" placeholder="នាមខ្លួន" />
                         </n-form-item>
-                        <n-form-item label="ថ្ងៃ ខែ ឆ្នាំ កំណើត" class="w-4/12 p-1" >
-                          <n-date-picker v-model:value="dob" type="date" format="dd-MM-yyyy"  placeholder="ថ្ងៃ ខែ ឆ្នាំ កំណើត" class="w-full" />
+                        <n-form-item label="ថ្ងៃ ខែ ឆ្នាំ កំណើត" class="w-full p-1" >
+                          <n-date-picker v-model:value="dob" type="date" format="dd-MM-yyyy"  placeholder="ថ្ងៃ ខែ ឆ្នាំ កំណើត" class="w-1/2" />
                         </n-form-item>
-                        <n-form-item label="" class="w-3/12 p-1 " >
+                        <n-form-item label="ជនជាតិ" class="w-1/3 p-1" >
+                            <n-radio-group v-model:value="record.people.national" name="national">
+                                <n-space>
+                                    <n-radio
+                                        value="ខ្មែរ"
+                                        label="ខ្មែរ"
+                                    />
+                                    <n-radio
+                                        value="ផ្សេង"
+                                        label="ផ្សេងទៀត"
+                                    />
+                                </n-space>
+                            </n-radio-group>
+                        </n-form-item>  
+                        <n-form-item label="សញ្ជាតិ" class="w-1/3 p-1" >
+                            <n-radio-group v-model:value="record.people.nationality" name="nationality">
+                                <n-space>
+                                    <n-radio
+                                        value="ខ្មែរ"
+                                        label="ខ្មែរ"
+                                    />
+                                    <n-radio
+                                        value="ផ្សេង"
+                                        label="ផ្សេងទៀត"
+                                    />
+                                </n-space>
+                            </n-radio-group>
+                        </n-form-item>  
+                        <n-form-item label="ភេទ" class="w-3/12 p-1 " >
                           <n-radio-group v-model:value="record.people.gender" class="mx-auto" >
                             <n-space>
                               <n-radio
@@ -54,7 +82,7 @@
                             </n-space>
                           </n-radio-group>
                         </n-form-item>
-                        <n-form-item label="" class="w-5/12 p-1" >
+                        <n-form-item label="ស្ថានភាពរៀបការ" class="w-5/12 p-1" >
                           <n-radio-group v-model:value="record.people.marry_status" class="mx-auto" >
                             <n-space>
                               <n-radio
@@ -65,9 +93,20 @@
                               />
                             </n-space>
                           </n-radio-group>
-
                         </n-form-item>
-                        
+                        <n-form-item label="កាយសម្បទា" class="w-full p-1" >
+                          <n-radio-group v-model:value="record.people.body_condition" class="w-1/2" >
+                            <n-space>
+                              <n-radio
+                              v-for="status in [{label:'គ្រប់គ្រាន់',value:0},{label:'មិនគ្រប់គ្រាន់',value:1}]"
+                              :key="status.value"
+                              :value="status.value"
+                              :label="status.label"
+                              />
+                            </n-space>
+                          </n-radio-group>
+                          <n-input v-if="record.people.body_condition==1" v-model:value="record.people.body_condition_desp" placeholder="លក្ខណមិនគ្រប់គ្រាន់" class="w-1/2" />
+                        </n-form-item>
                         <n-form-item label="លេខអត្តសញ្ញាណបណ្ណ" class="w-1/2 p-1" >
                           <n-input v-model:value="record.people.nid" placeholder="លេខអត្តសញ្ញាណបណ្ណ" />
                         </n-form-item>
@@ -174,6 +213,210 @@
                           </div>
                         </div>
                       </Transition>
+                    </n-form>
+                  </div>
+                </div>
+              </n-tab-pane>
+              <n-tab-pane name="parent" tab="ព័ត៌មានឪពុកម្ដាយបង្កើត" >
+                <div class="parent-panel w-full flex flex-wrap" >
+                  <!-- Father information -->
+                  <n-form class="flex flex-wrap w-full " >
+                      <div class="flex flex-wrap  w-full " >
+                          <div class="w-full mb-4 border-b border-gray-200 py-2 font-btb-black " >ព័ត័មានឪពុកបង្កើត</div>
+                          <n-form-item label="គោត្តនាម (ខ្មែរ)" class="w-1/2 p-1" >
+                              <n-input v-model:value="record.people.father_lastname" placeholder="គោត្តនាម ខ្មែរ" />
+                          </n-form-item>
+                          <n-form-item label="នាម (ខ្មែរ)" class="w-1/2 p-1" >
+                              <n-input v-model:value="record.people.father_firstname" placeholder="នាម ខ្មែរ" />
+                          </n-form-item>
+                          <n-form-item label="គោត្តនាម (អង់គ្លេស)" class="w-1/2 p-1" >
+                              <n-input v-model:value="record.people.father_enlastname" placeholder="គោត្តនាម អង់គ្លេស" />
+                          </n-form-item>
+                          <n-form-item label="នាម (អង់គ្លេស)" class="w-1/2 p-1" >
+                              <n-input v-model:value="record.people.father_enfirstname" placeholder="នាម អង់គ្លេស" />
+                          </n-form-item>
+
+                          <n-form-item label="ថ្ងៃខែឆ្នាំកំណើត" class="w-1/3 p-1" >
+                              <n-date-picker v-model:value="fatherDob" type="date" clearable format="dd-MM-yyyy" placeholder="ថ្ងៃ ខែ ឆ្នាំ កំណើត" class="w-full" />
+                          </n-form-item>
+                          <n-form-item label="លេខអត្តសញ្ញាណបណ្ណ" class="w-1/3 p-1" >
+                              <n-input v-model:value="record.people.father_nid" placeholder="លេខអត្តសញ្ញាណបណ្ណ" />
+                          </n-form-item>
+                          <n-form-item label="មុខរបរ" class="w-1/3 p-1" >
+                              <n-input v-model:value="record.people.father_profession" placeholder="មុខរបរ" />
+                          </n-form-item>
+
+                          <n-form-item label="ជនជាតិ" class="w-1/3 p-1" >
+                              <n-radio-group v-model:value="record.people.father_national" name="national">
+                                  <n-space>
+                                      <n-radio
+                                          value="ខ្មែរ"
+                                          label="ខ្មែរ"
+                                      />
+                                      <n-radio
+                                          value="ផ្សេង"
+                                          label="ផ្សេងទៀត"
+                                      />
+                                  </n-space>
+                              </n-radio-group>
+                          </n-form-item>  
+                          <n-form-item label="សញ្ជាតិ" class="w-1/3 p-1" >
+                              <n-radio-group v-model:value="record.people.father_nationality" name="nationality">
+                                  <n-space>
+                                      <n-radio
+                                          value="ខ្មែរ"
+                                          label="ខ្មែរ"
+                                      />
+                                      <n-radio
+                                          value="ផ្សេង"
+                                          label="ផ្សេងទៀត"
+                                      />
+                                  </n-space>
+                              </n-radio-group>
+                          </n-form-item>  
+                          <n-form-item label="" class="w-1/3 p-1" >
+                              <n-radio-group v-model:value="record.people.father_death" name="death">
+                                  <n-space>
+                                      <n-radio
+                                          :value="0"
+                                          label="រស់"
+                                      />
+                                      <n-radio
+                                          :value="1"
+                                          label="ស្លាប់"
+                                      />
+                                  </n-space>
+                              </n-radio-group>
+                          </n-form-item>  
+                          <n-form-item label="ទីកន្លែងកំណើត" class="w-1/2 p-1" >
+                              <n-input type="textarea" v-model:value="record.people.father_pob" placeholder="ទីកន្លែងកំណើត" />
+                          </n-form-item>
+                          <n-form-item label="អាសយដ្ឋានបច្ចុប្បន្ន" class="w-1/2 p-1" >
+                              <n-input type="textarea" v-model:value="record.people.father_address" placeholder="អាសយដ្ឋានបច្ចុប្បន្ន" />
+                          </n-form-item>
+                      </div>
+                      <!-- Mother information -->
+                      <div class="w-full flex flex-wrap " >
+                          <div class="w-full mb-4 border-b border-gray-200 py-2 font-btb-black " >ព័ត័មានម្ដាយបង្កើត</div>
+                          <n-form-item label="គោត្តនាម (ខ្មែរ)" class="w-1/2 p-1" >
+                              <n-input v-model:value="record.people.mother_lastname" placeholder="គោត្តនាម ខ្មែរ" />
+                          </n-form-item>
+                          <n-form-item label="នាម (ខ្មែរ)" class="w-1/2 p-1" >
+                              <n-input v-model:value="record.people.mother_firstname" placeholder="នាម ខ្មែរ" />
+                          </n-form-item>
+                          <n-form-item label="គោត្តនាម (អង់គ្លេស)" class="w-1/2 p-1" >
+                              <n-input v-model:value="record.people.mother_enlastname" placeholder="គោត្តនាម អង់គ្លេស" />
+                          </n-form-item>
+                          <n-form-item label="នាម (អង់គ្លេស)" class="w-1/2 p-1" >
+                              <n-input v-model:value="record.people.mother_enfirstname" placeholder="នាម អង់គ្លេស" />
+                          </n-form-item>
+
+                          <n-form-item label="ថ្ងៃខែឆ្នាំកំណើត" class="w-1/3 p-1" >
+                              <n-date-picker v-model:value="motherDob" type="date" clearable format="dd-MM-yyyy" placeholder="ថ្ងៃ ខែ ឆ្នាំ កំណើត" class="w-full" />
+                          </n-form-item>
+                          <n-form-item label="លេខអត្តសញ្ញាណបណ្ណ" class="w-1/3 p-1" >
+                              <n-input v-model:value="record.people.mother_nid" placeholder="លេខអត្តសញ្ញាណបណ្ណ" />
+                          </n-form-item>
+                          <n-form-item label="មុខរបរ" class="w-1/3 p-1" >
+                              <n-input v-model:value="record.people.mother_profession" placeholder="មុខរបរ" />
+                          </n-form-item>
+
+                          <n-form-item label="ជនជាតិ" class="w-1/3 p-1" >
+                              <n-radio-group v-model:value="record.people.mother_national" name="mother_national">
+                                  <n-space>
+                                      <n-radio
+                                          value="ខ្មែរ"
+                                          label="ខ្មែរ"
+                                      />
+                                      <n-radio
+                                          value="ផ្សេង"
+                                          label="ផ្សេងទៀត"
+                                      />
+                                  </n-space>
+                              </n-radio-group>
+                          </n-form-item>  
+                          <n-form-item label="សញ្ជាតិ" class="w-1/3 p-1" >
+                              <n-radio-group v-model:value="record.people.mother_nationality" name="mother_nationality">
+                                  <n-space>
+                                      <n-radio
+                                          value="ខ្មែរ"
+                                          label="ខ្មែរ"
+                                      />
+                                      <n-radio
+                                          value="ផ្សេង"
+                                          label="ផ្សេងទៀត"
+                                      />
+                                  </n-space>
+                              </n-radio-group>
+                          </n-form-item>  
+                          <n-form-item label="" class="w-1/3 p-1" >
+                              <n-radio-group v-model:value="record.people.mother_death" name="mother_death">
+                                  <n-space>
+                                      <n-radio
+                                          :value="0"
+                                          label="រស់"
+                                      />
+                                      <n-radio
+                                          :value="1"
+                                          label="ស្លាប់"
+                                      />
+                                  </n-space>
+                              </n-radio-group>
+                          </n-form-item>  
+                          <n-form-item label="ទីកន្លែងកំណើត" class="w-1/2 p-1" >
+                              <n-input type="textarea" v-model:value="record.people.mother_pob" placeholder="ទីកន្លែងកំណើត" />
+                          </n-form-item>
+                          <n-form-item label="អាសយដ្ឋានបច្ចុប្បន្ន" class="w-1/2 p-1" >
+                              <n-input type="textarea" v-model:value="record.people.mother_address" placeholder="អាសយដ្ឋានបច្ចុប្បន្ន" />
+                          </n-form-item>
+                      </div>
+                  </n-form>
+              </div>
+              </n-tab-pane>
+              <n-tab-pane name="emergency-contact" tab="ទំនាក់ទំនងក្នុងករណីមានអាសន្ន">
+                <div class=" mx-auto p-4 flex-wrap">
+                  <div class="crud-form-panel w-full flex flex-wrap ">
+                    <n-form v-if="record!=null" 
+                      class="w-full text-left font-btb text-lg flex flex-wrap" 
+                      :label-width="80"
+                      :model="record"
+                      :rules="rules"
+                      size="large"
+                      ref="formRef"
+                    >
+                      <n-form-item label="គោត្តនាម" class="w-1/2 p-1" >
+                        <n-input v-model:value="record.people.emergency_lastname" placeholder="គោត្តនាម" />
+                      </n-form-item>
+                      <n-form-item label="នាម" class="w-1/2 p-1" >
+                        <n-input v-model:value="record.people.emergency_firstname" placeholder="នាម" />
+                      </n-form-item>
+                      <n-form-item label="ភេទ" class="w-1/2 p-1" >
+                        <n-radio-group v-model:value="record.people.emergency_gender" class="w-full" >
+                          <n-space>
+                            <n-radio
+                            v-for="status in [{label:'ប្រុស',value:1},{label:'ស្រី',value:0},{label:'ផ្សេងៗ',value:2}]"
+                            :key="status.value"
+                            :value="status.value"
+                            :label="status.label"
+                            />
+                          </n-space>
+                        </n-radio-group>
+                      </n-form-item>
+                      <n-form-item label="ទំនាក់ទំនងត្រូវជា" class="w-1/2 p-1" >
+                        <n-input v-model:value="record.people.emergency_relationship" placeholder="ទំនាក់ទំនងត្រូវជា" />
+                      </n-form-item>
+                      <n-form-item label="មុខរបរ" class="w-1/2 p-1" >
+                        <n-input v-model:value="record.people.emergency_profession" placeholder="មុខរបរ" />
+                      </n-form-item>
+                      <n-form-item label="ទូរស័ព្ទ" class="w-1/2 p-1" >
+                        <n-input v-model:value="record.people.emergency_phone" placeholder="ទូរស័ព្ទ" />
+                      </n-form-item>
+                      <n-form-item label="អ៊ីមែល" class="w-full p-1" >
+                        <n-input v-model:value="record.people.emergency_email" placeholder="អ៊ីមែល" />
+                      </n-form-item>
+                      <n-form-item label="អាសយដ្ឋាន" class="w-full p-1" >
+                        <n-input v-model:value="record.people.emergency_address" placeholder="អាសយដ្ឋាន" />
+                      </n-form-item>
                     </n-form>
                   </div>
                 </div>
@@ -336,7 +579,47 @@ export default {
             'passport' : props.record.people.passport ,
             'marry_status' : props.record.people.marry_status ,
             'address' : props.record.people.address ,
-            'pob' : props.record.people.pob
+            'pob' : props.record.people.pob ,
+            'body_condition' : props.record.people.body_condition ,
+            'body_condition_desp' : props.record.people.body_condition_desp ,
+            'nationality' : props.record.people.nationality ,
+            'national' : props.record.people.national ,
+            // parent 
+            // father 
+            'father_lastname' : props.record.people.father_lastname ,
+            'father_firstname' : props.record.people.father_firstname ,
+            'father_enlastname' : props.record.people.father_enlastname ,
+            'father_enfirstname' : props.record.people.father_enfirstname ,
+            'father_dob' : fatherDob.value != null ? dateFormat( new Date(fatherDob.value) , "yyyy-mm-dd" ) : dateFormat( new Date() , "yyyy-mm-dd" ) ,
+            'father_pob' : props.record.people.father_pob ,
+            'father_address' : props.record.people.father_address ,
+            'father_nid' : props.record.people.father_nid ,
+            'father_profession' : props.record.people.father_profession ,
+            'father_death' : props.record.people.father_death ,
+            'father_nationality' : props.record.people.father_nationality ,
+            'father_national' : props.record.people.father_national ,
+            // mother 
+            'mother_lastname' : props.record.people.mother_lastname ,
+            'mother_firstname' : props.record.people.mother_firstname ,
+            'mother_enlastname' : props.record.people.mother_enlastname ,
+            'mother_enfirstname' : props.record.people.mother_enfirstname ,
+            'mother_dob' : motherDob.value != null ? dateFormat( new Date(motherDob.value) , "yyyy-mm-dd" ) : dateFormat( new Date() , "yyyy-mm-dd" ) ,
+            'mother_pob' : props.record.people.mother_pob ,
+            'mother_address' : props.record.people.mother_address ,
+            'mother_nid' : props.record.people.mother_nid ,
+            'mother_profession' : props.record.people.mother_profession ,
+            'mother_death' : props.record.people.mother_death ,
+            'mother_nationality' : props.record.people.mother_nationality ,
+            'mother_national' : props.record.people.mother_national ,
+            // Emergency 
+            'emergency_lastname' : props.record.people.emergency_lastname ,
+            'emergency_firstname' : props.record.people.emergency_firstname ,
+            'emergency_gender' : props.record.people.emergency_gender ,
+            'emergency_relationship' : props.record.people.emergency_relationship ,
+            'emergency_profession' : props.record.people.emergency_profession ,
+            'emergency_address' : props.record.people.emergency_address ,
+            'emergency_phone' : props.record.people.emergency_phone ,
+            'emergency_email' : props.record.people.emergency_email
           }
         }
       // {
@@ -449,6 +732,7 @@ export default {
                 value : p.id
               }
             })
+            console.log( organizationStructurePositions.value )
           }else{
             notify.info({
               title: 'អានព័ត៌មានតួនាទី' ,
@@ -460,6 +744,9 @@ export default {
         console.log( err )
       })
     }
+
+    const fatherDob = ref( ( new Date() ).getTime() )
+    const motherDob = ref( ( new Date() ).getTime() )
 
     function initial(){
       getPositionStructures( false )
@@ -488,7 +775,9 @@ export default {
       countesies ,
       dob ,
       official_date ,
-      unofficial_date ,
+      unofficial_date , 
+      fatherDob ,
+      motherDob ,
       /**
        * Functions
        */

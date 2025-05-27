@@ -9,9 +9,8 @@ import VueExcelEditor from 'vue3-excel-editor'
 
 import NaiveUI from 'naive-ui'
 
-import KhmerNumber from './plugins/KhmerNumber.js'
-import KhmerMonth from './plugins/kh/month.js'
-import KhmerDay from './plugins/kh/day.js'
+import KhmerNumber from './plugins/kh/number.js'
+import KhmerDate from './plugins/kh/date.js'
 
 import Assets from './plugins/Assets.js'
 import ImageUrl from './plugins/ImageUrl.js'
@@ -64,8 +63,7 @@ app.use(VueQrcodeReader)
 app.use(router)
 app.use(NaiveUI)
 app.use(KhmerNumber)
-app.use(KhmerMonth)
-app.use(KhmerDay)
+app.use(KhmerDate)
 app.use(Assets)
 app.use(ImageUrl)
 app.use(VueExcelEditor)

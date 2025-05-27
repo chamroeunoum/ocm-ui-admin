@@ -7,31 +7,46 @@
                 </div>
                 <n-scrollbar >
                     <div class="body" >
-                        <div v-for="(idcard , index) in nics" :key="index" class="idcard relative w-full rounded-lg shadow bg-white p-4 mb-2 " >
-                            <div class="field_name w-full p-1 " >កូដ ៖ {{ idcard.number }}</div>
-                            <div class="certificate_leverl w-full p-1 " >សុពល់ភាព ៖ {{ idcard.start }} ដល់ {{  idcard.end }}</div>
-                            <div class="education_center_name w-full p-1 " >{{ idcard.desp }}</div>
-                            <div class="education_center_location w-full p-1 " >{{ idcard.serial }}</div>
-                            <div class="absolute bottom-0 right-0 w-40 flex flex-row-reverse" >
-                                <svg 
-                                @click="uploadToggler(idcard)" 
-                                class="w-6 h-6 m-2 text-blue-500 cursor-pointer"
-                                xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24"><path d="M19.35 10.04A7.49 7.49 0 0 0 12 4C9.11 4 6.6 5.64 5.35 8.04A5.994 5.994 0 0 0 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5c0-2.64-2.05-4.78-4.65-4.96zM19 18H6c-2.21 0-4-1.79-4-4c0-2.05 1.53-3.76 3.56-3.97l1.07-.11l.5-.95A5.469 5.469 0 0 1 12 6c2.62 0 4.88 1.86 5.39 4.43l.3 1.5l1.53.11A2.98 2.98 0 0 1 22 15c0 1.65-1.35 3-3 3zM8 13h2.55v3h2.9v-3H16l-4-4z" fill="currentColor"></path></svg>
-                                <svg 
-                                v-if="idcard.pdf==true"
-                                @click="togglePdfModal(idcard)"
-                                class="w-6 h-6 m-2 text-red-500 cursor-pointer"
-                                xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1024 1024"><path d="M531.3 574.4l.3-1.4c5.8-23.9 13.1-53.7 7.4-80.7c-3.8-21.3-19.5-29.6-32.9-30.2c-15.8-.7-29.9 8.3-33.4 21.4c-6.6 24-.7 56.8 10.1 98.6c-13.6 32.4-35.3 79.5-51.2 107.5c-29.6 15.3-69.3 38.9-75.2 68.7c-1.2 5.5.2 12.5 3.5 18.8c3.7 7 9.6 12.4 16.5 15c3 1.1 6.6 2 10.8 2c17.6 0 46.1-14.2 84.1-79.4c5.8-1.9 11.8-3.9 17.6-5.9c27.2-9.2 55.4-18.8 80.9-23.1c28.2 15.1 60.3 24.8 82.1 24.8c21.6 0 30.1-12.8 33.3-20.5c5.6-13.5 2.9-30.5-6.2-39.6c-13.2-13-45.3-16.4-95.3-10.2c-24.6-15-40.7-35.4-52.4-65.8zM421.6 726.3c-13.9 20.2-24.4 30.3-30.1 34.7c6.7-12.3 19.8-25.3 30.1-34.7zm87.6-235.5c5.2 8.9 4.5 35.8.5 49.4c-4.9-19.9-5.6-48.1-2.7-51.4c.8.1 1.5.7 2.2 2zm-1.6 120.5c10.7 18.5 24.2 34.4 39.1 46.2c-21.6 4.9-41.3 13-58.9 20.2c-4.2 1.7-8.3 3.4-12.3 5c13.3-24.1 24.4-51.4 32.1-71.4zm155.6 65.5c.1.2.2.5-.4.9h-.2l-.2.3c-.8.5-9 5.3-44.3-8.6c40.6-1.9 45 7.3 45.1 7.4zm191.4-388.2L639.4 73.4c-6-6-14.1-9.4-22.6-9.4H192c-17.7 0-32 14.3-32 32v832c0 17.7 14.3 32 32 32h640c17.7 0 32-14.3 32-32V311.3c0-8.5-3.4-16.7-9.4-22.7zM790.2 326H602V137.8L790.2 326zm1.8 562H232V136h302v216a42 42 0 0 0 42 42h216v494z" fill="currentColor"></path></svg>
-                                <svg 
-                                @click="edit(idcard)"
-                                class="w-6 h-6 m-2 text-blue-500 cursor-pointer"
-                                xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 20 20"><g fill="none"><path d="M4 15h5.986c-.227.3-.4.639-.51 1H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v5.232c-.326.14-.631.343-.897.609L15 9.944V4a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1zm8-9.5a.5.5 0 0 1 1 0v6.444l-.88.88A.498.498 0 0 1 12 12.5v-7zm-7 2a.5.5 0 0 1 1 0v5a.5.5 0 0 1-1 0v-5zM9 9a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 1 0v-3A.5.5 0 0 0 9 9zm1.98 6.377l4.83-4.83a1.87 1.87 0 1 1 2.645 2.646l-4.83 4.829a2.197 2.197 0 0 1-1.02.578l-1.498.374a.89.89 0 0 1-1.079-1.078l.375-1.498c.096-.386.296-.74.578-1.02z" fill="currentColor"></path></g></svg>
-                                <svg 
-                                @click="destroy(idcard)"
-                                class="w-6 h-6 m-2 text-red-500 cursor-pointer"
-                                xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512"><path d="M112 112l20 320c.95 18.49 14.4 32 32 32h184c17.67 0 30.87-13.51 32-32l20-320" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"></path><path stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="32" d="M80 112h352" fill="currentColor"></path><path d="M192 112V72h0a23.93 23.93 0 0 1 24-24h80a23.93 23.93 0 0 1 24 24h0v40" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"></path><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M256 176v224"></path><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M184 176l8 224"></path><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M328 176l-8 224"></path></svg>
-                            </div>
-                        </div>
+                        <table class="w-full" >
+                            <thead>
+                                <tr class="w-full " >
+                                    <th class="px-1 py-2 bg-gray-200 font-btb-black " >ល.រ</th>
+                                    <th class="px-1 py-2 bg-gray-200 font-btb-black " >លេខលិខិត</th>
+                                    <th class="px-1 py-2 bg-gray-200 font-btb-black " >ប្រភេទ</th>
+                                    <th class="px-1 py-2 bg-gray-200 font-btb-black " >ផ្ដល់នៅថ្ងៃ</th>
+                                    <th class="px-1 py-2 bg-gray-200 font-btb-black " >ផុតកំណត់នៅថ្ងៃ</th>
+                                    <th class="px-1 py-2 bg-gray-200 font-btb-black w-40" >ប្រតិបត្តិការ</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(nic , index) in nics" :key="index" class="certificate relative w-full rounded-lg shadow bg-white p-4 mb-2 " >
+                                    <td class="w-12 index p-1 text-center font-bold" >{{ $toKhmer( index + 1 ) }}</td>
+                                    <td class="w-24 p-1 " >{{ $toKhmer( nic.number ) }}</td>
+                                    <td class="w-24 certificate_leverl p-1 " >{{ nic.type == 0 ? 'ធម្មតា' : 'មន្ត្រី' }}</td>
+                                    <td class="w-48 " >{{ $toKhmer( nic.effective_date ) }}</td>
+                                    <td class="w-48 " >{{ $toKhmer( nic.expired_date ) }}</td>
+                                    <td class="flex flex-row-reverse" >
+                                        <svg 
+                                        @click="uploadToggler(nic)" 
+                                        class="w-6 h-6 m-1 text-blue-500 cursor-pointer"
+                                        xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24"><path d="M19.35 10.04A7.49 7.49 0 0 0 12 4C9.11 4 6.6 5.64 5.35 8.04A5.994 5.994 0 0 0 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5c0-2.64-2.05-4.78-4.65-4.96zM19 18H6c-2.21 0-4-1.79-4-4c0-2.05 1.53-3.76 3.56-3.97l1.07-.11l.5-.95A5.469 5.469 0 0 1 12 6c2.62 0 4.88 1.86 5.39 4.43l.3 1.5l1.53.11A2.98 2.98 0 0 1 22 15c0 1.65-1.35 3-3 3zM8 13h2.55v3h2.9v-3H16l-4-4z" fill="currentColor"></path></svg>
+                                        <svg 
+                                        v-if="nic.pdf==true"
+                                        @click="togglePdfModal(nic)"
+                                        class="w-6 h-6 m-1 text-red-500 cursor-pointer"
+                                        xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1024 1024"><path d="M531.3 574.4l.3-1.4c5.8-23.9 13.1-53.7 7.4-80.7c-3.8-21.3-19.5-29.6-32.9-30.2c-15.8-.7-29.9 8.3-33.4 21.4c-6.6 24-.7 56.8 10.1 98.6c-13.6 32.4-35.3 79.5-51.2 107.5c-29.6 15.3-69.3 38.9-75.2 68.7c-1.2 5.5.2 12.5 3.5 18.8c3.7 7 9.6 12.4 16.5 15c3 1.1 6.6 2 10.8 2c17.6 0 46.1-14.2 84.1-79.4c5.8-1.9 11.8-3.9 17.6-5.9c27.2-9.2 55.4-18.8 80.9-23.1c28.2 15.1 60.3 24.8 82.1 24.8c21.6 0 30.1-12.8 33.3-20.5c5.6-13.5 2.9-30.5-6.2-39.6c-13.2-13-45.3-16.4-95.3-10.2c-24.6-15-40.7-35.4-52.4-65.8zM421.6 726.3c-13.9 20.2-24.4 30.3-30.1 34.7c6.7-12.3 19.8-25.3 30.1-34.7zm87.6-235.5c5.2 8.9 4.5 35.8.5 49.4c-4.9-19.9-5.6-48.1-2.7-51.4c.8.1 1.5.7 2.2 2zm-1.6 120.5c10.7 18.5 24.2 34.4 39.1 46.2c-21.6 4.9-41.3 13-58.9 20.2c-4.2 1.7-8.3 3.4-12.3 5c13.3-24.1 24.4-51.4 32.1-71.4zm155.6 65.5c.1.2.2.5-.4.9h-.2l-.2.3c-.8.5-9 5.3-44.3-8.6c40.6-1.9 45 7.3 45.1 7.4zm191.4-388.2L639.4 73.4c-6-6-14.1-9.4-22.6-9.4H192c-17.7 0-32 14.3-32 32v832c0 17.7 14.3 32 32 32h640c17.7 0 32-14.3 32-32V311.3c0-8.5-3.4-16.7-9.4-22.7zM790.2 326H602V137.8L790.2 326zm1.8 562H232V136h302v216a42 42 0 0 0 42 42h216v494z" fill="currentColor"></path></svg>
+                                        <svg 
+                                        @click="edit(nic)"
+                                        class="w-6 h-6 m-1 text-blue-500 cursor-pointer"
+                                        xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 20 20"><g fill="none"><path d="M4 15h5.986c-.227.3-.4.639-.51 1H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v5.232c-.326.14-.631.343-.897.609L15 9.944V4a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1zm8-9.5a.5.5 0 0 1 1 0v6.444l-.88.88A.498.498 0 0 1 12 12.5v-7zm-7 2a.5.5 0 0 1 1 0v5a.5.5 0 0 1-1 0v-5zM9 9a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 1 0v-3A.5.5 0 0 0 9 9zm1.98 6.377l4.83-4.83a1.87 1.87 0 1 1 2.645 2.646l-4.83 4.829a2.197 2.197 0 0 1-1.02.578l-1.498.374a.89.89 0 0 1-1.079-1.078l.375-1.498c.096-.386.296-.74.578-1.02z" fill="currentColor"></path></g></svg>
+                                        <svg 
+                                        @click="destroy(nic)"
+                                        class="w-6 h-6 m-1 text-red-500 cursor-pointer"
+                                        xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512"><path d="M112 112l20 320c.95 18.49 14.4 32 32 32h184c17.67 0 30.87-13.51 32-32l20-320" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"></path><path stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="32" d="M80 112h352" fill="currentColor"></path><path d="M192 112V72h0a23.93 23.93 0 0 1 24-24h80a23.93 23.93 0 0 1 24 24h0v40" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"></path><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M256 176v224"></path><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M184 176l8 224"></path><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M328 176l-8 224"></path></svg>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                         <div v-if="nics == undefined || nics == null || ( nics.length <= 0 )" >
                             មិនទាន់មាន អត្តសញ្ញាណបណ្ណ នៅឡើយ
                         </div>
@@ -42,7 +57,7 @@
                     <div v-if="formHelper" class="form absolute top-0 right-0 bottom-0 left-0 bg-gray-100/80" >
                         <div class="form-panel border border-gray-200 rounded-md m-4  bg-white shadow w-1/2 mx-auto " >
                             <div class="w-full p-4 " >
-                                <div class="relative w-full mb-4 border-b border-gray-200 pb-2 font-moul " >ព័ត៌មាន អត្តសញ្ញាណបណ្ណ
+                                <div class="relative w-full mb-4 border-b border-gray-200 pb-2 font-moul " >ព័ត៌មានលិខិតឆ្លងដែន
                                     <svg 
                                     class="w-7 h-7 text-green-500 absolute right-0 -top-2 cursor-pointer " 
                                     @click="save"
@@ -54,23 +69,68 @@
                                 </div>
                                 <n-form class="flex flex-wrap w-full " >
                                     <div class="w-full p-4 border border-gray-200 rounded-md m-4  bg-white shadow flex flex-wrap " >
-                                        <div class="w-full mb-4 border-b border-gray-200 pb-2 font-moul " >ព័ត៌មាន អត្តសញ្ញាណបណ្ណ</div>
-                                        <n-form-item label="លេខអត្តសញ្ញាណបណ្ណ" class="w-1/2 p-1 " >
-                                            <n-input v-model:value="nic.number" placeholder="លេខចុះ" />
+                                        <div class="w-full mb-4 border-b border-gray-200 pb-2 font-moul " >ព័ត៌មានលិខិតឆ្លងដែន</div>
+
+                                        <n-form-item label="លេខលិខិតឆ្លងដែន" class="w-1/2 p-1 " >
+                                            <n-input v-model:value="nic.number" placeholder="លេខលិខិតឆ្លងដែន" />
                                         </n-form-item>
-                                        <n-form-item label="លេខកូត" class="w-1/2 p-1 " >
-                                            <n-input v-model:value="nic.serial" placeholder="លេខកូត" />
+                                        <!-- <n-form-item label="លេខកូត" class="w-1/2 p-1 " >
+                                            <n-input v-model:value="nic.serial_number" placeholder="លេខកូត" />
                                         </n-form-item>
-                                        <n-form-item label="ថ្ងៃចាប់ផ្ដើមសពុលភាព" class="w-1/2 p-1 " >
-                                            <n-date-picker v-model:value="nicStart" type="date" clearable format="dd-MM-yyyy" placeholder="ថ្ងៃចាប់ផ្ដើមសពុលភាព" />
+                                        <n-form-item label="ភេទ" class="w-1/2 p-1 " >
+                                            <n-input v-model:value="nic.gender" placeholder="ជនជាតិ" />
                                         </n-form-item>
-                                        <n-form-item label="ថ្ងៃអស់សពុលភាព" class="w-1/2 p-1 " >
-                                            <n-date-picker v-model:value="nicEnd" type="date" clearable format="dd-MM-yyyy" placeholder="ថ្ងៃអស់សពុលភាព" />
+                                        <n-form-item label="មុខរបរ" class="w-1/2 p-1 " >
+                                            <n-input v-model:value="nic.profession" placeholder="មុខរបរ" />
                                         </n-form-item>
-                                        <n-form-item label="កំណត់សំគាល់ផ្សេងៗ" class="w-full p-1 " >
-                                            <n-input v-model:value="nic.desp" placeholder="កំណត់សំគាល់ផ្សេងៗ" 
-                                                class="text-left" 
-                                                type="textarea" show-count maxlength="5000" />
+                                        <n-form-item label="កំពស់" class="w-1/2 p-1 " >
+                                            <n-input v-model:value="nic.height" placeholder="កំពស់" />
+                                        </n-form-item>
+                                        <n-form-item label="ជនជាតិ" class="w-1/2 p-1 " >
+                                            <n-input v-model:value="nic.nationality" placeholder="ជនជាតិ" />
+                                        </n-form-item>
+                                        <n-form-item label="កូតប្រទេស" class="w-1/2 p-1 " >
+                                            <n-input v-model:value="nic.country_code" placeholder="កូតប្រទេស" />
+                                        </n-form-item> -->
+                                        <n-form-item label="ប្រភេទលិខិតឆ្លងដែន" class="w-1/2 p-1 " >
+                                            <n-select :options="[
+                                                {
+                                                    label: 'ធម្មតា' , 
+                                                    value: 0 
+                                                } ,
+                                                {
+                                                    label: 'មន្ត្រី' , 
+                                                    value: 1 
+                                                }
+                                            ]" v-model:value="nic.type" placeholder="ប្រភេទលិខិតឆ្លងដែន" ></n-select>
+                                        </n-form-item>
+
+
+                                        <!-- <n-form-item label="ចំណុចសម្គាល់" class="w-1/2 p-1 " >
+                                            <n-input class="text-left" 
+                                            type="textarea" show-count maxlength="5000" v-model:value="nic.distinguishing_mark" placeholder="ចំណុចសម្គាល់" />
+                                        </n-form-item>
+                                        <n-form-item label="អាសយដ្ឋាន" class="w-1/2 p-1 " >
+                                            <n-input class="text-left" 
+                                            type="textarea" show-count maxlength="5000" v-model:value="nic.address" placeholder="អាសយដ្ឋាន" />
+                                        </n-form-item>
+                                        <n-form-item label="ទំនាក់ទំនងពេលអាសន្ន" class="w-1/2 p-1 " >
+                                            <n-input type="textarea" class="text-left" 
+                                            show-count maxlength="5000" v-model:value="nic.emergency_contact_person" placeholder="ទំនាក់ទំនងពេលអាសន្ន" />
+                                        </n-form-item>
+                                        <n-form-item label="ទីកន្លែងកំណើត" class="w-1/2 p-1 " >
+                                            <n-input type="textarea" class="text-left" 
+                                            show-count maxlength="5000" v-model:value="nic.pob" placeholder="ទីកន្លែងកំណើត" />
+                                        </n-form-item>
+                                        
+                                        <n-form-item label="ថ្ងៃខែឆ្នាំកំណើត" class="w-1/2 p-1 " >
+                                            <n-date-picker v-model:value="nic_dob" type="date" clearable format="dd-MM-yyyy" placeholder="ថ្ងៃខែឆ្នាំកំណើត" />
+                                        </n-form-item> -->
+                                        <n-form-item label="ផ្ដល់នៅថ្ងៃ" class="w-1/2 p-1 " >
+                                            <n-date-picker v-model:value="nic_effective_date" type="date" clearable format="dd-MM-yyyy" placeholder="ថ្ងៃចាប់ផ្ដើមសពុលភាព" />
+                                        </n-form-item>
+                                        <n-form-item label="ផុតកំណត់នៅថ្ងៃ" class="w-1/2 p-1 " >
+                                            <n-date-picker v-model:value="nic_expired_date" type="date" clearable format="dd-MM-yyyy" placeholder="ថ្ងៃអស់សពុលភាព" />
                                         </n-form-item>
                                     </div> 
                                 </n-form>
@@ -141,12 +201,24 @@ import PdfPreview from './pdfpreview.vue'
                 required: true ,
                 default: () => {
                     return reactive({
-                        id: 0 ,
-                        number: '' ,
-                        start: '' ,
-                        end: '' ,
-                        serial: '' ,
-                        desp: ''
+                        id ,
+                        people_id ,
+                        number ,
+                        serial_number ,
+                        profession ,
+                        height ,
+                        distinguishing_mark ,
+                        emergency_contact_person ,
+                        address ,
+                        type ,
+                        country_code ,
+                        nationality ,
+                        dob ,
+                        gender ,
+                        effective_date ,
+                        expired_date ,
+                        pob ,
+                        pdf
                     })
                 },    
             },
@@ -165,57 +237,37 @@ import PdfPreview from './pdfpreview.vue'
             const dialog = useDialog()
 
             const model = reactive({
-                name: 'niccertificate' ,
-                module: 'niccertificates' ,
-                title: 'អត្តសញ្ញាណបណ្ណ'
+                name: 'passport' ,
+                module: 'passports' ,
+                title: 'លិខិតឆ្លងដែន'
             })
             const nics = computed( () => {
                 return store.getters[model.name + '/getRecords']
             })
 
-            const nicStart = ref( new Date().getTime() )
-            const nicEnd = ref( new Date().getTime() )
+            const nic_effective_date = ref( new Date().getTime() )
+            const nic_expired_date = ref( new Date().getTime() )
+            const nic_dob = ref( new Date().getTime() )
             const nic = reactive({
-                id: 0 , 
+                id : 0 ,
+                people_id : props.record.people_id ,
                 number : '' ,
-                height : 0 ,
-                start_date : '' ,
-                end_date : '' ,
-                desp : '' ,
-                serial : ''
+                serial_number : '' ,
+                profession : '' ,
+                height : '',
+                distinguishing_mark : '',
+                emergency_contact_person : '',
+                address : '',
+                type : '',
+                country_code : '',
+                nationality : '',
+                dob : null ,
+                gender : '' ,
+                effective_date : null ,
+                expired_date : null ,
+                pob : '' ,
+                pdf : ''
             })
-
-            const cerfiticate_levels = ref([
-                {
-                    label: 'បឋមភូមិ' , 
-                    value: 'grade_9'
-                },
-                {
-                    label: 'ទុតិយភូមិ' , 
-                    value: 'grade_12'
-                },
-                {
-                    label: 'បរិញ្ញាបត្ររង' , 
-                    value: 'associate_bachelor'
-                },
-                {
-                    label: 'បរិញ្ញាបត្រ' , 
-                    value: 'bachelor'
-                },
-                {
-                    label: 'អនុបណ្ឌិត' , 
-                    value: 'master'
-                },
-                {
-                    label: 'បណ្ឌិត វិទ្យាសាស្ត្រ' , 
-                    value: 'doctorage'
-                },
-                {
-                    label: 'បណ្ឌិត ទស្សនវិទ្យា' , 
-                    value: 'doctor_of_pholosophy'
-                },
-                
-            ])
 
             const selectedNic = ref(null)
             function edit(card){
@@ -224,15 +276,27 @@ import PdfPreview from './pdfpreview.vue'
                     return false
                 }
 
-                nicStart.value = selectedNic.value.start_date != undefined && selectedNic.value.start_date != null && selectedNic.value.start_date.length >0 ? ( new Date( selectedNic.value.start_date ) ).getTime() : ( new Date() ).getTime()
-                nicEnd.value = selectedNic.value.end_date != undefined && selectedNic.value.end_date != null && selectedNic.value.end_date.length >0 ? ( new Date( selectedNic.value.end_date ) ).getTime() : ( new Date() ).getTime()
+                nic_effective_date.value = selectedNic.value.effective_date != undefined && selectedNic.value.effective_date != null && selectedNic.value.effective_date.length >0 ? ( new Date( selectedNic.value.effective_date ) ).getTime() : ( new Date() ).getTime()
+                nic_expired_date.value = selectedNic.value.expired_date != undefined && selectedNic.value.expired_date != null && selectedNic.value.expired_date.length >0 ? ( new Date( selectedNic.value.expired_date ) ).getTime() : ( new Date() ).getTime()
+                nic_dob.value = selectedNic.value.dob != undefined && selectedNic.value.dob != null && selectedNic.value.dob.length >0 ? ( new Date( selectedNic.value.dob ) ).getTime() : ( new Date() ).getTime()
                 
                 nic.id = selectedNic.value.id 
-                nic.number = selectedNic.value.number 
-                nic.start_date = selectedNic.value.start_date
-                nic.end_date = selectedNic.value.end_date
-                nic.desp = selectedNic.value.desp
-                nic.serial = selectedNic.value.serial
+                nic.effective_date = selectedNic.value.effective_date
+                nic.expired_date = selectedNic.value.expired_date
+
+                nic.people_id = selectedNic.value.people_id 
+                nic.number = selectedNic.value.number
+                nic.serial_number = selectedNic.value.serial_number
+                nic.profession = selectedNic.value.profession
+                nic.height = selectedNic.value.height
+                nic.distinguishing_mark = selectedNic.value.distinguishing_mark
+                nic.emergency_contact_person = selectedNic.value.emergency_contact_person
+                nic.address = selectedNic.value.address
+                nic.type = parseInt( selectedNic.value.type ) > 0 ? parseINt( selectedNic.value ) : 0 
+                nic.country_code = selectedNic.value.country_code
+                nic.nationality = selectedNic.value.nationality
+                nic.gender = selectedNic.value.gender
+                nic.pob = selectedNic.value.pob
                 
                 formHelper.value = true
             }
@@ -246,26 +310,53 @@ import PdfPreview from './pdfpreview.vue'
                     // Update
                     ? {
                         id: nic.id ,
+                        effective_date : nic_effective_date.value != undefined && nic_effective_date.value != null && nic_effective_date.value > 0 ? dateFormat( new Date( nic_effective_date.value ) , 'yyyy-mm-dd' ) : dateFormat( new Date( ) , 'yyyy-mm-dd' ) ,
+                        expired_date : nic_expired_date.value != undefined && nic_expired_date.value != null && nic_expired_date.value > 0 ? dateFormat( new Date( nic_expired_date.value ) , 'yyyy-mm-dd' ) : dateFormat( new Date( ) , 'yyyy-mm-dd' ) ,
+                        // dob : nic_dob.value != undefined && nic_dob.value != null && nic_dob.value > 0 ? dateFormat( new Date( nic_dob.value ) , 'yyyy-mm-dd' ) : dateFormat( new Date( ) , 'yyyy-mm-dd' ) ,
+
+                        people_id : nic.people_id ,
                         number : nic.number ,
-                        start_date : nicStart.value != undefined && nicStart.value != null && nicStart.value > 0 ? dateFormat( new Date( nicStart.value ) , 'yyyy-mm-dd' ) : dateFormat( new Date( ) , 'yyyy-mm-dd' ) ,
-                        end_date : nicEnd.value != undefined && nicEnd.value != null && nicEnd.value > 0 ? dateFormat( new Date( nicEnd.value ) , 'yyyy-mm-dd' ) : dateFormat( new Date( ) , 'yyyy-mm-dd' ) ,
-                        desp : nic.desp ,
-                        serial : nic.serial
+                        // serial_number : nic.serial_number ,
+                        // profession : nic.profession ,
+                        // height : nic.height ,
+                        // distinguishing_mark : nic.distinguishing_mark ,
+                        // emergency_contact_person : nic.emergency_contact_person ,
+                        // address : nic.address ,
+                        type : parseInt( nic.type ) > 0 ? parseINt( nic.type ) : 0  ,
+                        // country_code : nic.country_code ,
+                        // nationality : nic.nationality ,
+                        // gender : nic.gender ,
+                        // pob : nic.pob
+
                     }
                     // Create
                     : {
+                        
+                        effective_date : nic_effective_date.value != undefined && nic_effective_date.value != null && nic_effective_date.value > 0 ? dateFormat( new Date( nic_effective_date.value ) , 'yyyy-mm-dd' ) : dateFormat( new Date( ) , 'yyyy-mm-dd' ) ,
+                        expired_date : nic_expired_date.value != undefined && nic_expired_date.value != null && nic_expired_date.value > 0 ? dateFormat( new Date( nic_expired_date.value ) , 'yyyy-mm-dd' ) : dateFormat( new Date( ) , 'yyyy-mm-dd' ) ,
+                        // dob : nic_dob.value != undefined && nic_dob.value != null && nic_dob.value > 0 ? dateFormat( new Date( nic_dob.value ) , 'yyyy-mm-dd' ) : dateFormat( new Date( ) , 'yyyy-mm-dd' ) ,
+
+                        people_id : nic.people_id ,
                         number : nic.number ,
-                        start_date : nicStart.value != undefined && nicStart.value != null && nicStart.value > 0 ? dateFormat( new Date( nicStart.value ) , 'yyyy-mm-dd' ) : dateFormat( new Date( ) , 'yyyy-mm-dd' ) ,
-                        end_date : nicEnd.value != undefined && nicEnd.value != null && nicEnd.value > 0 ? dateFormat( new Date( nicEnd.value ) , 'yyyy-mm-dd' ) : dateFormat( new Date( ) , 'yyyy-mm-dd' ) ,
-                        desp : nic.desp ,
-                        serial : nic.serial
+                        // serial_number : nic.serial_number ,
+                        // profession : nic.profession ,
+                        // height : selectedNic.value ,
+                        // distinguishing_mark : nic.distinguishing_mark ,
+                        // emergency_contact_person : nic.emergency_contact_person ,
+                        // address : nic.address ,
+                        type : parseInt( nic.type ) > 0 ? parseInt( nic.type ) : 0 ,
+                        // country_code : nic.country_code ,
+                        // nationality : nic.nationality ,
+                        // gender : nic.gender ,
+                        // pob : nic.pob
                     }
                 ).then( res => {
                     getNics()
                 }).catch( err => {
                     console.log( err )
                 })
-                // formHelper.value = false
+                formHelper.value = false
+                uploadHelper.value = false
             }
 
             const formHelper = ref(false)
@@ -274,12 +365,12 @@ import PdfPreview from './pdfpreview.vue'
                 if( formHelper.value == true ){
                     
                 }else{
-                    nicStart.value = ( new Date() ).getTime()
-                    nicEnd.value = ( new Date() ).getTime()
+                    nic_effective_date.value = ( new Date() ).getTime()
+                    nic_expired_date.value = ( new Date() ).getTime()
                     nic.number = ''
                     nic.serial = ''
-                    nic.start_date = ''
-                    nic.end_date = ''
+                    nic.effective_date = ''
+                    nic.expired_date = ''
                     nic.desp = ''
                 }
             }
@@ -415,7 +506,7 @@ import PdfPreview from './pdfpreview.vue'
                             description: 'លុបបានរួចរាល់។' ,
                             duration: 3000
                         })
-                        getCertificates()
+                        getNics()
                         }else{
                         notify.success({
                             title: 'លុបកម្រិតសិក្សា' ,
@@ -453,7 +544,8 @@ import PdfPreview from './pdfpreview.vue'
                 store.dispatch(model.name + '/list',{
                 search : '' ,
                 page: 1 , 
-                perPage : 100
+                perPage : 100 ,
+                people_id: props.record.people_id
                 }).then( res => {
                     store.commit( model.name + '/setRecords', res.data.records );
                 }).catch( err => {
@@ -462,8 +554,9 @@ import PdfPreview from './pdfpreview.vue'
             }
 
             return {
-                nicStart ,
-                nicEnd ,
+                nic_effective_date ,
+                nic_expired_date ,
+                nic_dob ,
                 nic ,
                 formToggler ,
                 formHelper ,

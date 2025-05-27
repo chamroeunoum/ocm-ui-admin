@@ -123,16 +123,46 @@ export default {
       /**
        * Get CSV
        */
-      this.$store.dispatch('organizations/listByParent',{
+      // this.$store.dispatch('organizations/listByParent',{
+      this.$store.dispatch('organizations/getStructure' , { organization_structure_id : 1 },{
         search: '' ,
         perPage: 1000 , 
         page: 1 ,
         id: 2
       }).then( res => {
           let _this = this 
-          this.dataFlattened = res.data.records
-          this.dataFlattened.columns = 'id,name,image,parentId,desp'
-          this.chart = new OrgChart()
+          
+          const nodes = ref([])
+          nodes.value.push( {
+            id: res.data.record.id ,
+            parentId: parseInt( res.data.record.pid ) > 0 ? parseInt( res.data.record.pid ) : null ,
+            name: res.data.record.organization.name ,
+            pid: res.data.record.pid  ,
+            organization: res.data.record.organization ,
+            image: res.data.record.organization.image != "" && res.data.record.organization.image != undefined ? res.data.record.organization.image : ocmLogoUrl ,
+            desp: res.data.record.organization.desp ,
+            permissions : res.data.record.permissions ,
+            _centered: true  
+          } )
+
+          if( res.data.records != undefined && res.data.records.length > 0 ){
+            for(const e of res.data.records ){
+              nodes.value.push({
+                id: e.id ,
+                parentId: parseInt( e.pid ) > 0 ? parseInt( e.pid ) : null ,
+                name: e.organization.name ,
+                pid: e.pid ,
+                organization: e.organization ,
+                image: e.organization.image != "" && e.organization.image != undefined ? e.organization.image : ocmLogoUrl ,
+                desp: e.organization.desp ,
+                permissions : e.permissions ,
+              })
+            }
+          }
+
+          _this.dataFlattened = nodes.value
+          _this.dataFlattened.columns = 'id,name,image,parentId,desp'
+          _this.chart = new OrgChart()
           .container('.chart-container')
           .data( 
             this.dataFlattened
@@ -250,14 +280,15 @@ export default {
                           '' // d.data.leader != undefined && d.data.leader.length > 0 ? ( d.data.leader[0].countesies.map( (c) => c.name ).join(' , ') + "" + d.data.leader[0].lastname + " " + d.data.leader[0].firstname + " " + d.data.leader[0].positions.map( (p) => p.name ).join(' , ') ) : 'មិនមានអ្នកគ្រប់គ្រង' 
                         }</div>
                         <!-- Total staffs within the organization -->
-                        <div style="position: absolute; right: 5px; bottom: -4px; border: 1px solid #CCC; background-color: #FFF; color:#716E7B; border-radius: 5px; height: 22px; padding: 2px; float: left;" >
+                        <!-- <div style="position: absolute; right: 5px; bottom: -4px; border: 1px solid #CCC; background-color: #FFF; color:#716E7B; border-radius: 5px; height: 22px; padding: 2px; float: left;" >
                           <svg class="text-blue-600" style=" float: left; width: 12px; height: 12px; margin: 1px 5px auto 5px; display: inline-block; font-size: 12px ;" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 448 512"><path d="M224 256c70.7 0 128-57.3 128-128S294.7 0 224 0S96 57.3 96 128s57.3 128 128 128zm95.8 32.6L272 480l-32-136l32-56h-96l32 56l-32 136l-47.8-191.4C56.9 292 0 350.3 0 422.4V464c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48v-41.6c0-72.1-56.9-130.4-128.2-133.8z" fill="currentColor"></path></svg>
-                          <div class="text-blue-600" style=" float: right; font-size: 12px ; margin: auto 5px; " >` + _this.$toKhmer( d.data.staffs != null && d.data.staffs.length > 0 ? d.data.staffs.length : 0 ) + `</div>
+                          <div class="text-blue-600" style=" float: right; font-size: 12px ; margin: auto 5px; " >` + _this.$toKhmer( d.data.permissions != null && d.data.permissions.length > 0 ? d.data.permissions.length : 0 ) + `</div>
                         </div>
+                        -->
                       </div>
                       `;
           })
-          .render()
+          .render().expandAll().fit()
         // }) // Finish building chart
       }).catch( err => { console.log( err ) } );
 

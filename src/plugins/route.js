@@ -9,6 +9,7 @@ import DashboardWidget from './../components/main/dashboard.vue'
  */
 import DetailCardComponent from './../layouts/staff/card.vue'
 import PrintOfficerCardComponent from './../layouts/staff/printcard.vue'
+import PrintOfficerProfileComponent from './../layouts/staff/printprofile.vue'
 /**
  * Check in and out
  */
@@ -603,6 +604,15 @@ export const getRoutes = () => {
                     // transition: 'fade'
                 }
             },
+            {
+                name: 'PrintOfficerProfile',
+                path: '/officer/print/profile/:id',
+                component: PrintOfficerProfileComponent ,
+                meta: {
+                    // transition: 'fade'
+                }
+            },
+            
             {
                 name: 'QrCheckinAndCheckoutComponent',
                 path: '/officer/checkinout/:id',

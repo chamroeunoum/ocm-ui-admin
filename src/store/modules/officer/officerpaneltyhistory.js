@@ -3,8 +3,8 @@ import crud from '../../../api/crud'
 // initial state
 const state = () => ({
   model: {
-    name: "birthcertificates" ,
-    title: "ឯកសារអត្រានុកុលដ្ឋាន" 
+    name: "officerpenaltyhistories" ,
+    title: "ប្រវត្តិការងារ " 
   },
   groups: [] ,
   records: [] ,
@@ -32,8 +32,8 @@ const actions = {
         search: params.search ,
         perPage: params.perPage ,
         page: params.page ,
-        people_id : params.people_id ,
-        wedding_certificate_id : params.wedding_certificate_id != undefined && parseInt( params.wedding_certificate_id ) > 0 ? params.wedding_certificate_id : 0
+        officer_id : params.officer_id ,
+        type : params.type
       }).toString()
     )
   },

@@ -2,122 +2,73 @@
     <div v-if="show" class="birth-information absolute left-0 right-0 bottom-0 top-0" >
         <Transition name="slide-fade" >
             <div v-if="record != undefined && record != null " class="absolute left-0 right-0 bottom-0 top-0 p-8 mb-0" >
-                <div class="font-moul border-b border-gray-200 w-full pb-2 mb-4 h-8 leading-6 relative" >អត្តសញ្ញាណបណ្ណ
+                <div class="font-moul border-b border-gray-200 w-full pb-2 mb-4 h-8 leading-6 relative" >រង្វាន់ និងការលើកទឹកចិត្ត
                     <div @click="formToggler" class="absolute right-0 top-0 w-32 text-center border border-gray-300 bg-gray-100 cursor-pointer p-1 rounded-full px-2 hover:bg-green-100 hover:border-green-500 duration-500" >បញ្ចូល</div>
                 </div>
                 <n-scrollbar >
                     <div class="body" >
-                        <table class="w-full" >
-                            <thead>
-                                <tr class="w-full " >
-                                    <th class="px-1 py-2 bg-gray-200 font-btb-black " >ល.រ</th>
-                                    <th class="px-1 py-2 bg-gray-200 font-btb-black " >លេខអត្តសញ្ញាណបណ្ណសញ្ជាតិខ្មែរ</th>
-                                    <th class="px-1 py-2 bg-gray-200 font-btb-black " >ថ្ងៃប្រគល់</th>
-                                    <th class="px-1 py-2 bg-gray-200 font-btb-black " >ថ្ងៃផុតសុពលភាព</th>
-                                    <th class="px-1 py-2 bg-gray-200 font-btb-black " >ភិនភាគ</th>
-                                    <th class="px-1 py-2 bg-gray-200 font-btb-black w-40" >ប្រតិបត្តិការ</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr v-for="(idcard , index) in nics" :key="index" class="certificate relative w-full rounded-lg shadow bg-white p-4 mb-2 " >
-                                    <td class="w-12 index p-1 text-center font-bold" >{{ $toKhmer( index + 1 ) }}</td>
-                                    <td class=" p-1 " >{{ $toKhmer( idcard.number ) }}</td>
-                                    <td class="p-1 " >{{ $toKhmer( idcard.start ) }}</td>
-                                    <td class="certificate_leverl p-1 " >{{ $toKhmer( idcard.end ) }}</td>
-                                    <td class="p-1 " >{{ $toKhmer( idcard.distinguishing_mark ) }}</td>
-                                    <td class="flex flex-row-reverse" >
-                                        <svg 
-                                        @click="uploadToggler(idcard)" 
-                                        class="w-6 h-6 m-1 text-blue-500 cursor-pointer"
-                                        xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24"><path d="M19.35 10.04A7.49 7.49 0 0 0 12 4C9.11 4 6.6 5.64 5.35 8.04A5.994 5.994 0 0 0 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5c0-2.64-2.05-4.78-4.65-4.96zM19 18H6c-2.21 0-4-1.79-4-4c0-2.05 1.53-3.76 3.56-3.97l1.07-.11l.5-.95A5.469 5.469 0 0 1 12 6c2.62 0 4.88 1.86 5.39 4.43l.3 1.5l1.53.11A2.98 2.98 0 0 1 22 15c0 1.65-1.35 3-3 3zM8 13h2.55v3h2.9v-3H16l-4-4z" fill="currentColor"></path></svg>
-                                        <svg 
-                                        v-if="nic.pdf==true"
-                                        @click="togglePdfModal(idcard)"
-                                        class="w-6 h-6 m-1 text-red-500 cursor-pointer"
-                                        xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1024 1024"><path d="M531.3 574.4l.3-1.4c5.8-23.9 13.1-53.7 7.4-80.7c-3.8-21.3-19.5-29.6-32.9-30.2c-15.8-.7-29.9 8.3-33.4 21.4c-6.6 24-.7 56.8 10.1 98.6c-13.6 32.4-35.3 79.5-51.2 107.5c-29.6 15.3-69.3 38.9-75.2 68.7c-1.2 5.5.2 12.5 3.5 18.8c3.7 7 9.6 12.4 16.5 15c3 1.1 6.6 2 10.8 2c17.6 0 46.1-14.2 84.1-79.4c5.8-1.9 11.8-3.9 17.6-5.9c27.2-9.2 55.4-18.8 80.9-23.1c28.2 15.1 60.3 24.8 82.1 24.8c21.6 0 30.1-12.8 33.3-20.5c5.6-13.5 2.9-30.5-6.2-39.6c-13.2-13-45.3-16.4-95.3-10.2c-24.6-15-40.7-35.4-52.4-65.8zM421.6 726.3c-13.9 20.2-24.4 30.3-30.1 34.7c6.7-12.3 19.8-25.3 30.1-34.7zm87.6-235.5c5.2 8.9 4.5 35.8.5 49.4c-4.9-19.9-5.6-48.1-2.7-51.4c.8.1 1.5.7 2.2 2zm-1.6 120.5c10.7 18.5 24.2 34.4 39.1 46.2c-21.6 4.9-41.3 13-58.9 20.2c-4.2 1.7-8.3 3.4-12.3 5c13.3-24.1 24.4-51.4 32.1-71.4zm155.6 65.5c.1.2.2.5-.4.9h-.2l-.2.3c-.8.5-9 5.3-44.3-8.6c40.6-1.9 45 7.3 45.1 7.4zm191.4-388.2L639.4 73.4c-6-6-14.1-9.4-22.6-9.4H192c-17.7 0-32 14.3-32 32v832c0 17.7 14.3 32 32 32h640c17.7 0 32-14.3 32-32V311.3c0-8.5-3.4-16.7-9.4-22.7zM790.2 326H602V137.8L790.2 326zm1.8 562H232V136h302v216a42 42 0 0 0 42 42h216v494z" fill="currentColor"></path></svg>
-                                        <svg 
-                                        @click="edit(idcard)"
-                                        class="w-6 h-6 m-1 text-blue-500 cursor-pointer"
-                                        xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 20 20"><g fill="none"><path d="M4 15h5.986c-.227.3-.4.639-.51 1H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v5.232c-.326.14-.631.343-.897.609L15 9.944V4a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1zm8-9.5a.5.5 0 0 1 1 0v6.444l-.88.88A.498.498 0 0 1 12 12.5v-7zm-7 2a.5.5 0 0 1 1 0v5a.5.5 0 0 1-1 0v-5zM9 9a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 1 0v-3A.5.5 0 0 0 9 9zm1.98 6.377l4.83-4.83a1.87 1.87 0 1 1 2.645 2.646l-4.83 4.829a2.197 2.197 0 0 1-1.02.578l-1.498.374a.89.89 0 0 1-1.079-1.078l.375-1.498c.096-.386.296-.74.578-1.02z" fill="currentColor"></path></g></svg>
-                                        <svg 
-                                        @click="destroy(idcard)"
-                                        class="w-6 h-6 m-1 text-red-500 cursor-pointer"
-                                        xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512"><path d="M112 112l20 320c.95 18.49 14.4 32 32 32h184c17.67 0 30.87-13.51 32-32l20-320" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"></path><path stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="32" d="M80 112h352" fill="currentColor"></path><path d="M192 112V72h0a23.93 23.93 0 0 1 24-24h80a23.93 23.93 0 0 1 24 24h0v40" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"></path><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M256 176v224"></path><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M184 176l8 224"></path><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M328 176l-8 224"></path></svg>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <!-- <div v-for="(idcard , index) in nics" :key="index" class="idcard relative w-full rounded-lg shadow bg-white p-4 mb-2 " >
-                            <div class="field_name w-full p-1 " >កូដ ៖ {{ idcard.number }}</div>
-                            <div class="certificate_leverl w-full p-1 " >សុពល់ភាព ៖ {{ idcard.start }} ដល់ {{  idcard.end }}</div>
-                            <div class="education_center_name w-full p-1 " >{{ idcard.desp }}</div>
-                            <div class="education_center_location w-full p-1 " >{{ idcard.distinguishing_mark }}</div>
+                        <div v-for="(certificate , index) in certificates" :key="index" class="certificate relative w-full rounded-lg shadow bg-white p-4 mb-2 " >
+                            <div class="field_name w-full p-1 " >មន្ត្រី ៖ {{ certificate.officer.people.lastname + " " + certificate.officer.people.firstname }}</div>
+                            <div class="start_date absolute top-4 right-4 h-8 w-48 text-right" >កាលបរិច្ឆែទ ៖ {{ $toKhmer( certificate.date ) }}</div>
+                            <div class="certificate_leverl w-full p-1 " >{{ certificate.desp }}</div>
+                            
                             <div class="absolute bottom-0 right-0 w-40 flex flex-row-reverse" >
                                 <svg 
-                                @click="uploadToggler(idcard)" 
+                                @click="uploadToggler(certificate)" 
                                 class="w-6 h-6 m-2 text-blue-500 cursor-pointer"
                                 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24"><path d="M19.35 10.04A7.49 7.49 0 0 0 12 4C9.11 4 6.6 5.64 5.35 8.04A5.994 5.994 0 0 0 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5c0-2.64-2.05-4.78-4.65-4.96zM19 18H6c-2.21 0-4-1.79-4-4c0-2.05 1.53-3.76 3.56-3.97l1.07-.11l.5-.95A5.469 5.469 0 0 1 12 6c2.62 0 4.88 1.86 5.39 4.43l.3 1.5l1.53.11A2.98 2.98 0 0 1 22 15c0 1.65-1.35 3-3 3zM8 13h2.55v3h2.9v-3H16l-4-4z" fill="currentColor"></path></svg>
                                 <svg 
-                                v-if="idcard.pdf==true"
-                                @click="togglePdfModal(idcard)"
+                                v-if="certificate.pdf==true"
+                                @click="togglePdfModal(certificate)"
                                 class="w-6 h-6 m-2 text-red-500 cursor-pointer"
                                 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1024 1024"><path d="M531.3 574.4l.3-1.4c5.8-23.9 13.1-53.7 7.4-80.7c-3.8-21.3-19.5-29.6-32.9-30.2c-15.8-.7-29.9 8.3-33.4 21.4c-6.6 24-.7 56.8 10.1 98.6c-13.6 32.4-35.3 79.5-51.2 107.5c-29.6 15.3-69.3 38.9-75.2 68.7c-1.2 5.5.2 12.5 3.5 18.8c3.7 7 9.6 12.4 16.5 15c3 1.1 6.6 2 10.8 2c17.6 0 46.1-14.2 84.1-79.4c5.8-1.9 11.8-3.9 17.6-5.9c27.2-9.2 55.4-18.8 80.9-23.1c28.2 15.1 60.3 24.8 82.1 24.8c21.6 0 30.1-12.8 33.3-20.5c5.6-13.5 2.9-30.5-6.2-39.6c-13.2-13-45.3-16.4-95.3-10.2c-24.6-15-40.7-35.4-52.4-65.8zM421.6 726.3c-13.9 20.2-24.4 30.3-30.1 34.7c6.7-12.3 19.8-25.3 30.1-34.7zm87.6-235.5c5.2 8.9 4.5 35.8.5 49.4c-4.9-19.9-5.6-48.1-2.7-51.4c.8.1 1.5.7 2.2 2zm-1.6 120.5c10.7 18.5 24.2 34.4 39.1 46.2c-21.6 4.9-41.3 13-58.9 20.2c-4.2 1.7-8.3 3.4-12.3 5c13.3-24.1 24.4-51.4 32.1-71.4zm155.6 65.5c.1.2.2.5-.4.9h-.2l-.2.3c-.8.5-9 5.3-44.3-8.6c40.6-1.9 45 7.3 45.1 7.4zm191.4-388.2L639.4 73.4c-6-6-14.1-9.4-22.6-9.4H192c-17.7 0-32 14.3-32 32v832c0 17.7 14.3 32 32 32h640c17.7 0 32-14.3 32-32V311.3c0-8.5-3.4-16.7-9.4-22.7zM790.2 326H602V137.8L790.2 326zm1.8 562H232V136h302v216a42 42 0 0 0 42 42h216v494z" fill="currentColor"></path></svg>
                                 <svg 
-                                @click="edit(idcard)"
+                                @click="edit(certificate)"
                                 class="w-6 h-6 m-2 text-blue-500 cursor-pointer"
                                 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 20 20"><g fill="none"><path d="M4 15h5.986c-.227.3-.4.639-.51 1H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v5.232c-.326.14-.631.343-.897.609L15 9.944V4a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1zm8-9.5a.5.5 0 0 1 1 0v6.444l-.88.88A.498.498 0 0 1 12 12.5v-7zm-7 2a.5.5 0 0 1 1 0v5a.5.5 0 0 1-1 0v-5zM9 9a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 1 0v-3A.5.5 0 0 0 9 9zm1.98 6.377l4.83-4.83a1.87 1.87 0 1 1 2.645 2.646l-4.83 4.829a2.197 2.197 0 0 1-1.02.578l-1.498.374a.89.89 0 0 1-1.079-1.078l.375-1.498c.096-.386.296-.74.578-1.02z" fill="currentColor"></path></g></svg>
                                 <svg 
-                                @click="destroy(idcard)"
+                                @click="destroy(certificate)"
                                 class="w-6 h-6 m-2 text-red-500 cursor-pointer"
                                 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512"><path d="M112 112l20 320c.95 18.49 14.4 32 32 32h184c17.67 0 30.87-13.51 32-32l20-320" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"></path><path stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="32" d="M80 112h352" fill="currentColor"></path><path d="M192 112V72h0a23.93 23.93 0 0 1 24-24h80a23.93 23.93 0 0 1 24 24h0v40" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"></path><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M256 176v224"></path><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M184 176l8 224"></path><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M328 176l-8 224"></path></svg>
                             </div>
-                        </div> -->
-                        <div v-if="nics == undefined || nics == null || ( nics.length <= 0 )" >
-                            មិនទាន់មាន អត្តសញ្ញាណបណ្ណ នៅឡើយ
+                        </div>
+                        <div v-if="certificates == undefined || certificates == null || ( certificates.length <= 0 )" >
+                            មិនទាន់មាន រង្វាន់ និងការលើកទឹកចិត្ត នៅឡើយ
                         </div>
                     </div>
                 </n-scrollbar>
                 <!-- Create - update form -->
                 <Transition name="slide-fade" >
                     <div v-if="formHelper" class="form absolute top-0 right-0 bottom-0 left-0 bg-gray-100/80" >
-                        <div class="form-panel border border-gray-200 rounded-md m-4  bg-white shadow w-1/2 mx-auto " >
-                            <div class="w-full p-4 " >
-                                <div class="relative w-full mb-4 border-b border-gray-200 pb-2 font-moul " >ព័ត៌មានអត្តសញ្ញាណបណ្ណសញ្ជាតិខ្មែរ
-                                    <svg 
-                                    class="w-7 h-7 text-green-500 absolute right-0 -top-2 cursor-pointer " 
-                                    @click="save"
-                                    xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 20 20"><g fill="none"><path d="M3 5a2 2 0 0 1 2-2h8.379a2 2 0 0 1 1.414.586l1.621 1.621A2 2 0 0 1 17 6.621V15a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5zm2-1a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1v-4.5A1.5 1.5 0 0 1 6.5 10h7a1.5 1.5 0 0 1 1.5 1.5V16a1 1 0 0 0 1-1V6.621a1 1 0 0 0-.293-.707l-1.621-1.621A1 1 0 0 0 13.379 4H13v2.5A1.5 1.5 0 0 1 11.5 8h-4A1.5 1.5 0 0 1 6 6.5V4H5zm2 0v2.5a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5V4H7zm7 12v-4.5a.5.5 0 0 0-.5-.5h-7a.5.5 0 0 0-.5.5V16h8z" fill="currentColor"></path></g></svg>
-                                    <svg 
-                                    class="w-7 h-7 text-red-500 absolute right-12 -top-2 cursor-pointer " 
-                                    @click="formToggler"
-                                    xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512"><path d="M448 256c0-106-86-192-192-192S64 150 64 256s86 192 192 192s192-86 192-192z" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"></path><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M320 320L192 192"></path><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M192 320l128-128"></path></svg>
-                                </div>
-                                <n-form class="flex flex-wrap w-full " >
-                                    <n-form-item label="លេខអត្តសញ្ញាណបណ្ណសញ្ជាតិខ្មែរ" class="w-full p-1 " >
-                                        <n-input v-model:value="nic.number" placeholder="លេខ" />
-                                    </n-form-item>
-                                    <!-- <n-form-item label="លេខកូត" class="w-1/2 p-1 " >
-                                        <n-input v-model:value="nic.serial" placeholder="លេខកូត" />
-                                    </n-form-item> -->
-                                    <n-form-item label="ថ្ងៃខែឆ្នាំសពុលភាព" class="w-1/2 p-1 " >
-                                        <n-date-picker v-model:value="nicStart" type="date" clearable format="dd-MM-yyyy" placeholder="ថ្ងៃចាប់ផ្ដើមសពុលភាព" />
-                                    </n-form-item>
-                                    <n-form-item label="ថ្ងៃខែឆ្នាំផុតសពុលភាព" class="w-1/2 p-1 " >
-                                        <n-date-picker v-model:value="nicEnd" type="date" clearable format="dd-MM-yyyy" placeholder="ថ្ងៃអស់សពុលភាព" />
-                                    </n-form-item>
-                                    <n-form-item label="ភិនភាគ" class="w-full p-1 " >
-                                        <n-input v-model:value="nic.distinguishing_mark" placeholder="ភិនភាគ" 
-                                            class="text-left" 
-                                            type="textarea" show-count maxlength="5000" />
-                                    </n-form-item>
-                                    <n-form-item label="កំណត់សំគាល់ផ្សេងៗ" class="w-full p-1 " >
-                                        <n-input v-model:value="nic.desp" placeholder="កំណត់សំគាល់ផ្សេងៗ" 
-                                            class="text-left" 
-                                            type="textarea" show-count maxlength="5000" />
-                                    </n-form-item>
-                                </n-form>
-                            </div> 
-                        </div>
+                        <n-scrollbar>
+                            <div class="form-panel border border-gray-200 rounded-md m-4  bg-white shadow w-2/3 mx-auto " >
+                                <div class="w-full p-4 " >
+                                    <div class="relative w-full mb-4 border-b border-gray-200 pb-2 font-moul " >ព័ត៌មាន រង្វាន់ និងការលើកទឹកចិត្ត
+                                        <svg 
+                                        class="w-7 h-7 text-green-500 absolute right-0 -top-2 cursor-pointer " 
+                                        @click="save"
+                                        xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 20 20"><g fill="none"><path d="M3 5a2 2 0 0 1 2-2h8.379a2 2 0 0 1 1.414.586l1.621 1.621A2 2 0 0 1 17 6.621V15a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5zm2-1a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1v-4.5A1.5 1.5 0 0 1 6.5 10h7a1.5 1.5 0 0 1 1.5 1.5V16a1 1 0 0 0 1-1V6.621a1 1 0 0 0-.293-.707l-1.621-1.621A1 1 0 0 0 13.379 4H13v2.5A1.5 1.5 0 0 1 11.5 8h-4A1.5 1.5 0 0 1 6 6.5V4H5zm2 0v2.5a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5V4H7zm7 12v-4.5a.5.5 0 0 0-.5-.5h-7a.5.5 0 0 0-.5.5V16h8z" fill="currentColor"></path></g></svg>
+                                        <svg 
+                                        class="w-7 h-7 text-red-500 absolute right-12 -top-2 cursor-pointer " 
+                                        @click="formToggler"
+                                        xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512"><path d="M448 256c0-106-86-192-192-192S64 150 64 256s86 192 192 192s192-86 192-192z" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"></path><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M320 320L192 192"></path><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M192 320l128-128"></path></svg>
+                                    </div>
+                                    <n-form class="flex flex-wrap w-full " >
+                                        <div class="w-full p-4 " >
+                                            <!-- <div class=" border border-gray-200 bg-white shadow p-4 rounded-lg flex flex-wrap" >
+                                                <div class="w-full mb-4 border-b border-gray-200 pb-2 font-moul " >រង្វាន់ និងការលើកទឹកចិត្ត</div> -->
+                                                <n-form-item label="ថ្ងៃ ខែ ឆ្នាំ ចុះលេខ" class="w-full p-1" >
+                                                    <n-date-picker v-model:value="date" type="date" clearable format="dd-MM-yyyy" placeholder="ថ្ងៃ ខែ ឆ្នាំ ចុះលេខ" />
+                                                </n-form-item>
+                                                <n-form-item label="ការបរិយាយ" class="w-full p-1" >
+                                                    <n-input type="textarea" v-model:value="certificate.desp" placeholder="ការបរិយាយ" />
+                                                </n-form-item>
+                                            <!-- </div> -->
+                                        </div> 
+                                    </n-form>
+                                </div> 
+                            </div>
+                        </n-scrollbar>
                     </div>
                 </Transition>
                 <!-- Upload Pdf-->
@@ -158,21 +109,22 @@
             </div>
         </Transition>
         <Transition name="slide-fade" >
-            <div v-if="record == undefined || record == null " >មានបញ្ហាក្នុងការបង្ហាញ អត្តសញ្ញាណបណ្ណ</div>
+            <div v-if="record == undefined || record == null " >មានបញ្ហាក្នុងការបង្ហាញ រង្វាន់ និងការលើកទឹកចិត្</div>
         </Transition>
-        <pdf-preview v-model:model="model" v-model:record="selectedNic" v-bind:show="pdfToggle" :onClose="togglePdfModal"/>
+        <pdf-preview v-model:model="model" v-model:record="selectedCertificate" v-bind:show="pdfToggle" :onClose="togglePdfModal"/>
     </div>    
 </template>
 <script >
-import { reactive , ref , computed } from 'vue'
+import { reactive , ref , computed , onMounted , watch } from 'vue'
 import { useStore } from 'vuex'
-import { useMessage, useNotification, useDialog } from 'naive-ui'
+import { useMessage, useNotification , useDialog } from 'naive-ui'
 
 import Frame4Corner from '@components/widgets/frame/corner4.vue'
 import QrcodeVue from 'qrcode.vue'
 import ocmLogoUrl from '@assets/logo.svg'
 import dateFormat from 'dateformat'
 import PdfPreview from './pdfpreview.vue'
+
     export default {
         components: {
             PdfPreview
@@ -184,12 +136,10 @@ import PdfPreview from './pdfpreview.vue'
                 default: () => {
                     return reactive({
                         id: 0 ,
-                        number: '' ,
-                        start: '' ,
-                        end: '' ,
-                        serial: '' ,
-                        distinguishing_mark: '' ,
-                        desp: ''
+                        officer_id: '' ,
+                        desp: '' ,
+                        date: '' ,
+                        pdf: ''
                     })
                 },    
             },
@@ -203,88 +153,30 @@ import PdfPreview from './pdfpreview.vue'
         },
         setup(props){
             const store = useStore()
-            const notify = useNotification()
             const message = useMessage()
+            const notify = useNotification()
             const dialog = useDialog()
 
             const model = reactive({
-                name: 'niccertificate' ,
-                module: 'niccertificates' ,
-                title: 'អត្តសញ្ញាណបណ្ណ'
+                name: 'achievement' ,
+                module: 'achievements' ,
+                title: 'រង្វាន់ និងការលើកទឹកចិត្ត'
             })
-            const nics = computed( () => {
+            const certificates = computed( () => {
                 return store.getters[model.name + '/getRecords']
             })
 
-            const nicStart = ref( new Date().getTime() )
-            const nicEnd = ref( new Date().getTime() )
-            const nic = reactive({
-                id: 0 , 
-                number : '' ,
-                height : 0 ,
-                start : '' ,
-                end : '' ,
-                distinguishing_mark: '' ,
-                desp : '' ,
-                serial : ''
+            const date = ref( new Date().getTime() )
+
+            const certificate = reactive({
+                'officer_id' : props.record.officer_id ,
+                'desp' : '' ,
+                'date' : '' , 
+                'pdf' : ''
             })
 
-            const selectedNic = ref(null)
-            function edit(card){
-                selectedNic.value = card
-                if( selectedNic.value == undefined || selectedNic.value == null ){
-                    return false
-                }
-
-                nicStart.value = selectedNic.value.start != undefined && selectedNic.value.start != null && selectedNic.value.start.length >0 ? ( new Date( selectedNic.value.start ) ).getTime() : ( new Date() ).getTime()
-                nicEnd.value = selectedNic.value.end != undefined && selectedNic.value.end != null && selectedNic.value.end.length >0 ? ( new Date( selectedNic.value.end ) ).getTime() : ( new Date() ).getTime()
-                
-                nic.id = selectedNic.value.id 
-                nic.number = selectedNic.value.number 
-                nic.distinguishing_mark = selectedNic.value.distinguishing_mark
-                nic.start = selectedNic.value.start
-                nic.end = selectedNic.value.end
-                nic.desp = selectedNic.value.desp
-                nic.serial = selectedNic.value.serial
-                
-                formHelper.value = true
-            }
-
-            function save(){
-                // if( selectedNic.value == undefined || selectedNic.value == null ){
-                //     return false
-                // }
-                console.log( nicStart.value )
-                console.log( nicEnd.value )
-                store.dispatch( model.name + '/' + ( selectedNic.value != undefined && selectedNic.value != null && selectedNic.value.id > 0 ? 'update' : 'create' ) , 
-                selectedNic.value != undefined && selectedNic.value != null && selectedNic.value.id > 0  
-                    // Update
-                    ? {
-                        id: nic.id ,
-                        number : nic.number ,
-                        start : nicStart.value != undefined && nicStart.value != null ? dateFormat( new Date( nicStart.value ) , 'yyyy-mm-dd' ) : dateFormat( new Date( ) , 'yyyy-mm-dd' ) ,
-                        end : nicEnd.value != undefined && nicEnd.value != null ? dateFormat( new Date( nicEnd.value ) , 'yyyy-mm-dd' ) : dateFormat( new Date( ) , 'yyyy-mm-dd' ) ,
-                        desp : nic.desp ,
-                        distinguishing_mark: nic.distinguishing_mark
-                        // serial : nic.serial
-                    }
-                    // Create
-                    : {
-                        number : nic.number ,
-                        start : nicStart.value != undefined && nicStart.value != null ? dateFormat( new Date( nicStart.value ) , 'yyyy-mm-dd' ) : dateFormat( new Date( ) , 'yyyy-mm-dd' ) ,
-                        end : nicEnd.value != undefined && nicEnd.value != null ? dateFormat( new Date( nicEnd.value ) , 'yyyy-mm-dd' ) : dateFormat( new Date( ) , 'yyyy-mm-dd' ) ,
-                        desp : nic.desp ,
-                        distinguishing_mark: nic.distinguishing_mark
-                        // serial : nic.serial
-                    }
-                ).then( res => {
-                    getNics()
-                }).catch( err => {
-                    console.log( err )
-                })
-                formHelper.value = false
-                uploadHelper.value = false
-            }
+            const selectedCertificate = ref(null)
+            const selectedCertificateLevel = ref(0)
 
             const formHelper = ref(false)
             function formToggler() {
@@ -292,15 +184,76 @@ import PdfPreview from './pdfpreview.vue'
                 if( formHelper.value == true ){
                     
                 }else{
-                    nicStart.value = ( new Date() ).getTime()
-                    nicEnd.value = ( new Date() ).getTime()
-                    nic.number = ''
-                    nic.serial = ''
-                    nic.distinguishing_mark = ''
-                    nic.start = ''
-                    nic.end = ''
-                    nic.desp = ''
+                    date.value = ( new Date() ).getTime()
                 }
+            }
+
+            const uploadHelper = ref(false)
+            function uploadToggler(certificate) {
+                uploadHelper.value = !uploadHelper.value
+                if( certificate == null || certificate == undefined ){
+                    
+                }else{
+                    selectedCertificate.value = certificate
+                }
+            }
+
+            const pdfToggle = ref(false)
+            function togglePdfModal(cert) {
+                selectedCertificate.value = cert == undefined || cert == null ? null : cert 
+                pdfToggle.value = !pdfToggle.value
+            }
+
+            function getCertificates(){
+                store.dispatch(model.name + '/list',{
+                search : '' ,
+                page: 1 , 
+                perPage : 100 ,
+                officer_id : props.record.officer_id 
+                }).then( res => {
+                    store.commit( model.name + '/setRecords', res.data.records );
+                }).catch( err => {
+                    console.log( err )
+                })
+            }
+            
+            function save(){
+                // if( selectedCertificate.value == undefined || selectedCertificate.value == null ){
+                //     return false
+                // }
+                store.dispatch( model.name + '/' + ( selectedCertificate.value != undefined && selectedCertificate.value != null && selectedCertificate.value.id > 0 ? 'update' : 'create' ) , 
+                selectedCertificate.value != undefined && selectedCertificate.value != null && selectedCertificate.value.id > 0 
+                    // Update
+                    ? {
+                        id: selectedCertificate.value.id ,
+                        date : date.value != undefined && date.value != null && date.length > 0 ? dateFormat( new Date( date.value ) , 'yyyy-mm-dd' ) : dateFormat( new Date( ) , 'yyyy-mm-dd' ) ,
+                        officer_id : certificate.officer_id ,
+                        desp : certificate.desp
+                    }
+                    // Create
+                    : {
+                        date : date.value != undefined && date.value != null && date.length > 0 ? dateFormat( new Date( date.value ) , 'yyyy-mm-dd' ) : dateFormat( new Date( ) , 'yyyy-mm-dd' ) ,
+                        officer_id : certificate.value.officer_id ,
+                        desp : certificate.value.desp
+                    }
+                ).then( res => {
+                    getCertificates()
+                }).catch( err => {
+                    console.log( err )
+                })
+                formHelper.value = false
+                uploadHelper.value = false
+            }
+
+            function edit(cert){
+                selectedCertificate.value = cert
+                if( selectedCertificate.value == undefined || selectedCertificate.value == null ){
+                    return false
+                }
+                date.value = selectedCertificate.value.date != undefined && selectedCertificate.value.date != null && selectedCertificate.value.date.length >0 ? ( new Date( selectedCertificate.value.date ) ).getTime() : ( new Date() ).getTime()
+                certificate.desp = selectedCertificate.value.desp
+                certificate.officer_id = selectedCertificate.value.officer_id
+                formHelper.value = true
             }
 
             /**
@@ -309,7 +262,7 @@ import PdfPreview from './pdfpreview.vue'
             /**
              * File upload
              */
-             const pdfs = ref([])
+            const pdfs = ref([])
             /**
              * On change
              */
@@ -390,17 +343,9 @@ import PdfPreview from './pdfpreview.vue'
             function clickUpload(){
                 document.getElementById('referenceDocument').click()
             }
-
             function uploadFiles(){
-                if( pdfs.value.length <= 0 ){
-                    notify.info({
-                        title: 'ភ្ជាប់ឯកសារយោង' ,
-                        content: 'សូមជ្រើសរើសឯកសារយោង។'
-                    })
-                    return false
-                }
                 let formData = new FormData();
-                formData.append('id', selectedNic.value.id )
+                formData.append('id', selectedCertificate.value.id )
                 formData.append('file', pdfs.value[0] )
                 notify.info({
                     title: 'រក្សារទុកព័ត៌មាន' ,
@@ -414,7 +359,7 @@ import PdfPreview from './pdfpreview.vue'
                         duration: 3000
                     })
                     pdfs.value = []
-                    getNics()
+                    getCertificates()
                 }).catch( err => {
                     console.log( err )
                     notify.error({
@@ -457,57 +402,29 @@ import PdfPreview from './pdfpreview.vue'
                     }
                 })
             }
-
-            const uploadHelper = ref(false)
-            function uploadToggler(nic) {
-                uploadHelper.value = !uploadHelper.value
-                if( nic == null || nic == undefined ){
-                    
-                }else{
-                    selectedNic.value = nic
-                }
-                console.log( selectedNic.value )
-            }
-
-            const pdfToggle = ref(false)
-            function togglePdfModal(cert) {
-                selectedNic.value = cert == undefined || cert == null ? null : cert 
-                pdfToggle.value = !pdfToggle.value
-            }
-
-            function getNics(){
-                store.dispatch(model.name + '/list',{
-                search : '' ,
-                page: 1 , 
-                perPage : 100 ,
-                people_id: props.record.people_id
-                }).then( res => {
-                    store.commit( model.name + '/setRecords', res.data.records );
-                }).catch( err => {
-                    console.log( err )
-                })
-            }
-
+            
+            // certificates.value = store.getters['certificate/getRecords']
             return {
-                nicStart ,
-                nicEnd ,
-                nic ,
-                formToggler ,
+                model ,
+                certificate ,
+                /**
+                 * Visible or invisible form
+                 */
                 formHelper ,
+                formToggler ,
+                pdfToggle ,
                 togglePdfModal ,
+                certificates ,
+                selectedCertificate ,
+                save ,
+                edit ,
                 uploadToggler ,
                 uploadHelper ,
-                edit ,
-                nics ,
-                save ,
-                pdfToggle ,
-                model ,
-                selectedNic ,
                 fileChange ,
                 clickUpload ,
                 uploadFiles ,
-                destroy
-
+                destroy ,
+                date 
             }
         }
     }
