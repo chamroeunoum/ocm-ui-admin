@@ -654,9 +654,9 @@ export default {
           nodeContent.innerText = d.data.name
 
           let img = document.createElement('img');
-          img.className = ' absolute left-0 top-0 bottom-0 w-auto rounded-l-lg'
-          img.style = `height:${d.height}px;`
-          img.src = d.data.image==null || d.data.image==undefined ? ocmLogoUrl : 'https://marketplace.canva.com/EAFXS8-cvyQ/1/0/100w/canva-B-A8A3LCS0Y.jpg'
+          img.className = ' absolute left-2 top-2 bottom-0 w-auto rounded-l-lg w-6 '
+          img.style = `height:${d.height - 20 }px;`
+          img.src = d.data.image==null || d.data.image==undefined ? ocmLogoUrl : ocmLogoUrl
 
           nodeContent.appendChild( img )
 
@@ -959,7 +959,7 @@ export default {
     }
 
     getStructure( currentOrganizationStructureId.value )
-    getRecords()
+    // getRecords()
     // getOrganizationPositions()
 
     return {
