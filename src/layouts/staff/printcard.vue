@@ -35,15 +35,23 @@
                       </tr>
                       <tr>
                         <td class="text-left font-moul align-top" style="width: 2cm;  vertical-align: top;color: #000000; "  >អាសយដ្ឋាន<span style="float: right; font-size: 0.55rem; color: #000000; " >៖</span>៖</td>
-                        <td  colspan="2" class="leading-3 font-btb-black text-left" style=" font-size: 0.55rem; line-height: 0.8rem; color: #000000; ">{{ $toKhmer( officer.people.address ) }}</td>
+                        <td  colspan="2" class="leading-3 font-btb-black text-left" style="` font-size: 0.55rem; line-height: 0.8rem; color: #000000; ">{{ $toKhmer( officer.people.address ) }}</td>
                       </tr>
-                      <tr>
+                      <!-- <tr>
                         <td class="text-left font-moul align-top" style="width: 2cm;  vertical-align: top;color: #000000; "  >អង្គភាព<span style="float: right; font-size: 0.55rem; color: #000000; " >៖</span></td>
                         <td  colspan="2" class="leading-3  font-btb-black text-left" style=" font-size: 0.55rem; line-height: 0.8rem; color: #000000; ">{{ officer.organization.name }}</td>
                       </tr>
                       <tr>
                         <td class="text-left font-moul align-top" style="width: 2cm;  vertical-align: top;color: #000000; "  >មុខងារ<span style="float: right; font-size: 0.55rem; color: #000000; " >៖</span></td>
                         <td  colspan="2" class="leading-3  font-btb-black text-left" style=" font-size: 0.55rem; line-height: 0.8rem; color: #000000; " >{{ officer.position.name }}</td>
+                      </tr> -->
+                      <tr>
+                        <td class="text-left font-moul align-top" style="width: 2cm;  vertical-align: top;color: #000000; "  >អង្គភាព<span style="float: right; font-size: 0.55rem; color: #000000; " >៖</span></td>
+                        <td  colspan="2" class="leading-3  font-btb-black" style=" font-size: 0.55rem; line-height: 0.8rem; color: #000000; ">{{ record.organization.name }}</td>
+                      </tr>
+                      <tr>
+                        <td class="text-left font-moul align-top" style="width: 2cm;  vertical-align: top;color: #000000; "  >មុខងារ<span style="float: right; font-size: 0.55rem; color: #000000; " >៖</span></td>
+                        <td  colspan="2" class="leading-3  font-btb-black" style=" font-size: 0.55rem; line-height: 0.8rem; color: #000000; " >{{ record.position.name }}</td>
                       </tr>
                     </tbody>
                   </table>

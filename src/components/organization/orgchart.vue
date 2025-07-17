@@ -1,7 +1,7 @@
 <template>
   <div class="w-full">
     <!-- Buttons -->
-    <div v-if="chart!==null" class="action-buttons hidden" style="margin:0 100px" >
+    <div v-if="chart!==null" class="action-buttons " style="margin:0 100px" >
       <button @click='chart.setExpanded("1").render()' class="simptip-position-bottom border border-gray-300 py-2 px-4 rounded m-2 " >Expand 1</button>
 
       <button @click='chart.setExpanded("1",false).render()' class="simptip-position-bottom border border-gray-300 py-2 px-4 rounded m-2 " >Collapse 1</button>
