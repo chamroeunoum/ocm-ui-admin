@@ -21,10 +21,10 @@
             class="relative w-full text-left h-14 p-1 border-b border-gray-600 my-1 flex text-gray-50 cursor-pointer hover:bg-gray-700 duration-300 " 
             >
             <!-- <div 
-              @click="addChild(o)"
+              @click="addNode(o)"
               class="flex-none min-w-6 p-1 h-8 leading-7 text-center text-md font-btb-black">{{ o.id }}</div> -->
             <div 
-              @click="addChild(o)"
+              @click="addNode(o)"
               class="flex-grow truncate h-8 leading-7 relative" >
               <n-tooltip trigger="hover" >
                 <template #trigger>
@@ -135,8 +135,8 @@
             <n-tooltip trigger="hover" placement="left" >
               <template #trigger >
                 <svg 
-                  @click="moveNode(selectedNode)"
-                  class="text-gray-100 m-2 w-10 h-10 p-1 cursor-pointer" 
+                  @click="startMoveNode(selectedNode)"
+                  :class=" 'm-2 w-10 h-10 p-1 cursor-pointer ' + ( moveNodeHelper == false ? ' text-gray-100' : ' text-green-500' ) " 
                   xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="5" cy="18" r="2"></circle><circle cx="19" cy="6" r="2"></circle><path d="M19 8v5a5 5 0 0 1-5 5h-3l3-3m0 6l-3-3"></path><path d="M5 16v-5a5 5 0 0 1 5-5h3l-3-3m0 6l3-3"></path></g></svg>
               </template>
               ផ្លាស់ប្ដូរស្ថាប័នមេរបស់<br/>{{ selectedNode.name }}
@@ -433,10 +433,11 @@ export default {
         // id: parseInt( currentOrganizationId.value ) > 0 ? parseInt( currentOrganizationId.value ) : null
       }).then(res => {
         table.records.all = table.records.matched = res.data.records
-        if( dataFlattened.value.length ){
-          table.records.matched = []
-          table.records.matched = res.data.records.filter( ( o ) => dataFlattened.value.find( ( dfItem ) => dfItem.id == o.id ) == undefined )
-        }
+        // if( dataFlattened.value.length ){
+        //   table.records.matched = []
+        //   table.records.matched = table.records.all.filter( ( o ) => dataFlattened.value.find( ( dfItem ) => dfItem.id == o.id ) == undefined )
+        //   table.records.matched = table.records.all.filter( ( o ) => dataFlattened.value.find( ( dfItem ) => dfItem.organization.id == o.id ) == undefined )
+        // }
         table.pagination = res.data.pagination
 
         var paginationNumberList = 5
@@ -454,11 +455,6 @@ export default {
         table.pagination.buttons = []
         for(var i=table.pagination.start;i<=table.pagination.end;i++){
           table.pagination.buttons.push(i)
-        }
-
-        if( dataFlattened.value.length ){
-          // table.records.matched = []
-          table.records.matched = table.records.all.filter( ( o ) => dataFlattened.value.find( ( dfItem ) => dfItem.organization.id == o.id ) == undefined )
         }
 
         closeTableLoading()
@@ -658,7 +654,13 @@ export default {
       .render().fit()
     }
 
-    function addChild(o){
+    function addNode(parentNode){
+      if( moveNodeHelper.value == true ){
+        console.log( selectedNode.value.organization.id )
+        console.log( parentNode.id )
+        moveNode( selectedNode.value.organization.id , parentNode.id )
+        return false
+      }
       // Add Root Organization
       if( dataFlattened.value.length <= 0 ){
         // rootNode.value.id = o.id
@@ -677,7 +679,7 @@ export default {
 
         store.dispatch( model.name+'/addStructure' , {
           pid: 0 ,
-          organization_id : o.id
+          organization_id : parentNode.id
         }).then( res => {
           rootNode.value.id = res.data.record.id
           rootNode.value.parentId = parseInt( res.data.record.pid ) > 0 ? parseInt( res.data.record.pid ) : null
@@ -725,7 +727,7 @@ export default {
           
           store.dispatch( model.name+'/addStructure' , {
             pid: selectedNode.value.id ,
-            organization_id : o.id 
+            organization_id : parentNode.id
           }).then( res => {
             rootNode.value.id = res.data.record.id
             rootNode.value.parentId = parseInt( res.data.record.pid ) > 0 ? parseInt( res.data.record.pid ) : null
@@ -747,7 +749,7 @@ export default {
           }).catch( err => {
             console.log( err )
           })
-          // store.dispatch(model.name + "/addChild",{
+          // store.dispatch(model.name + "/addNode",{
           //   pid: selectedNode.value.id ,
           //   cid: o.id
           // }).then( res => {
@@ -764,6 +766,64 @@ export default {
       }
     }
 
+    const moveNodeHelper = ref( false )
+    function startMoveNode(node){
+      selectedNode.value = node
+      moveNodeHelper.value = true
+    }
+    function moveNode(child_organization_id, parent_organization_id ){
+      // Add Root Organization
+      if( dataFlattened.value.length > 0 ){
+        // rootNode.value.id = o.id
+        // rootNode.value.parentId = o.parentId
+        // rootNode.value.name = o.name
+        // rootNode.value.pid = o.pid
+        // rootNode.value.image = o.image
+        // rootNode.value.desp = o.desp
+
+        // selectedNode.value.id = o.id
+        // selectedNode.value.parentId = o.parentId
+        // selectedNode.value.name = o.name
+        // selectedNode.value.pid = o.pid
+        // selectedNode.value.image = o.image
+        // selectedNode.value.desp = o.desp
+
+        store.dispatch( model.name+'/moveStructure' , {
+          child_organization_id : child_organization_id ,
+          parent_organization_id : parent_organization_id
+        }).then( res => {
+          
+          rootNode.value.id = res.data.record.id
+          rootNode.value.parentId = parseInt( res.data.record.pid ) > 0 ? parseInt( res.data.record.pid ) : null
+          rootNode.value.pid = res.data.record.pid 
+          rootNode.value.name = res.data.record.organization.name
+          rootNode.value.image = res.data.record.organization.image
+          rootNode.value.desp = res.data.record.organization.desp
+          rootNode.value.organization = res.data.record.organization
+
+          selectedNode.value.id = rootNode.value.id
+          selectedNode.value.parentId = rootNode.value.parentId
+          selectedNode.value.pid = rootNode.pid 
+          selectedNode.value.name = rootNode.value.name
+          selectedNode.value.image = rootNode.value.image
+          selectedNode.value.desp = rootNode.value.desp
+          selectedNode.value.organization = rootNode.value.organization
+          
+          getStructure(rootNode.value.id)
+          
+        }).catch( err => {
+          console.log( err )
+        })
+      }
+      else{
+        notify.warning({
+          title: 'ឋានានុក្រុមស្ថាប័ន' , 
+          content: 'សូមជ្រើសអង្គភាពមេជាមុនសិន'
+        })
+      }
+      moveNodeHelper.value = false
+    }
+
     function removeNode(node){ 
       // Case the deleting node is the root
       if( node.parentId == null ){
@@ -774,10 +834,26 @@ export default {
           negativeText: 'ទេ',
           draggable: true,
           onPositiveClick: () => {
-            dataFlattened.value = []
-            table.records.matched = table.records.all
-            drawingOrgchart()
-            message.warning('ឋានុក្រមត្រូវបានលុបរួចរាល់។')
+            store.dispatch( model.name + '/deleteStructure',{id: node.id }).then( res => {
+              if( res.data.ok ){
+                dataFlattened.value = []
+                table.records.matched = table.records.all
+                drawingOrgchart()
+                message.warning('ឋានុក្រមត្រូវបានលុបរួចរាល់។')
+
+              }else{
+                notify.info({
+                  title: 'លុបអង្គភាព' ,
+                  content: res.data.message
+                })
+              }
+            }).catch( err => {
+              console.log( err )
+              notify.info({
+                  title: 'លុបអង្គភាព' ,
+                  content: err.response.data.message
+                })
+            })
           },
           onNegativeClick: () => {
             message.warning('')
@@ -916,12 +992,15 @@ export default {
        * Loading overlay
        */
       closeTableLoading ,
-      addChild ,
+      addNode ,
       dataFlattened ,
       selectedNode ,
       chartNodeFunctionsToggler ,
       chart ,
       removeNode ,
+      moveNode ,
+      moveNodeHelper ,
+      startMoveNode ,
       getStructure ,
       editRecord ,
       deleteRecord

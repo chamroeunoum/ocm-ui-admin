@@ -121,6 +121,9 @@ const actions = {
   async addStructure ({ state, commit, rootState },params) {
     return await crud.create(import.meta.env.VITE_API_SERVER+"/"+state.model.name+"/structure/add",params)
   },
+  async moveStructure ({ state, commit, rootState },params) {
+    return await crud.create(import.meta.env.VITE_API_SERVER+"/"+state.model.name+"/structure/move",params)
+  },
   async deleteStructure ({ state, commit, rootState },params) {
     return await crud.delete(import.meta.env.VITE_API_SERVER+"/"+state.model.name+"/structure/"+params.id+"/delete")
   },
