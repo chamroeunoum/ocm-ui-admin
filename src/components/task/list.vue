@@ -28,7 +28,7 @@
       <div class="filters-bar"></div>
     </div>
     <!-- Table of crud -->
-    <div class="vcb-table-panel relative">
+    <div class="vcb-table-panel relative mb-24">
       <Transition name="fade" >
         <div v-if="Array.isArray( table.records.matched ) && table.records.matched.length > 0 " class="flex flex-wrap" >
           <div v-for="(record, index) in table.records.matched" :key='index' class="task w-1/4 p-2 " >
