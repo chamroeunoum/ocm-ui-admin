@@ -1,7 +1,7 @@
 <template>
   <div class="w-full">
     <!-- Buttons -->
-    <div v-if="chart!==null" class="action-buttons " style="margin:0 100px" >
+    <div v-if="false" class="action-buttons " style="margin:0 100px" >
       <button @click='chart.setExpanded("1").render()' class="simptip-position-bottom border border-gray-300 py-2 px-4 rounded m-2 " >Expand 1</button>
 
       <button @click='chart.setExpanded("1",false).render()' class="simptip-position-bottom border border-gray-300 py-2 px-4 rounded m-2 " >Collapse 1</button>
@@ -181,7 +181,7 @@ export default {
             if (i && i == d3Node.parent.children.length - 1) { return 300; }
             return (!i || i == d3Node.parent.children.length - 1) ? 200 : 100
           })
-          .siblingsMargin(d3Node => 0)
+          .siblingsMargin(d3Node => 50)
           .childrenMargin(d3Node => 50)
           // .neightbourMargin((n1, n2) => 50)
           .compactMarginPair(d3Node => 70)
@@ -288,7 +288,9 @@ export default {
                       </div>
                       `;
           })
-          .render().expandAll().fit()
+          .render()
+          // .expandAll()
+          .fit()
         // }) // Finish building chart
       }).catch( err => { console.log( err ) } );
 
