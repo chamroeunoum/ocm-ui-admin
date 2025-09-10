@@ -354,7 +354,6 @@ export default {
     const router = useRouter()
     const route = useRoute()
     const notify = useNotification()
-    console.log( route.params.id )
     const currentOrganizationStructure = reactive({
       id : 0 ,
       parentId : null ,
@@ -371,7 +370,6 @@ export default {
     )
     const organization = ref( null )
     
-    console.log( currentOrganizationStructureId.value )
     // watch(currentOrganizationStructureId, async ( newVal , oldVal ) => {
     //   console.log( parseInt( newVal ) )
     //   if ( parseInt( newVal ) > 0 ) {
@@ -843,57 +841,103 @@ export default {
         organization_structure_id : id
       } ).then( res => {
         if( res.data.ok ){
-          console.log( res.data )
-          currentOrganizationStructure.id = res.data.record.id
-          currentOrganizationStructure.parentId = parseInt( res.data.record.pid ) > 0 ? parseInt( res.data.record.pid ) : null
-          currentOrganizationStructure.name = res.data.record.organization.name
-          currentOrganizationStructure.image = res.data.record.organization.image
-          currentOrganizationStructure.desp = res.data.record.organization.desp
-          currentOrganizationStructure.pid = res.data.record.pid
-          currentOrganizationStructure.organization = res.data.record.organization
-          
-          currentOrganizationStructureList.value = []
-          currentOrganizationStructureList.value.push( {
-            id: currentOrganizationStructure.id ,
-            parentId: currentOrganizationStructure.parentId ,
-            pid: currentOrganizationStructure.pid ,
-            name: currentOrganizationStructure.name ,
-            image: currentOrganizationStructure.image != "" && currentOrganizationStructure.image != undefined ? currentOrganizationStructure.image : ocmLogoUrl ,
-            desp: currentOrganizationStructure.desp ,
-            _centered: true  
-          } )
 
-          if( res.data.records != undefined && res.data.records.length > 0 ){
-            for(const e of res.data.records ){
-              currentOrganizationStructureList.value.push({
-                id: e.id ,
-                parentId: parseInt( e.pid ) > 0 ? parseInt( e.pid ) : null ,
-                name: e.organization.name ,
-                image: e.organization.image != "" && e.organization.image != undefined ? e.organization.image : ocmLogoUrl ,
-                desp: e.organization.desp ,
-                pid: e.pid
-              })
+          if( res.data.record.root_position != undefined && res.data.record.root_position.id > 0 ){
+            // getStructurePosition( res.data.record.root_position.id )
+            selectedNode.value.id = res.data.record.root_position.id
+            selectedNode.value.parentId = res.data.record.root_position.parentId
+            selectedNode.value.name = res.data.record.root_position.position.name
+            selectedNode.value.image = res.data.record.root_position.position.image
+            selectedNode.value.desp = res.data.record.root_position.position.desp
+            selectedNode.value.pid = res.data.record.root_position.pid
+            selectedNode.value.organization_structure_id = res.data.record.root_position.organization_structure_id
+            selectedNode.value.organization_structure = res.data.record.root_position.organization_structure
+            selectedNode.value.position = res.data.record.root_position.position
+            
+            const nodes = ref([])
+            nodes.value.push( {
+              id: res.data.record.root_position.id ,
+              parentId: null ,
+              name: res.data.record.root_position.position.name ,
+              image: res.data.record.root_position.position.image != "" && res.data.record.root_position.position.image != undefined ? res.data.record.root_position.position.image : ocmLogoUrl ,
+              desp: res.data.record.root_position.position.desp ,
+              pid: res.data.record.root_position.pid ,
+              organization_structure_id : res.data.record.root_position.organization_structure_id ,
+              organization_structure : res.data.record.root_position.organization_structure ,
+              position : res.data.record.root_position.position ,
+              total_jobs : res.data.record.root_position.total_jobs ,
+              total_unit_jobs: res.data.record.root_position.total_unit_jobs ,
+              _centered: true  
+            } )
+            
+            if( res.data.record.root_position.children != undefined && res.data.record.root_position.children != null ){
+              positionStructure.value = readPositionStructure( res.data.record.root_position.children )
+              for(const e of positionStructure.value ){
+                nodes.value.push({
+                  id: e.id ,
+                  parentId: parseInt( e.pid ) > 0 ? parseInt( e.pid ) : null ,
+                  name: e.position.name ,
+                  image: e.position.image != "" && e.position.image != undefined ? e.position.image : ocmLogoUrl ,
+                  desp: e.position.desp ,
+                  pid: e.pid ,
+                  organization_structure_id : e.organization_structure_id ,
+                  organization_structure : e.organization_structure ,
+                  position : e.position ,
+                  total_jobs : e.total_jobs ,
+                  total_unit_jobs: e.total_unit_jobs
+                })
+              }
             }
-          }
-
-          if( res.data.root_position != undefined && res.data.root_position.id > 0 ){
-            getStructurePosition( res.data.root_position.id )
+            chart.value = null
+            drawingOrgchart(nodes.value)
+            chartNodeFunctionsToggler.value = true
           }else{
             notify.info({
               title: 'រចនាសម្ព័ន្ធតួនាទី' ,
-              content: 'មិនទាន់មាន រចនាសម្ព័ន្ធតួនាទី' 
+              content: 'មិនទាន់មាន រចនាសម្ព័ន្ធតួនាទី' ,
+              duration: 1000
             })
           }
         }else{
           notify.warning({
             title: 'អានឋានានុក្រម' ,
-            content: 'មានបញ្ហាអានឋានានុក្រម។'
+            content: 'មានបញ្ហាអានឋានានុក្រម។' ,
+            duration: 1000
           })
         }
 
       }).catch( err => {
         console.log( err )
       })
+    }
+
+    const positionStructure = ref([])
+    function readPositionStructure(children){
+      return children.map( (child) => {
+        let parent = [{
+          // Fields use by the organization chart
+          id: child.id ,
+          parentId: parseInt( child.pid ) > 0 ? parseInt( child.pid ) : null ,
+          name: child.position.name , 
+          position: child.position ,
+          desp: child.position.desp ,
+          image: child.image ,
+          // Field others
+          pid: child.pid ,
+          tpid: child.tpid ,
+          total_jobs: child.total_jobs ,
+          total_unit_jobs: child.total_unit_jobs ,
+          position: child.position ,
+          total_jobs : child.total_jobs ,
+          total_unit_jobs: child.total_unit_jobs ,
+          // pdf: child.organization.pdf
+        }]
+        if( child.children != undefined && child.children != null ){
+          return parent.concat( readPositionStructure(child.children) )
+        }else{
+          return parent
+        }
+      }).flat(Infinity)
     }
 
     function getStructurePosition(id){
@@ -940,7 +984,6 @@ export default {
             })
           }
         }
-        console.log( nodes.value )
         chart.value = null
         drawingOrgchart(nodes.value)
         chartNodeFunctionsToggler.value = true

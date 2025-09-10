@@ -81,7 +81,7 @@
       <Transition name="slide-fade" >
         <div v-if="dataFlattened" class="chart-container" > </div>
       </Transition>
-      <div v-show="selectedNode != null && chartNodeFunctionsToggler" class="absolute right-14 top-0 p-2 bg-gray-100/25 rounded-bl-lg text-white" >កំពុងស្ថិតនៅ ៖ {{ selectedNode != null ? selectedNode.id + ". " + selectedNode.name : '' }}</div>
+      <div v-show=" ( selectedNode != null && selectedNode.id > 0 ) && chartNodeFunctionsToggler" class="absolute right-14 top-0 p-2 bg-gray-100/25 rounded-bl-lg text-white" >កំពុងស្ថិតនៅ ៖ {{ selectedNode.id + ". " + selectedNode.name }}</div>
       <Transition name="slide-fade" >
         <div
           v-show="selectedNode != null && chartNodeFunctionsToggler"
@@ -89,6 +89,16 @@
           class=" absolute top-0 right-0 bottom-0 bg-gray-200/25 w-14 "
         >
           <n-scrollbar >
+            <!-- Set center -->
+            <n-tooltip trigger="hover" placement="left" >
+              <template #trigger >
+                <svg 
+                  @click="clearChart"
+                  class="text-gray-100 m-2 w-10 h-10 p-1 cursor-pointer" 
+                  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512"><path d="M448 256c0-106-86-192-192-192S64 150 64 256s86 192 192 192s192-86 192-192z" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"></path><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M320 320L192 192"></path><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M192 320l128-128"></path></svg>
+              </template>
+              សំអាតឋានានុក្រម
+            </n-tooltip>
             <!-- Set center -->
             <n-tooltip trigger="hover" placement="left" >
               <template #trigger >
@@ -343,6 +353,8 @@ export default {
     const router = useRouter()
     const route = useRoute()
     const notify = useNotification()
+    const organizationStructure = ref([])
+    
     const currentOrganizationId = computed( () => {
       return route.params.id != undefined && parseInt( route.params.id ) > 0
         ? parseInt( route.params.id )
@@ -492,11 +504,16 @@ export default {
       id: 0 ,
       parentId: "" ,
       pid: 0 ,
+      tpid: "" ,
       name: "" ,
       image: "https://picsum.photos/200/300" ,
       desp: "" ,
       organization: null ,
-      leader: []
+      leader: [] ,
+      total_jobs: 0 ,
+      total_unit_jobs: 0 ,
+      root_position: null ,
+      pdf: false
     })
     const selectedNode = ref({
       id: 0 ,
@@ -506,7 +523,11 @@ export default {
       image: "https://picsum.photos/200/300" ,
       desp: "" ,
       organization: null ,
-      leader: []
+      leader: [] ,
+      total_jobs: 0 ,
+      total_unit_jobs: 0 ,
+      root_position: null ,
+      pdf: false
     })
     function drawingOrgchart(data){
       dataFlattened.value = Array.isArray( data ) ? data : []
@@ -654,28 +675,109 @@ export default {
       .render().fit()
     }
 
+    function clearChart(){
+      dataFlattened.value = []
+
+      selectedNode.value.id = 0
+      selectedNode.value.parentId = 0
+      selectedNode.value.pid = 0
+      selectedNode.value.name = ""
+      selectedNode.value.image = ""
+      selectedNode.value.desp = ""
+      selectedNode.value.organization = null
+      selectedNode.value.pid = 0
+      selectedNode.value.tpid = ""
+      selectedNode.value.total_jobs = 0
+      selectedNode.value.total_unit_jobs = 0
+      selectedNode.value.organization = null
+      selectedNode.value.root_position = null
+      selectedNode.value.pdf = ''
+      
+      chart.value = new OrgChart()
+      .container('.chart-container')
+      .data( 
+        dataFlattened.value
+      )
+      .svgHeight(window.innerHeight - 55)
+      .initialZoom(0.8)
+      .nodeWidth((d3Node) => {
+        let i = 0;
+        if (d3Node.parent) { i = d3Node.parent.children.indexOf(d3Node); }
+        if (i && i == d3Node.parent.children.length - 1) { return 600; }
+        return (!i || i == d3Node.parent.children.length - 1) ? 300 : 100
+      })
+      .nodeHeight((d3Node) => {
+        let i = 0;
+        if (d3Node.parent) { i = d3Node.parent.children.indexOf(d3Node); }
+        if (i && i == d3Node.parent.children.length - 1) { return 300; }
+        return (!i || i == d3Node.parent.children.length - 1) ? 200 : 100
+      })
+      .siblingsMargin(d3Node => 50)
+      .childrenMargin(d3Node => 50)
+      // .neightbourMargin((n1, n2) => 50)
+      .compactMarginPair(d3Node => 70)
+      .compactMarginBetween(d3Node => 50)
+      .setActiveNodeCentered(true)
+      // .layout(new URLSearchParams(new URL(document.location.href).search).get('layout') || "top")
+      .layout("top")
+      .linkUpdate(function (d3Node, i, arr) {
+          const link = this;
+          d3.select(link)
+              .attr('stroke-dasharray', !i ? '2 2' : 'none')
+              .attr('stroke-width', 3)
+      })
+      .nodeUpdate(function (node, i, arr) {
+      })
+      .nodeHeight(d => 100)
+      .nodeWidth(d => {
+          return 400
+      })
+      .childrenMargin(d => 50)
+      .onNodeClick( d => {})
+      .compactMarginBetween(d => 50)
+      .compactMarginPair(d => 50)
+      .buttonContent(({ node, state }) => {
+        return `<div class="border border-gray-300 bg-white rounded-md flex flex-row h-6 font-bold text-blue-500" >
+          <svg class="w-4" style="margin: 2px 5px auto 5px; " xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 20 20"><g fill="none"><path d="M9 2.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5H10v1a5 5 0 0 1 5 5v1h1a2 2 0 0 1 2 2v4a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-4a2 2 0 0 1 2-2h1v-1a5.002 5.002 0 0 1 4-4.9V2.5zm7 9.5h-1.5a.5.5 0 0 1-.5-.5V10a4 4 0 0 0-8 0v1.5a.5.5 0 0 1-.5.5H4a1 1 0 0 0-1 1v4h5v-2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2h5v-4a1 1 0 0 0-1-1zM6 13.5a.5.5 0 0 0-1 0v2a.5.5 0 0 0 1 0v-2zm9 0a.5.5 0 0 0-1 0v2a.5.5 0 0 0 1 0v-2zM8.5 9a.5.5 0 0 0-.5.5v2a.5.5 0 0 0 1 0v-2a.5.5 0 0 0-.5-.5zm3.5.5a.5.5 0 0 0-1 0v2a.5.5 0 0 0 1 0v-2zM9 17h2v-2H9v2z" fill="currentColor"></path></g></svg>
+          <div class="" style="margin: 3px 5px auto 5px; " >${ ( node.data._directSubordinates ) }</div>
+          </div>`
+      })
+      .linkUpdate(function (d, i, arr) {
+          d3.select(this)
+              .attr("stroke", d => d.data._upToTheRootHighlighted ? '#152785' : '#E4E2E9')
+              .attr("stroke-width", d => d.data._upToTheRootHighlighted ? 5 : 1)
+
+          if (d.data._upToTheRootHighlighted) {
+              d3.select(this).raise()
+          }
+      })
+      .nodeContent(function (d, i, arr, state) {
+          const colors = ['#278B8D', '#404040', '#0C5C73', '#33C6CB'];
+          const color = "#FFFFFF"
+          return `<div style="font-family: 'Inter', sans-serif;background-color:${color}; position:absolute;margin-top:-1px; margin-left:-1px;width:${d.width}px;height:${d.height}px;border-radius:10px;border: 1px solid #E4E2E9;">
+                    <div style="" class="text-center text-gray-600 p-4 pt-6 font-moul leading-7" > ${d.data.name} </div>
+                    <div style="color:#716E7B;margin: 3px 10px 5px 10px;font-size:12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;  text-align: center; ">${ 
+                      '' // d.data.leader != undefined && d.data.leader.length > 0 ? ( d.data.leader[0].countesies.map( (c) => c.name ).join(' , ') + "" + d.data.leader[0].lastname + " " + d.data.leader[0].firstname + " " + d.data.leader[0].positions.map( (p) => p.name ).join(' , ') ) : 'មិនមានអ្នកគ្រប់គ្រង' 
+                    }</div>
+                    <!-- 
+                    <div style="position: absolute; right: 5px; bottom: -4px; border: 1px solid #CCC; background-color: #FFF; color:#716E7B; border-radius: 5px; height: 22px; padding: 2px; float: left;" >
+                      <svg class="text-blue-600" style=" float: left; width: 12px; height: 12px; margin: 1px 5px auto 5px; display: inline-block; font-size: 12px ;" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 448 512"><path d="M224 256c70.7 0 128-57.3 128-128S294.7 0 224 0S96 57.3 96 128s57.3 128 128 128zm95.8 32.6L272 480l-32-136l32-56h-96l32 56l-32 136l-47.8-191.4C56.9 292 0 350.3 0 422.4V464c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48v-41.6c0-72.1-56.9-130.4-128.2-133.8z" fill="currentColor"></path></svg>
+                      <div class="text-blue-600" style=" float: right; font-size: 12px ; margin: auto 5px; " >` + ( d.data.staffs != null && d.data.staffs.length > 0 ? d.data.staffs.length : 0 ) + `</div>
+                    </div>
+                    -->
+                  </div>
+                  `;
+      })
+      .render().fit()
+    }
+
     function addNode(parentNode){
       if( moveNodeHelper.value == true ){
-        console.log( selectedNode.value.organization.id )
-        console.log( parentNode.id )
-        moveNode( selectedNode.value.organization.id , parentNode.id )
+        moveNode( selectedNode.value.id , parentNode.id )
         return false
       }
       // Add Root Organization
       if( dataFlattened.value.length <= 0 ){
-        // rootNode.value.id = o.id
-        // rootNode.value.parentId = o.parentId
-        // rootNode.value.name = o.name
-        // rootNode.value.pid = o.pid
-        // rootNode.value.image = o.image
-        // rootNode.value.desp = o.desp
-
-        // selectedNode.value.id = o.id
-        // selectedNode.value.parentId = o.parentId
-        // selectedNode.value.name = o.name
-        // selectedNode.value.pid = o.pid
-        // selectedNode.value.image = o.image
-        // selectedNode.value.desp = o.desp
 
         store.dispatch( model.name+'/addStructure' , {
           pid: 0 ,
@@ -683,38 +785,35 @@ export default {
         }).then( res => {
           rootNode.value.id = res.data.record.id
           rootNode.value.parentId = parseInt( res.data.record.pid ) > 0 ? parseInt( res.data.record.pid ) : null
-          rootNode.value.pid = res.data.record.pid 
           rootNode.value.name = res.data.record.organization.name
+          rootNode.value.pid = res.data.record.pid 
           rootNode.value.image = res.data.record.organization.image
           rootNode.value.desp = res.data.record.organization.desp
           rootNode.value.organization = res.data.record.organization
+          rootNode.value.pid = res.data.record.pid ,
+          rootNode.value.tpid = res.data.record.tpid ,
+          rootNode.value.total_jobs = res.data.record.total_jobs ,
+          rootNode.value.total_unit_jobs = res.data.record.total_unit_jobs ,
+          rootNode.value.organization = res.data.record.organization ,
+          rootNode.value.root_position = res.data.record.root_position ,
+          rootNode.value.pdf = res.data.record.organization.pdf
 
           selectedNode.value.id = rootNode.value.id
           selectedNode.value.parentId = rootNode.value.parentId
-          selectedNode.value.pid = rootNode.pid 
+          selectedNode.value.pid = rootNode.value.pid
           selectedNode.value.name = rootNode.value.name
           selectedNode.value.image = rootNode.value.image
           selectedNode.value.desp = rootNode.value.desp
           selectedNode.value.organization = rootNode.value.organization
+          selectedNode.value.pid = rootNode.value.pid ,
+          selectedNode.value.tpid = rootNode.value.tpid ,
+          selectedNode.value.total_jobs = rootNode.value.total_jobs ,
+          selectedNode.value.total_unit_jobs = rootNode.value.total_unit_jobs ,
+          selectedNode.value.organization = rootNode.value.organization ,
+          selectedNode.value.root_position = rootNode.value.root_position ,
+          selectedNode.value.pdf = rootNode.value.organization.pdf
           
           getStructure(rootNode.value.id)
-
-          // chart.value = null
-          // drawingOrgchart([{
-          //   id: rootNode.value.id ,
-          //   parentId: rootNode.value.parentId ,
-          //   pid: rootNode.value.pid ,
-          //   name: rootNode.value.name ,
-          //   image: rootNode.value.image != "" && rootNode.value.image != undefined ? rootNode.value.image : ocmLogoUrl ,
-          //   desp: rootNode.value.desp ,
-          //   _centered: true  
-          // }])
-          // if( dataFlattened.value.length ){
-          //   // table.records.matched = []
-          //   // table.records.matched = table.records.all.filter( ( o ) => dataFlattened.value.find( ( dfItem ) => dfItem.id == o.id ) == undefined )
-          //   // table.search = ''
-          //   getRecords()
-          // }
           
         }).catch( err => {
           console.log( err )
@@ -731,19 +830,33 @@ export default {
           }).then( res => {
             rootNode.value.id = res.data.record.id
             rootNode.value.parentId = parseInt( res.data.record.pid ) > 0 ? parseInt( res.data.record.pid ) : null
-            rootNode.value.pid = res.data.record.pid 
             rootNode.value.name = res.data.record.organization.name
+            rootNode.value.pid = res.data.record.pid 
             rootNode.value.image = res.data.record.organization.image
             rootNode.value.desp = res.data.record.organization.desp
             rootNode.value.organization = res.data.record.organization
+            rootNode.value.pid = res.data.record.pid ,
+            rootNode.value.tpid = res.data.record.tpid ,
+            rootNode.value.total_jobs = res.data.record.total_jobs ,
+            rootNode.value.total_unit_jobs = res.data.record.total_unit_jobs ,
+            rootNode.value.organization = res.data.record.organization ,
+            rootNode.value.root_position = res.data.record.root_position ,
+            rootNode.value.pdf = res.data.record.organization.pdf
 
             selectedNode.value.id = rootNode.value.id
             selectedNode.value.parentId = rootNode.value.parentId
-            selectedNode.value.pid = rootNode.pid 
+            selectedNode.value.pid = rootNode.value.pid
             selectedNode.value.name = rootNode.value.name
             selectedNode.value.image = rootNode.value.image
             selectedNode.value.desp = rootNode.value.desp
             selectedNode.value.organization = rootNode.value.organization
+            selectedNode.value.pid = rootNode.value.pid ,
+            selectedNode.value.tpid = rootNode.value.tpid ,
+            selectedNode.value.total_jobs = rootNode.value.total_jobs ,
+            selectedNode.value.total_unit_jobs = rootNode.value.total_unit_jobs ,
+            selectedNode.value.organization = rootNode.value.organization ,
+            selectedNode.value.root_position = rootNode.value.root_position ,
+            selectedNode.value.pdf = rootNode.value.organization.pdf
             
             getStructure(rootNode.value.id)
           }).catch( err => {
@@ -774,19 +887,6 @@ export default {
     function moveNode(child_organization_id, parent_organization_id ){
       // Add Root Organization
       if( dataFlattened.value.length > 0 ){
-        // rootNode.value.id = o.id
-        // rootNode.value.parentId = o.parentId
-        // rootNode.value.name = o.name
-        // rootNode.value.pid = o.pid
-        // rootNode.value.image = o.image
-        // rootNode.value.desp = o.desp
-
-        // selectedNode.value.id = o.id
-        // selectedNode.value.parentId = o.parentId
-        // selectedNode.value.name = o.name
-        // selectedNode.value.pid = o.pid
-        // selectedNode.value.image = o.image
-        // selectedNode.value.desp = o.desp
 
         store.dispatch( model.name+'/moveStructure' , {
           child_organization_id : child_organization_id ,
@@ -795,19 +895,33 @@ export default {
           
           rootNode.value.id = res.data.record.id
           rootNode.value.parentId = parseInt( res.data.record.pid ) > 0 ? parseInt( res.data.record.pid ) : null
-          rootNode.value.pid = res.data.record.pid 
           rootNode.value.name = res.data.record.organization.name
+          rootNode.value.pid = res.data.record.pid 
           rootNode.value.image = res.data.record.organization.image
           rootNode.value.desp = res.data.record.organization.desp
           rootNode.value.organization = res.data.record.organization
+          rootNode.value.pid = res.data.record.pid ,
+          rootNode.value.tpid = res.data.record.tpid ,
+          rootNode.value.total_jobs = res.data.record.total_jobs ,
+          rootNode.value.total_unit_jobs = res.data.record.total_unit_jobs ,
+          rootNode.value.organization = res.data.record.organization ,
+          rootNode.value.root_position = res.data.record.root_position ,
+          rootNode.value.pdf = res.data.record.organization.pdf
 
           selectedNode.value.id = rootNode.value.id
           selectedNode.value.parentId = rootNode.value.parentId
-          selectedNode.value.pid = rootNode.pid 
+          selectedNode.value.pid = rootNode.value.pid
           selectedNode.value.name = rootNode.value.name
           selectedNode.value.image = rootNode.value.image
           selectedNode.value.desp = rootNode.value.desp
           selectedNode.value.organization = rootNode.value.organization
+          selectedNode.value.pid = rootNode.value.pid ,
+          selectedNode.value.tpid = rootNode.value.tpid ,
+          selectedNode.value.total_jobs = rootNode.value.total_jobs ,
+          selectedNode.value.total_unit_jobs = rootNode.value.total_unit_jobs ,
+          selectedNode.value.organization = rootNode.value.organization ,
+          selectedNode.value.root_position = rootNode.value.root_position ,
+          selectedNode.value.pdf = rootNode.value.organization.pdf
           
           getStructure(rootNode.value.id)
           
@@ -910,6 +1024,13 @@ export default {
         rootNode.value.image = res.data.record.organization.image
         rootNode.value.desp = res.data.record.organization.desp
         rootNode.value.organization = res.data.record.organization
+        rootNode.value.pid = res.data.record.pid ,
+        rootNode.value.tpid = res.data.record.tpid ,
+        rootNode.value.total_jobs = res.data.record.total_jobs ,
+        rootNode.value.total_unit_jobs = res.data.record.total_unit_jobs ,
+        rootNode.value.organization = res.data.record.organization ,
+        rootNode.value.root_position = res.data.record.root_position ,
+        rootNode.value.pdf = res.data.record.organization.pdf
 
         selectedNode.value.id = rootNode.value.id
         selectedNode.value.parentId = rootNode.value.parentId
@@ -918,6 +1039,13 @@ export default {
         selectedNode.value.image = rootNode.value.image
         selectedNode.value.desp = rootNode.value.desp
         selectedNode.value.organization = rootNode.value.organization
+        selectedNode.value.pid = rootNode.value.pid ,
+        selectedNode.value.tpid = rootNode.value.tpid ,
+        selectedNode.value.total_jobs = rootNode.value.total_jobs ,
+        selectedNode.value.total_unit_jobs = rootNode.value.total_unit_jobs ,
+        selectedNode.value.organization = rootNode.value.organization ,
+        selectedNode.value.root_position = rootNode.value.root_position ,
+        selectedNode.value.pdf = rootNode.value.organization.pdf
         
         const nodes = ref([])
         nodes.value.push( {
@@ -928,11 +1056,22 @@ export default {
           organization: rootNode.value.organization ,
           image: rootNode.value.image != "" && rootNode.value.image != undefined ? rootNode.value.image : ocmLogoUrl ,
           desp: rootNode.value.desp ,
-          _centered: true  
+          _centered: true ,
+          // Field others
+          pid: rootNode.value.pid ,
+          tpid: rootNode.value.tpid ,
+          total_jobs: rootNode.value.total_jobs ,
+          total_unit_jobs: rootNode.value.total_unit_jobs ,
+          organization: rootNode.value.organization ,
+          root_position: rootNode.value.root_position ,
+          pdf: rootNode.value.organization.pdf
+
         } )
 
-        if( res.data.records != undefined && res.data.records.length > 0 ){
-          for(const e of res.data.records ){
+        if( res.data.record.children != undefined && res.data.record.children != null ){
+          organizationStructure.value = readOrganizationStructure( res.data.record.children )
+          console.log( organizationStructure.value )
+          for(const e of organizationStructure.value ){
             nodes.value.push({
               id: e.id ,
               parentId: parseInt( e.pid ) > 0 ? parseInt( e.pid ) : null ,
@@ -940,12 +1079,20 @@ export default {
               pid: e.pid ,
               organization: e.organization ,
               image: e.organization.image != "" && e.organization.image != undefined ? e.organization.image : ocmLogoUrl ,
-              desp: e.organization.desp
+              desp: e.organization.desp ,
+              // Field others
+              pid: e.pid ,
+              tpid: e.tpid ,
+              total_jobs: e.total_jobs ,
+              total_unit_jobs: e.total_unit_jobs ,
+              organization: e.organization ,
+              root_position: e.root_position ,
+              pdf: e.organization.pdf
             })
           }
         }
         chart.value = null
-        drawingOrgchart(nodes.value)
+        drawingOrgchart( nodes.value )
         getRecords()
 
       }).catch( err => {
@@ -961,6 +1108,32 @@ export default {
       getStructure( currentOrganizationId.value )
     }else{
       getRecords()
+    }
+
+    function readOrganizationStructure(children){
+      return children.map( (child) => {
+        let parent = [{
+          // Fields use by the organization chart
+          id: child.id ,
+          parentId: parseInt( child.pid ) > 0 ? parseInt( child.pid ) : null ,
+          name: child.organization.name , 
+          desp: child.organization.desp ,
+          image: child.organization.image ,
+          // Field others
+          pid: child.pid ,
+          tpid: child.tpid ,
+          total_jobs: child.total_jobs ,
+          total_unit_jobs: child.total_unit_jobs ,
+          organization: child.organization ,
+          root_position: child.root_position ,
+          pdf: child.organization.pdf
+        }]
+        if( child.children != undefined && child.children != null ){
+          return parent.concat( readOrganizationStructure(child.children) )
+        }else{
+          return parent
+        }
+      }).flat(Infinity)
     }
 
     function editRecord( record ){
@@ -1003,7 +1176,8 @@ export default {
       startMoveNode ,
       getStructure ,
       editRecord ,
-      deleteRecord
+      deleteRecord ,
+      clearChart
     }
   }
 }
