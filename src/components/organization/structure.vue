@@ -1068,10 +1068,10 @@ export default {
 
         } )
 
-        if( res.data.record.children != undefined && res.data.record.children != null ){
-          organizationStructure.value = readOrganizationStructure( res.data.record.children )
-          console.log( organizationStructure.value )
-          for(const e of organizationStructure.value ){
+        if( res.data.records != undefined && res.data.records != null ){
+          // organizationStructure.value = readOrganizationStructure( res.data.record.children )
+          // console.log( organizationStructure.value )
+          for(const e of res.data.records ){
             nodes.value.push({
               id: e.id ,
               parentId: parseInt( e.pid ) > 0 ? parseInt( e.pid ) : null ,

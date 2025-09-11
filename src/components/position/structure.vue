@@ -80,7 +80,7 @@
         <div v-if="dataFlattened" class="chart-container" > </div>
       </Transition>
       <div v-show="selectedNode != null && chartNodeFunctionsToggler" class="absolute right-14 top-0 p-2 bg-gray-100/25 rounded-bl-lg text-white" >កំពុងស្ថិតនៅ ៖ {{ selectedNode != null ? selectedNode.name : '' }}</div>
-      <div v-if="currentOrganizationStructure != undefined " @click="$router.push('/organization/structure/'+currentOrganizationStructure.id)" class="absolute left-0 top-10 p-2 bg-gray-100/25 rounded-r-lg cursor-pointer text-white" >
+      <div v-if="currentOrganizationStructure != undefined " @click="$router.push('/organization/structure/'+currentOrganizationStructureId)" class="absolute left-0 top-10 p-2 bg-gray-100/25 rounded-r-lg cursor-pointer text-white" >
         <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24"><path d="M16.62 2.99a1.25 1.25 0 0 0-1.77 0L6.54 11.3a.996.996 0 0 0 0 1.41l8.31 8.31c.49.49 1.28.49 1.77 0s.49-1.28 0-1.77L9.38 12l7.25-7.25c.48-.48.48-1.28-.01-1.76z" fill="currentColor"></path></svg>
       </div>
       <div v-if="currentOrganizationStructure != undefined " class="absolute left-0 top-0 p-2 bg-gray-100/25 rounded-br-lg text-white" >អង្គភាព ៖ {{ currentOrganizationStructure.name }}</div>
@@ -842,6 +842,10 @@ export default {
       } ).then( res => {
         if( res.data.ok ){
 
+          currentOrganizationStructure.id = res.data.record.id
+          currentOrganizationStructure.name = res.data.record.organization.name
+          currentOrganizationStructure.organization = res.data.record.organization
+
           if( res.data.record.root_position != undefined && res.data.record.root_position.id > 0 ){
             // getStructurePosition( res.data.record.root_position.id )
             selectedNode.value.id = res.data.record.root_position.id
@@ -1034,7 +1038,8 @@ export default {
       chart ,
       removeNode ,
       getStructurePosition ,
-      assignPermissions
+      assignPermissions ,
+      currentOrganizationStructureId
     }
   }
 }
