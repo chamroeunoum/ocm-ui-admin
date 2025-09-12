@@ -499,6 +499,7 @@ export default {
     const columns = ref('id,name,image,parentId,desp')
     const dataFlattened = ref([])
     const chart = ref(null)
+    const nodes = ref([])
     const chartNodeFunctionsToggler = ref( false )
     const rootNode = ref({
       id: 0 ,
@@ -786,7 +787,7 @@ export default {
           rootNode.value.id = res.data.record.id
           rootNode.value.parentId = parseInt( res.data.record.pid ) > 0 ? parseInt( res.data.record.pid ) : null
           rootNode.value.name = res.data.record.organization.name
-          rootNode.value.pid = res.data.record.pid 
+          rootNode.value.pid = parseInt( res.data.record.pid ) > 0 ? parseInt( res.data.record.pid ) : null
           rootNode.value.image = res.data.record.organization.image
           rootNode.value.desp = res.data.record.organization.desp
           rootNode.value.organization = res.data.record.organization
@@ -805,15 +806,62 @@ export default {
           selectedNode.value.image = rootNode.value.image
           selectedNode.value.desp = rootNode.value.desp
           selectedNode.value.organization = rootNode.value.organization
-          selectedNode.value.pid = rootNode.value.pid ,
-          selectedNode.value.tpid = rootNode.value.tpid ,
-          selectedNode.value.total_jobs = rootNode.value.total_jobs ,
-          selectedNode.value.total_unit_jobs = rootNode.value.total_unit_jobs ,
-          selectedNode.value.organization = rootNode.value.organization ,
-          selectedNode.value.root_position = rootNode.value.root_position ,
+          selectedNode.value.pid = rootNode.value.pid
+          selectedNode.value.tpid = rootNode.value.tpid
+          selectedNode.value.total_jobs = rootNode.value.total_jobs
+          selectedNode.value.total_unit_jobs = rootNode.value.total_unit_jobs
+          selectedNode.value.organization = rootNode.value.organization
+          selectedNode.value.root_position = rootNode.value.root_position
           selectedNode.value.pdf = rootNode.value.organization.pdf
-          
-          getStructure(rootNode.value.id)
+
+          nodes.value = []
+            nodes.value.push( {
+              id: rootNode.value.id ,
+              parentId: null ,
+              name: rootNode.value.name ,
+              pid: rootNode.value.pid ,
+              organization: rootNode.value.organization ,
+              image: rootNode.value.image != "" && rootNode.value.image != undefined ? rootNode.value.image : ocmLogoUrl ,
+              desp: rootNode.value.desp ,
+              _centered: true ,
+              // Field others
+              pid: rootNode.value.pid ,
+              tpid: rootNode.value.tpid ,
+              total_jobs: rootNode.value.total_jobs ,
+              total_unit_jobs: rootNode.value.total_unit_jobs ,
+              organization: rootNode.value.organization ,
+              root_position: rootNode.value.root_position ,
+              pdf: rootNode.value.organization.pdf
+
+            } )
+
+            if( res.data.records != undefined && res.data.records != null ){
+              // organizationStructure.value = readOrganizationStructure( res.data.record.children )
+              // console.log( organizationStructure.value )
+              for(const e of res.data.records ){
+                nodes.value.push({
+                  id: e.id ,
+                  parentId: parseInt( e.pid ) > 0 ? parseInt( e.pid ) : null ,
+                  name: e.organization.name ,
+                  pid: e.pid ,
+                  organization: e.organization ,
+                  image: e.organization.image != "" && e.organization.image != undefined ? e.organization.image : ocmLogoUrl ,
+                  desp: e.organization.desp ,
+                  // Field others
+                  pid: e.pid ,
+                  tpid: e.tpid ,
+                  total_jobs: e.total_jobs ,
+                  total_unit_jobs: e.total_unit_jobs ,
+                  organization: e.organization ,
+                  root_position: e.root_position ,
+                  pdf: e.organization.pdf
+                })
+              }
+            }
+            chart.value = null
+            drawingOrgchart( nodes.value )
+            
+          // getStructure(rootNode.value.id)
           
         }).catch( err => {
           console.log( err )
@@ -858,18 +906,59 @@ export default {
             selectedNode.value.root_position = rootNode.value.root_position ,
             selectedNode.value.pdf = rootNode.value.organization.pdf
             
-            getStructure(rootNode.value.id)
+            nodes.value = []
+            nodes.value.push( {
+              id: rootNode.value.id ,
+              parentId: null ,
+              name: rootNode.value.name ,
+              pid: rootNode.value.pid ,
+              organization: rootNode.value.organization ,
+              image: rootNode.value.image != "" && rootNode.value.image != undefined ? rootNode.value.image : ocmLogoUrl ,
+              desp: rootNode.value.desp ,
+              _centered: true ,
+              // Field others
+              pid: rootNode.value.pid ,
+              tpid: rootNode.value.tpid ,
+              total_jobs: rootNode.value.total_jobs ,
+              total_unit_jobs: rootNode.value.total_unit_jobs ,
+              organization: rootNode.value.organization ,
+              root_position: rootNode.value.root_position ,
+              pdf: rootNode.value.organization.pdf
+
+            } )
+
+            if( res.data.records != undefined && res.data.records != null ){
+              // organizationStructure.value = readOrganizationStructure( res.data.record.children )
+              // console.log( organizationStructure.value )
+              for(const e of res.data.records ){
+                nodes.value.push({
+                  id: e.id ,
+                  parentId: parseInt( e.pid ) > 0 ? parseInt( e.pid ) : null ,
+                  name: e.organization.name ,
+                  pid: e.pid ,
+                  organization: e.organization ,
+                  image: e.organization.image != "" && e.organization.image != undefined ? e.organization.image : ocmLogoUrl ,
+                  desp: e.organization.desp ,
+                  // Field others
+                  pid: e.pid ,
+                  tpid: e.tpid ,
+                  total_jobs: e.total_jobs ,
+                  total_unit_jobs: e.total_unit_jobs ,
+                  organization: e.organization ,
+                  root_position: e.root_position ,
+                  pdf: e.organization.pdf
+                })
+              }
+            }
+            chart.value = null
+            drawingOrgchart( nodes.value )
+            
+            // getStructure(rootNode.value.id)
+
           }).catch( err => {
             console.log( err )
           })
-          // store.dispatch(model.name + "/addNode",{
-          //   pid: selectedNode.value.id ,
-          //   cid: o.id
-          // }).then( res => {
-          //   console.log( res.data )  
-          // }).catch( err => {
-          //   console.log( err )  
-          // })
+
         }else{
           notify.warning({
             title: 'ឋានានុក្រុមស្ថាប័ន' , 

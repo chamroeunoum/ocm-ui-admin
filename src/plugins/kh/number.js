@@ -4,7 +4,7 @@ var numbers = {
 };
 export default {
   install(app, options = {}) {
-    app.config.globalProperties.$toKhmer = ( str ) => {
+    const toKhmer = ( str ) => {
       str = str != null && str != undefined ? str.toString().trim() : ''
       if( str.length > 0 ){
         for(let i in numbers.latin){
@@ -13,5 +13,10 @@ export default {
       }
       return str
     }
+    // For Options API
+    app.config.globalProperties.$toKhmer = toKhmer;
+
+    // For Composition API
+    app.provide('toKhmer', toKhmer);
   }
 }

@@ -693,7 +693,7 @@ export default {
     function addChild(o){
 
       if( dataFlattened.value.length <= 0 ){
-          store.dispatch( 'organizations/addPosition' , {
+          store.dispatch( 'position/addPosition' , {
             organization_structure_id : currentOrganizationStructure.id ,
             position_id: o.id ,
             pid: 0 ,
@@ -717,7 +717,7 @@ export default {
       }else{
         if( chart.value != null && selectedNode.value != null && selectedNode.value.id > 0 ){
 
-          store.dispatch( 'organizations/addPosition' , {
+          store.dispatch( 'position/addPosition' , {
             organization_structure_id : currentOrganizationStructure.id ,
             position_id: o.id ,
             pid: selectedNode.value.id ,
@@ -778,7 +778,7 @@ export default {
       // Case the deleting node is the not the root
       else if( parseInt( node.parentId ) > 0 ){
 
-        store.dispatch( 'organizations/deletePosition',{id: node.id }).then( res => {
+        store.dispatch( 'position/deletePosition',{id: node.id }).then( res => {
           if( res.data.ok ){
             let temp = []
             for(let i in dataFlattened.value ){
@@ -836,72 +836,61 @@ export default {
       drawingOrgchart()
     })
 
+    const nodes = ref([])
     function getStructure( id ){
-      store.dispatch( 'organizations/getStructure',{
+      store.dispatch( 'position/getStructure',{
         organization_structure_id : id
       } ).then( res => {
         if( res.data.ok ){
 
-          currentOrganizationStructure.id = res.data.record.id
-          currentOrganizationStructure.name = res.data.record.organization.name
-          currentOrganizationStructure.organization = res.data.record.organization
+          currentOrganizationStructure.id = res.data.organization_structure.id
+          currentOrganizationStructure.name = res.data.organization_structure.organization.name
+          currentOrganizationStructure.organization = res.data.organization_structure.organization
 
-          if( res.data.record.root_position != undefined && res.data.record.root_position.id > 0 ){
-            // getStructurePosition( res.data.record.root_position.id )
-            selectedNode.value.id = res.data.record.root_position.id
-            selectedNode.value.parentId = res.data.record.root_position.parentId
-            selectedNode.value.name = res.data.record.root_position.position.name
-            selectedNode.value.image = res.data.record.root_position.position.image
-            selectedNode.value.desp = res.data.record.root_position.position.desp
-            selectedNode.value.pid = res.data.record.root_position.pid
-            selectedNode.value.organization_structure_id = res.data.record.root_position.organization_structure_id
-            selectedNode.value.organization_structure = res.data.record.root_position.organization_structure
-            selectedNode.value.position = res.data.record.root_position.position
-            
-            const nodes = ref([])
-            nodes.value.push( {
-              id: res.data.record.root_position.id ,
-              parentId: null ,
-              name: res.data.record.root_position.position.name ,
-              image: res.data.record.root_position.position.image != "" && res.data.record.root_position.position.image != undefined ? res.data.record.root_position.position.image : ocmLogoUrl ,
-              desp: res.data.record.root_position.position.desp ,
-              pid: res.data.record.root_position.pid ,
-              organization_structure_id : res.data.record.root_position.organization_structure_id ,
-              organization_structure : res.data.record.root_position.organization_structure ,
-              position : res.data.record.root_position.position ,
-              total_jobs : res.data.record.root_position.total_jobs ,
-              total_unit_jobs: res.data.record.root_position.total_unit_jobs ,
-              _centered: true  
-            } )
-            
-            if( res.data.record.root_position.children != undefined && res.data.record.root_position.children != null ){
-              positionStructure.value = readPositionStructure( res.data.record.root_position.children )
-              for(const e of positionStructure.value ){
-                nodes.value.push({
-                  id: e.id ,
-                  parentId: parseInt( e.pid ) > 0 ? parseInt( e.pid ) : null ,
-                  name: e.position.name ,
-                  image: e.position.image != "" && e.position.image != undefined ? e.position.image : ocmLogoUrl ,
-                  desp: e.position.desp ,
-                  pid: e.pid ,
-                  organization_structure_id : e.organization_structure_id ,
-                  organization_structure : e.organization_structure ,
-                  position : e.position ,
-                  total_jobs : e.total_jobs ,
-                  total_unit_jobs: e.total_unit_jobs
-                })
-              }
-            }
-            chart.value = null
-            drawingOrgchart(nodes.value)
-            chartNodeFunctionsToggler.value = true
-          }else{
-            notify.info({
-              title: 'រចនាសម្ព័ន្ធតួនាទី' ,
-              content: 'មិនទាន់មាន រចនាសម្ព័ន្ធតួនាទី' ,
-              duration: 1000
+          selectedNode.value.id = res.data.record.id
+          selectedNode.value.parentId = parseInt( res.data.pid ) > 0 ? parseInt( res.data.pid ) : null 
+          selectedNode.value.name = res.data.record.position.name
+          selectedNode.value.image = res.data.record.position.image
+          selectedNode.value.desp = res.data.record.position.desp
+          selectedNode.value.pid = res.data.record.pid
+          selectedNode.value.organization_structure_id = res.data.organization_structure.id
+          selectedNode.value.organization_structure = res.data.organization_structure
+          selectedNode.value.position = res.data.records.concat( res.data.record )
+          
+          nodes.value = []
+          nodes.value.push( {
+            id: res.data.record.id ,
+            parentId: null ,
+            name: res.data.record.position.name ,
+            image: res.data.record.position.image != "" && res.data.record.position.image != undefined ? res.data.record.position.image : ocmLogoUrl ,
+            desp: res.data.record.position.desp ,
+            pid: res.data.record.pid ,
+            organization_structure_id : res.data.organization_structure_id ,
+            organization_structure : res.data.organization_structure ,
+            position : res.data.record.position ,
+            // total_jobs : res.data.record.total_jobs ,
+            // total_unit_jobs: res.data.record.total_unit_jobs ,
+            _centered: true  
+          } )
+          
+          for(const e of res.data.records ){
+            nodes.value.push({
+              id: e.id ,
+              parentId: parseInt( e.pid ) > 0 ? parseInt( e.pid ) : null ,
+              name: e.position.name ,
+              image: e.position.image != "" && e.position.image != undefined ? e.position.image : ocmLogoUrl ,
+              desp: e.position.desp ,
+              pid: e.pid ,
+              organization_structure_id : e.organization_structure_id ,
+              organization_structure : e.organization_structure ,
+              position : e.position ,
+              // total_jobs : e.total_jobs ,
+              // total_unit_jobs: e.total_unit_jobs
             })
           }
+          chart.value = null
+          drawingOrgchart(nodes.value)
+          chartNodeFunctionsToggler.value = true
         }else{
           notify.warning({
             title: 'អានឋានានុក្រម' ,
@@ -945,7 +934,7 @@ export default {
     }
 
     function getStructurePosition(id){
-      store.dispatch( 'organizations/getPosition',{
+      store.dispatch( 'position/getPosition',{
         organization_structure_position_id : id
       } ).then( res => {
 
