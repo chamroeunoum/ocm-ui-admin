@@ -52,34 +52,64 @@
       </Transition>
     </div>
     <!-- Pagination of crud -->
-    <div class="fixed left-0 right-0 bottom-1 flex flex-wrap" >
-      <!-- This pagination is for the media side with from Medium up -->
-      <div class="vcb-table-pagination bg-blue-300 mx-auto">
-        <!-- Information -->
-        <div class="vcb-table-pagination-info" >{{ table.pagination.totalRecords > 0 ? table.pagination.totalRecords + ' ការងារ' : "" }}</div>
-          <div v-if="table.pagination.totalPages>1" class="vcb-table-pagination-info" >{{ table.pagination.totalPages > 0 ? " ចែកជា " + table.pagination.totalPages + " ទំព័រ" : "" }}</div>
-        <!-- First -->
-        <!-- Pages (7) -->
-        <div v-for="(page, index) in table.pagination.buttons" :key="index" :class=" (table.pagination.page == page ? ' vcb-pagination-page-active ' : ' vcb-pagination-page ' )" @click="table.pagination.page == page ? false : goTo(page) " >{{ page }}</div>
-        <!-- Previous -->          
-        <n-tooltip v-if="table.pagination.page > 1 "  trigger="hover">
-          <template #trigger>
-            <div class="vcb-pagination-page border-gray-200 text-gray-200 " v-html='"<"' ></div>
-          </template>
-          ទៅទំព័រដើមបង្អស់ហើយ។
-        </n-tooltip>
-        <!-- Next -->
-        <n-tooltip v-if="table.pagination.totalPages > 1 && table.pagination.page >= table.pagination.totalPages " trigger="hover">
-          <template #trigger>
-            <div class="vcb-pagination-page border-gray-200 text-gray-200 " v-html='">"' ></div>
-          </template>
-          ទៅទំព័រចុងក្រោយហើយ។
-        </n-tooltip>
-        <!-- Last -->
-        <!-- Go to -->
-        <!-- Total per page -->
-      </div>
-    </div>
+      <Transition name="slide-fade" >
+        <div v-if="table.pagination.totalPages > 1 " class="fixed left-0 right-0 bottom-1 flex flex-wrap" >
+          <div class="vcb-table-pagination bg-blue-300 mx-auto">
+            <n-tooltip trigger="hover">
+              <template #trigger>
+                <n-popselect 
+                  trigger="click"
+                  v-model:value="table.pagination.perPage"
+                  :options="[
+                    { label: 5 , value: 5 } ,
+                    { label: 10 , value: 10 } ,
+                    { label: 20 , value: 20 } ,
+                    { label: 30 , value: 30 } ,
+                    { label: 40 , value: 40 } ,
+                    { label: 50 , value: 50 } ,
+                    { label: 100 , value: 100 } ,
+                    { label: 200 , value: 200 } ,
+                    { label: 500 , value: 500 } ,
+                  ]"
+                  size="small"
+                  scrollable
+                  @update:value="goTo(1)"
+                >
+                  <div class="cursor-pointer font-pvh rounded-full p-2 px-4 border border-gray-200 text-blue-600" >{{ $toKhmer( table.pagination.perPage ) }}</div>
+                </n-popselect>
+              </template>
+              ចំនួនព័ត៌មានបង្ហាញម្ដង
+            </n-tooltip>
+            <!-- <n-tooltip trigger="hover">
+              <template #trigger>
+                <div class="vcb-table-pagination-info font-pvh " >{{ table.pagination.totalRecords > 0 ? $toKhmer( table.pagination.totalRecords ) + " ព័ត៌មាន" : "" }}</div>
+              </template>
+              ចំនួនព័ត៌មានសរុប
+            </n-tooltip> -->
+            <n-tooltip trigger="hover">
+              <template #trigger>
+                <div class="vcb-table-pagination-info font-pvh " >{{ table.pagination.totalPages > 0 ? $toKhmer( table.pagination.totalPages ) + " ទំព័រ" : "" }}</div>
+              </template>
+              ចំនួនទំព័រសរុប
+            </n-tooltip>
+            <div v-for="(page, index) in table.pagination.buttons" :key="index" :class=" (table.pagination.page == page ? ' vcb-pagination-page-active ' : ' vcb-pagination-page ' )" @click="table.pagination.page == page ? false : goTo(page) " >
+              <n-tooltip trigger="hover">
+                <template #trigger>
+                  <div class="leading-8 text-md font-pvh " >{{ $toKhmer( page ) }} </div>
+                </template>
+                ទំព័រទី {{ $toKhmer( page ) }}
+              </n-tooltip>
+            </div>
+            <Transition name="slide-fade" >
+              <div v-if="table.pagination.page > 1 " class="vcb-pagination-page " v-html='"<"' @click="previous()" ></div>
+            </Transition>
+            <Transition name="slide-fade" >
+              <div v-if="table.pagination.page < table.pagination.totalPages " class="vcb-pagination-page " v-html='">"' @click="next()" ></div>
+            </Transition>
+          </div>
+        </div>
+      </Transition>
+    
     <!-- Form create account -->
     <create-form v-bind:model="model" v-bind:show="createModal.show" :onClose="closeCreateModal"/>
   </div>
@@ -146,7 +176,10 @@ export default {
         perPage: 20 ,
         page: 1 ,
         totalPages: 0 ,
-        totalRecords: 0
+        totalRecords: 0 ,
+        start: 0 ,
+        end: 0 ,
+        buttons: []
       }
     })
     function filterRecords(helper=true){
@@ -186,6 +219,24 @@ export default {
       }).then(res => {
         table.records.all = table.records.matched = res.data.records
         table.pagination = res.data.pagination
+        
+        var paginationNumberList = 10
+        if( ( table.pagination.page - ( parseInt( paginationNumberList / 2 ) + 1 ) ) < 1 ){
+          table.pagination.start = 1
+          table.pagination.end = table.pagination.totalPages > paginationNumberList ? paginationNumberList : table.pagination.totalPages
+        }
+        else{
+          table.pagination.start = table.pagination.page - parseInt( paginationNumberList / 2 )
+          table.pagination.end = table.pagination.page >= table.pagination.totalPages ? table.pagination.totalPages : table.pagination.page + parseInt( paginationNumberList / 2 )
+        }
+        /**
+         * Create pagination buttons
+         */
+        table.pagination.buttons = []
+        for(var i=table.pagination.start;i<=table.pagination.end;i++){
+          i <= table.pagination.totalPages ? table.pagination.buttons.push(i) : false
+        }
+
         closeTableLoading()
       }).catch( err => {
         console.log( err )

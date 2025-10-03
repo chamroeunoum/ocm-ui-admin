@@ -449,7 +449,7 @@ export default {
     })
 
     function getStructurePositionPermission(id){
-      store.dispatch( 'organizations/getPosition',{
+      store.dispatch( 'position/getPosition',{
         organization_structure_position_id : id
       } ).then( res => {
 
@@ -571,7 +571,7 @@ export default {
         const nodes = ref([])
         nodes.value.push( {
           id: res.data.permission.id ,
-          parentId: res.data.permission.parentId ,
+          parentId: res.data.permission.pid ,
           name: res.data.permission.name ,
           image: res.data.permission.image != "" && res.data.permission.image != undefined ? res.data.permission.image : ocmLogoUrl ,
           desp: res.data.permission.desp ,
