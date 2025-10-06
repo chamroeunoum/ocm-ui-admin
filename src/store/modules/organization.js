@@ -33,6 +33,16 @@ const actions = {
       }).toString()
     )
   },
+  async organizationStructure ({ state, commit, rootState },params) {
+    return await crud.list(import.meta.env.VITE_API_SERVER+"/"+state.model.name 
+    + "/structure_organization?" + new URLSearchParams({
+        search: params.search ,
+        perPage: params.perPage ,
+        page: params.page ,
+        id: params.id
+      }).toString()
+    )
+  },
   async listByParent ({ state, commit, rootState },params) {
     return await crud.list(import.meta.env.VITE_API_SERVER+"/"+state.model.name + "/listbyparent" 
     + "?" + new URLSearchParams({

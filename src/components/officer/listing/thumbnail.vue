@@ -396,7 +396,7 @@ export default {
       return positions
     })
     function getPositions(){
-      store.dispatch('position/list',{
+      store.dispatch('position/structurePosition',{
         page: 1 ,
         perPage: 1000 ,
         search: ''
@@ -422,7 +422,7 @@ export default {
       return organizations
     })
     function getOrganizations(){
-      store.dispatch('organizations/list',{
+      store.dispatch('organizations/organizationStructure',{
         page: 1 ,
         perPage: 1000 ,
         search: '' ,
@@ -537,7 +537,7 @@ export default {
   @apply flex flex-wrap justify-center;
 }
 .vcb-thumbnail .item {
-  @apply xl:w-1/5 lg:w-1/4 md:w-1/3 sm:w-1/3 w-1/2 p-2 ;
+  @apply 2xl:w-2/12 xl:w-1/5 lg:w-1/4 md:w-1/3 sm:w-1/3 w-1/2 p-2 ;
 }
 .vcb-thumbnail .item .content {
   @apply border rounded-lg hover:shadow duration-500 p-4 pt-8 relative hover:scale-105 transform-gpu bg-white hover:bg-yellow-100;
