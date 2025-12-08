@@ -129,11 +129,11 @@
             <digital-clock type="time" dgClass=" w-full my-2 p-2 rounded-md text-gray-800 shadow:md font-moul text-lg" />
             <!-- Check whether the attenant has been checked -->
             <div v-if="attendant==null || ( attendant != null && checkStatus == -1 )" >
-              <div @click="checkAttendant" class="cursor-pointer w-1/2 mx-auto" ><div class="border border-green-300 bg-green-100 rounded-md p-4 w-full mx-auto" >ចុះវត្តមាន ចូល</div></div>
+              <div @click="checkAttendant" class="cursor-pointer w-1/2 mx-auto" ><div class="border border-green-300 bg-white rounded-md p-4 w-full mx-auto" >ចុះវត្តមាន ចូល</div></div>
             </div>
             <Transition name="slide-fade" >
               <div v-if="attendant!=null && ( checkStatus == 0 || checkStatus == 1 ) " >
-                <div @click="checkAttendant" class="cursor-pointer w-1/2 mx-auto" ><div class="border border-green-300 bg-green-100 rounded-md p-4 w-full mx-auto" >
+                <div @click="checkAttendant" class="cursor-pointer w-1/2 mx-auto" ><div class="border border-green-300 bg-white rounded-md p-4 w-full mx-auto" >
                   {{ checkStatus == 0 ? "ចុះវត្តមានចេញ" : "ចុះវត្តមាន ចូល" }}
                 </div></div>
                 <div class="mt-8" v-if="checktimes!=null&&checktimes.length>0" >

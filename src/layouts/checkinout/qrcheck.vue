@@ -39,7 +39,7 @@
                   <div v-if="result!=''&&result!=null" class="w-full p-2 text-green-500 border border-green-500 break-words mt-4" v-html="result"></div>
                 </div>
                 <div class="p-2 w-full flex " >
-                  <div class="p-2 border border-gray-500 hover:border-green-500 mt-4 hover:bg-green-100 duration-300 rounded-md mx-auto" @click="$router.push('/officer/checkinout/463')" >ពិនិត្យវត្តមានតាមវិធីផ្សេងទៀត</div>
+                  <div class="p-2 border border-gray-500 hover:border-green-500 mt-4 hover:bg-white duration-300 rounded-md mx-auto" @click="$router.push('/officer/checkinout/463')" >ពិនិត្យវត្តមានតាមវិធីផ្សេងទៀត</div>
                 </div>
               </div>
             </div>

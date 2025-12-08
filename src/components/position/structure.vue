@@ -79,6 +79,7 @@
       <Transition name="slide-fade" >
         <div v-if="dataFlattened" class="chart-container" > </div>
       </Transition>
+      <div @click="rednerCompactChart()" class="absolute right-52 top-0 p-2 bg-gray-100/25 rounded-b-lg text-white cursor-pointer hover:bg-blue-600 duration-300 " >ប្ដូររាងឋានានុក្រម</div>
       <div v-show="selectedNode != null && chartNodeFunctionsToggler" class="absolute right-14 top-0 p-2 bg-gray-100/25 rounded-bl-lg text-white" >កំពុងស្ថិតនៅ ៖ {{ selectedNode != null ? selectedNode.name : '' }}</div>
       <div v-if="currentOrganizationStructure != undefined " @click="$router.push('/organization/structure/'+currentOrganizationStructureId)" class="absolute left-0 top-10 p-2 bg-gray-100/25 rounded-r-lg cursor-pointer text-white" >
         <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24"><path d="M16.62 2.99a1.25 1.25 0 0 0-1.77 0L6.54 11.3a.996.996 0 0 0 0 1.41l8.31 8.31c.49.49 1.28.49 1.77 0s.49-1.28 0-1.77L9.38 12l7.25-7.25c.48-.48.48-1.28-.01-1.76z" fill="currentColor"></path></svg>
@@ -508,6 +509,7 @@ export default {
     const columns = ref('id,name,image,parentId,desp')
     const dataFlattened = ref([])
     const chart = ref(null)
+    const chartCompact = ref(false)
     const chartNodeFunctionsToggler = ref( false )
     const selectedNode = ref({
       id: 0 ,
@@ -533,6 +535,11 @@ export default {
       organization_structure : null ,
       position: null 
     })
+    function rednerCompactChart(){
+      chartCompact.value = !chartCompact.value
+      console.log( chartCompact.value )
+      chart.value.compact( chartCompact.value ).render().fit()
+    }
     function drawingOrgchart(data){
       dataFlattened.value = Array.isArray( data ) ? data : []
       dataFlattened.value.columns = columns.value
@@ -1025,6 +1032,7 @@ export default {
       selectedNode ,
       chartNodeFunctionsToggler ,
       chart ,
+      rednerCompactChart ,
       removeNode ,
       getStructurePosition ,
       assignPermissions ,
