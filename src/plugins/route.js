@@ -785,7 +785,7 @@ export const getRoutes = () => {
         },
         {
             name: 'OfficerCard',
-            path: '/officer/card/:id',
+            path: '/officer/card/:key',
             component: DetailCardComponent ,
             meta: {
                 // transition: 'fade'

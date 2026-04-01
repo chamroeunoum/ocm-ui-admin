@@ -27,7 +27,8 @@ const actions = {
     return await crud.list(import.meta.env.VITE_API_SERVER+"/"+state.model.name + "?" + new URLSearchParams({
         search: params.search ,
         perPage: params.perPage ,
-        page: params.page
+        page: params.page ,
+        tag: params.tag != undefined ? params.tag : '' 
       }).toString()
     )
   },

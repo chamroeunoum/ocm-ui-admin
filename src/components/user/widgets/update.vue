@@ -32,6 +32,9 @@
                   <n-form-item label="អ៊ីមែល" path="email" class="w-full p-1" >
                     <n-input v-model:value="record.email" placeholder="អ៊ីមែល" />
                   </n-form-item>
+                  <n-form-item label="តួនាទី" path="role" class="w-full p-1" >
+                    <n-select v-model:value="record.role" :options="roles" placeholder="សូមជ្រើសរើសតួនាទី" />
+                  </n-form-item>
                 </n-form>
                 <div class="w-1/2 h-8"></div>  
               </div>
@@ -117,7 +120,7 @@ export default {
     const countesies = computed( () => 
       store.getters['countesy/getRecords'].map( o => ( { label: o.name , value : o.id } ) )
     ) 
-    
+    const roles = ref([])
 
     /**
      * Variables
@@ -178,7 +181,8 @@ export default {
         id: props.record.id ,
         username: props.record.username ,
         phone: props.record.phone ,
-        email: props.record.email.toLowerCase()
+        email: props.record.email.toLowerCase()  ,
+        role : props.record.role
       }).then( res => {
         if( res.data.ok ){
           notify.success({
@@ -200,8 +204,23 @@ export default {
       clearRecord( 0 )
     }
   
+    function getRoles(){
+      store.dispatch('role/list',{ 
+        search: '' ,
+        perPage: 200 ,
+        page: 1 ,
+        tag : 'core_service'
+      }).then( res => {
+        roles.value = res.data.records.filter( (r) => { return r.tag == 'core_service' && r.key_name != 'super' && r.key_name != 'admin' } ).map( (r) => { return { label: r.khname , value: r.id } } )
+        console.log( roles.value )
+      }).catch( err => {
+        console.log( err)
+      })
+    }
+
     function initial(){
       // selectedOrganization.value = [463]
+      getRoles()
       selectedOrganization.value = props.record.officer.organization != undefined && props.record.officer.organization != null ? props.record.officer.organization.id : []
       selectedPosition.value = props.record.officer.position != undefined && props.record.officer.position != null ? props.record.officer.position.id : []
       selectedCountesies.value = props.record.officer.countesy != undefined && props.record.officer.countesy != null ? props.record.officer.countesy.id : []
@@ -211,6 +230,7 @@ export default {
       /**
        * Variables
        */
+      roles ,
       rules ,
       selectedOrganization ,
       organizations ,
