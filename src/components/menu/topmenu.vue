@@ -25,9 +25,9 @@
 <script >
 import { computed, ref } from 'vue'
 import { useStore } from 'vuex'
-import { getUser } from './../../plugins/authentication'
-import Dock from '../widgets/Dock.vue'
-import ocmLogoUrl from './../../assets/logo.svg'
+import { getUser } from '@plugins/authentication'
+import Dock from '@components/widgets/Dock.vue'
+import ocmLogoUrl from '@assets/logo.svg'
 
 export default {
   name: 'Topmenu'  ,

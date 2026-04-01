@@ -169,7 +169,6 @@
 import { reactive ,ref , computed } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
-import { getKhmer } from './../../../plugins/kh/number.js';
 import QrcodeVue from 'qrcode.vue'
 import Vue3Barcode from 'vue3-barcode'
 import ocmLogoUrl from './../../../assets/logo.svg'

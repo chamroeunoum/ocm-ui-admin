@@ -118,7 +118,6 @@ import { reactive , ref , computed } from 'vue'
 import { useStore } from 'vuex'
 import { useMessage, useNotification } from 'naive-ui'
 import QrcodeVue from 'qrcode.vue'
-import { getKhmer } from './../../../../plugins/kh/number.js'
 import VuePdfEmbed from 'vue-pdf-embed'
 
 

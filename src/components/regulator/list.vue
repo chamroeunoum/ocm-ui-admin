@@ -190,7 +190,6 @@ import { useRouter } from 'vue-router'
 import QrcodeVue from 'qrcode.vue'
 import Vue3Barcode from 'vue3-barcode'
 import VuePdfEmbed from 'vue-pdf-embed'
-import { getKhmer } from './../../plugins/kh/number.js'
 import { useDialog, useMessage, useNotification } from 'naive-ui'
 /**
  * CRUD component form

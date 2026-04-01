@@ -93,7 +93,6 @@ import QrcodeVue from 'qrcode.vue'
 import ocmLogoUrl from './../../../assets/logo.svg'
 import blurBackground from './../../../assets/bg_stp.png'
 import blurBackgroundZ from './../../../assets/bg_stp_z.png'
-import { getKhmer } from '../../../plugins/kh/number.js'
 
 export default {
   components: {

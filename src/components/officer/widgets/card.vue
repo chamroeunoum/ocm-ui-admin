@@ -165,7 +165,8 @@ export default {
     }
     
     function getPublicCardUrl(record){
-      return window.location.origin+'/#/officer/card/'+record.id
+      // return window.location.origin+'/#/officer/card/'+record.id
+      return 'https://hr.ocm.gov.kh/#/officer/card/'+record.public_key
     }
 
     function initial(){

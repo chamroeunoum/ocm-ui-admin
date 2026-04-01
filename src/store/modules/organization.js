@@ -33,6 +33,16 @@ const actions = {
       }).toString()
     )
   },
+  async organizationStructure ({ state, commit, rootState },params) {
+    return await crud.list(import.meta.env.VITE_API_SERVER+"/"+state.model.name 
+    + "/structure_organization?" + new URLSearchParams({
+        search: params.search ,
+        perPage: params.perPage ,
+        page: params.page ,
+        id: params.id
+      }).toString()
+    )
+  },
   async listByParent ({ state, commit, rootState },params) {
     return await crud.list(import.meta.env.VITE_API_SERVER+"/"+state.model.name + "/listbyparent" 
     + "?" + new URLSearchParams({
@@ -98,7 +108,45 @@ const actions = {
     null,
     true
   )},
-  
+  async positions ({ state, commit, rootState },params) {
+    return await crud.read(import.meta.env.VITE_API_SERVER+"/"+state.model.name+"/positions"+ "?" + new URLSearchParams({
+      search: params.id ,
+      perPage: params.search ,
+      page: params.perPage ,
+      organization_id : parseInt( params.id ) > 0 ? parseInt( params.id ) > 0 : null
+    }).toString(),
+    null,
+    true
+  )},
+  /**
+   * Structure
+   */
+  async getStructure ({ state, commit, rootState },params) {
+    return await crud.list(import.meta.env.VITE_API_SERVER+"/"+state.model.name + "/structure"
+      + "?" + new URLSearchParams({
+        organization_structure_id: params.organization_structure_id 
+      }).toString()
+    )
+  },
+  async addStructure ({ state, commit, rootState },params) {
+    return await crud.create(import.meta.env.VITE_API_SERVER+"/"+state.model.name+"/structure/add",params)
+  },
+  async moveStructure ({ state, commit, rootState },params) {
+    return await crud.create(import.meta.env.VITE_API_SERVER+"/"+state.model.name+"/structure/move",params)
+  },
+  async deleteStructure ({ state, commit, rootState },params) {
+    return await crud.delete(import.meta.env.VITE_API_SERVER+"/"+state.model.name+"/structure/"+params.id+"/delete")
+  },
+  async togglePermissionOfPosition ({ state, commit, rootState },params) {
+    return await crud.update(import.meta.env.VITE_API_SERVER+"/"+state.model.name+"/position/permission/toggle",params)
+  },
+  async getOrganizationStructurePosition ({ state, commit, rootState },params) {
+    return await crud.list(import.meta.env.VITE_API_SERVER+"/organization_structures_position"
+      + "?" + new URLSearchParams({
+        organization_structure_id: params.organization_structure_id
+      }).toString()
+    )
+  }
 }
 // mutations
 const mutations = {

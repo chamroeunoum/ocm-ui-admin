@@ -66,7 +66,6 @@ import { reactive ,ref } from 'vue'
 import { useStore } from 'vuex'
 import { useNotification , useDialog, selectDark } from 'naive-ui'
 import Frame4Corner from './../widgets/frame/corner4.vue'
-import { getKhmer } from './../../plugins/kh/number.js'
 import ActionForm from './modal/actions.vue'
 import AddChildOrganizationForm from './modal/addChild.vue'
 

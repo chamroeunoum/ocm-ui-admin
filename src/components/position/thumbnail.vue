@@ -153,7 +153,6 @@ import Vue3Barcode from 'vue3-barcode'
 import { useDialog, useMessage, useNotification } from 'naive-ui'
 import dateFormat from "dateformat";
 import Frame4Corner from './../../components/widgets/frame/corner4.vue'
-import { getKhmer } from '../../plugins/kh/number'
 import ocmLogoUrl from './../../assets/logo.svg'
 /**
  * CRUD component form

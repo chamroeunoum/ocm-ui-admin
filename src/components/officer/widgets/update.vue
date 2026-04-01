@@ -2,7 +2,7 @@
   <!-- Form edit account -->
     <div class="vcb-pop-create font-ktr">
       <n-modal v-bind:show="show" :on-esc="maskOrEscClick" :on-mask-click="maskOrEscClick" :on-after-enter="initial" transform-origin="center">
-        <n-card class="w-10/12 sm:w-3/4 md:w-8/12 lg:w-3/5 xl:w-7/12" :title="'កែប្រែ ' + model.title" :bordered="false" size="small">
+        <n-card class="w-10/12 sm:w-3/4 md:w-8/12 lg:w-3/5 xl:w-7/12" :title="'កែប្រែព័ត៌មាន' + model.title" :bordered="false" size="small">
           <template #header-extra>
             <n-button type="success" @click="update" >
               <template #icon>
@@ -27,22 +27,50 @@
                         size="large"
                         ref="formRef"
                       >
-                        <n-form-item label="ត្រកូល" path="lastname" class="w-6/12 p-1" >
+                        <n-form-item label="ត្រកូល" class="w-6/12 p-1" >
                           <n-input v-model:value="record.people.lastname" placeholder="នាមត្រកូល" />
                         </n-form-item>
-                        <n-form-item label="ឈ្មោះ" path="firstname" class="w-6/12 p-1" >
+                        <n-form-item label="ឈ្មោះ" class="w-6/12 p-1" >
                           <n-input v-model:value="record.people.firstname" placeholder="នាមខ្លួន" />
                         </n-form-item>
-                        <n-form-item label="ត្រកូល (អង់គ្លេស)" path="enlastname" class="w-6/12 p-1" >
+                        <n-form-item label="ត្រកូល (អង់គ្លេស)" class="w-6/12 p-1" >
                           <n-input v-model:value="record.people.enlastname" placeholder="នាមត្រកូល" />
                         </n-form-item>
-                        <n-form-item label="ឈ្មោះ (អង់គ្លេស)" path="enfirstname" class="w-6/12 p-1" >
+                        <n-form-item label="ឈ្មោះ (អង់គ្លេស)" class="w-6/12 p-1" >
                           <n-input v-model:value="record.people.enfirstname" placeholder="នាមខ្លួន" />
                         </n-form-item>
-                        <n-form-item label="ថ្ងៃ ខែ ឆ្នាំ កំណើត" path="dob" class="w-4/12 p-1" >
-                          <n-date-picker v-model:value="dob" type="date" format="dd-MM-yyyy"  placeholder="ថ្ងៃ ខែ ឆ្នាំ កំណើត" class="w-full" />
+                        <n-form-item label="ថ្ងៃ ខែ ឆ្នាំ កំណើត" class="w-full p-1" >
+                          <n-date-picker v-model:value="dob" type="date" format="dd-MM-yyyy"  placeholder="ថ្ងៃ ខែ ឆ្នាំ កំណើត" class="w-1/2" />
                         </n-form-item>
-                        <n-form-item label="" path="gender" class="w-3/12 p-1 " >
+                        <n-form-item label="ជនជាតិ" class="w-1/3 p-1" >
+                            <n-radio-group v-model:value="record.people.national" name="national">
+                                <n-space>
+                                    <n-radio
+                                        value="ខ្មែរ"
+                                        label="ខ្មែរ"
+                                    />
+                                    <n-radio
+                                        value="ផ្សេង"
+                                        label="ផ្សេងទៀត"
+                                    />
+                                </n-space>
+                            </n-radio-group>
+                        </n-form-item>  
+                        <n-form-item label="សញ្ជាតិ" class="w-1/3 p-1" >
+                            <n-radio-group v-model:value="record.people.nationality" name="nationality">
+                                <n-space>
+                                    <n-radio
+                                        value="ខ្មែរ"
+                                        label="ខ្មែរ"
+                                    />
+                                    <n-radio
+                                        value="ផ្សេង"
+                                        label="ផ្សេងទៀត"
+                                    />
+                                </n-space>
+                            </n-radio-group>
+                        </n-form-item>  
+                        <n-form-item label="ភេទ" class="w-3/12 p-1 " >
                           <n-radio-group v-model:value="record.people.gender" class="mx-auto" >
                             <n-space>
                               <n-radio
@@ -54,7 +82,7 @@
                             </n-space>
                           </n-radio-group>
                         </n-form-item>
-                        <n-form-item label="" path="marry" class="w-5/12 p-1" >
+                        <n-form-item label="ស្ថានភាពរៀបការ" class="w-5/12 p-1" >
                           <n-radio-group v-model:value="record.people.marry_status" class="mx-auto" >
                             <n-space>
                               <n-radio
@@ -65,19 +93,30 @@
                               />
                             </n-space>
                           </n-radio-group>
-
                         </n-form-item>
-                        
-                        <n-form-item label="លេខអត្តសញ្ញាណបណ្ណ" path="nid" class="w-1/2 p-1" >
+                        <n-form-item label="កាយសម្បទា" class="w-full p-1" >
+                          <n-radio-group v-model:value="record.people.body_condition" class="w-1/2" >
+                            <n-space>
+                              <n-radio
+                              v-for="status in [{label:'គ្រប់គ្រាន់',value:0},{label:'មិនគ្រប់គ្រាន់',value:1}]"
+                              :key="status.value"
+                              :value="status.value"
+                              :label="status.label"
+                              />
+                            </n-space>
+                          </n-radio-group>
+                          <n-input v-if="record.people.body_condition==1" v-model:value="record.people.body_condition_desp" placeholder="លក្ខណមិនគ្រប់គ្រាន់" class="w-1/2" />
+                        </n-form-item>
+                        <n-form-item label="លេខអត្តសញ្ញាណបណ្ណ" class="w-1/2 p-1" >
                           <n-input v-model:value="record.people.nid" placeholder="លេខអត្តសញ្ញាណបណ្ណ" />
                         </n-form-item>
-                        <n-form-item label="អ៊ីមែល" path="email" class="w-1/2 p-1" >
+                        <n-form-item label="អ៊ីមែល" class="w-1/2 p-1" >
                           <n-input v-model:value="record.people.email" placeholder="អ៊ីមែល" />
                         </n-form-item>
-                        <n-form-item label="ទូរស័ព្ទផ្ទាល់ខ្លួន" path="mobile_phone" class="w-1/2 p-1" >
+                        <n-form-item label="ទូរស័ព្ទផ្ទាល់ខ្លួន" class="w-1/2 p-1" >
                           <n-input v-model:value="record.people.mobile_phone" placeholder="ទូរស័ព្ទផ្ទាល់ខ្លួន" />
                         </n-form-item>
-                        <n-form-item label="ទូរស័ព្ទការិយាល័យ" path="phone" class="w-1/2 p-1" >
+                        <n-form-item label="ទូរស័ព្ទការិយាល័យ" class="w-1/2 p-1" >
                           <n-input v-model:value="record.people.office_phone" placeholder="ទូរស័ព្ទការិយាល័យ" />
                         </n-form-item>
                         <n-form-item-row label="អសយដ្ឋានបច្ចុប្បន្ន" >
@@ -109,22 +148,25 @@
                       size="large"
                       ref="formRef"
                     >
-                      <n-form-item label="អត្តលេខ" path="code" class="w-6/12 p-1" >
+                      <n-form-item label="អត្តលេខ" class="w-6/12 p-1" >
                         <n-input v-model:value="record.code" placeholder="អត្តលេខ" />
                       </n-form-item>
-                      <n-form-item label="ថ្ងៃ ខែ ឆ្នាំ ចូលពេញសិទ្ធិ (តាំងស៊ុប)" path="officer_dob" class="w-6/12 p-1" >
-                        <n-date-picker v-model:value="officer_dob" type="date" format="dd-MM-yyyy" placeholder="ថ្ងៃ ខែ ឆ្នាំ កំណើត" class="w-full" />
+                      <n-form-item label="ថ្ងៃ ខែ ឆ្នាំ ចូលបម្រើការកម្មសិក្សារ" class="w-6/12 p-1" >
+                        <n-date-picker v-model:value="unofficial_date" format="dd-MM-yyyy" type="date" placeholder="ថ្ងៃខែឆ្នាំ ចូលបម្រើការ" class="w-full" />
                       </n-form-item>
-                      <n-form-item label="ទូរស័ព្ទ" path="phone" class="w-1/2 p-1" >
+                      <n-form-item label="ថ្ងៃ ខែ ឆ្នាំ ចូលពេញសិទ្ធិ (តាំងស៊ុប)" class="w-6/12 p-1" >
+                        <n-date-picker v-model:value="official_date" format="dd-MM-yyyy" type="date" placeholder="ថ្ងៃ ខែ ឆ្នាំ តាំងស៊ុប" class="w-full" />
+                      </n-form-item>
+                      <n-form-item label="ទូរស័ព្ទ" class="w-1/2 p-1" >
                         <n-input v-model:value="record.phone" placeholder="ទូរស័ព្ទ" />
                       </n-form-item>
-                      <n-form-item label="លេខិតឆ្លងដែន" path="passport" class="w-1/2 p-1" >
+                      <n-form-item label="លេខិតឆ្លងដែន" class="w-1/2 p-1" >
                         <n-input v-model:value="record.passport" placeholder="លេខិតឆ្លងដែន" />
                       </n-form-item>
-                      <n-form-item label="អ៊ីមែល" path="email" class="w-full p-1" >
+                      <n-form-item label="អ៊ីមែល" class="w-full p-1" >
                         <n-input v-model:value="record.email" placeholder="អ៊ីមែល" />
                       </n-form-item>
-                      <n-form-item label="ងារ" path="countesy" class="w-full mb-4" >
+                      <n-form-item label="ងារ" class="w-full mb-4" >
                         <n-select
                           v-model:value="selectedCountesies"
                           filterable
@@ -133,7 +175,7 @@
                           multiple
                         />
                       </n-form-item>
-                      <n-form-item label="អង្គភាព" path="organization" class="w-full mb-4" >
+                      <!-- <n-form-item label="អង្គភាព" path="organization" class="w-full mb-4" >
                         <n-select
                           v-model:value="selectedOrganization"
                           filterable
@@ -148,6 +190,14 @@
                           placeholder="សូមជ្រើសរើសតួនាទី"
                           :options="positions"
                         />
+                      </n-form-item> -->
+                      <n-form-item label="តួនាទី" class="w-full mb-4" >
+                        <n-select
+                          v-model:value="selectedOrganizationStructurePosition"
+                          filterable
+                          placeholder="សូមជ្រើសរើសតួនាទី"
+                          :options="organizationStructurePositions"
+                        />
                       </n-form-item>
                       <Transition name="slide-fade" >
                         <div 
@@ -155,7 +205,7 @@
                         class="w-full border border-gray-200 rounded p-4"
                         >
                           <div class="w-full mb-4" >លេខសម្កាល់មន្ត្រីក្នុងស្ថាប័នស្ថិតនៅ</div>
-                          <div class="w-full mb-4" v-for="(organizationPivot, index) in record.organizationPeople" >
+                          <div class="w-full mb-4" v-for="(organizationPivot, index) in record.organizationPeople" :key="index" >
                             <div class="w-full " >{{ $toKhmer( index + 1 ) + '. ' +organizationPivot.organization.name }}{{ organizationPivot.organization.code != "" && organizationPivot.organization.code != undefined && organizationPivot.organization.code.length > 0 ? ' - ' + organizationPivot.organization.code : '' }}</div>
                             <div class="w-1/2 p-4" >
                               <n-input v-model:value="organizationPivot.code" placeholder="លេខកូដ" @blur="updatePeopleCodeWithinOrganization(organizationPivot)" />
@@ -163,6 +213,210 @@
                           </div>
                         </div>
                       </Transition>
+                    </n-form>
+                  </div>
+                </div>
+              </n-tab-pane>
+              <n-tab-pane name="parent" tab="ព័ត៌មានឪពុកម្ដាយបង្កើត" >
+                <div class="parent-panel w-full flex flex-wrap" >
+                  <!-- Father information -->
+                  <n-form class="flex flex-wrap w-full " >
+                      <div class="flex flex-wrap  w-full " >
+                          <div class="w-full mb-4 border-b border-gray-200 py-2 font-btb-black " >ព័ត័មានឪពុកបង្កើត</div>
+                          <n-form-item label="គោត្តនាម (ខ្មែរ)" class="w-1/2 p-1" >
+                              <n-input v-model:value="record.people.father_lastname" placeholder="គោត្តនាម ខ្មែរ" />
+                          </n-form-item>
+                          <n-form-item label="នាម (ខ្មែរ)" class="w-1/2 p-1" >
+                              <n-input v-model:value="record.people.father_firstname" placeholder="នាម ខ្មែរ" />
+                          </n-form-item>
+                          <n-form-item label="គោត្តនាម (អង់គ្លេស)" class="w-1/2 p-1" >
+                              <n-input v-model:value="record.people.father_enlastname" placeholder="គោត្តនាម អង់គ្លេស" />
+                          </n-form-item>
+                          <n-form-item label="នាម (អង់គ្លេស)" class="w-1/2 p-1" >
+                              <n-input v-model:value="record.people.father_enfirstname" placeholder="នាម អង់គ្លេស" />
+                          </n-form-item>
+
+                          <n-form-item label="ថ្ងៃខែឆ្នាំកំណើត" class="w-1/3 p-1" >
+                              <n-date-picker v-model:value="fatherDob" type="date" clearable format="dd-MM-yyyy" placeholder="ថ្ងៃ ខែ ឆ្នាំ កំណើត" class="w-full" />
+                          </n-form-item>
+                          <n-form-item label="លេខអត្តសញ្ញាណបណ្ណ" class="w-1/3 p-1" >
+                              <n-input v-model:value="record.people.father_nid" placeholder="លេខអត្តសញ្ញាណបណ្ណ" />
+                          </n-form-item>
+                          <n-form-item label="មុខរបរ" class="w-1/3 p-1" >
+                              <n-input v-model:value="record.people.father_profession" placeholder="មុខរបរ" />
+                          </n-form-item>
+
+                          <n-form-item label="ជនជាតិ" class="w-1/3 p-1" >
+                              <n-radio-group v-model:value="record.people.father_national" name="national">
+                                  <n-space>
+                                      <n-radio
+                                          value="ខ្មែរ"
+                                          label="ខ្មែរ"
+                                      />
+                                      <n-radio
+                                          value="ផ្សេង"
+                                          label="ផ្សេងទៀត"
+                                      />
+                                  </n-space>
+                              </n-radio-group>
+                          </n-form-item>  
+                          <n-form-item label="សញ្ជាតិ" class="w-1/3 p-1" >
+                              <n-radio-group v-model:value="record.people.father_nationality" name="nationality">
+                                  <n-space>
+                                      <n-radio
+                                          value="ខ្មែរ"
+                                          label="ខ្មែរ"
+                                      />
+                                      <n-radio
+                                          value="ផ្សេង"
+                                          label="ផ្សេងទៀត"
+                                      />
+                                  </n-space>
+                              </n-radio-group>
+                          </n-form-item>  
+                          <n-form-item label="" class="w-1/3 p-1" >
+                              <n-radio-group v-model:value="record.people.father_death" name="death">
+                                  <n-space>
+                                      <n-radio
+                                          :value="0"
+                                          label="រស់"
+                                      />
+                                      <n-radio
+                                          :value="1"
+                                          label="ស្លាប់"
+                                      />
+                                  </n-space>
+                              </n-radio-group>
+                          </n-form-item>  
+                          <n-form-item label="ទីកន្លែងកំណើត" class="w-1/2 p-1" >
+                              <n-input type="textarea" v-model:value="record.people.father_pob" placeholder="ទីកន្លែងកំណើត" />
+                          </n-form-item>
+                          <n-form-item label="អាសយដ្ឋានបច្ចុប្បន្ន" class="w-1/2 p-1" >
+                              <n-input type="textarea" v-model:value="record.people.father_address" placeholder="អាសយដ្ឋានបច្ចុប្បន្ន" />
+                          </n-form-item>
+                      </div>
+                      <!-- Mother information -->
+                      <div class="w-full flex flex-wrap " >
+                          <div class="w-full mb-4 border-b border-gray-200 py-2 font-btb-black " >ព័ត័មានម្ដាយបង្កើត</div>
+                          <n-form-item label="គោត្តនាម (ខ្មែរ)" class="w-1/2 p-1" >
+                              <n-input v-model:value="record.people.mother_lastname" placeholder="គោត្តនាម ខ្មែរ" />
+                          </n-form-item>
+                          <n-form-item label="នាម (ខ្មែរ)" class="w-1/2 p-1" >
+                              <n-input v-model:value="record.people.mother_firstname" placeholder="នាម ខ្មែរ" />
+                          </n-form-item>
+                          <n-form-item label="គោត្តនាម (អង់គ្លេស)" class="w-1/2 p-1" >
+                              <n-input v-model:value="record.people.mother_enlastname" placeholder="គោត្តនាម អង់គ្លេស" />
+                          </n-form-item>
+                          <n-form-item label="នាម (អង់គ្លេស)" class="w-1/2 p-1" >
+                              <n-input v-model:value="record.people.mother_enfirstname" placeholder="នាម អង់គ្លេស" />
+                          </n-form-item>
+
+                          <n-form-item label="ថ្ងៃខែឆ្នាំកំណើត" class="w-1/3 p-1" >
+                              <n-date-picker v-model:value="motherDob" type="date" clearable format="dd-MM-yyyy" placeholder="ថ្ងៃ ខែ ឆ្នាំ កំណើត" class="w-full" />
+                          </n-form-item>
+                          <n-form-item label="លេខអត្តសញ្ញាណបណ្ណ" class="w-1/3 p-1" >
+                              <n-input v-model:value="record.people.mother_nid" placeholder="លេខអត្តសញ្ញាណបណ្ណ" />
+                          </n-form-item>
+                          <n-form-item label="មុខរបរ" class="w-1/3 p-1" >
+                              <n-input v-model:value="record.people.mother_profession" placeholder="មុខរបរ" />
+                          </n-form-item>
+
+                          <n-form-item label="ជនជាតិ" class="w-1/3 p-1" >
+                              <n-radio-group v-model:value="record.people.mother_national" name="mother_national">
+                                  <n-space>
+                                      <n-radio
+                                          value="ខ្មែរ"
+                                          label="ខ្មែរ"
+                                      />
+                                      <n-radio
+                                          value="ផ្សេង"
+                                          label="ផ្សេងទៀត"
+                                      />
+                                  </n-space>
+                              </n-radio-group>
+                          </n-form-item>  
+                          <n-form-item label="សញ្ជាតិ" class="w-1/3 p-1" >
+                              <n-radio-group v-model:value="record.people.mother_nationality" name="mother_nationality">
+                                  <n-space>
+                                      <n-radio
+                                          value="ខ្មែរ"
+                                          label="ខ្មែរ"
+                                      />
+                                      <n-radio
+                                          value="ផ្សេង"
+                                          label="ផ្សេងទៀត"
+                                      />
+                                  </n-space>
+                              </n-radio-group>
+                          </n-form-item>  
+                          <n-form-item label="" class="w-1/3 p-1" >
+                              <n-radio-group v-model:value="record.people.mother_death" name="mother_death">
+                                  <n-space>
+                                      <n-radio
+                                          :value="0"
+                                          label="រស់"
+                                      />
+                                      <n-radio
+                                          :value="1"
+                                          label="ស្លាប់"
+                                      />
+                                  </n-space>
+                              </n-radio-group>
+                          </n-form-item>  
+                          <n-form-item label="ទីកន្លែងកំណើត" class="w-1/2 p-1" >
+                              <n-input type="textarea" v-model:value="record.people.mother_pob" placeholder="ទីកន្លែងកំណើត" />
+                          </n-form-item>
+                          <n-form-item label="អាសយដ្ឋានបច្ចុប្បន្ន" class="w-1/2 p-1" >
+                              <n-input type="textarea" v-model:value="record.people.mother_address" placeholder="អាសយដ្ឋានបច្ចុប្បន្ន" />
+                          </n-form-item>
+                      </div>
+                  </n-form>
+              </div>
+              </n-tab-pane>
+              <n-tab-pane name="emergency-contact" tab="ទំនាក់ទំនងក្នុងករណីមានអាសន្ន">
+                <div class=" mx-auto p-4 flex-wrap">
+                  <div class="crud-form-panel w-full flex flex-wrap ">
+                    <n-form v-if="record!=null" 
+                      class="w-full text-left font-btb text-lg flex flex-wrap" 
+                      :label-width="80"
+                      :model="record"
+                      :rules="rules"
+                      size="large"
+                      ref="formRef"
+                    >
+                      <n-form-item label="គោត្តនាម" class="w-1/2 p-1" >
+                        <n-input v-model:value="record.people.emergency_lastname" placeholder="គោត្តនាម" />
+                      </n-form-item>
+                      <n-form-item label="នាម" class="w-1/2 p-1" >
+                        <n-input v-model:value="record.people.emergency_firstname" placeholder="នាម" />
+                      </n-form-item>
+                      <n-form-item label="ភេទ" class="w-1/2 p-1" >
+                        <n-radio-group v-model:value="record.people.emergency_gender" class="w-full" >
+                          <n-space>
+                            <n-radio
+                            v-for="status in [{label:'ប្រុស',value:1},{label:'ស្រី',value:0},{label:'ផ្សេងៗ',value:2}]"
+                            :key="status.value"
+                            :value="status.value"
+                            :label="status.label"
+                            />
+                          </n-space>
+                        </n-radio-group>
+                      </n-form-item>
+                      <n-form-item label="ទំនាក់ទំនងត្រូវជា" class="w-1/2 p-1" >
+                        <n-input v-model:value="record.people.emergency_relationship" placeholder="ទំនាក់ទំនងត្រូវជា" />
+                      </n-form-item>
+                      <n-form-item label="មុខរបរ" class="w-1/2 p-1" >
+                        <n-input v-model:value="record.people.emergency_profession" placeholder="មុខរបរ" />
+                      </n-form-item>
+                      <n-form-item label="ទូរស័ព្ទ" class="w-1/2 p-1" >
+                        <n-input v-model:value="record.people.emergency_phone" placeholder="ទូរស័ព្ទ" />
+                      </n-form-item>
+                      <n-form-item label="អ៊ីមែល" class="w-full p-1" >
+                        <n-input v-model:value="record.people.emergency_email" placeholder="អ៊ីមែល" />
+                      </n-form-item>
+                      <n-form-item label="អាសយដ្ឋាន" class="w-full p-1" >
+                        <n-input v-model:value="record.people.emergency_address" placeholder="អាសយដ្ឋាន" />
+                      </n-form-item>
                     </n-form>
                   </div>
                 </div>
@@ -182,7 +436,6 @@ import { useStore } from 'vuex'
 import { useMessage, useNotification } from 'naive-ui'
 
 import dateFormat from "dateformat";
-import { getKhmer } from '../../../plugins/kh/number.js'
 
 export default {
   watch: {
@@ -237,9 +490,11 @@ export default {
     const notify = useNotification()
 
     const selectedOrganization = ref(null)
+    const selectedOrganizationStructurePosition = ref(null)
     const selectedPosition = ref(null)
     const selectedCountesies = ref([])
 
+    const organizationStructurePositions = ref([])
     const organizations = computed( () => 
       store.getters['organizations/getRecords'].map( o => ( { label: o.name , value : o.id } ) )
     )
@@ -251,13 +506,15 @@ export default {
     ) 
     
     const dob = ref( null )
-    dob.value = props.record.people.dob != '' && props.record.people.dob != undefined
-    ? (new Date( props.record.people.dob )).getTime()
+
+    const official_date = ref( null )
+    official_date.value = props.record.official_date != '' && props.record.official_date != undefined
+    ? (new Date( props.record.official_date )).getTime()
     : (new Date()).getTime()
 
-    const officer_dob = ref( null )
-    officer_dob.value = props.record.dob != '' && props.record.dob != undefined
-    ? (new Date( props.record.dob )).getTime()
+    const unofficial_date = ref( null )
+    unofficial_date.value = props.record.unofficial_date != '' && props.record.unofficial_date != undefined
+    ? (new Date( props.record.unofficial_date )).getTime()
     : (new Date()).getTime()
 
     /**
@@ -295,20 +552,19 @@ export default {
         })
         return false
       }
-      
-      props.record.dob = dob.value != null && parseInt( dob.value ) > 0 ? dateFormat( new Date(dob.value) , "yyyy-mm-dd" ) : dateFormat( new Date() , "yyyy-mm-dd" ) ,
-
       store.dispatch( props.model.name+'/update',
         {
           'id' : props.record.id ,
           'code' : props.record.code ,
+          'organization_structure_position_id' : selectedOrganizationStructurePosition.value != null ? selectedOrganizationStructurePosition.value : 0 ,
           'organization_id' : selectedOrganization.value != null ? selectedOrganization.value : 0 ,
           'position_id' : selectedPosition.value != null ? selectedPosition.value : 0 ,
           'countesy_id' : selectedCountesies.value != null ? selectedCountesies.value[0] : 0 ,
           'passport' : props.record.passport ,
           'email' : props.record.email ,
           'phone' : props.record.phone ,
-          'officer_dob' : officer_dob.value != null && parseInt( officer_dob.value ) > 0 ? dateFormat( new Date(officer_dob.value) , "yyyy-mm-dd" ) : dateFormat( new Date() , "yyyy-mm-dd" ) ,
+          'official_date' : official_date.value != null ? dateFormat( new Date(official_date.value) , "yyyy-mm-dd" ) : dateFormat( new Date() , "yyyy-mm-dd" ) ,
+          'unofficial_date' : unofficial_date.value != null ? dateFormat( new Date(unofficial_date.value) , "yyyy-mm-dd" ) : dateFormat( new Date() , "yyyy-mm-dd" ) ,
           'people' : {
             'firstname' : props.record.people.firstname ,
             'lastname' : props.record.people.lastname ,
@@ -318,12 +574,52 @@ export default {
             'email' : props.record.people.email ,
             'mobile_phone' : props.record.people.mobile_phone ,
             'office_phone' : props.record.people.office_phone ,
-            'dob' : props.record.people.dob ,
+            'dob' : dob.value != null ? dateFormat( new Date(dob.value) , "yyyy-mm-dd" ) : dateFormat( new Date() , "yyyy-mm-dd" ) ,
             'nid' : props.record.people.nid ,
             'passport' : props.record.people.passport ,
             'marry_status' : props.record.people.marry_status ,
             'address' : props.record.people.address ,
-            'pob' : props.record.people.pob
+            'pob' : props.record.people.pob ,
+            'body_condition' : props.record.people.body_condition ,
+            'body_condition_desp' : props.record.people.body_condition_desp ,
+            'nationality' : props.record.people.nationality ,
+            'national' : props.record.people.national ,
+            // parent 
+            // father 
+            'father_lastname' : props.record.people.father_lastname ,
+            'father_firstname' : props.record.people.father_firstname ,
+            'father_enlastname' : props.record.people.father_enlastname ,
+            'father_enfirstname' : props.record.people.father_enfirstname ,
+            'father_dob' : fatherDob.value != null ? dateFormat( new Date(fatherDob.value) , "yyyy-mm-dd" ) : dateFormat( new Date() , "yyyy-mm-dd" ) ,
+            'father_pob' : props.record.people.father_pob ,
+            'father_address' : props.record.people.father_address ,
+            'father_nid' : props.record.people.father_nid ,
+            'father_profession' : props.record.people.father_profession ,
+            'father_death' : props.record.people.father_death ,
+            'father_nationality' : props.record.people.father_nationality ,
+            'father_national' : props.record.people.father_national ,
+            // mother 
+            'mother_lastname' : props.record.people.mother_lastname ,
+            'mother_firstname' : props.record.people.mother_firstname ,
+            'mother_enlastname' : props.record.people.mother_enlastname ,
+            'mother_enfirstname' : props.record.people.mother_enfirstname ,
+            'mother_dob' : motherDob.value != null ? dateFormat( new Date(motherDob.value) , "yyyy-mm-dd" ) : dateFormat( new Date() , "yyyy-mm-dd" ) ,
+            'mother_pob' : props.record.people.mother_pob ,
+            'mother_address' : props.record.people.mother_address ,
+            'mother_nid' : props.record.people.mother_nid ,
+            'mother_profession' : props.record.people.mother_profession ,
+            'mother_death' : props.record.people.mother_death ,
+            'mother_nationality' : props.record.people.mother_nationality ,
+            'mother_national' : props.record.people.mother_national ,
+            // Emergency 
+            'emergency_lastname' : props.record.people.emergency_lastname ,
+            'emergency_firstname' : props.record.people.emergency_firstname ,
+            'emergency_gender' : props.record.people.emergency_gender ,
+            'emergency_relationship' : props.record.people.emergency_relationship ,
+            'emergency_profession' : props.record.people.emergency_profession ,
+            'emergency_address' : props.record.people.emergency_address ,
+            'emergency_phone' : props.record.people.emergency_phone ,
+            'emergency_email' : props.record.people.emergency_email
           }
         }
       // {
@@ -396,10 +692,74 @@ export default {
       }
     }
   
+    // function getRecord(){
+    //   if( props.model === undefined || props.model.name == "" ){
+    //     notify.warning({
+    //       title: 'ពិនិត្យព័ត៌មាន' ,
+    //       description: 'ទម្រង់នៃព័ត៌មានមិនទាន់បានកំណត់។' ,
+    //       duration: 2000
+    //     })
+    //     return false
+    //   }
+    //   store.dispatch( props.model.name+'/read',{ id : props.record.id }).then( res => {
+    //     if( res.data.ok ){
+    //       notify.success({
+    //         title: 'អានព័ត៌មាន' ,
+    //         description: res.data.message ,
+    //         duration: 2000
+    //       })
+    //     }else{
+    //       notify.error({
+    //         title: 'អានព័ត៌មាន' ,
+    //         description: 'មានបញ្ហាក្នុងពេលអានព័ត៌មាន។' ,
+    //         duration: 2000
+    //       })
+    //     }
+    //   }).catch( err => {
+    //     message.error( err )
+    //   })
+    // }
+
+    function getPositionStructures(){
+      store.dispatch('organizations/getOrganizationStructurePosition',{
+        organization_structure_id : false
+      }).then( 
+        res => {
+          if( res.data.ok ){
+            organizationStructurePositions.value = res.data.records.map( p => {
+              return {
+                label : p.organizationStructure.organization.name + ' - ' + p.position.name ,
+                value : p.id
+              }
+            })
+            console.log( organizationStructurePositions.value )
+          }else{
+            notify.info({
+              title: 'អានព័ត៌មានតួនាទី' ,
+              content: res.data.message
+            })
+          }
+        }
+      ).catch( err => {
+        console.log( err )
+      })
+    }
+
+    const fatherDob = ref( ( new Date() ).getTime() )
+    const motherDob = ref( ( new Date() ).getTime() )
+
     function initial(){
+      getPositionStructures( false )
+      // getRecord()
+      dob.value = props.record.people.dob != '' && props.record.people.dob != undefined
+        ? (new Date( props.record.people.dob )).getTime()
+        : (new Date()).getTime()
       selectedOrganization.value = props.record.organization != null && props.record.organization != undefined ? props.record.organization.id : null
       selectedPosition.value = props.record.position != null && props.record.position != undefined ? props.record.position.id : null
       selectedCountesies.value = props.record.countesy != null && props.record.countesy != undefined ? [props.record.countesy.id] : null
+      selectedOrganizationStructurePosition.value = props.record.current_job != null && props.record.current_job != undefined
+        ? props.record.current_job.organization_structure_position_id 
+        : null
     }
 
     return {
@@ -414,7 +774,10 @@ export default {
       selectedCountesies ,
       countesies ,
       dob ,
-      officer_dob ,
+      official_date ,
+      unofficial_date , 
+      fatherDob ,
+      motherDob ,
       /**
        * Functions
        */
@@ -422,7 +785,9 @@ export default {
       initial ,
       clearRecord ,
       maskOrEscClick ,
-      updatePeopleCodeWithinOrganization 
+      updatePeopleCodeWithinOrganization  ,
+      selectedOrganizationStructurePosition ,
+      organizationStructurePositions 
     }
   }
 }

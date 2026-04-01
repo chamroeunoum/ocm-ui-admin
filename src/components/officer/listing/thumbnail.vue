@@ -64,7 +64,7 @@
         <div v-if="Array.isArray( table.records.matched ) && table.records.matched.length > 0 " class="vcb-thumbnail mb-12" >
           <div v-for="(record, index) in table.records.matched" :key='index' class="item" >
             <div class="content" >
-              <div v-if="record.image != false && record.image != null && record.image != undefined " class="image bg-80% bg-cover bg-center bg-no-repeat " :style=" 'background-image: url(' + record.image +');' " ></div>
+              <div v-if="record.image != false && record.image != null && record.image != undefined " class="image bg-cover bg-no-repeat " :style=" 'background-image: url(' + record.image +');' " ></div>
               <div v-if="record.image == false || record.image == null || record.image == undefined " class="image bg-contain bg-center bg-no-repeat " :style=" 'background-image: url('+ocmLogoUrl+');' " ></div>
               <div class="flex flex-wrap " >
                 <div class="w-full py-2" >
@@ -79,8 +79,8 @@
                   <div v-if="record.organization != undefined && record.organization != null " class="w-1/2 text-right text-vcb-xs my-1  leading-5 tracking-wide" v-html=" record.organization.name " ></div>
                 </div>
                 <div v-if="record.card != null && record.card != undefined && record.card.id > 0" class="absolute left-1 top-1 text-vcb-xs text-left font-bold leading-6 tracking-wider" >{{ $toKhmer( record.card.number ) }}</div>
-                <div v-if="record.card == null || record.card == undefined && ( record.organization != undefined && record.organization != null ) " class="absolute left-1 top-1 text-vcb-xs text-left font-bold leading-6 tracking-wider" v-html=" $toKhmer( record.organization.prefix + '-' + ( record.id + '' ).padStart( 4 , '0' ) )" ></div>
-                <div v-if="record.code != null && record.code != undefined " class="absolute left-1 top-5 text-vcb-xs text-left font-bold leading-6 tracking-wider" v-html=" $toKhmer( record.code )" ></div>
+                <div v-if="record.organization != undefined && record.organization != null " class="absolute left-1 top-1 text-vcb-xs text-left font-bold leading-6 tracking-wider" v-html=" $toKhmer( ( record.organization.prefix != null && record.organization.prefix != '' ? record.organization.prefix + '-' : 'OCM-' ) + ( record.id + '' ).padStart( 4 , '0' ) )" ></div>
+                <!-- <div v-if="record.code != null && record.code != undefined " class="absolute left-1 top-5 text-vcb-xs text-left font-bold leading-6 tracking-wider" v-html=" $toKhmer( record.code )" ></div> -->
               </div>
               <thumbnail-actions-form v-bind:model="model" v-bind:record="record" :onClose="closeActions" />
             </div>
@@ -396,7 +396,7 @@ export default {
       return positions
     })
     function getPositions(){
-      store.dispatch('position/list',{
+      store.dispatch('position/structurePosition',{
         page: 1 ,
         perPage: 1000 ,
         search: ''
@@ -422,7 +422,7 @@ export default {
       return organizations
     })
     function getOrganizations(){
-      store.dispatch('organizations/list',{
+      store.dispatch('organizations/organizationStructure',{
         page: 1 ,
         perPage: 1000 ,
         search: '' ,
@@ -537,7 +537,7 @@ export default {
   @apply flex flex-wrap justify-center;
 }
 .vcb-thumbnail .item {
-  @apply xl:w-1/5 lg:w-1/4 md:w-1/3 sm:w-1/3 w-1/2 p-2 ;
+  @apply 2xl:w-2/12 xl:w-1/5 lg:w-1/4 md:w-1/3 sm:w-1/3 w-1/2 p-2 ;
 }
 .vcb-thumbnail .item .content {
   @apply border rounded-lg hover:shadow duration-500 p-4 pt-8 relative hover:scale-105 transform-gpu bg-white hover:bg-yellow-100;

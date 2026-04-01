@@ -148,7 +148,6 @@ export default {
 
     var previewCardModal = reactive({show:false})
     function showPreviewCardModal(record){
-      console.log( record.countesy )
       previewCardModal.show = true
       show.value = false
     }

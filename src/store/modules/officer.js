@@ -37,6 +37,12 @@ const actions = {
   async read ({ state, commit, rootState },params) {
     return await crud.read(import.meta.env.VITE_API_SERVER+"/"+state.model.name+"/"+params.id+'/read')
   },
+  async mybackground ({ state, commit, rootState },params) {
+    return await crud.read(import.meta.env.VITE_API_SERVER+"/"+state.model.name+"/"+params.id+'/mybackground')
+  },
+  async publicphoto({ state, commit, rootState },params) {
+    return await crud.read(import.meta.env.VITE_API_SERVER+"/"+state.model.name+"/"+params.id+'/publicphoto')
+  },
   async create ({ state, commit, rootState },params) {
     return await crud.create(import.meta.env.VITE_API_SERVER+"/"+state.model.name+"/create",params)
   },
@@ -54,6 +60,9 @@ const actions = {
   },
   async upload({ state, commit, rootState },formData) {    
     return await crud.upload(import.meta.env.VITE_API_SERVER+"/"+state.model.name+"/upload",formData)
+  },
+  async delete ({ state, commit, rootState },params) {
+    return await crud.delete(import.meta.env.VITE_API_SERVER+"/"+state.model.name+"/"+params.id+"/delete")
   },
 }
 

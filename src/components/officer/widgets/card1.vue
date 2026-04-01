@@ -84,7 +84,6 @@ import { useMessage, useNotification } from 'naive-ui'
 import Frame4Corner from './../../widgets/frame/corner4.vue'
 import QrcodeVue from 'qrcode.vue'
 import ocmLogoUrl from './../../../assets/logo.svg'
-import { getKhmer } from '../../../plugins/kh/number.js'
 
 export default {
   components: {
@@ -191,7 +190,9 @@ export default {
     }
     
     function getPublicCardUrl(record){
-      return window.location.origin+'/#/officer/card/'+record.id
+      // return window.location.origin+'/#/officer/card/'+record.public_key
+      // return 'https://hr.ocm.gov.kh/#/officer/card/'+record.public_key
+      return 'http://10.11.11.68:8004/#/officer/card/'+record.public_key
     }
 
     function initial(){

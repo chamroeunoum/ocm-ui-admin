@@ -2,7 +2,7 @@
     <div class="task-board relative border border-gray-200 bg-gray-100 rounded flex flex-wrap p-4 pb-14 " >
         <n-tooltip trigger="hover">
             <template #trigger>
-                <div class="task-objective text-xs w-full text-left leading-6 mb-4" ><pre class="truncate" >{{ record.objective }}</pre></div>
+                <div class="task-objective w-full mb-4" ><pre class="truncate text-left leading-6 text-xs " >{{ record.objective }}</pre></div>
             </template>
             <pre class="leading-7" >{{ record.objective }}</pre>
         </n-tooltip>

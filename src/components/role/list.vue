@@ -11,18 +11,11 @@
       <div class="flex-grow action-buttons flex-row-reverse flex">
         <!-- New Button -->
         <div class="mt-1 ml-2">
-          <n-button type="success" @click="showCreateModal()" >
-            <template #icon>
-              <n-icon>
-                <Add20Regular />
-              </n-icon>
-            </template>
-            បន្ថែម
-          </n-button>
+          <svg class="w-8 h-8 cursor-pointer border border-gray-400 rounded-full p-1" @click="showCreateModal" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 20 20"><g fill="none"><path d="M10 2.5a.5.5 0 0 0-1 0V9H2.5a.5.5 0 0 0 0 1H9v6.5a.5.5 0 0 0 1 0V10h6.5a.5.5 0 0 0 0-1H10V2.5z" fill="currentColor"></path></g></svg>
         </div>
         <div v-if="Array.isArray( table.records.matched ) && table.records.matched.length > 0 " class="w-2/5 relative" >
           <input type="text" @keypress.enter="filterRecords(false)" v-model="table.search" class="bg-gray-100 px-2 h-9 my-1 w-full rounded border border-gray-200 focus:border-blue-600 hover:border-blue-600 " placeholder="ស្វែងរក" />
-          <svg class="absolute right-1 top-2 text-gray-400 hover:text-blue-700 cursor-pointer" @click="filterRecords(false)" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 20 20"><g fill="none"><path d="M8.5 3a5.5 5.5 0 0 1 4.227 9.02l4.127 4.126a.5.5 0 0 1-.638.765l-.07-.057l-4.126-4.127A5.5 5.5 0 1 1 8.5 3zm0 1a4.5 4.5 0 1 0 0 9a4.5 4.5 0 0 0 0-9z" fill="currentColor"></path></g></svg>
+          <svg class="w-7 h-7 absolute right-1 top-2 text-gray-400 hover:text-blue-700 cursor-pointer" @click="filterRecords(false)" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 20 20"><g fill="none"><path d="M8.5 3a5.5 5.5 0 0 1 4.227 9.02l4.127 4.126a.5.5 0 0 1-.638.765l-.07-.057l-4.126-4.127A5.5 5.5 0 1 1 8.5 3zm0 1a4.5 4.5 0 1 0 0 9a4.5 4.5 0 0 0 0-9z" fill="currentColor"></path></g></svg>
         </div>
         
       </div>
@@ -37,6 +30,8 @@
           <tr class="vcb-table-headers" >
             <th class="vcb-table-header w-20" >ល.រ</th>
             <th class="vcb-table-header">ឈ្មោះ</th>
+            <th class="vcb-table-header">Guard</th>
+            <th class="vcb-table-header">Tag</th>
             <th class="vcb-table-header text-right w-40" >ប្រតិបត្តិការ</th>
           </tr>
         </thead>
@@ -44,16 +39,14 @@
           <tr v-for="(record, index) in table.records.matched" :key='index' class="vcb-table-row" >
             <td class="vcb-table-cell font-bold" >{{ index + 1 }}</td>
             <td class="vcb-table-cell" >{{ record.name }}</td>
+            <td class="vcb-table-cell" >{{ record.guard }}</td>
+            <td class="vcb-table-cell" >{{ record.tag }}</td>
             <td class="vcb-table-actions-panel text-right w-40" >
               <!-- <n-icon size="22" class="cursor-pointer text-blue-500" @click="$router.push('/'+model.name+'/'+record.id+'/detail')" title="ព័ត៌មានលម្អិតរបស់ម្ចាស់គណនី" >
                 <ContactCard28Regular />
               </n-icon> -->
-              <n-icon size="22" class="cursor-pointer text-red-500" @click="deleteFolder(record)" title="លុបគណនីនេះចោល" >
-                <TrashOutline />
-              </n-icon>
-              <n-icon size="22" class="cursor-pointer text-blue-500" @click="showEditModal(record)" title="កែប្រែព័ត៌មាន" >
-                <Edit20Regular />
-              </n-icon>
+              <svg class="cursor-pointer text-red-500 w-6 h-6 mx-1 border border-red-500 p-1 rounded-full" @click="deleteFolder(record)" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512"><path d="M112 112l20 320c.95 18.49 14.4 32 32 32h184c17.67 0 30.87-13.51 32-32l20-320" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"></path><path stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="32" d="M80 112h352" fill="currentColor"></path><path d="M192 112V72h0a23.93 23.93 0 0 1 24-24h80a23.93 23.93 0 0 1 24 24h0v40" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"></path><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M256 176v224"></path><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M184 176l8 224"></path><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M328 176l-8 224"></path></svg>
+              <svg class="cursor-pointer text-blue-500 w-6 h-6 mx-1 border border-blue-500 p-1 rounded-full" @click="showEditModal(record)"  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 20 20"><g fill="none"><path d="M13.245 2.817a2.783 2.783 0 0 1 4.066 3.796l-.13.14l-9.606 9.606a2.001 2.001 0 0 1-.723.462l-.165.053l-4.055 1.106a.5.5 0 0 1-.63-.535l.016-.08l1.106-4.054c.076-.28.212-.54.398-.76l.117-.128l9.606-9.606zm-.86 2.275L4.346 13.13a1 1 0 0 0-.215.321l-.042.123l-.877 3.21l3.212-.875a1 1 0 0 0 .239-.1l.107-.072l.098-.085l8.038-8.04l-2.521-2.52zm4.089-1.568a1.783 1.783 0 0 0-2.402-.11l-.12.11l-.86.86l2.52 2.522l.862-.86a1.783 1.783 0 0 0 .11-2.402l-.11-.12z" fill="currentColor"></path></g></svg>
               <!-- <n-icon size="22" :class="'cursor-pointer ' + ( parseInt( record.active ) == 1 ? ' text-green-500 ' : ' text-gray-500 ') " @click="activateFolder(record)" :title="record.active == 1 ? 'គណនីនេះកំពុងបើកតំណើរការ' : 'គណនីនេះកំពុងត្រូវបានបិទមិនអាចប្រើប្រាស់បាន' " >
                 <IosCheckmarkCircleOutline />
               </n-icon> -->
@@ -109,7 +102,7 @@ import { useDialog, useMessage, useNotification } from 'naive-ui'
 import CreateForm from './create.vue'
 import UpdateForm from './update.vue'
 export default {
-  name: "Folder" ,
+  name: "SystemRole" ,
   components: {
     QrcodeVue ,
     Vue3Barcode,
@@ -128,7 +121,7 @@ export default {
      */    
     var model = reactive( {
       name: "role" ,
-      title: "តួនាទី "
+      title: "តួនាទីក្នុងប្រព័ន្ធ"
     })
     var table = reactive( {
       loading: false ,

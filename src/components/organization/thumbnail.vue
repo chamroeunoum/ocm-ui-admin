@@ -161,7 +161,6 @@ import Vue3Barcode from 'vue3-barcode'
 import { useDialog, useMessage, useNotification } from 'naive-ui'
 import dateFormat from "dateformat";
 import Frame4Corner from './../../components/widgets/frame/corner4.vue'
-import { getKhmer } from '../../plugins/kh/number'
 import ocmLogoUrl from './../../assets/logo.svg'
 /**
  * CRUD component form
@@ -187,7 +186,7 @@ export default {
     const currentOrganizationId = ref(
       route.params.rootId != undefined && parseInt( route.params.rootId ) > 0
         ? parseInt( route.params.rootId )
-        : 163
+        : null // 163
     )
     /**
      * Variables
@@ -342,7 +341,7 @@ export default {
       id: 0 ,
       name : "" ,
       desp : '' ,
-      code: '' ,
+      prefix: '' ,
       pid: null
     })
     const editModal = reactive({show:false})
@@ -350,7 +349,7 @@ export default {
       editRecord.id = record.id
       editRecord.name = record.name
       editRecord.desp = record.desp
-      editRecord.code = record.code
+      editRecord.prefix = record.prefix
       editRecord.pid = record.pid
       editModal.show = true
     }
